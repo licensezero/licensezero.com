@@ -1,0 +1,20 @@
+{
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "dependencies": {
+    "http-hash": "^2.0.0",
+    "pino": "^4.7.1",
+    "pino-http": "^2.6.1"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "json-parse-errback": "^2.0.1",
+    "rimraf": "^2.6.1",
+    "simple-concat": "^1.0.0",
+    "tape": "^4.8.0"
+  },
+  "scripts": {
+    "coverage": "istanbul cover -- tape test/*.test.js",
+    "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
+    "test": "tape test/*.test.js"
+  }
+}
