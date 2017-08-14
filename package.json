@@ -1,4 +1,6 @@
 {
+  "name": "licensezero-server",
+  "description": "License Zero paid license portal",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
     "http-hash": "^2.0.0",
