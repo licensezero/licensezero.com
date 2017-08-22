@@ -43,9 +43,13 @@ var actions = {
           description: 'legal jurisdiction where you reside',
           type: 'string',
           enum: JURISDICTIONS
+        },
+        terms: {
+          type: 'string',
+          const: 'I agree to the terms of service.'
         }
       },
-      required: ['action', 'email', 'name', 'jurisdiction'],
+      required: ['action', 'email', 'name', 'jurisdiction', 'terms'],
       additionalProperties: false
     },
 

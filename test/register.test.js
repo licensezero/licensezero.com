@@ -34,7 +34,8 @@ tape('register w/ valid body', function (test) {
       action: 'register',
       email: email,
       name: 'Test Licensor',
-      jurisdiction: 'US-CA'
+      jurisdiction: 'US-CA',
+      terms: 'I agree to the terms of service.'
     }, function (error, response) {
       if (error) {
         test.error(error)
@@ -70,7 +71,8 @@ tape.only('registration confirmation w/ bad stripe code', function (test) {
           action: 'register',
           email: email,
           name: 'Test Licensor',
-          jurisdiction: 'US-CA'
+          jurisdiction: 'US-CA',
+          terms: 'I agree to the terms of service.'
         }, function (error, response) {
           if (error) {
             test.error(error)
