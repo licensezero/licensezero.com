@@ -6,17 +6,13 @@ var parseJSON = require('json-parse-errback')
 exports.schema = {
   type: 'object',
   properties: {
-    action: {
-      type: 'string',
-      const: 'describe'
-    },
     id: {
       description: 'licensor id',
       type: 'string',
       pattern: UUIDV4
     }
   },
-  required: ['action', 'id'],
+  required: ['id'],
   additionalProperties: false
 }
 

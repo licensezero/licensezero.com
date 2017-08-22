@@ -11,7 +11,7 @@ var REQUEST_BODY_LIMIT = 1024
 
 var actions = {
   register: require('./register'),
-  describe: require('./describe'),
+  licensor: require('./licensor'),
   jurisdiction: require('./jurisdiction'),
   offer: require('./offer'),
   retract: require('./retract'),
