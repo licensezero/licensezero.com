@@ -1,12 +1,12 @@
-var UUIDV4 = require('../data/uuidv4-pattern')
-var clone = require('../data/clone')
+var UUIDV4 = require('../../data/uuidv4-pattern')
+var clone = require('../../data/clone')
 var fs = require('fs')
-var licensorPath = require('../paths/licensor')
+var licensorPath = require('../../paths/licensor')
 var parseJSON = require('json-parse-errback')
-var pick = require('../data/pick')
-var productPath = require('../paths/product')
+var pick = require('../../data/pick')
+var productPath = require('../../paths/product')
 var runWaterfall = require('run-waterfall')
-var without = require('../data/without')
+var without = require('../../data/without')
 
 exports.schema = {
   properties: {

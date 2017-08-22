@@ -9,16 +9,7 @@ var runWaterfall = require('run-waterfall')
 
 var REQUEST_BODY_LIMIT = 1024
 
-var actions = {
-  register: require('./register'),
-  licensor: require('./licensor'),
-  jurisdiction: require('./jurisdiction'),
-  offer: require('./offer'),
-  retract: require('./retract'),
-  reoffer: require('./reoffer'),
-  key: require('./key'),
-  product: require('./product')
-}
+var actions = require('./actions')
 
 var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {

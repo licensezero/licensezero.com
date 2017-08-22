@@ -1,11 +1,11 @@
-var JURISDICTIONS = require('../data/jurisdictions')
+var JURISDICTIONS = require('../../data/jurisdictions')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
 var querystring = require('querystring')
-var randomNonce = require('../data/random-nonce')
+var randomNonce = require('../../data/random-nonce')
 var runSeries = require('run-series')
-var stripeNoncePath = require('../paths/stripe-nonce')
+var stripeNoncePath = require('../../paths/stripe-nonce')
 
 exports.schema = {
   type: 'object',

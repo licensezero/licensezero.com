@@ -1,16 +1,16 @@
-var JURISDICTIONS = require('../data/jurisdictions')
-var UUIDV4 = require('../data/uuidv4-pattern')
+var JURISDICTIONS = require('../../data/jurisdictions')
+var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
 var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
-var productPath = require('../paths/product')
-var productsListPath = require('../paths/products-list')
+var productPath = require('../../paths/product')
+var productsListPath = require('../../paths/products-list')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var uuid = require('uuid/v4')
-var without = require('../data/without')
+var without = require('../../data/without')
 
 var properties = {
   id: {

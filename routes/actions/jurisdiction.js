@@ -1,7 +1,7 @@
-var JURISDICTIONS = require('../data/jurisdictions')
-var UUIDV4 = require('../data/uuidv4-pattern')
+var JURISDICTIONS = require('../../data/jurisdictions')
+var UUIDV4 = require('../../data/uuidv4-pattern')
 var fs = require('fs')
-var licensorPath = require('../paths/licensor')
+var licensorPath = require('../../paths/licensor')
 var parseJSON = require('json-parse-errback')
 var runWaterfall = require('run-waterfall')
 

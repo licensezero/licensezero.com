@@ -1,6 +1,6 @@
-var UUIDV4 = require('../data/uuidv4-pattern')
+var UUIDV4 = require('../../data/uuidv4-pattern')
 var fs = require('fs')
-var productPath = require('../paths/product')
+var productPath = require('../../paths/product')
 
 exports.schema = {
   type: 'object',
