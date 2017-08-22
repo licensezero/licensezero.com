@@ -3,9 +3,9 @@ var pinoHTTP = require('pino-http')
 var routes = require('./routes')
 var url = require('url')
 
-module.exports = function makeRequestHandler (configuration, log) {
+module.exports = function makeRequestHandler (service, log) {
   var pino = pinoHTTP({logger: log})
-  configuration.email = email(configuration, log)
+  service.email = email(service, log)
   return function requestHandler (request, response) {
     pino(request, response)
     var parsed = url.parse(request.url, true)
@@ -14,7 +14,7 @@ module.exports = function makeRequestHandler (configuration, log) {
     var route = routes.get(parsed.pathname)
     if (route.handler) {
       request.params = route.params
-      route.handler(request, response, configuration)
+      route.handler(request, response, service)
     } else {
       response.statusCode = 404
       response.end()

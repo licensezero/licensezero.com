@@ -4,7 +4,7 @@ var pino = require('pino')
 
 var DIRECTORY = process.env.DIRECTORY || 'licensezero'
 var PORT = process.env.PORT || 8080
-var configuration = {
+var service = {
   directory: DIRECTORY,
   port: PORT,
   stripe: {
@@ -19,7 +19,7 @@ var log = pino({name: NAME + '@' + VERSION})
 
 log.info({event: 'data', directory: DIRECTORY})
 
-var requestHandler = makeHandler(configuration, log)
+var requestHandler = makeHandler(service, log)
 var server = http.createServer(requestHandler)
 
 if (module.parent) {

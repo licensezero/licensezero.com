@@ -2,8 +2,8 @@ var FormData = require('form-data')
 var https = require('https')
 var simpleConcat = require('simple-concat')
 
-module.exports = function email (configuration, serverLog) {
-  if (configuration) {
+module.exports = function email (service, serverLog) {
+  if (service) {
     var log = serverLog.child({log: 'email'})
     return function (message, callback) {
       var form = new FormData()
@@ -15,7 +15,7 @@ module.exports = function email (configuration, serverLog) {
         method: 'POST',
         host: 'api.mailgun.net',
         path: '/v3/licensezero.com/messages',
-        auth: 'api:' + configuration.MAILGUN_KEY,
+        auth: 'api:' + service.MAILGUN_KEY,
         headers: form.getHeaders()
       }
       form.pipe(
