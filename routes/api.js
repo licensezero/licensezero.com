@@ -13,7 +13,8 @@ var actions = {
   register: require('./register'),
   describe: require('./describe'),
   jurisdiction: require('./jurisdiction'),
-  offer: require('./offer')
+  offer: require('./offer'),
+  retract: require('./retract')
 }
 
 var ajv = new AJV()
