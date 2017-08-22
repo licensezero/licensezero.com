@@ -1,9 +1,11 @@
+var email = require('email')
 var pinoHTTP = require('pino-http')
 var routes = require('./routes')
 var url = require('url')
 
 module.exports = function makeRequestHandler (configuration, log) {
   var pino = pinoHTTP({logger: log})
+  configuration.email = email(configuration, log)
   return function requestHandler (request, response) {
     pino(request, response)
     var parsed = url.parse(request.url, true)

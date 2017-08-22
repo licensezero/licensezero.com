@@ -1,0 +1,68 @@
+HTTPS only
+Always respond 200, even for errors
+JSON Object in, JSON Object out
+Never cache
+{error: String} or {error: false, ...}
+
+License Account Management
+
+  Verb:     register
+  Input:    {email: String, jurisdiction: ISO 3166-2}
+  Output:   None
+  Effects:  - E-Mails a link to Stripe OAuth
+
+  Verb:     reset
+  Input:    {licensor: UUID}
+  Output:   None
+  Effects:  - E-Mails a link to reset
+
+  Verb:     unregister
+  Input:    {licensor: UUID}
+  Output:   None
+  Effects:  - deauthorizes Stripe Connect
+
+Licensor
+
+  Verb:     offer
+  Input:    {
+              name: String,
+              repository: URI,
+              license: Version,
+              terms: {
+                grace: Integer,
+                price: Integer
+              }
+            }
+  Output:   {product: UUID}
+  Effects:  - Offer licenses
+
+HTML Endpoints
+
+  GET /
+
+    Something for the nice people to see.
+
+  GET /stripe-redirect
+
+    Receives POSTS from Stripe Connect OAuth
+    Checks CSRF nonce
+    Shows configuration instructions for new account
+    Uses Stripe authorization code to fetch credentials
+
+  POST /stripe-deauthorized
+
+    Receives webhooks
+
+  GET /purchase
+
+    Displays a BOM
+    Takes payment
+
+  POST /purchase
+
+    Charges customer
+    Displays configuration instructions
+
+  GET /reset/{token}
+
+    Generates a new authentication string
