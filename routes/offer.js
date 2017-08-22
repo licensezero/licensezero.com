@@ -1,7 +1,6 @@
 var JURISDICTIONS = require('../data/jurisdictions')
 var UUIDV4 = require('../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
-var clone = require('../data/clone')
 var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
@@ -11,6 +10,7 @@ var productsListPath = require('../paths/products-list')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var uuid = require('uuid/v4')
+var without = require('../data/without')
 
 var properties = {
   id: {
@@ -79,7 +79,7 @@ exports.handler = function (body, service, end, fail, lock) {
       runParallel([
         function writeProductFile (done) {
           var file = productPath(service, product)
-          var content = clone(body)
+          var content = without(body, 'licensor', 'id')
           content.licensor = body.id
           runSeries([
             mkdirp.bind(null, path.dirname(file)),

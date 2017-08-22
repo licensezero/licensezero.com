@@ -24,7 +24,7 @@ var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
   var action = actions[key]
   if (action.hasOwnProperty('schema')) {
-    var schema = action.schema,
+    var schema = action.schema
     schema.type = 'object'
     if (!schema.required) {
       schema.required = Object.keys(schema.properties).concat('action')

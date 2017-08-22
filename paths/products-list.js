@@ -1,4 +1,4 @@
-var licensorPath = require('../licensor')
+var licensorPath = require('./licensor')
 var path = require('path')
 
 module.exports = function (service, id) {
