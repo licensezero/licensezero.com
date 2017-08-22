@@ -1,4 +1,4 @@
-var email = require('email')
+var email = require('./email')
 var pinoHTTP = require('pino-http')
 var routes = require('./routes')
 var url = require('url')

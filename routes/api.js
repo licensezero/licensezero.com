@@ -1,9 +1,9 @@
 var AJV = require('ajv')
+var Lock = require('lock')
 var US_3166_2 = require('../data/us-3166-2')
 var UUIDV4 = require('../data/uuidv4-pattern')
-var crypto = require('crypto')
+var argon2 = require('argon2')
 var doNotCache = require('do-not-cache')
-var email = require('../email')
 var fs = require('fs')
 var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
@@ -12,9 +12,13 @@ var path = require('path')
 var querystring = require('querystring')
 var randomNonce = require('../data/random-nonce')
 var runSeries = require('run-series')
+var runWaterfall = require('run-waterfall')
 var stripeNoncePath = require('../paths/stripe-nonce')
 
 var REQUEST_BODY_LIMIT = 1024
+var JURISDICTIONS = US_3166_2.map(function (state) {
+  return 'US-' + state
+})
 
 var actions = {
   register: {
@@ -34,9 +38,7 @@ var actions = {
         jurisdiction: {
           description: 'legal jurisdiction where you reside',
           type: 'string',
-          enum: US_3166_2.map(function (state) {
-            return 'US-' + state
-          })
+          enum: JURISDICTIONS
         }
       },
       required: ['email', 'jurisdiction'],
@@ -55,7 +57,7 @@ var actions = {
           email: body.email,
           jurisdiction: body.jurisdiction
         })),
-        email.bind(null, {
+        service.email.bind(null, {
           to: body.email,
           subject: 'Register as a licensezero.com Licensor',
           text: [
@@ -75,6 +77,8 @@ var actions = {
       ], function (error) {
         if (error) {
           fail('internal error')
+        } else {
+          end()
         }
       })
     }
@@ -85,6 +89,7 @@ var actions = {
       type: 'object',
       properties: {
         id: {
+          description: 'licensor id',
           type: 'string',
           pattern: UUIDV4
         }
@@ -118,6 +123,51 @@ var actions = {
         }
       })
     }
+  },
+
+  jurisdiction: {
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          description: 'licensor id',
+          type: 'string',
+          pattern: UUIDV4
+        },
+        password: {
+          description: 'licensor password',
+          type: 'string'
+        },
+        jurisdiction: {
+          description: 'new jurisdiction',
+          type: 'string',
+          enum: JURISDICTIONS
+        }
+      },
+      required: ['id', 'password', 'jurisdiction'],
+      additionalProperties: false
+    },
+
+    handler: function (body, service, end, fail, lock) {
+      var id = body.id
+      var file = licensorPath(service, id)
+      lock(file, function (release) {
+        runWaterfall([
+          fs.readFile.bind(fs, file),
+          parseJSON,
+          function (licensor, done) {
+            licensor.jurisdiction = body.jurisdiction
+            fs.writeFile(file, JSON.stringify(licensor), done)
+          }
+        ], release(function (error) {
+          if (error) {
+            fail('internal error')
+          } else {
+            end()
+          }
+        }))
+      })
+    }
   }
 }
 
@@ -127,6 +177,8 @@ Object.keys(actions).forEach(function (action) {
     action.validate = ajv.compile(action.schema)
   }
 })
+
+var lock = new Lock()
 
 module.exports = function api (request, response, service) {
   parseBodyAndRespond()
@@ -165,23 +217,42 @@ module.exports = function api (request, response, service) {
     } else if (!body.hasOwnProperty('action')) {
       fail('missing action property')
     } else {
-      var action = handlers[body.action]
+      var action = actions[body.action]
       if (!action) {
         fail('invalid action')
       } else {
         if (action.validate && !action.validate(body)) {
-          return end({
+          end({
             error: 'invalid body',
             schema: action.schema
           })
+        } else {
+          if (action.schema.requires.includes('password')) {
+            checkAuthentication(
+              request, body, service, function (error, valid) {
+                if (error) {
+                  fail('internal error')
+                } else if (!valid) {
+                  fail('access denied')
+                } else {
+                  route()
+                }
+              }
+            )
+          } else {
+            route()
+          }
         }
-        handler(body, service, end, error)
       }
+    }
+
+    function route () {
+      action.handler(body, service, end, fail, lock)
     }
   }
 
-  function fail (message) {
-    end({error: message})
+  function fail (string) {
+    end({error: string})
   }
 
   function end (object) {
@@ -192,4 +263,19 @@ module.exports = function api (request, response, service) {
     response.setHeader('Content-Type', 'application/json')
     response.end(JSON.stringify(object))
   }
+}
+
+function checkAuthentication (request, body, service, callback) {
+  var id = body.id
+  var password = body.password
+  runWaterfall([
+    fs.readFile.bind(fs, licensorPath(service, id)),
+    parseJSON,
+    function (parsed, done) {
+      argon2.verify(parsed.password, password)
+        .then(function (match) {
+          callback(null, match)
+        })
+    }
+  ], callback)
 }

@@ -629,6 +629,11 @@
         "type-check": "0.3.2"
       }
     },
+    "lock": {
+      "version": "0.1.4",
+      "resolved": "https://registry.npmjs.org/lock/-/lock-0.1.4.tgz",
+      "integrity": "sha1-/sfervF+fDoKVeHaBCgD4l2RdF0="
+    },
     "longest": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/longest/-/longest-1.0.1.tgz",
