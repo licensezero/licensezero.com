@@ -53,16 +53,19 @@ module.exports = function (request, response, service) {
       runWaterfall([
         function readNonceFile (done) {
           fs.readFile(nonceFile, function (error, read) {
-            if (error.code === 'ENOENT') {
-              error.statusCode = 404
-            } else {
-              error.statusCode = 500
+            if (error) {
+              if (error.code === 'ENOENT') {
+                error.statusCode = 404
+              } else {
+                error.statusCode = 500
+              }
             }
             done(error, read)
           })
         },
-        function deleteNonceFile (done, read) {
+        function deleteNonceFile (read, done) {
           fs.unlink(nonceFile, ecb(done, function (error) {
+            request.log.error(error)
             done(null, read)
           }))
         },
@@ -169,7 +172,7 @@ module.exports = function (request, response, service) {
             done(null, id, passphrase)
           }))
         }
-      ], function (error) {
+      ], function (error, id, passphrase) {
         if (error) {
           response.statusCode = error.statusCode || 500
           response.end()
@@ -193,7 +196,7 @@ module.exports = function (request, response, service) {
     and import your licensor credentials:
   </p>
   <pre><code>npm install licensezero
-l0 authenticate "${id}" "${password}"</code></pre>
+l0 authenticate "${id}" "${passphrase}"</code></pre>
 </body>
 </html>
           `)
@@ -207,5 +210,5 @@ l0 authenticate "${id}" "${password}"</code></pre>
 }
 
 function isString (argument) {
-  return typeof argument === 'string' && arugment.length !== 0
+  return typeof argument === 'string' && argument.length !== 0
 }
