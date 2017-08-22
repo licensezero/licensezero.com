@@ -3,14 +3,23 @@ var https = require('https')
 var simpleConcat = require('simple-concat')
 
 module.exports = function email (service, serverLog) {
-  if (service) {
+  if (process.env.NODE_ENV === 'test') {
+    var EventEmitter = require('events').EventEmitter
+    var events = new EventEmitter()
+    var returned = function (message, callback) {
+      events.emit('message', message)
+      callback()
+    }
+    returned.events = events
+    return returned
+  } else {
     var log = serverLog.child({log: 'email'})
     return function (message, callback) {
       var form = new FormData()
       form.append('from', 'notifications@licensezero.com')
       form.append('to', message.to)
       form.append('subject', message.subject)
-      form.append('text', message.text)
+      form.append('text', message.text.join('\n\n'))
       var options = {
         method: 'POST',
         host: 'api.mailgun.net',
@@ -44,14 +53,5 @@ module.exports = function email (service, serverLog) {
           })
       )
     }
-  } else {
-    var EventEmitter = require('events').EventEmitter
-    var events = new EventEmitter()
-    var returned = function (message, callback) {
-      events.emit('message', message)
-      callback()
-    }
-    returned.events = events
-    return returned
   }
 }

@@ -25,10 +25,14 @@ var actions = {
     schema: {
       type: 'object',
       properties: {
+        action: {
+          type: 'string',
+          const: 'register'
+        },
         email: {
           description: 'your e-mail address',
           type: 'string',
-          pattern: 'email'
+          format: 'email'
         },
         name: {
           description: 'your legal name',
@@ -41,7 +45,7 @@ var actions = {
           enum: JURISDICTIONS
         }
       },
-      required: ['email', 'jurisdiction'],
+      required: ['action', 'email', 'name', 'jurisdiction'],
       additionalProperties: false
     },
 
@@ -61,7 +65,7 @@ var actions = {
           to: body.email,
           subject: 'Register as a licensezero.com Licensor',
           text: [
-            'To register as a Licensor through',
+            'To register as a licensor through',
             'licensezero.com, follow this link',
             'to connect your Stripe account:',
             '',
@@ -88,13 +92,17 @@ var actions = {
     schema: {
       type: 'object',
       properties: {
+        action: {
+          type: 'string',
+          const: 'describe'
+        },
         id: {
           description: 'licensor id',
           type: 'string',
           pattern: UUIDV4
         }
       },
-      required: ['id'],
+      required: ['action', 'id'],
       additionalProperties: false
     },
 
@@ -129,6 +137,10 @@ var actions = {
     schema: {
       type: 'object',
       properties: {
+        action: {
+          type: 'string',
+          const: 'jurisdiction'
+        },
         id: {
           description: 'licensor id',
           type: 'string',
@@ -144,7 +156,7 @@ var actions = {
           enum: JURISDICTIONS
         }
       },
-      required: ['id', 'password', 'jurisdiction'],
+      required: ['action', 'id', 'password', 'jurisdiction'],
       additionalProperties: false
     },
 
@@ -172,8 +184,9 @@ var actions = {
 }
 
 var ajv = new AJV()
-Object.keys(actions).forEach(function (action) {
-  if (action.hasOwnProperty('schema')) {
+Object.keys(actions).forEach(function (key) {
+  if (actions[key].hasOwnProperty('schema')) {
+    var action = actions[key]
     action.validate = ajv.compile(action.schema)
   }
 })
@@ -221,13 +234,13 @@ module.exports = function api (request, response, service) {
       if (!action) {
         fail('invalid action')
       } else {
-        if (action.validate && !action.validate(body)) {
+        if (!action.validate(body)) {
           end({
             error: 'invalid body',
             schema: action.schema
           })
         } else {
-          if (action.schema.requires.includes('password')) {
+          if (action.schema.required.includes('password')) {
             checkAuthentication(
               request, body, service, function (error, valid) {
                 if (error) {
@@ -256,6 +269,7 @@ module.exports = function api (request, response, service) {
   }
 
   function end (object) {
+    object = object || {}
     if (!object.hasOwnProperty('error')) {
       object.error = false
     }
