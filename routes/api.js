@@ -1,9 +1,11 @@
 var AJV = require('ajv')
 var US_3166_2 = require('../data/us-3166-2')
+var UUIDV4 = require('../data/uuidv4-pattern')
 var crypto = require('crypto')
 var doNotCache = require('do-not-cache')
 var email = require('../email')
 var fs = require('fs')
+var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
 var parseJSON = require('json-parse-errback')
 var path = require('path')
@@ -25,7 +27,7 @@ var actions = {
           pattern: 'email'
         },
         name: {
-          description: 'your legal name'
+          description: 'your legal name',
           type: 'string',
           minLength: 4
         },
@@ -41,7 +43,7 @@ var actions = {
       additionalProperties: false
     },
 
-    handler: function (body, service, end, error) {
+    handler: function (body, service, end, fail) {
       var nonce = randomNonce()
       var file = stripeNoncePath(service, nonce)
       var timestamp = new Date().toISOString()
@@ -72,7 +74,47 @@ var actions = {
         })
       ], function (error) {
         if (error) {
-          error('internal error')
+          fail('internal error')
+        }
+      })
+    }
+  },
+
+  describe: {
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          pattern: UUIDV4
+        }
+      },
+      required: ['id'],
+      additionalProperties: false
+    },
+
+    handler: function (body, service, end, fail) {
+      var id = body.id
+      var file = licensorPath(service, id)
+      fs.readFile(file, function (error, buffer) {
+        if (error) {
+          if (error.code === 'ENOENT') {
+            fail('no such licensor')
+          } else {
+            fail('internal error')
+          }
+        } else {
+          parseJSON(buffer, function (error, licensor) {
+            if (error) {
+              fail('internal error')
+            } else {
+              end({
+                name: licensor.name,
+                jurisdiction: licensor.name,
+                publicKey: licensor.publicKey
+              })
+            }
+          })
         }
       })
     }
@@ -109,7 +151,7 @@ module.exports = function api (request, response, service) {
         var buffer = Buffer.concat(chunks)
         parseJSON(buffer, function (error, body) {
           if (error) {
-            error('invalid JSON')
+            fail('invalid JSON')
           } else {
             respond(body)
           }
@@ -119,13 +161,13 @@ module.exports = function api (request, response, service) {
 
   function respond (body) {
     if (typeof body !== 'object') {
-      error('request not an object')
+      fail('request not an object')
     } else if (!body.hasOwnProperty('action')) {
-      error('missing action property')
+      fail('missing action property')
     } else {
       var action = handlers[body.action]
       if (!action) {
-        error('invalid action')
+        fail('invalid action')
       } else {
         if (action.validate && !action.validate(body)) {
           return end({
@@ -138,7 +180,7 @@ module.exports = function api (request, response, service) {
     }
   }
 
-  function error (message) {
+  function fail (message) {
     end({error: message})
   }
 

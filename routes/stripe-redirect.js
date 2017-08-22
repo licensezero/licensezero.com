@@ -155,10 +155,8 @@ module.exports = function (request, response, service) {
                   jurisdiction: nonceData.jurisdiction,
                   registered: new Date().toISOString(),
                   password: hash,
-                  keypair: {
-                    publicKey: encode(keypair.publicKey),
-                    privateKey: encode(keypair.privateKey)
-                  },
+                  publicKey: encode(keypair.publicKey),
+                  privateKey: encode(keypair.privateKey),
                   stripe: {
                     id: stripeData.stripe_user_id,
                     refresh: stripeData.refresh_token
