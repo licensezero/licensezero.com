@@ -15,13 +15,14 @@ var actions = {
   jurisdiction: require('./jurisdiction'),
   offer: require('./offer'),
   retract: require('./retract'),
-  reoffer: require('./reoffer')
+  reoffer: require('./reoffer'),
+  key: require('./key')
 }
 
 var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
-  if (actions[key].hasOwnProperty('schema')) {
-    var action = actions[key]
+  var action = actions[key]
+  if (action.hasOwnProperty('schema')) {
     var schema = action.schema
     if (!schema.required) {
       schema.required = ['action']
@@ -34,8 +35,20 @@ Object.keys(actions).forEach(function (key) {
         const: key
       }
     }
-    action.validate = ajv.compile(schema)
+  } else {
+    action.schema = {
+      type: 'object',
+      properties: {
+        action: {
+          type: 'string',
+          const: key
+        }
+      },
+      required: ['action'],
+      additionalProperties: false
+    }
   }
+  action.validate = ajv.compile(action.schema)
 })
 
 var lock = new Lock()
