@@ -1,13 +1,12 @@
 var JURISDICTIONS = require('../data/jurisdictions')
-var ecb = require('ecb')
-var path = require('path')
 var UUIDV4 = require('../data/uuidv4-pattern')
+var checkRepository = require('./check-repository')
+var ecb = require('ecb')
 var fs = require('fs')
-var http = require('http-https')
 var mkdirp = require('mkdirp')
-var productPath = require('../path/product')
+var path = require('path')
+var productPath = require('../paths/product')
 var runSeries = require('run-series')
-var url = require('url')
 var uuid = require('uuid/v4')
 var without = require('../data/without')
 
@@ -70,30 +69,10 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
+  var product = uuid()
   runSeries([
-    function checkRepository (done) {
-      var repository = body.repository
-      var options = url.parse(repository)
-      options.method = 'HEAD'
-      http.request(options)
-        .once('error', function (error) {
-          error.userMessage = 'could not HEAD repository'
-          done(error)
-        })
-        .once('response', function (response) {
-          var statusCode = response.statusCode
-          if (statusCode === 200 || statusCode === 204) {
-            done()
-          } else {
-            var message = repository + ' responded ' + statusCode
-            var error = new Error(message)
-            error.userMessage = message
-            done(error)
-          }
-        })
-    },
+    checkRepository.bind(null, body),
     function writeProductFile (done) {
-      var product = uuid()
       var file = productPath(service, body.id, product)
       var content = without(body, 'licensor')
       runSeries([

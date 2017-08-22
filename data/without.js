@@ -1,7 +1,9 @@
+var clone = require('./clone')
+
 module.exports = function without (object, keys) {
-  var clone = JSON.parse(JSON.stringify(object))
+  var returned = clone(object)
   keys.forEach(function (key) {
-    delete clone[key]
+    delete returned[key]
   })
-  return clone
+  return returned
 }

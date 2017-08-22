@@ -14,7 +14,8 @@ var actions = {
   describe: require('./describe'),
   jurisdiction: require('./jurisdiction'),
   offer: require('./offer'),
-  retract: require('./retract')
+  retract: require('./retract'),
+  reoffer: require('./reoffer')
 }
 
 var ajv = new AJV()
