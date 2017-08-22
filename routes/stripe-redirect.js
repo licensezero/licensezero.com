@@ -51,7 +51,7 @@ module.exports = function (request, response, service) {
       fs.readFile(nonceFile, 'utf8', function (error, read) {
         if (error) {
           if (error.code === 'ENOENT') {
-            response.statusCode = 404
+            response.statusCode = 400
             response.end()
           } else {
             response.statusCode = 500

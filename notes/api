@@ -36,6 +36,10 @@ Licensor
   Output:   {product: UUID}
   Effects:  - Offer licenses
 
+  Verb:     publicKey
+  Input:    {licensor: id}
+  Output:   {publicKey: Hex}
+
 HTML Endpoints
 
   GET /
