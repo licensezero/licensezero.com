@@ -1,3 +1,4 @@
+var decode = require('./data/decode')
 var http = require('http')
 var makeHandler = require('./')
 var pino = require('pino')
@@ -7,6 +8,8 @@ var PORT = process.env.PORT || 8080
 var service = {
   directory: DIRECTORY,
   port: PORT,
+  publicKey: decode(process.env.PUBLIC_KEY),
+  privateKey: decode(process.env.PRIVATE_KEY),
   stripe: {
     public: process.env.STRIPE_PUBLIC,
     private: process.env.STRIPE_PRIVATE
