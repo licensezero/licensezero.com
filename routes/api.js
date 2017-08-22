@@ -24,10 +24,11 @@ var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
   var action = actions[key]
   if (action.hasOwnProperty('schema')) {
-    var schema = action.schema
+    var schema = action.schema,
+    schema.type = 'object'
     if (!schema.required) {
-      schema.required = ['action']
-    } else if (schema.required.includes('aciton')) {
+      schema.required = Object.keys(schema.properties).concat('action')
+    } else if (!schema.required.includes('action')) {
       schema.required.push('action')
     }
     if (!schema.properties.hasOwnProperty('action')) {

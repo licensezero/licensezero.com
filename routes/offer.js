@@ -1,14 +1,16 @@
 var JURISDICTIONS = require('../data/jurisdictions')
 var UUIDV4 = require('../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
+var clone = require('../data/clone')
 var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
 var productPath = require('../paths/product')
+var productsListPath = require('../paths/products-list')
+var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var uuid = require('uuid/v4')
-var without = require('../data/without')
 
 var properties = {
   id: {
@@ -69,15 +71,28 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
+  var id = body.id
   var product = uuid()
   runSeries([
     checkRepository.bind(null, body),
-    function writeProductFile (done) {
-      var file = productPath(service, body.id, product)
-      var content = without(body, 'licensor')
-      runSeries([
-        mkdirp.bind(null, path.dirname(file)),
-        fs.writeFile.bind(fs, file, JSON.stringify(content))
+    function writeFile (done) {
+      runParallel([
+        function writeProductFile (done) {
+          var file = productPath(service, product)
+          var content = clone(body)
+          content.licensor = body.id
+          runSeries([
+            mkdirp.bind(null, path.dirname(file)),
+            fs.writeFile.bind(fs, file, JSON.stringify(content))
+          ], done)
+        },
+        function (done) {
+          var file = productsListPath(service, id)
+          runSeries([
+            mkdirp.bind(null, path.dirname(file)),
+            fs.appendFile.bind(fs, file, product + '\n')
+          ], done)
+        }
       ], ecb(done, done.bind(null, null, product)))
     }
   ], function (error, product) {

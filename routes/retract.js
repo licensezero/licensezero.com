@@ -25,7 +25,7 @@ exports.schema = {
 
 exports.handler = function (body, service, end, fail, lock) {
   lock(body.product, function (release) {
-    var file = productPath(service, body.id, body.product)
+    var file = productPath(service, body.product)
     fs.unlink(file, release(function (error) {
       if (error) {
         if (error.code === 'ENOENT') {

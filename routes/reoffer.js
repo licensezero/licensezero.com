@@ -19,7 +19,7 @@ schema.required.push('product')
 exports.handler = function (body, service, end, fail, lock) {
   var product = body.product
   lock(product, function (release) {
-    var file = productPath(service, body.id, product)
+    var file = productPath(service, product)
     runSeries([
       function checkThatProductExists (done) {
         fs.stat(file, function (error) {
