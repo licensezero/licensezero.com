@@ -16,7 +16,8 @@ var actions = {
   offer: require('./offer'),
   retract: require('./retract'),
   reoffer: require('./reoffer'),
-  key: require('./key')
+  key: require('./key'),
+  product: require('./product')
 }
 
 var ajv = new AJV()
@@ -35,6 +36,7 @@ Object.keys(actions).forEach(function (key) {
         const: key
       }
     }
+    schema.additionalProperties = false
   } else {
     action.schema = {
       type: 'object',
