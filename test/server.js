@@ -7,7 +7,12 @@ var rimraf = require('rimraf')
 module.exports = function testServer (callback) {
   fs.mkdtemp('/tmp/', function withDirectory (ignore, directory) {
     var configuration = {
-      directory: directory
+      directory: directory,
+      // TODO: Stripe testing keys in package.json npm script
+      stripe: {
+        public: process.env.STRIPE_PUBLIC,
+        private: process.env.STRIPE_PRIVATE
+      }
     }
     var log = pino({}, fs.createWriteStream('test-server.log'))
     var server = http.createServer(makeHandler(configuration, log))

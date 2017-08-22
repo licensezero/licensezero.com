@@ -6,7 +6,11 @@ var DIRECTORY = process.env.DIRECTORY || 'licensezero'
 var PORT = process.env.PORT || 8080
 var configuration = {
   directory: DIRECTORY,
-  port: PORT
+  port: PORT,
+  stripe: {
+    public: process.env.STRIPE_PUBLIC,
+    private: process.env.STRIPE_PRIVATE
+  }
 }
 
 var NAME = require('./package.json').name
