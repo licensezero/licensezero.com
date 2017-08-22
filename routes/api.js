@@ -12,14 +12,27 @@ var REQUEST_BODY_LIMIT = 1024
 var actions = {
   register: require('./register'),
   describe: require('./describe'),
-  jurisdiction: require('./jurisdiction')
+  jurisdiction: require('./jurisdiction'),
+  offer: require('./offer')
 }
 
 var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
   if (actions[key].hasOwnProperty('schema')) {
     var action = actions[key]
-    action.validate = ajv.compile(action.schema)
+    var schema = action.schema
+    if (!schema.required) {
+      schema.required = ['action']
+    } else if (schema.required.includes('aciton')) {
+      schema.required.push('action')
+    }
+    if (!schema.properties.hasOwnProperty('action')) {
+      schema.properties.action = {
+        type: 'string',
+        const: key
+      }
+    }
+    action.validate = ajv.compile(schema)
   }
 })
 
@@ -120,7 +133,7 @@ function checkAuthentication (request, body, service, callback) {
     function (parsed, done) {
       argon2.verify(parsed.password, password)
         .then(function (match) {
-          callback(null, match)
+          callback(null, match ? parsed : false)
         })
     }
   ], callback)

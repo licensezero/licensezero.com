@@ -58,7 +58,7 @@ tape('register w/ valid body', function (test) {
   })
 })
 
-tape.only('registration confirmation w/ bad stripe code', function (test) {
+tape.skip('registration confirmation w/ bad stripe code', function (test) {
   server(function (port, service, close) {
     var email = 'text@example.com'
     runWaterfall([
