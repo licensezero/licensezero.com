@@ -153,6 +153,18 @@ module.exports = function (request, response, service) {
               )
             }
           ], ecb(done, function () {
+            service.email({
+              to: 'administrator@licensezero.com',
+              subject: 'Licensor Registration',
+              text: [
+                'id: ' + id,
+                'name: ' + nonceData.name,
+                'email: ' + nonceData.email,
+                'jurisdiction: ' + nonceData.jurisdiction
+              ]
+            }, function (error) {
+              if (error) service.log.error(error)
+            })
             done(null, id, passphrase)
           }))
         }
