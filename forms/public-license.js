@@ -19,11 +19,11 @@ are met:
     in the documentation and/or other materials provided with the
     distribution.
 
-3.  Use in a manner primarily intended for or directed toward
+3.  Use in any manner primarily intended for or directed toward
     commercial advantage or private monetary compensation, and not
     development of modifications to be submitted to the licensor for
     distribution under these terms, must be limited to ${options.grace}
-    calendar days starting on first use in that manner.
+    calendar days.
 
     This condition is waived if licenses on other terms cease to
     be available via the following agent, or a successor named in a
