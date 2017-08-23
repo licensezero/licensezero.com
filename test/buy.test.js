@@ -9,7 +9,7 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('buy', function (test) {
+tape.skip('buy', function (test) {
   server(function (port, service, close) {
     var firstProduct
     var secondProduct
