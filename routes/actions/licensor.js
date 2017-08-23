@@ -1,6 +1,7 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var fs = require('fs')
 var licensorPath = require('../../paths/licensor')
+var listProduts = require('../../data/list-products')
 var parseJSON = require('json-parse-errback')
 
 exports.schema = {
@@ -29,12 +30,21 @@ exports.handler = function (body, service, end, fail) {
     } else {
       parseJSON(buffer, function (error, licensor) {
         if (error) {
+          service.log.error(error)
           fail('internal error')
         } else {
-          end({
-            name: licensor.name,
-            jurisdiction: licensor.name,
-            publicKey: licensor.publicKey
+          listProduts(service, id, function (error, products) {
+            if (error) {
+              service.log.error(error)
+              fail('internal error')
+            } else {
+              end({
+                name: licensor.name,
+                jurisdiction: licensor.jurisdiction,
+                publicKey: licensor.publicKey,
+                products: products
+              })
+            }
           })
         }
       })

@@ -31,7 +31,7 @@ exports.handler = function (body, service, end, fail) {
     },
     parseJSON,
     function readLicensor (productData, done) {
-      var file = licensorPath(service, productData.licensor)
+      var file = licensorPath(service, productData.id)
       fs.readFile(file, function (error, read) {
         if (error) {
           done(error)

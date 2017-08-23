@@ -30,7 +30,7 @@
     "tape": "^4.8.0"
   },
   "scripts": {
-    "coverage": "istanbul cover -- tape test/*.test.js",
+    "coverage": "NODE_ENV=test istanbul cover -- tape test/*.test.js",
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
     "test": "NODE_ENV=test tape test/*.test.js"
   }

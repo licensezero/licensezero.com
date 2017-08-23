@@ -1,6 +1,9 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
+var ecb = require('ecb')
 var fs = require('fs')
 var productPath = require('../../paths/product')
+var productsListPath = require('../../paths/products-list')
+var runSeries = require('run-series')
 
 exports.schema = {
   type: 'object',
@@ -24,16 +27,40 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  lock(body.product, function (release) {
-    var file = productPath(service, body.product)
-    fs.unlink(file, release(function (error) {
+  var product = body.product
+  var id = body.id
+  lock([product, id], function (release) {
+    runSeries([
+      function (done) {
+        var file = productPath(service, product)
+        fs.unlink(file, function (error) {
+          if (error && error.code === 'ENOENT') {
+            error.userMessage = 'no such product'
+          }
+          done(error)
+        })
+      },
+      function (done) {
+        var file = productsListPath(service, id)
+        fs.readFile(file, ecb(done, function (buffer) {
+          var filtered = buffer
+            .toString()
+            .trim()
+            .split('\n')
+            .filter(function (element) {
+              return element !== product && element.length !== 0
+            })
+            .map(function (element) {
+              return element + '\n'
+            })
+            .join('')
+          fs.writeFile(file, filtered, done)
+        }))
+      }
+    ], release(function (error) {
       if (error) {
-        if (error.code === 'ENOENT') {
-          fail('no such product')
-        } else {
-          service.log.error(error)
-          fail('internal error')
-        }
+        service.log.error(error)
+        fail(error.userMessage || 'internal error')
       } else {
         end()
       }

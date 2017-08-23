@@ -1,7 +1,6 @@
 var JURISDICTIONS = require('../../data/jurisdictions')
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
-var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -73,34 +72,36 @@ exports.schema = {
 exports.handler = function (body, service, end, fail, lock) {
   var id = body.id
   var product = uuid()
-  runSeries([
-    checkRepository.bind(null, body),
-    function writeFile (done) {
-      runParallel([
-        function writeProductFile (done) {
-          var file = productPath(service, product)
-          var content = without(body, 'licensor', 'id')
-          content.licensor = body.id
-          runSeries([
-            mkdirp.bind(null, path.dirname(file)),
-            fs.writeFile.bind(fs, file, JSON.stringify(content))
-          ], done)
-        },
-        function (done) {
-          var file = productsListPath(service, id)
-          runSeries([
-            mkdirp.bind(null, path.dirname(file)),
-            fs.appendFile.bind(fs, file, product + '\n')
-          ], done)
-        }
-      ], ecb(done, done.bind(null, null, product)))
-    }
-  ], function (error, product) {
-    if (error) {
-      service.log.error(error)
-      fail(error.userMessage || 'internal error')
-    } else {
-      end({product: product})
-    }
+  lock([body.id], function (release) {
+    runSeries([
+      checkRepository.bind(null, body),
+      function writeFile (done) {
+        runParallel([
+          function writeProductFile (done) {
+            var file = productPath(service, product)
+            var content = without(body, ['licensor', 'id'])
+            content.licensor = body.id
+            runSeries([
+              mkdirp.bind(null, path.dirname(file)),
+              fs.writeFile.bind(fs, file, JSON.stringify(content))
+            ], done)
+          },
+          function (done) {
+            var file = productsListPath(service, id)
+            runSeries([
+              mkdirp.bind(null, path.dirname(file)),
+              fs.appendFile.bind(fs, file, product + '\n')
+            ], done)
+          }
+        ], done)
+      }
+    ], release(function (error) {
+      if (error) {
+        service.log.error(error)
+        fail(error.userMessage || 'internal error')
+      } else {
+        end({product: product})
+      }
+    }))
   })
 }

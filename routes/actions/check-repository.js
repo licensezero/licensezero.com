@@ -1,7 +1,15 @@
 var http = require('http-https')
 var url = require('url')
 
+var TESTING = process.env.NODE_ENV === 'test'
+
 module.exports = function (body, callback) {
+  if (
+    TESTING &&
+    body.repository.indexOf('http://example.com/') === 0
+  ) {
+    return callback()
+  }
   var repository = body.repository
   var options = url.parse(repository)
   options.method = 'HEAD'
@@ -21,4 +29,5 @@ module.exports = function (body, callback) {
         callback(error)
       }
     })
+    .end()
 }

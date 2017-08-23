@@ -18,7 +18,7 @@ schema.required.push('product')
 
 exports.handler = function (body, service, end, fail, lock) {
   var product = body.product
-  lock(product, function (release) {
+  lock([product, body.id], function (release) {
     var file = productPath(service, product)
     runSeries([
       function checkThatProductExists (done) {
@@ -31,13 +31,13 @@ exports.handler = function (body, service, end, fail, lock) {
       },
       checkRepository.bind(null, body),
       function writeProductFile (done) {
-        var content = without(body, 'licensor')
+        var content = without(body, ['licensor'])
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
           fs.writeFile.bind(fs, file, JSON.stringify(content))
-        ], ecb(done, done.bind(null, null, product)))
+        ], done)
       }
-    ], release(function (error, product) {
+    ], release(function (error) {
       if (error) {
         service.log.error(error)
         fail(error.userMessage || 'internal error')

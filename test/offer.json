@@ -1,0 +1,12 @@
+{
+  "action": "offer",
+  "repository": "http://example.com/",
+  "price": 1000,
+  "term": 365,
+  "grace": 180,
+  "jurisdictions": [
+    "US-CA"
+  ],
+  "preorder": true,
+  "terms": "I agree with the latest public terms of service."
+}

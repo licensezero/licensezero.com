@@ -1,6 +1,6 @@
-var licensorPath = require('./licensor')
+var licensorsPath = require('./licensors')
 var path = require('path')
 
 module.exports = function (service, id) {
-  return path.join(licensorPath(service, id), 'products')
+  return path.join(licensorsPath(service), id, 'products')
 }
