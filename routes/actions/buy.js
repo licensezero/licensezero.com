@@ -100,7 +100,8 @@ exports.handler = function (body, service, end, fail, lock) {
               licensor: {
                 name: licensorData.name,
                 jurisdiction: licensorData.jurisdiction
-              }
+              },
+              stripe: productData.stripe
             }
           done()
         }))
@@ -134,8 +135,6 @@ exports.handler = function (body, service, end, fail, lock) {
             function createStripeOrder (done) {
               service.stripe.api.orders.create({
                 currency: 'usd',
-                application: service.stripe.id,
-                application_fee: (service.fee * results.length),
                 items: results.map(function (result) {
                   return {
                     type: 'sku',

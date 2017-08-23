@@ -8,6 +8,9 @@ var parseJSON = require('json-parse-errback')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 
+// TODO: application: service.stripe.application
+// TODO: application_fee: (service.fee * results.length)
+
 module.exports = function (request, response, service) {
   if (request.method !== 'GET') {
     response.statusCode = 405
@@ -136,8 +139,4 @@ function notFound (response) {
 </body>
 </html>
   `)
-}
-
-function isNonEmptyString (argument) {
-  return typeof argument === 'string' && argument.length !== 0
 }
