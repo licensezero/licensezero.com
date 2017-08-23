@@ -8,5 +8,6 @@ module.exports = {
   retract: require('./retract'),
   reoffer: require('./reoffer'),
   key: require('./key'),
-  product: require('./product')
+  product: require('./product'),
+  waiver: require('./waiver')
 }

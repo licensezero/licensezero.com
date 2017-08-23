@@ -100,13 +100,14 @@ module.exports = function api (request, response, service) {
         } else {
           if (action.schema.required.includes('password')) {
             checkAuthentication(
-              request, body, service, function (error, valid) {
+              request, body, service, function (error, licensor) {
                 /* istanbul ignore if */
                 if (error) {
                   fail('internal error')
-                } else if (!valid) {
+                } else if (!licensor) {
                   fail('access denied')
                 } else {
+                  body.licensor = licensor
                   route()
                 }
               }
