@@ -1,6 +1,6 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var readProduct = require('../../data/read-product')
-var without = require('../../data/without')
+var sanitizeProduct = require('../../data/sanitize-product')
 
 exports.schema = {
   properties: {
@@ -13,7 +13,7 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail) {
-  readProduct(service, body.product, function (error, productData) {
+  readProduct(service, body.product, function (error, data) {
     if (error) {
       service.log.error(error)
       /* istanbul ignore else */
@@ -23,7 +23,8 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      end(without(productData, ['stripe']))
+      sanitizeProduct(data)
+      end(data)
     }
   })
 }

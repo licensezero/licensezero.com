@@ -45,7 +45,7 @@ exports.handler = function (body, service, end, fail, lock) {
         })
       },
       parseJSON,
-      function (productData, done) {
+      function (stripeProductID, done) {
         runParallel([
           function removeFromProductsList (done) {
             var file = productsListPath(service, id)
@@ -65,25 +65,8 @@ exports.handler = function (body, service, end, fail, lock) {
             }, done)
           },
           function updateStripe (done) {
-            var stripeData = productData.stripe
-            var INACTIVE = {active: false}
-            runParallel(
-              Object.keys(productData.stripe.skus)
-                .map(function (tierName) {
-                  return function deactivateSKU (done) {
-                    service.stripe.api.skus.update(
-                      stripeData.skus[tierName], INACTIVE, done
-                    )
-                  }
-                })
-                .concat(
-                  function deactivateProduct (done) {
-                    service.stripe.api.products.update(
-                      stripeData.product, INACTIVE, done
-                    )
-                  }
-                ),
-              done
+            service.stripe.api.products.update(
+              stripeProductID, {active: false}, done
             )
           }
         ], done)

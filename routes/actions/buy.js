@@ -84,7 +84,7 @@ exports.handler = function (body, service, end, fail, lock) {
           )
         }
         var noTier = results.filter(function (result) {
-          return !result.pricing.hasOwnProperty(tier)
+          return skuForTier(result, tier) === undefined
         })
         if (noTier.length !== 0) {
           return fail(
@@ -106,7 +106,7 @@ exports.handler = function (body, service, end, fail, lock) {
               items: results.map(function (result) {
                 return {
                   type: 'sku',
-                  parent: result.stripe.skus[tier].id,
+                  parent: skuForTier(result, tier).id,
                   quantity: 1
                 }
               }),
@@ -133,4 +133,10 @@ exports.handler = function (body, service, end, fail, lock) {
       }
     }
   )
+}
+
+function skuForTier (result, tier) {
+  return result.stripe.skus.data.find(function (sku) {
+    return sku.metadata.tier === tier
+  })
 }

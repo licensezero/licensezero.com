@@ -1,7 +1,7 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var readProduct = require('../../data/read-product')
 var runParallel = require('run-parallel')
-var without = require('../../data/without')
+var sanitizeProduct = require('../../data/sanitize-product')
 
 exports.schema = {
   properties: {
@@ -32,7 +32,8 @@ exports.handler = function (body, service, end, fail, lock) {
             }
             done(error)
           } else {
-            results[index] = without(data, ['stripe'])
+            sanitizeProduct(data)
+            results[index] = data
             done()
           }
         })

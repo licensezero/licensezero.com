@@ -1,3 +1,6 @@
+// TODO: reprice
+// TODO: upgrade
+
 module.exports = {
   register: require('./register'),
   licensor: require('./licensor'),

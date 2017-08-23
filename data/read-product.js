@@ -2,19 +2,14 @@ var ecb = require('ecb')
 var fs = require('fs')
 var licensorPath = require('../paths/licensor')
 var parseJSON = require('json-parse-errback')
-var pick = require('./pick')
 var productPath = require('../paths/product')
-var runParallel = require('run-parallel')
-var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 
 module.exports = function (service, product, callback) {
-  var productData
-  var licensorData
-  runSeries([
+  runWaterfall([
     function readProductData (done) {
       runWaterfall([
-        function (done) {
+        function readStripeProductID (done) {
           var file = productPath(service, product)
           fs.readFile(file, function (error, buffer) {
             if (error && error.code === 'ENOENT') {
@@ -23,80 +18,51 @@ module.exports = function (service, product, callback) {
             done(error, buffer)
           })
         },
-        parseJSON
-      ], ecb(done, function (parsed) {
-        productData = parsed
-        done()
+        parseJSON,
+        function retrieveStripeProduct (id, done) {
+          service.stripe.api.products.retrieve(id, done)
+        }
+      ], ecb(done, function (data) {
+        data.metadata.grace = parseInt(data.metadata.grace)
+        done(null, data)
       }))
     },
-    function (done) {
-      runParallel([
-        function readStripeData (done) {
-          var skus = productData.stripe.skus
-          var keys = Object.keys(skus)
-          runParallel(
-            keys
-              .map(function (key) {
-                return function retrieveSKU (done) {
-                  service.stripe.api.skus.retrieve(
-                    skus[key],
-                    ecb(done, function (response) {
-                      productData.stripe.skus[key] = {
-                        id: response.id,
-                        price: response.price,
-                        count: parseInt(response.attributes.count)
-                      }
-                      done()
-                    })
-                  )
-                }
-              })
-              .concat(function retrieveProduct (done) {
-                service.stripe.api.products.retrieve(
-                  productData.stripe.product,
-                  ecb(done, function (response) {
-                    productData.stripe.product = response.id
-                    productData.retracted = !response.active
-                    done()
-                  })
-                )
-              }),
-          done)
-        },
-        function readLicensorData (done) {
-          var file = licensorPath(service, productData.id)
-          runWaterfall([
-            fs.readFile.bind(fs, file),
-            parseJSON
-          ], ecb(done, function (parsed) {
-            licensorData = parsed
-            licensorData.id = productData.id
-            done()
-          }))
-        }
-      ], done)
+    function readLicensorData (stripe, done) {
+      var id = stripe.metadata.licensor
+      var file = licensorPath(service, id)
+      runWaterfall([
+        fs.readFile.bind(fs, file),
+        parseJSON
+      ], ecb(done, function (licensor) {
+        licensor.id = id
+        done(null, {
+          licensor: licensor,
+          stripe: stripe
+        })
+      }))
     }
-  ], ecb(callback, function () {
-    callback(null, productData.retracted
+  ], ecb(callback, function (results) {
+    var stripe = results.stripe
+    var metadata = results.stripe.metadata
+    var licensor = results.licensor
+    callback(null, !stripe.active
       ? {
         product: product,
         retracted: true
       }
       : {
         product: product,
-        stripe: productData.stripe,
-        pricing: Object.keys(productData.stripe.skus)
-          .reduce(function (pricing, key) {
-            pricing[key] = productData.stripe.skus[key].price
+        stripe: stripe,
+        pricing: stripe.skus.data
+          .reduce(function (pricing, sku) {
+            if (sku.active) {
+              pricing[sku.metadata.tier] = sku.price
+            }
             return pricing
           }, {}),
-        term: productData.term,
-        grace: productData.grace,
-        jurisdictions: productData.jurisdictions,
-        repository: productData.repository,
-        licensor: pick(licensorData, [
-          'id', 'name', 'jurisdiction', 'publicKey'
-        ])
+        grace: metadata.grace,
+        repository: metadata.repository,
+        licensor: licensor
       }
     )
   }))

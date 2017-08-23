@@ -5,7 +5,6 @@ var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
-var pick = require('../../data/pick')
 var productPath = require('../../paths/product')
 var productsListPath = require('../../paths/products-list')
 var runParallel = require('run-parallel')
@@ -33,9 +32,6 @@ TIER_NAMES.forEach(function (tier) {
   pricingSchema.properties[tier] = priceSchema
   pricingSchema.required.push(tier)
 })
-
-// TODO: Write all information into Stripe
-// TODO: Fetch the product, parse SKUs, and paginate if necessary
 
 var properties = {
   id: {
@@ -92,6 +88,8 @@ exports.handler = function (body, service, end, fail, lock) {
           metadata: {
             licensor: id,
             product: product,
+            repository: body.repository,
+            grace: body.grace,
             date: now
           }
         }, ecb(done, function (response) {
@@ -108,6 +106,7 @@ exports.handler = function (body, service, end, fail, lock) {
                 currency: 'usd',
                 inventory: {type: 'infinite'},
                 metadata: {
+                  tier: tierName,
                   licensor: id,
                   product: product,
                   date: now
@@ -124,14 +123,9 @@ exports.handler = function (body, service, end, fail, lock) {
         runParallel([
           function writeProductFile (done) {
             var file = productPath(service, product)
-            var content = pick(body, ['id', 'repository', 'grace'])
-            content.stripe = {
-              product: stripeProduct,
-              skus: stripeSKUs
-            }
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
-              fs.writeFile.bind(fs, file, JSON.stringify(content))
+              fs.writeFile.bind(fs, file, JSON.stringify(stripeProduct))
             ], done)
           },
           function (done) {
@@ -158,7 +152,6 @@ exports.handler = function (body, service, end, fail, lock) {
         if (error.userMessage) {
           fail(error.userMessage)
         } else {
-          console.error(error)
           fail('internal error')
         }
       } else {
