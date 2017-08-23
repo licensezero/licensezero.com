@@ -20,7 +20,6 @@ tape('reoffer', function (test) {
       term: 90,
       grace: 7,
       jurisdictions: ['US-TX'],
-      preorder: false,
       terms: 'I agree with the latest public terms of service.'
     }
     runSeries([
@@ -47,12 +46,10 @@ tape('reoffer', function (test) {
           product: reoffered.product
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'false error')
-          ;[
-            'repository', 'price', 'term', 'grace',
-            'jurisdictions', 'preorder'
-          ].forEach(function (key) {
-            test.deepEqual(response[key], reoffered[key], key)
-          })
+          ;['repository', 'price', 'term', 'grace', 'jurisdictions']
+            .forEach(function (key) {
+              test.deepEqual(response[key], reoffered[key], key)
+            })
           done()
         }))
       }
@@ -76,7 +73,6 @@ tape('reoffer nonexistent', function (test) {
       term: 90,
       grace: 7,
       jurisdictions: ['US-TX'],
-      preorder: false,
       terms: 'I agree with the latest public terms of service.'
     }
     runSeries([

@@ -81,7 +81,6 @@ exports.handler = function (body, service, end, fail, lock) {
               term: productData.term,
               grace: productData.grace,
               jurisdictions: productData.jurisdictions,
-              preorder: productData.preorder,
               licensor: {
                 name: licensorData.name,
                 jurisdiction: licensorData.jurisdiction

@@ -32,8 +32,7 @@ tape('quote', function (test) {
           id: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first',
-          price: 3050,
-          preorder: false
+          price: 3050
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
           secondProduct = response.product
@@ -55,7 +54,6 @@ tape('quote', function (test) {
                 term: 365,
                 grace: 180,
                 jurisdictions: ['US-CA'],
-                preorder: true,
                 licensor: {
                   name: 'Test User',
                   jurisdiction: 'US-CA'
@@ -67,7 +65,6 @@ tape('quote', function (test) {
                 term: 365,
                 grace: 180,
                 jurisdictions: ['US-CA'],
-                preorder: false,
                 licensor: {
                   name: 'Test User',
                   jurisdiction: 'US-CA'

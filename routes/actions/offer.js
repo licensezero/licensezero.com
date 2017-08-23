@@ -53,10 +53,6 @@ var properties = {
       enum: JURISDICTIONS
     }
   },
-  preorder: {
-    description: 'whether to allow preorders for lifetime licenses',
-    type: 'boolean'
-  },
   terms: {
     type: 'string',
     const: 'I agree with the latest public terms of service.'
