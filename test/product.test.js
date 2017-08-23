@@ -30,9 +30,10 @@ tape('product', function (test) {
           product: product
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'false error')
-          Object.keys(OFFER).forEach(function (key) {
-            test.deepEqual(response[key], OFFER[key], key)
-          })
+          ;['repository', 'price', 'term', 'grace']
+            .forEach(function (key) {
+              test.deepEqual(response[key], OFFER[key], key)
+            })
           done()
         }))
       }

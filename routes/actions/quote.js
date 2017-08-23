@@ -51,23 +51,37 @@ exports.handler = function (body, service, end, fail, lock) {
               done()
             }))
           },
-          function readLicensorData (done) {
-            var id = productData.id
-            /* istanbul ignore if */
-            if (licensorsCache.hasOwnProperty(id)) {
-              licensorData = licensorsCache[id]
-              done()
-            } else {
-              var file = licensorPath(service, productData.id)
-              runWaterfall([
-                fs.readFile.bind(fs, file),
-                parseJSON
-              ], ecb(done, function (parsed) {
-                licensorsCache[id] = parsed
-                licensorData = parsed
-                done()
-              }))
-            }
+          function (done) {
+            runParallel([
+              function readStripeData (done) {
+                service.stripe.api.skus.retrieve(
+                  productData.stripe.skus[0].id,
+                  ecb(done, function (response) {
+                    productData.price = response.price
+                    productData.term = parseInt(response.attributes.term)
+                    done()
+                  })
+                )
+              },
+              function readLicensorData (done) {
+                var id = productData.id
+                /* istanbul ignore if */
+                if (licensorsCache.hasOwnProperty(id)) {
+                  licensorData = licensorsCache[id]
+                  done()
+                } else {
+                  var file = licensorPath(service, productData.id)
+                  runWaterfall([
+                    fs.readFile.bind(fs, file),
+                    parseJSON
+                  ], ecb(done, function (parsed) {
+                    licensorsCache[id] = parsed
+                    licensorData = parsed
+                    done()
+                  }))
+                }
+              }
+            ], done)
           }
         ], ecb(done, function write () {
           results[index] = productData.retracted

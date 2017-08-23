@@ -4,13 +4,13 @@ var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
+var pick = require('../../data/pick')
 var productPath = require('../../paths/product')
 var productsListPath = require('../../paths/products-list')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stringifyProducts = require('../../data/stringify-products')
 var uuid = require('uuid/v4')
-var without = require('../../data/without')
 
 var properties = {
   id: {
@@ -85,7 +85,7 @@ exports.handler = function (body, service, end, fail, lock) {
           service.stripe.api.skus.create({
             product: stripeProduct,
             attributes: {
-              term: body.term
+              term: body.term.toString()
             },
             price: body.price,
             currency: 'usd',
@@ -107,7 +107,7 @@ exports.handler = function (body, service, end, fail, lock) {
         runParallel([
           function writeProductFile (done) {
             var file = productPath(service, product)
-            var content = without(body, ['licensor'])
+            var content = pick(body, ['id', 'repository', 'grace'])
             content.stripe = {
               product: stripeProduct,
               skus: [
