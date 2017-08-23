@@ -10,5 +10,6 @@ module.exports = {
   key: require('./key'),
   product: require('./product'),
   waiver: require('./waiver'),
-  public: require('./public')
+  public: require('./public'),
+  quote: require('./quote')
 }
