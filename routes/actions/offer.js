@@ -74,6 +74,7 @@ exports.handler = function (body, service, end, fail, lock) {
             'private license for License Zero product ' + product
           ),
           attributes: ['term'],
+          shippable: false,
           metadata: {
             licensor: id,
             product: product,
