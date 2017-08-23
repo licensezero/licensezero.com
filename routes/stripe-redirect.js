@@ -123,7 +123,7 @@ module.exports = function (request, response, service) {
           var id = uuid()
           var licensorFile = licensorPath(service, id)
           var keypair = generateKeypair()
-          var passphrase = niceware.generatePassphrase(16).join(' ')
+          var passphrase = niceware.generatePassphrase(18).join(' ')
           runWaterfall([
             mkdirp.bind(null, path.dirname(licensorFile)),
             function hashPassphrase (_, done) {
