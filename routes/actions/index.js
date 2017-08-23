@@ -6,7 +6,6 @@ module.exports = {
   name: require('./name'),
   offer: require('./offer'),
   retract: require('./retract'),
-  reoffer: require('./reoffer'),
   key: require('./key'),
   product: require('./product'),
   waiver: require('./waiver'),

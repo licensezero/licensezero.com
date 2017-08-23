@@ -44,7 +44,7 @@ tape('quote', function (test) {
           action: 'quote',
           products: [firstProduct, secondProduct]
         }, ecb(done, function (response) {
-          test.equal(response.error, false, 'reoffer error false')
+          test.equal(response.error, false, 'error false')
           test.deepEqual(
             response.products,
             [

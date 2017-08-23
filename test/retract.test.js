@@ -31,7 +31,7 @@ tape('retract', function (test) {
           id: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
-          test.equal(response.error, false, 'reoffer error false')
+          test.equal(response.error, false, 'error false')
           done()
         }))
       }
