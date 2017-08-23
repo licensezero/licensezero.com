@@ -31,7 +31,7 @@ are met:
 
         Artless Devices LLC
         https://licensezero.com
-        ${options.product}
+        Product: ${options.product}
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

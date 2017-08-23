@@ -69,7 +69,7 @@ exports.handler = function (body, service, end, fail, lock) {
       function createStripeObjects (done) {
         var now = new Date().toISOString()
         service.stripe.api.products.create({
-          name: product,
+          name: 'License Zero Product ' + product,
           description: (
             'private license for License Zero product ' + product
           ),
