@@ -145,3 +145,62 @@ tape('licensor w/ retracted product', function (test) {
     })
   })
 })
+
+tape('licensor w/ retracted product', function (test) {
+  server(function (port, service, close) {
+    var firstProduct
+    var secondProduct
+    runSeries([
+      writeTestLicensor.bind(null, service),
+      function offerFirstProduct (done) {
+        apiRequest(port, Object.assign(clone(OFFER), {
+          id: LICENSOR.id,
+          password: LICENSOR.password,
+          repository: 'http://example.com/first'
+        }), ecb(done, function (response) {
+          test.equal(response.error, false, 'false error')
+          firstProduct = response.product
+          done()
+        }))
+      },
+      function offerSecondProduct (done) {
+        apiRequest(port, Object.assign(clone(OFFER), {
+          id: LICENSOR.id,
+          password: LICENSOR.password,
+          repository: 'http://example.com/second'
+        }), ecb(done, function (response) {
+          test.equal(response.error, false, 'false error')
+          secondProduct = response.product
+          done()
+        }))
+      },
+      function retractFirstProduct (done) {
+        apiRequest(port, {
+          action: 'retract',
+          id: LICENSOR.id,
+          password: LICENSOR.password,
+          product: firstProduct
+        }, ecb(done, function (response) {
+          test.equal(response.error, false, 'false error')
+          done()
+        }))
+      },
+      function listLicensorProducts (done) {
+        apiRequest(port, {
+          action: 'licensor',
+          id: LICENSOR.id
+        }, ecb(done, function (response) {
+          test.deepEqual(
+            response.products, [secondProduct],
+            'only unretracted product'
+          )
+          done()
+        }))
+      }
+    ], function (error) {
+      test.error(error, 'no error')
+      test.end()
+      close()
+    })
+  })
+})

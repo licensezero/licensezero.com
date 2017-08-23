@@ -68,6 +68,7 @@ exports.handler = function (body, service, end, fail) {
       ]
     })
   ], function (error) {
+    /* istanbul ignore if */
     if (error) {
       fail('internal error')
     } else {

@@ -6,6 +6,7 @@ var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
+var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('reoffer', function (test) {
@@ -52,6 +53,37 @@ tape('reoffer', function (test) {
           ].forEach(function (key) {
             test.deepEqual(response[key], reoffered[key], key)
           })
+          done()
+        }))
+      }
+    ], function (error) {
+      test.error(error, 'no error')
+      test.end()
+      close()
+    })
+  })
+})
+
+tape('reoffer nonexistent', function (test) {
+  server(function (port, service, close) {
+    var reoffered = {
+      id: LICENSOR.id,
+      password: LICENSOR.password,
+      action: 'reoffer',
+      product: uuid(),
+      repository: 'http://example.com/elsewhere',
+      price: 50,
+      term: 90,
+      grace: 7,
+      jurisdictions: ['US-TX'],
+      preorder: false,
+      terms: 'I agree with the latest public terms of service.'
+    }
+    runSeries([
+      writeTestLicensor.bind(null, service),
+      function reoffer (done) {
+        apiRequest(port, reoffered, ecb(done, function (response) {
+          test.equal(response.error, 'no such product', 'no such product')
           done()
         }))
       }

@@ -79,8 +79,7 @@ exports.handler = function (body, service, end, fail, lock) {
         runParallel([
           function writeProductFile (done) {
             var file = productPath(service, product)
-            var content = without(body, ['licensor', 'id'])
-            content.licensor = body.id
+            var content = without(body, ['licensor'])
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify(content))
@@ -96,9 +95,15 @@ exports.handler = function (body, service, end, fail, lock) {
         ], done)
       }
     ], release(function (error) {
+      /* istanbul ignore if */
       if (error) {
         service.log.error(error)
-        fail(error.userMessage || 'internal error')
+        /* istanbul ignore else */
+        if (error.userMessage) {
+          fail(error.userMessage)
+        } else {
+          fail('internal error')
+        }
       } else {
         end({product: product})
       }

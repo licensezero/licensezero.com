@@ -1,5 +1,5 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var clone = require('../../data/clone')
+var ecb = require('ecb')
 var fs = require('fs')
 var licensorPath = require('../../paths/licensor')
 var parseJSON = require('json-parse-errback')
@@ -32,24 +32,21 @@ exports.handler = function (body, service, end, fail) {
     parseJSON,
     function readLicensor (productData, done) {
       var file = licensorPath(service, productData.id)
-      fs.readFile(file, function (error, read) {
-        if (error) {
-          done(error)
-        } else {
-          parseJSON(read, function (error, licensorData) {
-            if (error) {
-              done(error)
-            } else {
-              done(null, productData, licensorData)
-            }
-          })
-        }
-      })
+      fs.readFile(file, ecb(done, function (read) {
+        parseJSON(read, ecb(done, function (licensorData) {
+          done(null, productData, licensorData)
+        }))
+      }))
     }
   ], function (error, product, licensor) {
     if (error) {
       service.log.error(error)
-      fail(error.userMessage || 'internal error')
+      /* istanbul ignore else */
+      if (error.userMessage) {
+        fail(error.userMessage)
+      } else {
+        fail('internal error')
+      }
     } else {
       var data = without(product, ['id'])
       data.licensor = pick(licensor, ['name', 'email', 'jurisdiction'])

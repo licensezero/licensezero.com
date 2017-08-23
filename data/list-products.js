@@ -5,6 +5,7 @@ module.exports = function (service, id, callback) {
   var file = productsListPath(service, id)
   fs.readFile(file, function (error, buffer) {
     if (error) {
+      /* istanbul ignore else */
       if (error.code === 'ENOENT') {
         callback(null, [])
       } else {

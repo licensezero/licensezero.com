@@ -60,7 +60,12 @@ exports.handler = function (body, service, end, fail, lock) {
     ], release(function (error) {
       if (error) {
         service.log.error(error)
-        fail(error.userMessage || 'internal error')
+        /* istanbul ignore else */
+        if (error.userMessage) {
+          fail(error.userMessage)
+        } else {
+          fail('internal error')
+        }
       } else {
         end()
       }

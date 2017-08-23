@@ -22,6 +22,7 @@ exports.handler = function (body, service, end, fail) {
   var file = licensorPath(service, id)
   fs.readFile(file, function (error, buffer) {
     if (error) {
+      /* istanbul ignore else */
       if (error.code === 'ENOENT') {
         fail('no such licensor')
       } else {
@@ -29,11 +30,13 @@ exports.handler = function (body, service, end, fail) {
       }
     } else {
       parseJSON(buffer, function (error, licensor) {
+        /* istanbul ignore if */
         if (error) {
           service.log.error(error)
           fail('internal error')
         } else {
           listProduts(service, id, function (error, products) {
+            /* istanbul ignore if */
             if (error) {
               service.log.error(error)
               fail('internal error')

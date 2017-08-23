@@ -53,22 +53,26 @@ module.exports = function api (request, response, service) {
   function parseBodyAndRespond () {
     var chunks = []
     var bytesReceived = 0
+    var destroyed
     request
       .on('data', function (chunk) {
         chunks.push(chunk)
         bytesReceived += chunk.length
         if (bytesReceived > REQUEST_BODY_LIMIT) {
+          destroyed = true
           request.destroy()
           end({error: 'request body too large'})
         }
       })
-      .once('error', function (error) {
+      .once('error', /* istanbul ignore next */ function (error) {
         request.log.error(error)
         end({error: 'error reading request body'})
       })
       .once('end', function () {
+        if (destroyed) return
         var buffer = Buffer.concat(chunks)
         parseJSON(buffer, function (error, body) {
+          /* istanbul ignore if */
           if (error) {
             fail('invalid JSON')
           } else {
@@ -79,7 +83,7 @@ module.exports = function api (request, response, service) {
   }
 
   function respond (body) {
-    if (typeof body !== 'object') {
+    if (typeof body !== 'object' || body === null) {
       fail('request not an object')
     } else if (!body.hasOwnProperty('action')) {
       fail('missing action property')
@@ -97,6 +101,7 @@ module.exports = function api (request, response, service) {
           if (action.schema.required.includes('password')) {
             checkAuthentication(
               request, body, service, function (error, valid) {
+                /* istanbul ignore if */
                 if (error) {
                   fail('internal error')
                 } else if (!valid) {

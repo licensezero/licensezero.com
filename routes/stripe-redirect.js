@@ -54,8 +54,9 @@ module.exports = function (request, response, service) {
         function readNonceFile (done) {
           fs.readFile(nonceFile, function (error, read) {
             if (error) {
+              /* istanbul ignore else */
               if (error.code === 'ENOENT') {
-                error.statusCode = 404
+                error.statusCode = 400
               } else {
                 error.statusCode = 500
               }
@@ -71,9 +72,6 @@ module.exports = function (request, response, service) {
         },
         function parseNonceFile (buffer, done) {
           parseJSON(buffer, function (error, parsed) {
-            if (error) {
-              error.statusCode = 400
-            }
             done(error, parsed)
           })
         },
@@ -81,7 +79,7 @@ module.exports = function (request, response, service) {
           if (
             ['name', 'email', 'jurisdiction', 'timestamp']
               .some(function (key) {
-                return isString(nonceData[key])
+                return isNonEmptyString(nonceData[key])
               })
           ) {
             done(null, nonceData)
@@ -124,7 +122,7 @@ module.exports = function (request, response, service) {
           } else if (
             ['stripe_user_id', 'refresh_token']
               .every(function (key) {
-                return isString(body[key])
+                return isNonEmptyString(body[key])
               })
           ) {
             request.log.error(body, 'invalid stripe body')
@@ -209,6 +207,6 @@ l0 authenticate "${id}" "${passphrase}"</code></pre>
   }
 }
 
-function isString (argument) {
+function isNonEmptyString (argument) {
   return typeof argument === 'string' && argument.length !== 0
 }
