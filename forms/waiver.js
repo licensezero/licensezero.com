@@ -2,25 +2,25 @@ module.exports = function (options) {
   return `
 License Zero Private Waiver 1.0.0
 
-Beneficiary: ${options.beneficiary}
+Beneficiary:  ${options.beneficiary}
 
-Licensor: ${options.name}
-          ${options.jurisdiction} (ISO 3166-2)
+Licensor:     ${options.name}
+              ${options.jurisdiction} (ISO 3166-2)
 
 Product Code: ${options.product}
               ${options.repository}
 
-Date: ${options.date} (ISO 8601)
+Date:         ${options.date} (ISO 8601)
 
-Term: ${
+Term:         ${
   options.term === 'forever'
     ? 'Forever'
     : options.term + ' calendar days'
 }
 
-Agent: Artless Devices LLC
-       US-CA (ISO 3166-2)
-       https://licensezero.com
+Agent:        Artless Devices LLC
+              US-CA (ISO 3166-2)
+              https://licensezero.com
 
 The Licensor hereby irrevocably waives the third numbered clause of
 the License Zero Public License:
