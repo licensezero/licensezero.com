@@ -19,8 +19,7 @@ tape('buy', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           id: LICENSOR.id,
           password: LICENSOR.password,
-          repository: 'http://example.com/first',
-          price: 2000
+          repository: 'http://example.com/first'
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
           firstProduct = response.product
@@ -31,8 +30,7 @@ tape('buy', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           id: LICENSOR.id,
           password: LICENSOR.password,
-          repository: 'http://example.com/first',
-          price: 3050
+          repository: 'http://example.com/first'
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
           secondProduct = response.product
@@ -44,7 +42,8 @@ tape('buy', function (test) {
           action: 'buy',
           products: [firstProduct, secondProduct],
           licensee: 'SomeCo, Inc.',
-          jurisdiction: 'US-CA'
+          jurisdiction: 'US-CA',
+          tier: 'team'
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'buy error false')
           test.assert(
@@ -69,7 +68,8 @@ tape('buy w/ nonexistent', function (test) {
       action: 'buy',
       products: [product],
       licensee: 'SomeCo, Inc.',
-      jurisdiction: 'US-CA'
+      jurisdiction: 'US-CA',
+      tier: 'solo'
     }, function (error, response) {
       test.error(error)
       test.equal(
@@ -113,7 +113,8 @@ tape('buy w/ retracted', function (test) {
           action: 'buy',
           products: [product],
           licensee: 'SomeCo, Inc.',
-          jurisdiction: 'US-CA'
+          jurisdiction: 'US-CA',
+          tier: 'solo'
         }, ecb(done, function (response) {
           test.equal(
             response.error,

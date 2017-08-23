@@ -19,8 +19,7 @@ tape('quote', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           id: LICENSOR.id,
           password: LICENSOR.password,
-          repository: 'http://example.com/first',
-          price: 2000
+          repository: 'http://example.com/first'
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
           firstProduct = response.product
@@ -31,8 +30,7 @@ tape('quote', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           id: LICENSOR.id,
           password: LICENSOR.password,
-          repository: 'http://example.com/second',
-          price: 3050
+          repository: 'http://example.com/second'
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
           secondProduct = response.product
@@ -50,24 +48,26 @@ tape('quote', function (test) {
             [
               {
                 product: firstProduct,
-                price: 2000,
-                term: 365,
+                pricing: OFFER.pricing,
                 grace: 180,
                 repository: 'http://example.com/first',
                 licensor: {
+                  id: LICENSOR.id,
                   name: 'Test User',
-                  jurisdiction: 'US-CA'
+                  jurisdiction: 'US-CA',
+                  publicKey: LICENSOR.publicKey
                 }
               },
               {
                 product: secondProduct,
-                price: 3050,
-                term: 365,
+                pricing: OFFER.pricing,
                 grace: 180,
                 repository: 'http://example.com/second',
                 licensor: {
+                  id: LICENSOR.id,
                   name: 'Test User',
-                  jurisdiction: 'US-CA'
+                  jurisdiction: 'US-CA',
+                  publicKey: LICENSOR.publicKey
                 }
               }
             ],

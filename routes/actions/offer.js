@@ -1,3 +1,4 @@
+var TIERS = require('../../data/private-license-tiers')
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
 var ecb = require('ecb')
@@ -11,6 +12,30 @@ var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stringifyProducts = require('../../data/stringify-products')
 var uuid = require('uuid/v4')
+
+var priceSchema = {
+  description: 'price per license, in United States cents',
+  type: 'integer',
+  min: 50, // 50 cents
+  max: 100000 // 1,000 dollars
+}
+
+var TIER_NAMES = ['solo', 'team', 'company', 'enterprise']
+
+var pricingSchema = {
+  description: 'private license pricing',
+  type: 'object',
+  properties: {},
+  required: [],
+  additionalProperties: false
+}
+TIER_NAMES.forEach(function (tier) {
+  pricingSchema.properties[tier] = priceSchema
+  pricingSchema.required.push(tier)
+})
+
+// TODO: Write all information into Stripe
+// TODO: Fetch the product, parse SKUs, and paginate if necessary
 
 var properties = {
   id: {
@@ -27,18 +52,7 @@ var properties = {
     format: 'uri',
     pattern: '^(https|http)://'
   },
-  price: {
-    description: 'price per license, in United States cents',
-    type: 'integer',
-    min: 50, // 50 cents
-    max: 100000 // 1,000 dollars
-  },
-  term: {
-    description: 'term of paid licenses, in calendar days',
-    type: 'integer',
-    min: 90, // 90 days
-    max: 3650 // 10 years
-  },
+  pricing: pricingSchema,
   grace: {
     description: 'number of calendar days grace period',
     type: 'integer',
@@ -62,7 +76,7 @@ exports.handler = function (body, service, end, fail, lock) {
   var id = body.id
   var product = uuid()
   var stripeProduct
-  var stripeSKU
+  var stripeSKUs = {}
   lock([body.id], function (release) {
     runSeries([
       checkRepository.bind(null, body),
@@ -73,7 +87,7 @@ exports.handler = function (body, service, end, fail, lock) {
           description: (
             'private license for License Zero product ' + product
           ),
-          attributes: ['term'],
+          attributes: ['tier', 'users'],
           shippable: false,
           metadata: {
             licensor: id,
@@ -82,25 +96,28 @@ exports.handler = function (body, service, end, fail, lock) {
           }
         }, ecb(done, function (response) {
           stripeProduct = response.id
-          service.stripe.api.skus.create({
-            product: stripeProduct,
-            attributes: {
-              term: body.term.toString()
-            },
-            price: body.price,
-            currency: 'usd',
-            inventory: {
-              type: 'infinite'
-            },
-            metadata: {
-              licensor: id,
-              product: product,
-              date: now
+          runParallel(TIER_NAMES.map(function (tierName) {
+            return function createSKU (done) {
+              service.stripe.api.skus.create({
+                product: stripeProduct,
+                attributes: {
+                  tier: tierName,
+                  users: TIERS[tierName]
+                },
+                price: body.pricing[tierName],
+                currency: 'usd',
+                inventory: {type: 'infinite'},
+                metadata: {
+                  licensor: id,
+                  product: product,
+                  date: now
+                }
+              }, ecb(done, function (response) {
+                stripeSKUs[tierName] = response.id
+                done()
+              }))
             }
-          }, ecb(done, function (response) {
-            stripeSKU = response.id
-            done()
-          }))
+          }), done)
         }))
       },
       function writeFile (done) {
@@ -110,12 +127,7 @@ exports.handler = function (body, service, end, fail, lock) {
             var content = pick(body, ['id', 'repository', 'grace'])
             content.stripe = {
               product: stripeProduct,
-              skus: [
-                {
-                  term: body.term,
-                  id: stripeSKU
-                }
-              ]
+              skus: stripeSKUs
             }
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
@@ -146,6 +158,7 @@ exports.handler = function (body, service, end, fail, lock) {
         if (error.userMessage) {
           fail(error.userMessage)
         } else {
+          console.error(error)
           fail('internal error')
         }
       } else {

@@ -2,6 +2,7 @@ var ecb = require('ecb')
 var fs = require('fs')
 var licensorPath = require('../paths/licensor')
 var parseJSON = require('json-parse-errback')
+var pick = require('./pick')
 var productPath = require('../paths/product')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
@@ -31,14 +32,36 @@ module.exports = function (service, product, callback) {
     function (done) {
       runParallel([
         function readStripeData (done) {
-          service.stripe.api.skus.retrieve(
-            productData.stripe.skus[0].id,
-            ecb(done, function (response) {
-              productData.price = response.price
-              productData.term = parseInt(response.attributes.term)
-              done()
-            })
-          )
+          var skus = productData.stripe.skus
+          var keys = Object.keys(skus)
+          runParallel(
+            keys
+              .map(function (key) {
+                return function retrieveSKU (done) {
+                  service.stripe.api.skus.retrieve(
+                    skus[key],
+                    ecb(done, function (response) {
+                      productData.stripe.skus[key] = {
+                        id: response.id,
+                        price: response.price,
+                        count: parseInt(response.attributes.count)
+                      }
+                      done()
+                    })
+                  )
+                }
+              })
+              .concat(function retrieveProduct (done) {
+                service.stripe.api.products.retrieve(
+                  productData.stripe.product,
+                  ecb(done, function (response) {
+                    productData.stripe.product = response.id
+                    productData.retracted = !response.active
+                    done()
+                  })
+                )
+              }),
+          done)
         },
         function readLicensorData (done) {
           var file = licensorPath(service, productData.id)
@@ -47,6 +70,7 @@ module.exports = function (service, product, callback) {
             parseJSON
           ], ecb(done, function (parsed) {
             licensorData = parsed
+            licensorData.id = productData.id
             done()
           }))
         }
@@ -60,16 +84,19 @@ module.exports = function (service, product, callback) {
       }
       : {
         product: product,
-        price: productData.price,
+        stripe: productData.stripe,
+        pricing: Object.keys(productData.stripe.skus)
+          .reduce(function (pricing, key) {
+            pricing[key] = productData.stripe.skus[key].price
+            return pricing
+          }, {}),
         term: productData.term,
         grace: productData.grace,
         jurisdictions: productData.jurisdictions,
         repository: productData.repository,
-        licensor: {
-          id: licensorData.id,
-          name: licensorData.name,
-          jurisdiction: licensorData.jurisdiction
-        }
+        licensor: pick(licensorData, [
+          'id', 'name', 'jurisdiction', 'publicKey'
+        ])
       }
     )
   }))

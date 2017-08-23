@@ -1,16 +1,14 @@
 var JURISDICTIONS = require('../../data/jurisdictions')
+var TIERS = require('../../data/private-license-tiers')
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var buyPath = require('../../paths/buy')
 var ecb = require('ecb')
 var fs = require('fs')
-var licensorPath = require('../../paths/licensor')
 var mkdirp = require('mkdirp')
-var parseJSON = require('json-parse-errback')
 var path = require('path')
-var productPath = require('../../paths/product')
+var readProduct = require('../../data/read-product')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
-var runWaterfall = require('run-waterfall')
 var uuid = require('uuid/v4')
 
 exports.schema = {
@@ -35,76 +33,31 @@ exports.schema = {
         type: 'string',
         pattern: UUIDV4
       }
+    },
+    tier: {
+      type: 'string',
+      enum: Object.keys(TIERS)
     }
   }
 }
 
-// TODO: Refactor with quote action handler.
 exports.handler = function (body, service, end, fail, lock) {
   var products = body.products
-  var licensorsCache = {}
+  var tier = body.tier
   var results = new Array(products.length)
   runParallel(
     products.map(function (product, index) {
-      return function writeResult (done) {
-        var productData
-        var licensorData
-        runSeries([
-          function readProductData (done) {
-            runWaterfall([
-              function (done) {
-                var file = productPath(service, product)
-                fs.readFile(file, function (error, buffer) {
-                  if (error && error.code === 'ENOENT') {
-                    error.userMessage = 'no such product: ' + product
-                  }
-                  done(error, buffer)
-                })
-              },
-              parseJSON
-            ], ecb(done, function (parsed) {
-              productData = parsed
-              done()
-            }))
-          },
-          function readLicensorData (done) {
-            var id = productData.id
-            /* istanbul ignore if */
-            if (licensorsCache.hasOwnProperty(id)) {
-              licensorData = licensorsCache[id]
-              done()
-            } else {
-              var file = licensorPath(service, productData.id)
-              runWaterfall([
-                fs.readFile.bind(fs, file),
-                parseJSON
-              ], ecb(done, function (parsed) {
-                licensorsCache[id] = parsed
-                licensorData = parsed
-                done()
-              }))
+      return function (done) {
+        readProduct(service, product, function (error, data) {
+          if (error) {
+            if (error.userMessage) {
+              error.userMessage += ': ' + product
             }
+            done(error)
           }
-        ], ecb(done, function write () {
-          results[index] = productData.retracted
-            ? {
-              product: product,
-              retracted: true
-            }
-            : {
-              product: product,
-              price: productData.price,
-              term: productData.term,
-              grace: productData.grace,
-              jurisdictions: productData.jurisdictions,
-              licensor: {
-                name: licensorData.name,
-                jurisdiction: licensorData.jurisdiction
-              },
-              stripe: productData.stripe
-            }
+          results[index] = data
           done()
-        }))
+        })
       }
     }),
     function (error) {
@@ -121,51 +74,62 @@ exports.handler = function (body, service, end, fail, lock) {
           return result.retracted
         })
         if (retracted.length !== 0) {
-          fail('retracted products: ' + retracted
-            .map(function (retracted) {
-              return retracted.product
-            })
-            .join(', ')
+          return fail(
+            'retracted products: ' +
+            retracted
+              .map(function (retracted) {
+                return retracted.product
+              })
+              .join(', ')
           )
-        } else {
-          var buy = uuid()
-          var stripeOrder
-          var file = buyPath(service, buy)
-          runSeries([
-            function createStripeOrder (done) {
-              service.stripe.api.orders.create({
-                currency: 'usd',
-                items: results.map(function (result) {
-                  return {
-                    type: 'sku',
-                    parent: result.stripe.skus[0].id,
-                    quantity: 1
-                  }
-                })
-              }, ecb(done, function (response) {
-                stripeOrder = response.id
-                done()
-              }))
-            },
-            mkdirp.bind(null, path.dirname(file)),
-            fs.writeFile.bind(fs, file, JSON.stringify({
-              date: new Date().toISOString(),
-              licensee: body.licensee,
-              jurisdiction: body.jurisdiction,
-              products: results,
-              stripe: {
-                order: stripeOrder
-              }
-            }))
-          ], function (error) {
-            /* istanbul ignore if */
-            if (error) {
-              fail('internal error')
-            } else {
-              end({location: '/buy/' + buy})
-            }
-          })
         }
+        var noTier = results.filter(function (result) {
+          return !result.pricing.hasOwnProperty(tier)
+        })
+        if (noTier.length !== 0) {
+          return fail(
+            'not available for tier: ' +
+            noTier
+              .map(function (result) {
+                return result.product
+              })
+              .join(', ')
+          )
+        }
+        var buy = uuid()
+        var stripeOrder
+        var file = buyPath(service, buy)
+        runSeries([
+          function createStripeOrder (done) {
+            service.stripe.api.orders.create({
+              currency: 'usd',
+              items: results.map(function (result) {
+                return {
+                  type: 'sku',
+                  parent: result.stripe.skus[tier].id,
+                  quantity: 1
+                }
+              }),
+              metadata: {
+                licensee: body.licensee,
+                jurisdiction: body.jurisdiction,
+                date: new Date().toISOString()
+              }
+            }, ecb(done, function (response) {
+              stripeOrder = response.id
+              done()
+            }))
+          },
+          mkdirp.bind(null, path.dirname(file)),
+          fs.writeFile.bind(fs, file, JSON.stringify(stripeOrder))
+        ], function (error) {
+          /* istanbul ignore if */
+          if (error) {
+            fail('internal error')
+          } else {
+            end({location: '/buy/' + buy})
+          }
+        })
       }
     }
   )

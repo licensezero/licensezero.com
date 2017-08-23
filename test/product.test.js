@@ -3,6 +3,7 @@ var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var ecb = require('ecb')
+var pick = require('../data/pick')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -29,11 +30,23 @@ tape('product', function (test) {
           action: 'product',
           product: product
         }, ecb(done, function (response) {
-          test.equal(response.error, false, 'false error')
-          ;['repository', 'price', 'term', 'grace']
-            .forEach(function (key) {
-              test.deepEqual(response[key], OFFER[key], key)
-            })
+          test.assert(
+            !response.hasOwnProperty('stripe'),
+            'no Stripe data'
+          )
+          test.deepEqual(
+            response, {
+              product: product,
+              repository: OFFER.repository,
+              grace: OFFER.grace,
+              pricing: OFFER.pricing,
+              licensor: pick(LICENSOR, [
+                'id', 'name', 'jurisdiction', 'publicKey'
+              ]),
+              error: false
+            },
+            'response'
+          )
           done()
         }))
       }

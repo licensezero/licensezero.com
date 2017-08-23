@@ -1,5 +1,6 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var readProduct = require('../../data/read-product')
+var without = require('../../data/without')
 
 exports.schema = {
   properties: {
@@ -22,7 +23,7 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      end(productData)
+      end(without(productData, ['stripe']))
     }
   })
 }

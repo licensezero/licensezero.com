@@ -1,11 +1,12 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var mutateJSONFile = require('../../data/mutate-json-file')
+var fs = require('fs')
 var mutateTextFile = require('../../data/mutate-text-file')
+var parseJSON = require('json-parse-errback')
 var parseProducts = require('../../data/parse-products')
 var productPath = require('../../paths/product')
 var productsListPath = require('../../paths/products-list')
 var runParallel = require('run-parallel')
-var runSeries = require('run-series')
+var runWaterfall = require('run-waterfall')
 var stringifyProducts = require('../../data/stringify-products')
 
 exports.schema = {
@@ -32,56 +33,56 @@ exports.schema = {
 exports.handler = function (body, service, end, fail, lock) {
   var product = body.product
   var id = body.id
-  var stripeData
   lock([product, id], function (release) {
-    runSeries([
+    runWaterfall([
       function (done) {
         var file = productPath(service, product)
-        mutateJSONFile(file, function (data) {
-          // TODO: Saving state from file here is a kludge.
-          stripeData = data.stripe
-          data.retracted = true
-        }, function (error) {
+        fs.readFile(file, function (error, buffer) {
           if (error && error.code === 'ENOENT') {
             error.userMessage = 'no such product'
           }
-          done(error)
+          done(error, buffer)
         })
       },
-      function (done) {
-        var file = productsListPath(service, id)
-        mutateTextFile(file, function (text) {
-          return stringifyProducts(
-            parseProducts(text)
-              .map(function (element) {
-                if (
-                  element.product === product &&
-                  element.retracted === null
-                ) {
-                  element.retracted = new Date().toISOString()
-                }
-                return element
-              })
-          )
-        }, done)
-      },
-      function updateStripe (done) {
-        var deactivate = {active: false}
+      parseJSON,
+      function (productData, done) {
         runParallel([
-          function deactivateProduct (done) {
-            service.stripe.api.products.update(
-              stripeData.product, deactivate, done
-            )
+          function removeFromProductsList (done) {
+            var file = productsListPath(service, id)
+            mutateTextFile(file, function (text) {
+              return stringifyProducts(
+                parseProducts(text)
+                  .map(function (element) {
+                    if (
+                      element.product === product &&
+                      element.retracted === null
+                    ) {
+                      element.retracted = new Date().toISOString()
+                    }
+                    return element
+                  })
+              )
+            }, done)
           },
-          function deactivateSKUs (done) {
+          function updateStripe (done) {
+            var stripeData = productData.stripe
+            var INACTIVE = {active: false}
             runParallel(
-              stripeData.skus.map(function (sku) {
-                return function deactivateSKU (done) {
-                  service.stripe.api.skus.update(
-                    sku.id, deactivate, done
-                  )
-                }
-              }),
+              Object.keys(productData.stripe.skus)
+                .map(function (tierName) {
+                  return function deactivateSKU (done) {
+                    service.stripe.api.skus.update(
+                      stripeData.skus[tierName], INACTIVE, done
+                    )
+                  }
+                })
+                .concat(
+                  function deactivateProduct (done) {
+                    service.stripe.api.products.update(
+                      stripeData.product, INACTIVE, done
+                    )
+                  }
+                ),
               done
             )
           }
