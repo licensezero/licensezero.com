@@ -128,16 +128,36 @@ exports.handler = function (body, service, end, fail, lock) {
           )
         } else {
           var buy = uuid()
+          var stripeOrder
           var file = buyPath(service, buy)
-          var content = JSON.stringify({
-            date: new Date().toISOString(),
-            licensee: body.licensee,
-            jurisdiction: body.jurisdiction,
-            products: results
-          })
           runSeries([
+            function createStripeOrder (done) {
+              service.stripe.api.orders.create({
+                currency: 'usd',
+                application: service.stripe.id,
+                application_fee: (service.fee * results.length),
+                items: results.map(function (result) {
+                  return {
+                    type: 'sku',
+                    parent: result.stripe.skus[0].id,
+                    quantity: 1
+                  }
+                })
+              }, ecb(done, function (response) {
+                stripeOrder = response.id
+                done()
+              }))
+            },
             mkdirp.bind(null, path.dirname(file)),
-            fs.writeFile.bind(fs, file, content)
+            fs.writeFile.bind(fs, file, JSON.stringify({
+              date: new Date().toISOString(),
+              licensee: body.licensee,
+              jurisdiction: body.jurisdiction,
+              products: results,
+              stripe: {
+                order: stripeOrder
+              }
+            }))
           ], function (error) {
             /* istanbul ignore if */
             if (error) {

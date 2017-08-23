@@ -12,8 +12,10 @@ var service = {
   privateKey: decode(process.env.PRIVATE_KEY),
   stripe: {
     public: process.env.STRIPE_PUBLIC_KEY,
-    private: process.env.STRIPE_PRIVATE_KEY
-  }
+    private: process.env.STRIPE_PRIVATE_KEY,
+    application: process.env.STRIPE_APPLICATION
+  },
+  fee: 100
 }
 
 var NAME = require('./package.json').name
