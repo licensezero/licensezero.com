@@ -48,7 +48,7 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      var data = without(product, ['id'])
+      var data = without(product, ['id', 'stripe'])
       data.licensor = pick(licensor, ['name', 'email', 'jurisdiction'])
       end(data)
     }

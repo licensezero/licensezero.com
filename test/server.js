@@ -15,8 +15,8 @@ module.exports = function testServer (callback) {
       privateKey: keys.privateKey,
       // TODO: Stripe testing keys in package.json npm script
       stripe: {
-        public: process.env.STRIPE_PUBLIC,
-        private: process.env.STRIPE_PRIVATE
+        public: process.env.STRIPE_PUBLIC_KEY,
+        private: process.env.STRIPE_PRIVATE_KEY
       }
     }
     var log = pino({}, fs.createWriteStream('test-server.log'))

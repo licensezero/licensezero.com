@@ -1,6 +1,6 @@
-var JURISDICTIONS = require('../../data/jurisdictions')
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
+var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -45,14 +45,6 @@ var properties = {
     min: 7, // one week
     max: 365 // one year
   },
-  jurisdictions: {
-    type: 'array',
-    minItems: 1,
-    items: {
-      type: 'string',
-      enum: JURISDICTIONS
-    }
-  },
   terms: {
     type: 'string',
     const: 'I agree with the latest public terms of service.'
@@ -69,14 +61,61 @@ exports.schema = {
 exports.handler = function (body, service, end, fail, lock) {
   var id = body.id
   var product = uuid()
+  var stripeProduct
+  var stripeSKU
   lock([body.id], function (release) {
     runSeries([
       checkRepository.bind(null, body),
+      function createStripeObjects (done) {
+        var now = new Date().toISOString()
+        service.stripe.api.products.create({
+          name: product,
+          description: (
+            'private license for License Zero product ' + product
+          ),
+          attributes: ['term'],
+          metadata: {
+            licensor: id,
+            product: product,
+            date: now
+          }
+        }, ecb(done, function (response) {
+          stripeProduct = response.id
+          service.stripe.api.skus.create({
+            product: stripeProduct,
+            attributes: {
+              term: body.term
+            },
+            price: body.price,
+            currency: 'usd',
+            inventory: {
+              type: 'infinite'
+            },
+            metadata: {
+              licensor: id,
+              product: product,
+              date: now
+            }
+          }, ecb(done, function (response) {
+            stripeSKU = response.id
+            done()
+          }))
+        }))
+      },
       function writeFile (done) {
         runParallel([
           function writeProductFile (done) {
             var file = productPath(service, product)
             var content = without(body, ['licensor'])
+            content.stripe = {
+              product: stripeProduct,
+              skus: [
+                {
+                  term: body.term,
+                  id: stripeSKU
+                }
+              ]
+            }
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify(content))

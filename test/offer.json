@@ -4,8 +4,5 @@
   "price": 1000,
   "term": 365,
   "grace": 180,
-  "jurisdictions": [
-    "US-CA"
-  ],
   "terms": "I agree with the latest public terms of service."
 }

@@ -53,7 +53,6 @@ tape('quote', function (test) {
                 price: 2000,
                 term: 365,
                 grace: 180,
-                jurisdictions: ['US-CA'],
                 licensor: {
                   name: 'Test User',
                   jurisdiction: 'US-CA'
@@ -64,7 +63,6 @@ tape('quote', function (test) {
                 price: 3050,
                 term: 365,
                 grace: 180,
-                jurisdictions: ['US-CA'],
                 licensor: {
                   name: 'Test User',
                   jurisdiction: 'US-CA'

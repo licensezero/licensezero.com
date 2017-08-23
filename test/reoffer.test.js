@@ -19,7 +19,6 @@ tape('reoffer', function (test) {
       price: 50,
       term: 90,
       grace: 7,
-      jurisdictions: ['US-TX'],
       terms: 'I agree with the latest public terms of service.'
     }
     runSeries([
@@ -46,7 +45,7 @@ tape('reoffer', function (test) {
           product: reoffered.product
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'false error')
-          ;['repository', 'price', 'term', 'grace', 'jurisdictions']
+          ;['repository', 'price', 'term', 'grace']
             .forEach(function (key) {
               test.deepEqual(response[key], reoffered[key], key)
             })
@@ -72,7 +71,6 @@ tape('reoffer nonexistent', function (test) {
       price: 50,
       term: 90,
       grace: 7,
-      jurisdictions: ['US-TX'],
       terms: 'I agree with the latest public terms of service.'
     }
     runSeries([
