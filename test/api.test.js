@@ -2,7 +2,6 @@ var apiRequest = require('./api-request')
 var http = require('http')
 var server = require('./server')
 var tape = require('tape')
-var uuid = require('uuid/v4')
 
 tape('non-object API payload', function (test) {
   server(function (port, service, close) {

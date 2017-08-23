@@ -7,7 +7,6 @@ var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
 var uuid = require('uuid/v4')
-var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('retract', function (test) {
@@ -46,7 +45,6 @@ tape('retract', function (test) {
 
 tape('retract nonexistent', function (test) {
   server(function (port, service, close) {
-    var product
     runSeries([
       writeTestLicensor.bind(null, service),
       function retract (done) {
@@ -56,7 +54,10 @@ tape('retract nonexistent', function (test) {
           id: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
-          test.equal(response.error, 'no such product', 'no such product')
+          test.equal(
+            response.error, 'no such product',
+            'no such product'
+          )
           done()
         }))
       }

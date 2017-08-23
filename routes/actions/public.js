@@ -30,7 +30,6 @@ exports.schema = {
 
 exports.handler = function (body, service, end, fail, lock) {
   var product = body.product
-  var id = body.id
   var licensor = body.licensor
   fs.readFile(productPath(service, product), function (error, buffer) {
     if (error) {

@@ -1,7 +1,6 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
 var clone = require('../../data/clone')
-var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')

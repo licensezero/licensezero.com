@@ -76,7 +76,6 @@ tape('public', function (test) {
 
 tape('public for nonexistent product', function (test) {
   server(function (port, service, close) {
-    var product
     runSeries([
       writeTestLicensor.bind(null, service),
       function (done) {
@@ -100,7 +99,6 @@ tape('public for nonexistent product', function (test) {
     })
   })
 })
-
 
 tape('public for retracted product', function (test) {
   server(function (port, service, close) {

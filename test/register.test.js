@@ -1,11 +1,8 @@
 var apiRequest = require('./api-request')
 var http = require('http')
-var parse = require('json-parse-errback')
 var querystring = require('querystring')
-var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 var server = require('./server')
-var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
 tape('register w/ invalid body', function (test) {
@@ -58,7 +55,7 @@ tape('register w/ valid body', function (test) {
   })
 })
 
-tape.skip('registration confirmation w/ bad stripe code', function (test) {
+tape.skip('confirmation w/ bad stripe code', function (test) {
   server(function (port, service, close) {
     var email = 'text@example.com'
     runWaterfall([
