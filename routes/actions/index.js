@@ -11,5 +11,6 @@ module.exports = {
   product: require('./product'),
   waiver: require('./waiver'),
   public: require('./public'),
-  quote: require('./quote')
+  quote: require('./quote'),
+  buy: require('./buy')
 }
