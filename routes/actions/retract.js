@@ -1,9 +1,11 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var ecb = require('ecb')
-var fs = require('fs')
+var mutateJSONFile = require('../../data/mutate-json-file')
+var mutateTextFile = require('../../data/mutate-text-file')
+var parseProducts = require('../../data/parse-products')
 var productPath = require('../../paths/product')
 var productsListPath = require('../../paths/products-list')
 var runSeries = require('run-series')
+var stringifyProducts = require('../../data/stringify-products')
 
 exports.schema = {
   type: 'object',
@@ -33,7 +35,9 @@ exports.handler = function (body, service, end, fail, lock) {
     runSeries([
       function (done) {
         var file = productPath(service, product)
-        fs.unlink(file, function (error) {
+        mutateJSONFile(file, function (data) {
+          data.retracted = true
+        }, function (error) {
           if (error && error.code === 'ENOENT') {
             error.userMessage = 'no such product'
           }
@@ -42,20 +46,20 @@ exports.handler = function (body, service, end, fail, lock) {
       },
       function (done) {
         var file = productsListPath(service, id)
-        fs.readFile(file, ecb(done, function (buffer) {
-          var filtered = buffer
-            .toString()
-            .trim()
-            .split('\n')
-            .filter(function (element) {
-              return element !== product && element.length !== 0
-            })
-            .map(function (element) {
-              return element + '\n'
-            })
-            .join('')
-          fs.writeFile(file, filtered, done)
-        }))
+        mutateTextFile(file, function (text) {
+          return stringifyProducts(
+            parseProducts(text)
+              .map(function (element) {
+                if (
+                  element.product === product &&
+                  element.retracted === null
+                ) {
+                  element.retracted = new Date().toISOString()
+                }
+                return element
+              })
+          )
+        }, done)
       }
     ], release(function (error) {
       if (error) {

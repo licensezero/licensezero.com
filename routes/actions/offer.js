@@ -8,6 +8,7 @@ var productPath = require('../../paths/product')
 var productsListPath = require('../../paths/products-list')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
+var stringifyProducts = require('../../data/stringify-products')
 var uuid = require('uuid/v4')
 var without = require('../../data/without')
 
@@ -87,9 +88,16 @@ exports.handler = function (body, service, end, fail, lock) {
           },
           function (done) {
             var file = productsListPath(service, id)
+            var content = stringifyProducts([
+              {
+                product: product,
+                offered: new Date().toISOString(),
+                retracted: null
+              }
+            ])
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
-              fs.appendFile.bind(fs, file, product + '\n')
+              fs.appendFile.bind(fs, file, content)
             ], done)
           }
         ], done)

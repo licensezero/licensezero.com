@@ -1,4 +1,5 @@
 var fs = require('fs')
+var parseProducts = require('./parse-products')
 var productsListPath = require('../paths/products-list')
 
 module.exports = function (service, id, callback) {
@@ -12,14 +13,7 @@ module.exports = function (service, id, callback) {
         callback(error)
       }
     } else {
-      var list = buffer
-        .toString()
-        .trim()
-        .split('\n')
-        .filter(function (element) {
-          return element.length !== 0
-        })
-      callback(null, list)
+      callback(null, parseProducts(buffer))
     }
   })
 }

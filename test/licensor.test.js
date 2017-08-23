@@ -86,9 +86,13 @@ tape('licensor w/ product', function (test) {
           action: 'licensor',
           id: LICENSOR.id
         }, ecb(done, function (response) {
-          test.deepEqual(
-            response.products, [product],
-            'product listed'
+          test.equal(
+            response.products.length, 1,
+            'one product'
+          )
+          test.equal(
+            response.products[0].product, product,
+            'offered product'
           )
           done()
         }))
@@ -131,9 +135,13 @@ tape('licensor w/ retracted product', function (test) {
           action: 'licensor',
           id: LICENSOR.id
         }, ecb(done, function (response) {
-          test.deepEqual(
-            response.products, [],
-            'no product listed'
+          test.equal(
+            response.products.length, 1,
+            'one product listed'
+          )
+          test.notEqual(
+            response.products[0].retracted, null,
+            'product retracted'
           )
           done()
         }))
@@ -190,9 +198,28 @@ tape('licensor w/ retracted product', function (test) {
           action: 'licensor',
           id: LICENSOR.id
         }, ecb(done, function (response) {
-          test.deepEqual(
-            response.products, [secondProduct],
-            'only unretracted product'
+          var products = response.products
+          test.equal(
+            products.length, 2,
+            'two products'
+          )
+          test.notEqual(
+            products
+              .find(function (element) {
+                return element.product === firstProduct
+              })
+              .retracted,
+            null,
+            'first product retracted'
+          )
+          test.equal(
+            products
+              .find(function (element) {
+                return element.product === secondProduct
+              })
+              .retracted,
+            null,
+            'second product not retracted'
           )
           done()
         }))
