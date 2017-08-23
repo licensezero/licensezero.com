@@ -1,4 +1,6 @@
-function notFound (response) {
+var html = require('../html')
+
+module.exports = /* istanbul ignore next */ function (response, error) {
   response.statusCode = 500
   response.setHeader('Content-Type', 'text/html')
   response.end(html`
