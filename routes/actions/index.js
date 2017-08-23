@@ -9,5 +9,6 @@ module.exports = {
   reoffer: require('./reoffer'),
   key: require('./key'),
   product: require('./product'),
-  waiver: require('./waiver')
+  waiver: require('./waiver'),
+  public: require('./public')
 }

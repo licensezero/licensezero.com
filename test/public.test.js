@@ -10,7 +10,7 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('waiver', function (test) {
+tape('public', function (test) {
   server(function (port, service, close) {
     var product
     runSeries([
@@ -25,14 +25,12 @@ tape('waiver', function (test) {
           done()
         }))
       },
-      function issueWaiver (done) {
+      function publicLicense (done) {
         apiRequest(port, {
-          action: 'waiver',
+          action: 'public',
           id: LICENSOR.id,
           password: LICENSOR.password,
-          product: product,
-          beneficiary: 'SomeCo, Inc.',
-          term: 365
+          product: product
         }, ecb(done, function (response) {
           test.equal(
             response.error, false,
@@ -53,17 +51,16 @@ tape('waiver', function (test) {
             'ed25519 signature'
           )
           apiRequest(port, {
-            action: 'licensor',
-            id: LICENSOR.id
+            action: 'key'
           }, ecb(done, function (response) {
-            var publicKey = response.publicKey
+            var key = response.key
             test.assert(
               ed25519.Verify(
                 Buffer.from(document, 'ascii'),
                 Buffer.from(signature, 'hex'),
-                Buffer.from(publicKey, 'hex')
+                Buffer.from(key, 'hex')
               ),
-              'verifiable signature'
+              'verifiable agent signature'
             )
             done()
           }))
@@ -77,18 +74,17 @@ tape('waiver', function (test) {
   })
 })
 
-tape('waiver for nonexistent product', function (test) {
+tape('public for nonexistent product', function (test) {
   server(function (port, service, close) {
+    var product
     runSeries([
       writeTestLicensor.bind(null, service),
-      function issueWaiver (done) {
+      function (done) {
         apiRequest(port, {
-          action: 'waiver',
+          action: 'public',
           id: LICENSOR.id,
           password: LICENSOR.password,
-          product: uuid(),
-          beneficiary: 'SomeCo, Inc.',
-          term: 365
+          product: uuid()
         }, ecb(done, function (response) {
           test.equal(
             response.error, 'no such product',
@@ -105,7 +101,8 @@ tape('waiver for nonexistent product', function (test) {
   })
 })
 
-tape('waiver for retracted product', function (test) {
+
+tape('public for retracted product', function (test) {
   server(function (port, service, close) {
     var product
     runSeries([
@@ -131,14 +128,12 @@ tape('waiver for retracted product', function (test) {
           done()
         }))
       },
-      function issueWaiver (done) {
+      function (done) {
         apiRequest(port, {
-          action: 'waiver',
+          action: 'public',
           id: LICENSOR.id,
           password: LICENSOR.password,
-          product: product,
-          beneficiary: 'SomeCo, Inc.',
-          term: 365
+          product: product
         }, ecb(done, function (response) {
           test.equal(
             response.error, 'retracted product',
