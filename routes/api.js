@@ -7,6 +7,7 @@ var licensorPath = require('../paths/licensor')
 var parseJSON = require('json-parse-errback')
 var runWaterfall = require('run-waterfall')
 
+// TODO: Revisit body size limit for large buys with many UUIDs
 var REQUEST_BODY_LIMIT = 1024
 
 var actions = require('./actions')
