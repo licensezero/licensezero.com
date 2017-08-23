@@ -1,18 +1,16 @@
-var FormData = require('form-data')
 var argon2 = require('argon2')
 var ecb = require('ecb')
 var encode = require('../data/encode')
 var fs = require('fs')
 var generateKeypair = require('../data/generate-keypair')
 var html = require('../html')
-var https = require('https')
 var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
 var niceware = require('niceware')
 var parseJSON = require('json-parse-errback')
 var path = require('path')
+var requestStripeCredentials = require('../stripe/request-credentials')
 var runWaterfall = require('run-waterfall')
-var simpleConcat = require('simple-concat')
 var stripeNoncePath = require('../paths/stripe-nonce')
 var uuid = require('uuid/v4')
 
@@ -76,6 +74,7 @@ module.exports = function (request, response, service) {
           })
         },
         function validateNonceFile (nonceData, done) {
+          /* istanbul ignore else */
           if (
             ['name', 'email', 'jurisdiction', 'timestamp']
               .some(function (key) {
@@ -89,29 +88,16 @@ module.exports = function (request, response, service) {
             done(error)
           }
         },
-        function requestStripeCredentials (nonceData, done) {
-          var form = new FormData()
-          form.append('client_secret', service.stripe.secret)
-          form.append('code', query.code)
-          form.append('grant_type', 'authorization_code')
-          form.pipe(
-            https.request({
-              method: 'POST',
-              host: 'connect.stripe.com',
-              path: '/oauth/token'
-            })
-              .once('error', function (error) {
-                request.log.error(error)
-                response.statusCode = 500
-                response.end()
-              })
-              .once('response', function (response) {
-                simpleConcat(response, ecb(done, function (buffer) {
-                  parseJSON(buffer, ecb(done, function (parsed) {
-                    done(null, parsed, nonceData)
-                  }))
-                }))
-              })
+        function (nonceData, done) {
+          requestStripeCredentials(
+            service, query.code,
+            function (error, results) {
+              /* istanbul ignore if */
+              if (error) {
+                error.statusCode = 500
+              }
+              done(error, results, nonceData)
+            }
           )
         },
         function validateStripeBody (body, nonceData, done) {
@@ -120,7 +106,7 @@ module.exports = function (request, response, service) {
             body.error.statusCode = 500
             done(body.error)
           } else if (
-            ['stripe_user_id', 'refresh_token']
+            !['stripe_user_id', 'refresh_token']
               .every(function (key) {
                 return isNonEmptyString(body[key])
               })
@@ -137,17 +123,17 @@ module.exports = function (request, response, service) {
           var id = uuid()
           var licensorFile = licensorPath(service, id)
           var keypair = generateKeypair()
-          var passphrase = niceware(16).join(' ')
+          var passphrase = niceware.generatePassphrase(16).join(' ')
           runWaterfall([
             mkdirp.bind(null, path.dirname(licensorFile)),
-            function hashPassphrase (done) {
+            function hashPassphrase (_, done) {
               argon2.hash(passphrase)
                 .catch(done)
                 .then(function (result) {
                   done(null, result)
                 })
             },
-            function writeLicensorFile (done, hash) {
+            function writeLicensorFile (hash, done) {
               fs.writeFile(
                 licensorFile,
                 JSON.stringify({
@@ -193,8 +179,12 @@ module.exports = function (request, response, service) {
       ><code>licensezero</code> command line interface</a>
     and import your licensor credentials:
   </p>
-  <pre><code>npm install licensezero
-l0 authenticate "${id}" "${passphrase}"</code></pre>
+  <dl>
+    <dt>Licensor ID</dt>
+    <dd><code class=id>${id}</code></dd>
+    <dt>Access Token</dt>
+    <dd><code class=token>${passphrase}</code></dd>
+  </dl>
 </body>
 </html>
           `)
