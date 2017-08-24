@@ -2,9 +2,9 @@ var http = require('http')
 var server = require('./server')
 var tape = require('tape')
 
-tape('GET /buy.js', function (test) {
+tape('GET /pay.js', function (test) {
   server(function (port, configuration, close) {
-    http.request({port: port, path: '/buy.js'})
+    http.request({port: port, path: '/pay.js'})
       .once('response', function (response) {
         test.equal(response.statusCode, 200)
         test.equal(

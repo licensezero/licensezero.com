@@ -18,15 +18,16 @@ routes.set('/api/v0', require('./api'))
 
 routes.set('/stripe-redirect', require('./stripe-redirect'))
 
-routes.set('/buy/:buy', require('./buy'))
+routes.set('/pay/:order', require('./pay'))
 
 routes.set('/terms', require('./terms'))
 
-routes.set('/buy.js', function (request, response, service) {
+routes.set('/pay.js', function (request, response, service) {
   response.setHeader('Content-Type', 'application/javascript')
-  var filePath = path.join(__dirname, '..', 'static', 'buy.js')
   pump(
-    fs.createReadStream(filePath),
+    fs.createReadStream(
+      path.join(__dirname, '..', 'static', 'pay.js')
+    ),
     replacestream(
       'STRIPE_PUBLIC_KEY',
       JSON.stringify(service.stripe.public)
@@ -48,6 +49,6 @@ routes.set('/robots.txt', function (request, response) {
   response.setHeader('Content-Type', 'text/plain')
   response.end([
     'User-Agent: *',
-    'Disallow: /buy/'
+    'Disallow: /pay/'
   ].join('\n'))
 })

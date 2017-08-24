@@ -49,7 +49,7 @@ tape('buy', function (test) {
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'buy error false')
           test.assert(
-            response.location.indexOf('/buy/') === 0,
+            response.location.indexOf('/pay/') === 0,
             'location'
           )
           location = response.location

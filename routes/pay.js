@@ -1,6 +1,6 @@
 var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
-var buyPath = require('../paths/buy')
+var orderPath = require('../paths/order')
 var capitalize = require('./capitalize')
 var escape = require('./escape')
 var formatPrice = require('./format-price')
@@ -13,17 +13,19 @@ var ONE_DAY = 24 * 60 * 60 * 1000
 // TODO: application: service.stripe.application
 // TODO: application_fee: (service.fee * results.length)
 
+var UUID_RE = new RegExp(UUIDV4)
+
 module.exports = function (request, response, service) {
   if (request.method !== 'GET') {
     response.statusCode = 405
     response.end()
   } else {
-    var buyID = request.parameters.buy
-    if (!(new RegExp(UUIDV4).test(buyID))) {
+    var orderID = request.parameters.order
+    if (!UUID_RE.test(orderID)) {
       notFound(response)
     } else {
-      var file = buyPath(service, buyID)
-      readJSONFile(file, function (error, buy) {
+      var file = orderPath(service, orderID)
+      readJSONFile(file, function (error, order) {
         if (error) {
           if (error.code === 'ENOENT') {
             notFound(response)
@@ -31,7 +33,7 @@ module.exports = function (request, response, service) {
             service.log.error(error)
             internalError(response)
           }
-        } else if (expired(buy.date)) {
+        } else if (expired(order.date)) {
           notFound(response)
         } else {
           response.setHeader('Content-Type', 'text/html')
@@ -46,10 +48,10 @@ module.exports = function (request, response, service) {
 <body>
   <h1>License Zero | Buy</h1>
   <h2>Licensee</h2>
-  <p>${escape(buy.licensee)} [${escape(buy.jurisdiction)}]</p>
+  <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
   <p>
-    ${escape(capitalize(buy.tier))}:
-    ${buy.tier === 'solo' ? 'one user' : TIERS[buy.tier] + ' users'}
+    ${escape(capitalize(order.tier))}:
+    ${order.tier === 'solo' ? 'one user' : TIERS[order.tier] + ' users'}
   </p>
   <h2>Products</h2>
   <table id=products>
@@ -62,7 +64,7 @@ module.exports = function (request, response, service) {
       </tr>
     </thead>
     <tbody>
-    ${buy.products.map(function (product) {
+    ${order.products.map(function (product) {
       return html`
         <tr>
           <td>
@@ -76,7 +78,7 @@ module.exports = function (request, response, service) {
               target=_blank
               >Link</a>
           </td>
-          <td>${formatPrice(product.pricing[buy.tier])}</td>
+          <td>${formatPrice(product.pricing[order.tier])}</td>
         </tr>
       `
     })}
@@ -105,7 +107,7 @@ module.exports = function (request, response, service) {
     <input id=submitButton type=submit value=Buy>
   </form>
   <script src=https://js.stripe.com/v3/></script>
-  <script src=/buy.js></script>
+  <script src=/pay.js></script>
 </body>
 </html>
           `)

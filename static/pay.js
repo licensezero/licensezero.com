@@ -26,5 +26,5 @@ document.addEventListener('DOMContentLoaded', function () {
           form.submit()
         }
       })
-    })
+  })
 })

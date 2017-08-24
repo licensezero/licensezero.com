@@ -1,9 +1,9 @@
 var JURISDICTIONS = require('../../data/jurisdictions')
 var TIERS = require('../../data/private-license-tiers')
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var buyPath = require('../../paths/buy')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
+var orderPath = require('../../paths/order')
 var path = require('path')
 var readProduct = require('../../data/read-product')
 var runParallel = require('run-parallel')
@@ -86,8 +86,8 @@ exports.handler = function (body, service, end, fail, lock) {
             noTier.map(idOf).join(', ')
           )
         }
-        var buy = uuid()
-        var file = buyPath(service, buy)
+        var orderID = uuid()
+        var file = orderPath(service, orderID)
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
           fs.writeFile.bind(fs, file, JSON.stringify({
@@ -102,7 +102,7 @@ exports.handler = function (body, service, end, fail, lock) {
             console.error(error)
             fail('internal error')
           } else {
-            end({location: '/buy/' + buy})
+            end({location: '/pay/' + orderID})
           }
         })
       }

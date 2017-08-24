@@ -11,7 +11,7 @@ tape('GET /robots.txt', function (test) {
         test.equal(response.headers['content-type'], 'text/plain')
         simpleConcat(response, function (error, buffer) {
           test.error(error)
-          test.assert(buffer.toString().includes('Disallow: /buy/'))
+          test.assert(buffer.toString().includes('Disallow: /pay/'))
           test.end()
           close()
         })
