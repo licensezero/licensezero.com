@@ -1,5 +1,5 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var fs = require('fs')
+var annotateENOENT = require('../../data/annotate-enoent')
 var mutateJSONFile = require('../../data/mutate-json-file')
 var mutateTextFile = require('../../data/mutate-text-file')
 var parseProducts = require('../../data/parse-products')
@@ -29,21 +29,13 @@ exports.schema = {
 exports.handler = function (body, service, end, fail, lock) {
   var product = body.product
   var id = body.id
-  var file = productPath(service, product)
   lock([product, id], function (release) {
     runSeries([
-      function checkExistence (done) {
-        fs.readFile(file, function (error, buffer) {
-          if (error && error.code === 'ENOENT') {
-            error.userMessage = 'no such product'
-          }
-          done(error, buffer)
-        })
-      },
-      function (done) {
+      function markRetracted (done) {
+        var file = productPath(service, product)
         mutateJSONFile(file, function (data) {
           data.retracted = true
-        }, done)
+        }, annotateENOENT('no such product', done))
       },
       function removeFromProductsList (done) {
         var file = productsListPath(service, id)

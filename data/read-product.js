@@ -1,3 +1,4 @@
+var annotateENOENT = require('./annotate-enoent')
 var ecb = require('ecb')
 var fs = require('fs')
 var licensorPath = require('../paths/licensor')
@@ -11,12 +12,7 @@ module.exports = function (service, productID, callback) {
       runWaterfall([
         fs.readFile.bind(fs, productPath(service, productID)),
         parseJSON
-      ], function (error, parsed) {
-        if (error && error.code === 'ENOENT') {
-          error.userMessage = 'no such product'
-        }
-        done(error, parsed)
-      })
+      ], annotateENOENT('no such product', done))
     },
     function readLicensorData (product, done) {
       var file = licensorPath(service, product.licensor)

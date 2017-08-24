@@ -1,10 +1,9 @@
 var UUIDV4 = require('../data/uuidv4-pattern')
 var buyPath = require('../paths/buy')
 var escape = require('./escape')
-var fs = require('fs')
 var html = require('../html')
 var internalError = require('./internal-error')
-var parseJSON = require('json-parse-errback')
+var readJSONFile = require('../data/read-json-file')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 
@@ -16,11 +15,12 @@ module.exports = function (request, response, service) {
     response.statusCode = 405
     response.end()
   } else {
-    var buy = request.parameters.buy
-    if (!new RegExp(UUIDV4).test(buy)) {
+    var buyID = request.parameters.buy
+    if (!new RegExp(UUIDV4).test(buyID)) {
       notFound(response)
     } else {
-      fs.readFile(buyPath(buy), function (error, buffer) {
+      var file = buyPath(service, buyID)
+      readJSONFile(file, function (error, buy) {
         if (error) {
           if (error.code === 'ENOENT') {
             notFound(response)
@@ -28,16 +28,11 @@ module.exports = function (request, response, service) {
             service.log.error(error)
             internalError(response)
           }
+        } else if (expired(buy.date)) {
+          notFound(response)
         } else {
-          parseJSON(buffer, function (error, data) {
-            if (error) {
-              service.log.error(error)
-              internalError(response)
-            } else if (expired(data.date)) {
-              notFound(response)
-            } else {
-              response.setHeader('Content-Type', 'text/html')
-              response.end(html`
+          response.setHeader('Content-Type', 'text/html')
+          response.end(html`
 <!doctype html>
 <html lang=en>
 <head>
@@ -48,7 +43,7 @@ module.exports = function (request, response, service) {
 <body>
   <h1>License Zero | Buy</h2>
   <h2>Licensee</h2>
-  <p>${escape(data.licensee)}, ${escape(data.jurisdiction)}</p>
+  <p>${escape(buy.licensee)}, ${escape(buy.jurisdiction)}</p>
   <h2>Products</h2>
   <table>
     <thead>
@@ -62,7 +57,7 @@ module.exports = function (request, response, service) {
       </tr>
     </thead>
     <tbody>
-    ${data.products.map(function (product) {
+    ${buy.products.map(function (product) {
       return html`
         <tr>
           <td>${escape(product.product)}</td>
@@ -107,9 +102,7 @@ module.exports = function (request, response, service) {
   <script src=/buy.js></script>
 </body>
 </html>
-              `)
-            }
-          })
+          `)
         }
       })
     }
