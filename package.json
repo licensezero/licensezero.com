@@ -37,6 +37,7 @@
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "json-parse-errback": "^2.0.1",
+    "licensee": "^4.4.0",
     "lint-staged": "^4.0.3",
     "rimraf": "^2.6.1",
     "simple-concat": "^1.0.0",
@@ -50,7 +51,8 @@
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
     "test": "NODE_ENV=test tape test/*.test.js",
     "lint": "standard",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "licenses": "licensee --errors-only"
   },
   "lint-staged": {
     "*.js": "standard"
