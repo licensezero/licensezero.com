@@ -7,12 +7,14 @@ var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
 var uuid = require('uuid/v4')
+var webdriver = require('./webdriver')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('buy', function (test) {
   server(function (port, service, close) {
     var firstProduct
     var secondProduct
+    var location
     runSeries([
       writeTestLicensor.bind(null, service),
       function offerFirst (done) {
@@ -50,8 +52,35 @@ tape('buy', function (test) {
             response.location.indexOf('/buy/') === 0,
             'location'
           )
+          location = response.location
           done()
         }))
+      },
+      function visitBuyPage (done) {
+        webdriver
+          .url('http://localhost:' + port + location)
+          .waitForExist('iframe')
+          // Enter credit card.
+          .element('iframe')
+          .then(function (response) {
+            return webdriver.frame(response.value)
+          })
+          .setValue('input[name="cardnumber"]', '4242 4242 4242 4242')
+          .setValue('input[name="exp-date"]', '10 / 31')
+          .setValue('input[name="cvc"]', '123')
+          .waitForExist('input[name="postal"]')
+          .setValue('input[name="postal"]', '12345')
+          .frameParent()
+          // E-Mail
+          .setValue('input[name="email"]', 'customer@example.com')
+          // Terms
+          .click('input[name="terms"]')
+          // Submit
+          .click('input[type="submit"]')
+          .then(function () {
+            done()
+          })
+          .catch(done)
       }
     ], function (error) {
       test.error(error, 'no error')

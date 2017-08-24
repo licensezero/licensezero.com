@@ -1,6 +1,9 @@
+var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
 var buyPath = require('../paths/buy')
+var capitalize = require('./capitalize')
 var escape = require('./escape')
+var formatPrice = require('./format-price')
 var html = require('../html')
 var internalError = require('./internal-error')
 var readJSONFile = require('../data/read-json-file')
@@ -16,7 +19,7 @@ module.exports = function (request, response, service) {
     response.end()
   } else {
     var buyID = request.parameters.buy
-    if (!new RegExp(UUIDV4).test(buyID)) {
+    if (!(new RegExp(UUIDV4).test(buyID))) {
       notFound(response)
     } else {
       var file = buyPath(service, buyID)
@@ -37,22 +40,24 @@ module.exports = function (request, response, service) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>License Zero | Buy<title>
+  <title>License Zero | Buy</title>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
-  <h1>License Zero | Buy</h2>
+  <h1>License Zero | Buy</h1>
   <h2>Licensee</h2>
-  <p>${escape(buy.licensee)}, ${escape(buy.jurisdiction)}</p>
+  <p>${escape(buy.licensee)} [${escape(buy.jurisdiction)}]</p>
+  <p>
+    ${escape(capitalize(buy.tier))}:
+    ${buy.tier === 'solo' ? 'one user' : TIERS[buy.tier] + ' users'}
+  </p>
   <h2>Products</h2>
-  <table>
+  <table id=products>
     <thead>
       <tr>
+        <th>Licensor</th>
         <th>Product</th>
         <th>Repository</th>
-        <th>Licensor</th>
-        <th>Jurisdiction</th>
-        <th>Term</th>
         <th>Price</th>
       </tr>
     </thead>
@@ -60,17 +65,18 @@ module.exports = function (request, response, service) {
     ${buy.products.map(function (product) {
       return html`
         <tr>
-          <td>${escape(product.product)}</td>
+          <td>
+            ${escape(product.licensor.name)}
+            [${escape(product.licensor.jurisdiction)}]
+          </td>
+          <td>${escape(product.id)}</td>
           <td>
             <a
               href="${escape(product.repository)}"
               target=_blank
               >Link</a>
           </td>
-          <td>${escape(product.licensor.name)}</td>
-          <td>${escape(product.licensor.jurisdiction)}</td>
-          <td>${escape(product.term)} calendar days</td>
-          <td>${product.price.replace(/(\d\d)$/, '.$1')} USD</td>
+          <td>${formatPrice(product.pricing[buy.tier])}</td>
         </tr>
       `
     })}
@@ -89,7 +95,7 @@ module.exports = function (request, response, service) {
     <section id=terms>
       <h2>Terms of Service</h2>
       <label>
-      <input type=checkbox name=terms value=accepted required>
+        <input type=checkbox name=terms value=accepted required>
         Check this box to accept License Zero&rsquo;s terms of service.
       </label>
       <p>
@@ -98,7 +104,7 @@ module.exports = function (request, response, service) {
     </section>
     <input id=submitButton type=submit value=Buy>
   </form>
-  <script src=https://js.tripe.com/v3/></script>
+  <script src=https://js.stripe.com/v3/></script>
   <script src=/buy.js></script>
 </body>
 </html>
