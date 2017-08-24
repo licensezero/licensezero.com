@@ -39,15 +39,15 @@ tape('buy', function (test) {
           done()
         }))
       },
-      function buy (done) {
+      function order (done) {
         apiRequest(port, {
-          action: 'buy',
+          action: 'order',
           products: [firstProduct, secondProduct],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'
         }, ecb(done, function (response) {
-          test.equal(response.error, false, 'buy error false')
+          test.equal(response.error, false, 'order error false')
           test.assert(
             response.location.indexOf('/pay/') === 0,
             'location'
@@ -56,7 +56,7 @@ tape('buy', function (test) {
           done()
         }))
       },
-      function visitBuyPage (done) {
+      function pay (done) {
         webdriver
           .url('http://localhost:' + port + location)
           .waitForExist('iframe')
@@ -90,11 +90,11 @@ tape('buy', function (test) {
   })
 })
 
-tape('buy w/ nonexistent', function (test) {
+tape('order w/ nonexistent', function (test) {
   server(function (port, service, close) {
     var product = uuid()
     apiRequest(port, {
-      action: 'buy',
+      action: 'order',
       products: [product],
       licensee: 'SomeCo, Inc.',
       jurisdiction: 'US-CA',
@@ -111,7 +111,7 @@ tape('buy w/ nonexistent', function (test) {
   })
 })
 
-tape('buy w/ retracted', function (test) {
+tape('order w/ retracted', function (test) {
   server(function (port, service, close) {
     var product
     runSeries([
@@ -137,9 +137,9 @@ tape('buy w/ retracted', function (test) {
           done()
         }))
       },
-      function buy (done) {
+      function order (done) {
         apiRequest(port, {
-          action: 'buy',
+          action: 'order',
           products: [product],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',

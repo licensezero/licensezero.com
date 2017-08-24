@@ -13,6 +13,6 @@ module.exports = {
   waiver: require('./waiver'),
   public: require('./public'),
   quote: require('./quote'),
-  buy: require('./buy'),
+  order: require('./order'),
   reprice: require('./reprice')
 }
