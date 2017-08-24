@@ -3,9 +3,12 @@ module.exports = function (cents) {
     '$' +
     (
       cents < 100
-        ? '0.' + cents.toString()
+        ? '0.' + (
+          cents < 10
+            ? '0' + cents.toString()
+            : cents.toString()
+        )
         : cents.toString().replace(/(\d\d)$/, '.$1')
-    ) +
-    ' USD'
+    )
   )
 }

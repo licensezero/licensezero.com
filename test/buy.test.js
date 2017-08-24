@@ -76,6 +76,7 @@ tape('buy', function (test) {
           // Terms
           .click('input[name="terms"]')
           // Submit
+          // .saveScreenshot('screen.png')
           .click('input[type="submit"]')
           .then(function () {
             done()

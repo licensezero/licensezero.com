@@ -33,6 +33,7 @@ module.exports = function (request, response, service) {
 <head>
   <meta charset=UTF-8>
   <title>LicenseZero | Registration<title>
+  <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
@@ -189,6 +190,7 @@ module.exports = function (request, response, service) {
 <head>
   <meta charset=UTF-8>
   <title>LicenseZero | Registration<title>
+  <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>

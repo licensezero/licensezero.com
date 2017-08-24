@@ -1,3 +1,77 @@
 html {
+  font-family: sans-serif;
   line-height: 140%;
+}
+
+body {
+  text-align: center;
+}
+
+header, main, footer {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: left;
+}
+
+td, th {
+  padding: 1ex 0 1ex 0;
+  vertical-align: top;
+}
+
+td p:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+table .price {
+  text-align: right;
+}
+
+tfoot.total td {
+  border-top: 4px double black;
+}
+
+.subtotal tr:first-child td {
+  border-top: 1px solid black;
+}
+
+tbody.subtotal tr td:first-child {
+  text-align: right;
+}
+
+tfoot.total td:first-child {
+  font-weight: bold;
+  text-align: right;
+}
+
+form input[type=text],
+form input[type=submit],
+form input[type=email],
+form textarea {
+  box-sizing: border-box;
+  display: block;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+a {
+  border-bottom: 1px dashed #999;
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #977;
+}
+
+
+form section {
+  padding: 0.5rem 0;
 }

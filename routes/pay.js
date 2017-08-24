@@ -2,6 +2,7 @@
 // TODO: application_fee: (service.fee * results.length)
 // TODO: POST /pay/{order}
 // TODO: POST /pay/{order} error UI
+// TODO: log [licensor name, jurisdiction, email, date accepted terms]
 
 var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
@@ -43,73 +44,95 @@ module.exports = function (request, response, service) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>License Zero | Buy</title>
+  <title>License Zero | Buy Licenses</title>
+  <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
-  <h1>License Zero | Buy</h1>
-  <h2>Licensee</h2>
-  <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
-  <p>
-    ${escape(capitalize(order.tier))}:
-    ${order.tier === 'solo' ? 'one user' : TIERS[order.tier] + ' users'}
-  </p>
-  <h2>Products</h2>
-  <table id=products>
-    <thead>
-      <tr>
-        <th>Licensor</th>
-        <th>Product</th>
-        <th>Repository</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-    ${order.products.map(function (product) {
-      return html`
+  <header>
+    <h1>License Zero | Buy Licenses</h1>
+  </header>
+  <main>
+  <section>
+    <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
+  </section>
+  <section>
+    <table class=invoice>
+      <thead>
         <tr>
-          <td>
-            ${escape(product.licensor.name)}
-            [${escape(product.licensor.jurisdiction)}]
-          </td>
-          <td>${escape(product.id)}</td>
-          <td>
-            <a
-              href="${escape(product.repository)}"
-              target=_blank
-              >Link</a>
-          </td>
-          <td>${formatPrice(product.pricing[order.tier])}</td>
+          <th>License</th>
+          <th>Price (USD)</th>
         </tr>
-      `
-    })}
-    </tbody>
-  </table>
-  <form>
+      </thead>
+      <tbody>
+      ${order.products.map(function (product) {
+        return html`
+          <tr>
+            <td>
+              <p><code>${escape(product.id)}</code></p>
+              <p>
+                <a
+                  href="${escape(product.repository)}"
+                  target=_blank
+                  >${escape(truncate(product.repository, 30))}</a>
+              </p>
+              <p>
+                ${escape(product.licensor.name)}
+                [${escape(product.licensor.jurisdiction)}]
+              </p>
+              <p>
+                ${escape(capitalize(order.tier))} License:
+                ${order.tier === 'solo' ? 'one user' : TIERS[order.tier] + ' users'},
+                perpetual,
+                with upgrades
+              </p>
+            </td>
+            <td class=price>
+              ${escape(formatPrice(product.price))}
+            </td>
+          </tr>
+        `
+      })}
+      </tbody>
+      <tbody class=subtotal>
+        <tr>
+          <td>Subtotal:</td>
+          <td class=price>${escape(formatPrice(order.subtotal))}</td>
+        </tr>
+        <tr>
+          <td>Tax:</td>
+          <td class=price>${escape(formatPrice(order.tax))}</td>
+        </tr>
+      </tbody>
+      <tfoot class=total>
+        <tr>
+          <td>Total:</td>
+          <td class=price>${escape(formatPrice(order.total))}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+  <form class=pay>
     <section id=payment>
-      <h3>Credit Card Payment</h3>
+      <h2>Credit Card Payment</h2>
       <div id=card></div>
       <div id=card-errors></div>
     </section>
     <section id=email>
-      <h2>E-Mail</h2>
       <input name=email type=email>
     </section>
     <section id=terms>
-      <h2>Terms of Service</h2>
       <label>
         <input type=checkbox name=terms value=accepted required>
-        Check this box to accept License Zero&rsquo;s terms of service.
+        Check this box to accept License Zero&rsquo;s
+        <a href=/terms target=_blank>terms of service</a>.
       </label>
-      <p>
-        <a href=/terms target=_blank>Click here</a> to read the terms.
-      </p>
     </section>
-    <input id=submitButton type=submit value=Buy>
+    <input id=submitButton type=submit value="Buy Licenses">
   </form>
   <script src=https://js.stripe.com/v3/></script>
   <script src=/pay.js></script>
-</body>
+</main></body>
 </html>
           `)
         }
@@ -130,15 +153,24 @@ function notFound (response) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>License Zero | Buy<title>
+  <title>License Zero | Buy Licenses<title>
+  <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
-<body>
+<body><main>
   <h1>Invalid or Expired Purchase</h2>
   <p>
     There is no active purchase at the link you reached.
   </p>
-</body>
+</main></body>
 </html>
   `)
+}
+
+function truncate (string, length) {
+  if (string.length <= length) {
+    return string
+  } else {
+    return string.slice(0, length - 3) + '…'
+  }
 }

@@ -88,14 +88,27 @@ exports.handler = function (body, service, end, fail, lock) {
         }
         var orderID = uuid()
         var file = orderPath(service, orderID)
+        var pricedProducts = products.map(function (product) {
+          product.price = product.pricing[tier]
+          delete product.pricing
+          return product
+        })
+        var subtotal = pricedProducts.reduce(function (subtotal, product) {
+          return subtotal + product.price
+        }, 0)
+        // TODO: Calculate tax
+        var tax = 0
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
           fs.writeFile.bind(fs, file, JSON.stringify({
             id: orderID,
-            tier: body.tier,
+            tier: tier,
             jurisdiction: body.jurisdiction,
             licensee: body.licensee,
-            products: products
+            products: pricedProducts,
+            subtotal: subtotal,
+            tax: tax,
+            total: subtotal + tax
           }))
         ], function (error) {
           /* istanbul ignore if */

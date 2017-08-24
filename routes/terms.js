@@ -10,6 +10,7 @@ module.exports = function (request, response, service) {
 <head>
   <meta charset=UTF-8>
   <title>License Zero | Terms</title>
+  <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>

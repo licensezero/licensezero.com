@@ -9,6 +9,7 @@ module.exports = /* istanbul ignore next */ function (response, error) {
 <head>
   <meta charset=UTF-8>
   <title>License Zero | Error<title>
+  <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>

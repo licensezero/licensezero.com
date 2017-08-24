@@ -37,6 +37,7 @@ routes.set('/pay.js', function (request, response, service) {
   )
 })
 
+staticFile('normalize.css')
 staticFile('styles.css')
 
 function staticFile (file) {
