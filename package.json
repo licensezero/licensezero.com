@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "chromedriver": "^2.31.0",
+    "depcheck": "^0.6.7",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "json-parse-errback": "^2.0.1",
@@ -45,6 +46,7 @@
   },
   "scripts": {
     "coverage": "NODE_ENV=test istanbul cover -- tape test/*.test.js",
+    "depcheck": "depcheck --ignores husky,chromedriver,lint-staged",
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
     "test": "NODE_ENV=test tape test/*.test.js",
     "lint": "standard",
