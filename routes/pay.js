@@ -1,3 +1,8 @@
+// TODO: application: service.stripe.application
+// TODO: application_fee: (service.fee * results.length)
+// TODO: POST /pay/{order}
+// TODO: POST /pay/{order} error UI
+
 var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
 var orderPath = require('../paths/order')
@@ -9,10 +14,6 @@ var internalError = require('./internal-error')
 var readJSONFile = require('../data/read-json-file')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
-
-// TODO: application: service.stripe.application
-// TODO: application_fee: (service.fee * results.length)
-
 var UUID_RE = new RegExp(UUIDV4)
 
 module.exports = function (request, response, service) {
