@@ -1,4 +1,5 @@
 // TODO: upgrade
+// TODO: unregister
 
 module.exports = {
   register: require('./register'),

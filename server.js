@@ -12,11 +12,7 @@ var service = {
   port: PORT,
   publicKey: decode(process.env.PUBLIC_KEY),
   privateKey: decode(process.env.PRIVATE_KEY),
-  stripe: {
-    public: process.env.STRIPE_PUBLIC_KEY,
-    private: process.env.STRIPE_PRIVATE_KEY,
-    application: process.env.STRIPE_APPLICATION
-  },
+  stripe: require('../stripe-environment'),
   fee: 100
 }
 

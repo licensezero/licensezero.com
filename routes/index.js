@@ -7,8 +7,6 @@ var send = require('send')
 var routes = module.exports = require('http-hash')()
 var version = require('../package.json').version
 
-// TODO: Stripe disconnect callback
-
 routes.set('/', function root (request, response, service) {
   response.end(JSON.stringify({
     service: 'licensezero',
@@ -19,6 +17,7 @@ routes.set('/', function root (request, response, service) {
 routes.set('/api/v0', require('./api'))
 
 routes.set('/stripe-redirect', require('./stripe-redirect'))
+routes.set('/stripe-webhook', require('./stripe-webhook'))
 
 routes.set('/pay/:order', require('./pay'))
 

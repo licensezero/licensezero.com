@@ -1,3 +1,4 @@
+var accountsPath = require('../paths/accounts')
 var argon2 = require('argon2')
 var ecb = require('ecb')
 var encode = require('../data/encode')
@@ -124,6 +125,7 @@ module.exports = function (request, response, service) {
           var licensorFile = licensorPath(service, id)
           var keypair = generateKeypair()
           var passphrase = niceware.generatePassphrase(18).join(' ')
+          var stripeID = stripeData.stripe_user_id
           runWaterfall([
             mkdirp.bind(null, path.dirname(licensorFile)),
             function hashPassphrase (_, done) {
@@ -145,7 +147,7 @@ module.exports = function (request, response, service) {
                   publicKey: encode(keypair.publicKey),
                   privateKey: encode(keypair.privateKey),
                   stripe: {
-                    id: stripeData.stripe_user_id,
+                    id: stripeID,
                     refresh: stripeData.refresh_token
                   }
                 }),
@@ -165,6 +167,13 @@ module.exports = function (request, response, service) {
             }, function (error) {
               if (error) service.log.error(error)
             })
+            done(null, id, stripeID, passphrase)
+          }))
+        },
+        function appendToAccountsList (id, stripeID, passphrase, done) {
+          var file = accountsPath(service)
+          var line = stripeID + '\t' + id + '\n'
+          fs.appendFile(file, line, ecb(done, function () {
             done(null, id, passphrase)
           }))
         }

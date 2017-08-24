@@ -13,12 +13,7 @@ module.exports = function testServer (callback) {
       directory: directory,
       publicKey: keys.publicKey,
       privateKey: keys.privateKey,
-      // TODO: Stripe testing keys in package.json npm script
-      stripe: {
-        public: process.env.STRIPE_PUBLIC_KEY,
-        private: process.env.STRIPE_PRIVATE_KEY,
-        application: process.env.STRIPE_APPLICATION
-      },
+      stripe: require('../stripe-environment'),
       fee: 100
     }
     var log = pino({}, fs.createWriteStream('test-server.log'))
