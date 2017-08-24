@@ -1,6 +1,6 @@
-var TIERS = require('../../data/private-license-tiers')
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
+var createSKUs = require('../../data/create-skus')
 var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
@@ -72,7 +72,6 @@ exports.handler = function (body, service, end, fail, lock) {
   var id = body.id
   var product = uuid()
   var stripeProduct
-  var stripeSKUs = {}
   lock([body.id], function (release) {
     runSeries([
       checkRepository.bind(null, body),
@@ -94,29 +93,11 @@ exports.handler = function (body, service, end, fail, lock) {
           }
         }, ecb(done, function (response) {
           stripeProduct = response.id
-          runParallel(TIER_NAMES.map(function (tierName) {
-            return function createSKU (done) {
-              service.stripe.api.skus.create({
-                product: stripeProduct,
-                attributes: {
-                  tier: tierName,
-                  users: TIERS[tierName]
-                },
-                price: body.pricing[tierName],
-                currency: 'usd',
-                inventory: {type: 'infinite'},
-                metadata: {
-                  tier: tierName,
-                  licensor: id,
-                  product: product,
-                  date: now
-                }
-              }, ecb(done, function (response) {
-                stripeSKUs[tierName] = response.id
-                done()
-              }))
-            }
-          }), done)
+          createSKUs(
+            service, body.id, product,
+            stripeProduct, body.pricing,
+            done
+          )
         }))
       },
       function writeFile (done) {

@@ -1,4 +1,3 @@
-// TODO: reprice
 // TODO: upgrade
 
 module.exports = {
@@ -14,5 +13,6 @@ module.exports = {
   waiver: require('./waiver'),
   public: require('./public'),
   quote: require('./quote'),
-  buy: require('./buy')
+  buy: require('./buy'),
+  reprice: require('./reprice')
 }
