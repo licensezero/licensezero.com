@@ -1,7 +1,9 @@
 var decode = require('./data/decode')
+var deleteExpiredOrders = require('./jobs/delete-expired-orders')
 var http = require('http')
 var makeHandler = require('./')
 var pino = require('pino')
+var schedule = require('node-schedule')
 
 var DIRECTORY = process.env.DIRECTORY || 'licensezero'
 var PORT = process.env.PORT || 8080
@@ -39,6 +41,12 @@ process
 server.listen(PORT, function onListening () {
   var boundPort = this.address().port
   log.info({event: 'listening', port: boundPort})
+})
+
+deleteExpiredOrders(service)
+
+schedule.scheduleJob('0 * * * *', function () {
+  deleteExpiredOrders(service, function () { /* pass */ })
 })
 
 function logSignalAndShutDown () {

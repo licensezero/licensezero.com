@@ -91,6 +91,7 @@ exports.handler = function (body, service, end, fail, lock) {
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
           fs.writeFile.bind(fs, file, JSON.stringify({
+            id: orderID,
             tier: body.tier,
             jurisdiction: body.jurisdiction,
             licensee: body.licensee,
