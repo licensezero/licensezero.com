@@ -7,6 +7,8 @@ var send = require('send')
 var routes = module.exports = require('http-hash')()
 var version = require('../package.json').version
 
+// TODO: Stripe disconnect callback
+
 routes.set('/', function root (request, response, service) {
   response.end(JSON.stringify({
     service: 'licensezero',
