@@ -22,14 +22,13 @@ exports.handler = function (body, service, end, fail, lock) {
     var file = productPath(service, body.product)
     mutateJSONFile(file, function (data) {
       data.pricing = body.pricing
-    }, function (error) {
+    }, release(function (error) {
       if (error) {
         service.log.error(error)
-        release()
         return fail('internal error')
       } else {
         end()
       }
-    })
+    }))
   })
 }
