@@ -27,22 +27,19 @@ log.info({event: 'data', directory: DIRECTORY})
 var requestHandler = makeHandler(service, log)
 var server = http.createServer(requestHandler)
 
-if (module.parent) {
-  module.exports = server
-} else {
-  process
-    .on('SIGTERM', logSignalAndShutDown)
-    .on('SIGQUIT', logSignalAndShutDown)
-    .on('SIGINT', logSignalAndShutDown)
-    .on('uncaughtException', function handleUncaught (exception) {
-      log.error(exception)
-      shutDown()
-    })
-  server.listen(PORT, function onListening () {
-    var boundPort = this.address().port
-    log.info({event: 'listening', port: boundPort})
+process
+  .on('SIGTERM', logSignalAndShutDown)
+  .on('SIGQUIT', logSignalAndShutDown)
+  .on('SIGINT', logSignalAndShutDown)
+  .on('uncaughtException', function handleUncaught (exception) {
+    log.error(exception)
+    shutDown()
   })
-}
+
+server.listen(PORT, function onListening () {
+  var boundPort = this.address().port
+  log.info({event: 'listening', port: boundPort})
+})
 
 function logSignalAndShutDown () {
   log.info({event: 'signal'})
