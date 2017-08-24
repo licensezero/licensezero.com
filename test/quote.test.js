@@ -47,7 +47,7 @@ tape('quote', function (test) {
             response.products,
             [
               {
-                product: firstProduct,
+                id: firstProduct,
                 pricing: OFFER.pricing,
                 grace: 180,
                 repository: 'http://example.com/first',
@@ -59,7 +59,7 @@ tape('quote', function (test) {
                 }
               },
               {
-                product: secondProduct,
+                id: secondProduct,
                 pricing: OFFER.pricing,
                 grace: 180,
                 repository: 'http://example.com/second',
@@ -133,12 +133,14 @@ tape('quote w/ retracted', function (test) {
           action: 'quote',
           products: [product]
         }, ecb(done, function (response) {
-          test.deepEqual(response.products, [
-            {
-              product: product,
-              retracted: true
-            }
-          ])
+          test.equal(
+            response.products[0].id, product,
+            'product'
+          )
+          test.equal(
+            response.products[0].retracted, true,
+            'retracted'
+          )
           done()
         }))
       }

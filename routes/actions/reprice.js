@@ -1,8 +1,6 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var createSKUs = require('../../data/create-skus')
-var readProduct = require('../../data/read-product')
-var runParallel = require('run-parallel')
-var runSeries = require('run-series')
+var mutateJSONFile = require('../../data/mutate-json-file')
+var productPath = require('../../paths/product')
 
 exports.schema = {
   properties: {
@@ -21,36 +19,17 @@ exports.schema = {
 
 exports.handler = function (body, service, end, fail, lock) {
   lock([body.id, body.product], function (release) {
-    readProduct(service, body.product, function (error, product) {
+    var file = productPath(service, body.product)
+    mutateJSONFile(file, function (data) {
+      data.pricing = body.pricing
+    }, function (error) {
       if (error) {
         service.log.error(error)
         release()
         return fail('internal error')
+      } else {
+        end()
       }
-      runSeries([
-        function deactivateOldSKUs (done) {
-          runParallel(product.stripe.skus.data.map(function (sku) {
-            return function (done) {
-              service.stripe.api.skus.update(
-                sku.id, {active: false}, done
-              )
-            }
-          }), done)
-        },
-        function createNewSKUs (done) {
-          createSKUs(
-            service, body.id, body.product,
-            product.stripe.id, body.pricing,
-            done
-          )
-        }
-      ], function (error) {
-        if (error) {
-          fail('internal error')
-        } else {
-          end()
-        }
-      })
     })
   })
 }

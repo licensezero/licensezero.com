@@ -2,7 +2,6 @@ var JURISDICTIONS = require('../../data/jurisdictions')
 var TIERS = require('../../data/private-license-tiers')
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var buyPath = require('../../paths/buy')
-var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -44,7 +43,6 @@ exports.schema = {
 exports.handler = function (body, service, end, fail, lock) {
   var products = body.products
   var tier = body.tier
-  var results = new Array(products.length)
   runParallel(
     products.map(function (product, index) {
       return function (done) {
@@ -55,7 +53,7 @@ exports.handler = function (body, service, end, fail, lock) {
             }
             done(error)
           }
-          results[index] = data
+          products[index] = data
           done()
         })
       }
@@ -70,61 +68,38 @@ exports.handler = function (body, service, end, fail, lock) {
           fail('internal error')
         }
       } else {
-        var retracted = results.filter(function (result) {
-          return result.retracted
+        var retracted = products.filter(function (product) {
+          return product.retracted
         })
         if (retracted.length !== 0) {
           return fail(
             'retracted products: ' +
-            retracted
-              .map(function (retracted) {
-                return retracted.product
-              })
-              .join(', ')
+            retracted.map(idOf).join(', ')
           )
         }
-        var noTier = results.filter(function (result) {
-          return skuForTier(result, tier) === undefined
+        var noTier = products.filter(function (product) {
+          return !product.pricing.hasOwnProperty(tier)
         })
         if (noTier.length !== 0) {
           return fail(
             'not available for tier: ' +
-            noTier
-              .map(function (result) {
-                return result.product
-              })
-              .join(', ')
+            noTier.map(idOf).join(', ')
           )
         }
         var buy = uuid()
-        var stripeOrder
         var file = buyPath(service, buy)
         runSeries([
-          function createStripeOrder (done) {
-            service.stripe.api.orders.create({
-              currency: 'usd',
-              items: results.map(function (result) {
-                return {
-                  type: 'sku',
-                  parent: skuForTier(result, tier).id,
-                  quantity: 1
-                }
-              }),
-              metadata: {
-                licensee: body.licensee,
-                jurisdiction: body.jurisdiction,
-                date: new Date().toISOString()
-              }
-            }, ecb(done, function (response) {
-              stripeOrder = response.id
-              done()
-            }))
-          },
           mkdirp.bind(null, path.dirname(file)),
-          fs.writeFile.bind(fs, file, JSON.stringify(stripeOrder))
+          fs.writeFile.bind(fs, file, JSON.stringify({
+            tier: body.tier,
+            jurisdiction: body.jurisdiction,
+            licensee: body.licensee,
+            products: products
+          }))
         ], function (error) {
           /* istanbul ignore if */
           if (error) {
+            console.error(error)
             fail('internal error')
           } else {
             end({location: '/buy/' + buy})
@@ -135,8 +110,6 @@ exports.handler = function (body, service, end, fail, lock) {
   )
 }
 
-function skuForTier (result, tier) {
-  return result.stripe.skus.data.find(function (sku) {
-    return sku.metadata.tier === tier
-  })
+function idOf (argument) {
+  return argument.id
 }

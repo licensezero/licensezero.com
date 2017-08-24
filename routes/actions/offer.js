@@ -1,7 +1,5 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
-var createSKUs = require('../../data/create-skus')
-var ecb = require('ecb')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -71,45 +69,25 @@ exports.schema = {
 exports.handler = function (body, service, end, fail, lock) {
   var id = body.id
   var product = uuid()
-  var stripeProduct
   lock([body.id], function (release) {
     runSeries([
       checkRepository.bind(null, body),
-      function createStripeObjects (done) {
-        var now = new Date().toISOString()
-        service.stripe.api.products.create({
-          name: 'License Zero Product ' + product,
-          description: (
-            'private license for License Zero product ' + product
-          ),
-          attributes: ['tier', 'users'],
-          shippable: false,
-          metadata: {
-            licensor: id,
-            product: product,
-            repository: body.repository,
-            grace: body.grace,
-            date: now
-          }
-        }, ecb(done, function (response) {
-          stripeProduct = response.id
-          createSKUs(
-            service, body.id, product,
-            stripeProduct, body.pricing,
-            done
-          )
-        }))
-      },
       function writeFile (done) {
         runParallel([
           function writeProductFile (done) {
             var file = productPath(service, product)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
-              fs.writeFile.bind(fs, file, JSON.stringify(stripeProduct))
+              fs.writeFile.bind(fs, file, JSON.stringify({
+                id: product,
+                licensor: id,
+                pricing: body.pricing,
+                grace: body.grace,
+                repository: body.repository
+              }))
             ], done)
           },
-          function (done) {
+          function appendToLicensorProductsList (done) {
             var file = productsListPath(service, id)
             var content = stringifyProducts([
               {

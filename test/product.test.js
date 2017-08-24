@@ -36,7 +36,7 @@ tape('product', function (test) {
           )
           test.deepEqual(
             response, {
-              product: product,
+              id: product,
               repository: OFFER.repository,
               grace: OFFER.grace,
               pricing: OFFER.pricing,

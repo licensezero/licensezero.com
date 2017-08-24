@@ -8,7 +8,7 @@ var server = require('./server')
 var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('reprise', function (test) {
+tape('reprice', function (test) {
   server(function (port, service, close) {
     var product
     runSeries([
