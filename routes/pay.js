@@ -19,11 +19,11 @@ var orderPath = require('../paths/order')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
 var readJSONFile = require('../data/read-json-file')
+var recordAcceptance = require('../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 var signaturesPath = require('../paths/signatures')
-var termsAcceptancesPath = require('../paths/terms-acceptances')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)
@@ -192,18 +192,12 @@ function post (request, response, service, order) {
     var products = order.products
     runParallel(
       [
-        function recordTermsAcceptance (done) {
-          fs.appendFile(
-            termsAcceptancesPath(service),
-            JSON.stringify({
-              licensee: order.licensee,
-              jurisdiction: order.jurisdiction,
-              email: order.email,
-              date: new Date().toISOString()
-            }),
-            done
-          )
-        }
+        recordAcceptance.bind(null, service, {
+          licensee: order.licensee,
+          jurisdiction: order.jurisdiction,
+          email: order.email,
+          date: new Date().toISOString()
+        })
       ].concat(products.map(function (product) {
         return function (done) {
           runSeries([

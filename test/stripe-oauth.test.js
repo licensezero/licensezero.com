@@ -27,7 +27,7 @@ tape('Stripe OAuth connect', function (test) {
           email: 'test@example.com',
           name: 'Test Licensor',
           jurisdiction: 'US-CA',
-          terms: 'I agree to the terms of service.'
+          terms: 'I agree to the latest published terms of service.'
         }, function (error, response) {
           if (error) {
             test.error(error)
@@ -66,7 +66,7 @@ tape('Stripe OAuth connect', function (test) {
             enterprise: 10000
           },
           grace: 180,
-          terms: 'I agree with the latest public terms of service.'
+          terms: 'I agree to the latest published terms of service.'
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'offer error false')
           test.assert(response.hasOwnProperty('product'), 'product id')

@@ -5,10 +5,10 @@ var mkdirp = require('mkdirp')
 var path = require('path')
 var productPath = require('../../paths/product')
 var productsListPath = require('../../paths/products-list')
+var recordAcceptance = require('../../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stringifyProducts = require('../../data/stringify-products')
-var termsAcceptancesPath = require('../../paths/terms-acceptances')
 var uuid = require('uuid/v4')
 
 var priceSchema = {
@@ -54,11 +54,7 @@ var properties = {
     min: 7, // one week
     max: 365 // one year
   },
-  terms: {
-    type: 'string',
-    // TODO: "with..." -> "to the latest public terms"
-    const: 'I agree with the latest public terms of service.'
-  }
+  terms: require('./register').schema.properties.terms
 }
 
 exports.schema = {
@@ -76,16 +72,10 @@ exports.handler = function (body, service, end, fail, lock) {
       function (done) {
         runParallel([
           checkRepository.bind(null, body),
-          function recordTermsAcceptance (done) {
-            fs.appendFile(
-              termsAcceptancesPath(service),
-              JSON.stringify({
-                licensor: id,
-                date: new Date().toISOString()
-              }),
-              done
-            )
-          }
+          recordAcceptance.bind(null, service, {
+            licensor: id,
+            date: new Date().toISOString()
+          })
         ], done)
       },
       function writeFile (done) {
