@@ -12,7 +12,6 @@ var ed25519 = require('ed25519')
 var encode = require('../data/encode')
 var escape = require('./escape')
 var formatPrice = require('./format-price')
-var fs = require('fs')
 var html = require('../html')
 var internalError = require('./internal-error')
 var orderPath = require('../paths/order')
@@ -20,10 +19,10 @@ var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
 var readJSONFile = require('../data/read-json-file')
 var recordAcceptance = require('../data/record-acceptance')
+var recordSignature = require('../data/record-signature')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
-var signaturesPath = require('../paths/signatures')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)
@@ -256,11 +255,10 @@ function post (request, response, service, order) {
                     done(null, license)
                   }))
                 },
-                function recordSignatures (license, done) {
-                  fs.appendFile(signaturesPath(service), (
-                    license.publicKey + ' ' +
-                    license.signature + '\n'
-                  ), done)
+                function (license, done) {
+                  recordSignature(
+                    service, license.publicKey, license.signature, done
+                  )
                 }
               ], done)
             }

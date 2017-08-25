@@ -3,6 +3,7 @@ var decode = require('../../data/decode')
 var ed25519 = require('ed25519')
 var encode = require('../../data/encode')
 var readProduct = require('../../data/read-product')
+var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
 
 exports.schema = {
@@ -71,15 +72,26 @@ exports.handler = function (body, service, end, fail, lock) {
           date: new Date().toISOString(),
           term: body.term
         })
-        end({
-          document: document,
-          signature: encode(
-            ed25519.Sign(
-              Buffer.from(document, 'ascii'),
-              decode(licensor.privateKey)
-            )
+        var signature = encode(
+          ed25519.Sign(
+            Buffer.from(document, 'ascii'),
+            decode(licensor.privateKey)
           )
-        })
+        )
+        recordSignature(
+          service, licensor.publicKey, signature,
+          function (error, done) {
+            if (error) {
+              service.log.error(error)
+              fail('internal error')
+            } else {
+              end({
+                document: document,
+                signature: signature
+              })
+            }
+          }
+        )
       }
     }
   })
