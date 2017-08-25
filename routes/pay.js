@@ -12,6 +12,7 @@ var ed25519 = require('ed25519')
 var encode = require('../data/encode')
 var escape = require('./escape')
 var formatPrice = require('./format-price')
+var fs = require('fs')
 var html = require('../html')
 var internalError = require('./internal-error')
 var orderPath = require('../paths/order')
@@ -189,87 +190,93 @@ function post (request, response, service, order) {
       return response.end()
     }
     var products = order.products
-    // TODO: Delete order file
-    runParallel(
-      [
-        recordAcceptance.bind(null, service, {
-          licensee: order.licensee,
-          jurisdiction: order.jurisdiction,
-          email: order.email,
-          date: new Date().toISOString()
-        })
-      ].concat(products.map(function (product) {
-        return function (done) {
-          runSeries([
-            function chargeCustomer (done) {
-              service.stripe.api.charges.create({
-                amount: product.price + product.tax,
-                currency: 'usd',
-                source: data.token,
-                application_fee: service.fee
-              }, {
-                stripe_account: product.licensor.stripe.id
-              }, done)
-            },
-            function (done) {
-              runWaterfall([
-                function emaiLicense (done) {
-                  var document = privateLicense({
-                    date: new Date().toISOString(),
-                    tier: order.tier,
-                    product: pick(product, [
-                      'productID', 'repository'
-                    ]),
-                    licensee: {
-                      name: order.licensee,
-                      jurisdiction: order.jurisdiction
-                    },
-                    licensor: pick(product.licensor, [
-                      'name', 'jurisdiction'
-                    ])
-                  })
-                  var license = {
-                    productID: product.productID,
-                    document: document,
-                    publicKey: product.licensor.publicKey,
-                    signature: encode(
-                      ed25519.Sign(
-                        Buffer.from(document, 'ascii'),
-                        decode(product.licensor.privateKey)
+    runSeries([
+      runParallel.bind(null,
+        [
+          recordAcceptance.bind(null, service, {
+            licensee: order.licensee,
+            jurisdiction: order.jurisdiction,
+            email: order.email,
+            date: new Date().toISOString()
+          })
+        ].concat(products.map(function (product) {
+          return function (done) {
+            runSeries([
+              function chargeCustomer (done) {
+                service.stripe.api.charges.create({
+                  amount: product.price + product.tax,
+                  currency: 'usd',
+                  source: data.token,
+                  application_fee: service.fee
+                }, {
+                  stripe_account: product.licensor.stripe.id
+                }, done)
+              },
+              function (done) {
+                runWaterfall([
+                  function emaiLicense (done) {
+                    var document = privateLicense({
+                      date: new Date().toISOString(),
+                      tier: order.tier,
+                      product: pick(product, [
+                        'productID', 'repository'
+                      ]),
+                      licensee: {
+                        name: order.licensee,
+                        jurisdiction: order.jurisdiction
+                      },
+                      licensor: pick(product.licensor, [
+                        'name', 'jurisdiction'
+                      ])
+                    })
+                    var license = {
+                      productID: product.productID,
+                      document: document,
+                      publicKey: product.licensor.publicKey,
+                      signature: encode(
+                        ed25519.Sign(
+                          Buffer.from(document, 'ascii'),
+                          decode(product.licensor.privateKey)
+                        )
                       )
+                    }
+                    service.email({
+                      to: data.email,
+                      subject: 'License Zero License File',
+                      text: []
+                        .concat(
+                          'Attached is a License Zero license file for:'
+                        )
+                        .concat([
+                          'Licensee: ' + order.licenseed,
+                          'Jurisdiction: ' + order.jurisdiction,
+                          'Product:      ' + product.productID,
+                          'Repository:   ' + product.repository,
+                          'License Tier: ' + capitalize(order.tier)
+                          // TODO: Add order number
+                        ].join('\n')),
+                      license: license
+                    }, ecb(done, function () {
+                      done(null, license)
+                    }))
+                  },
+                  function (license, done) {
+                    recordSignature(
+                      service, license.publicKey, license.signature,
+                      done
                     )
                   }
-                  service.email({
-                    to: data.email,
-                    subject: 'License Zero License File',
-                    text: []
-                      .concat(
-                        'Attached is a License Zero license file for:'
-                      )
-                      .concat([
-                        'Licensee: ' + order.licenseed,
-                        'Jurisdiction: ' + order.jurisdiction,
-                        'Product:      ' + product.productID,
-                        'Repository:   ' + product.repository,
-                        'License Tier: ' + capitalize(order.tier)
-                        // TODO: Add order number
-                      ].join('\n')),
-                    license: license
-                  }, ecb(done, function () {
-                    done(null, license)
-                  }))
-                },
-                function (license, done) {
-                  recordSignature(
-                    service, license.publicKey, license.signature, done
-                  )
-                }
-              ], done)
-            }
-          ], done)
-        }
-      })),
-    function (error) {
+                ], done)
+              }
+            ], done)
+          }
+        }))
+      ),
+      function deleteOrderFile (done) {
+        var file = orderPath(service, order.orderID)
+        fs.unlink(file, done)
+      }
+    ], function (error) {
       if (error) {
         service.log.error(error)
         response.statusCode = 500
