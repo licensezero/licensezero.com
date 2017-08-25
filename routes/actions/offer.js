@@ -1,4 +1,3 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var checkRepository = require('./check-repository')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
@@ -11,57 +10,23 @@ var runSeries = require('run-series')
 var stringifyProducts = require('../../data/stringify-products')
 var uuid = require('uuid/v4')
 
-var priceSchema = {
-  description: 'price per license, in United States cents',
-  type: 'integer',
-  min: 300, // 3 dollars
-  max: 100000 // 1,000 dollars
-}
-
-var TIER_NAMES = ['solo', 'team', 'company', 'enterprise']
-
-var pricingSchema = {
-  description: 'private license pricing',
-  type: 'object',
-  properties: {},
-  required: [],
-  additionalProperties: false
-}
-TIER_NAMES.forEach(function (tier) {
-  pricingSchema.properties[tier] = priceSchema
-  pricingSchema.required.push(tier)
-})
-
-var properties = {
-  licensorID: {
-    description: 'licensor id',
-    type: 'string',
-    pattern: UUIDV4
-  },
-  password: {
-    type: 'string'
-  },
+exports.properties = {
+  licensorID: require('./common/licensor-id'),
+  password: {type: 'string'},
   repository: {
     description: 'source code repository',
     type: 'string',
     format: 'uri',
     pattern: '^(https|http)://'
   },
-  pricing: pricingSchema,
+  pricing: require('./common/pricing'),
   grace: {
     description: 'number of calendar days grace period',
     type: 'integer',
     min: 7, // one week
     max: 365 // one year
   },
-  terms: require('./register').schema.properties.terms
-}
-
-exports.schema = {
-  type: 'object',
-  properties: properties,
-  additionalProperties: false,
-  required: Object.keys(properties)
+  terms: require('./common/terms')
 }
 
 exports.handler = function (body, service, end, fail, lock) {

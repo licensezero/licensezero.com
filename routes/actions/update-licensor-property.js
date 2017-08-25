@@ -5,15 +5,12 @@ var runWaterfall = require('run-waterfall')
 
 module.exports = function (key) {
   var properties = {
-    licensorID: require('./offer').schema.properties.licensorID,
-    password: {
-      description: 'licensor password',
-      type: 'string'
-    }
+    licensorID: require('./common/licensor-id'),
+    password: {type: 'string'}
   }
-  properties[key] = require('./register').schema.properties[key]
+  properties[key] = require('./register').properties[key]
   return {
-    schema: {properties: properties},
+    properties: properties,
     handler: function (body, service, end, fail, lock) {
       var licensorID = body.licensorID
       var file = licensorPath(service, licensorID)

@@ -1,15 +1,8 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var readProduct = require('../../data/read-product')
 var sanitizeProduct = require('../../data/sanitize-product')
 
-exports.schema = {
-  properties: {
-    productID: {
-      description: 'product id',
-      type: 'string',
-      pattern: UUIDV4
-    }
-  }
+exports.properties = {
+  productID: require('./common/product-id')
 }
 
 exports.handler = function (body, service, end, fail) {

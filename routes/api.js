@@ -15,21 +15,18 @@ var actions = require('./actions')
 var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
   var action = actions[key]
-  if (action.hasOwnProperty('schema')) {
-    var schema = action.schema
-    schema.type = 'object'
-    if (!schema.required) {
-      schema.required = Object.keys(schema.properties).concat('action')
-    } else if (!schema.required.includes('action')) {
-      schema.required.push('action')
+  if (action.hasOwnProperty('properties')) {
+    var properties = action.properties
+    properties.action = {
+      type: 'string',
+      const: key
     }
-    if (!schema.properties.hasOwnProperty('action')) {
-      schema.properties.action = {
-        type: 'string',
-        const: key
-      }
+    action.schema = {
+      type: 'object',
+      properties: properties,
+      required: Object.keys(properties),
+      additionalProperties: false
     }
-    schema.additionalProperties = false
   } else {
     action.schema = {
       type: 'object',

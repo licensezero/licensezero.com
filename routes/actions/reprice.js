@@ -1,15 +1,11 @@
 var mutateJSONFile = require('../../data/mutate-json-file')
 var productPath = require('../../paths/product')
 
-exports.schema = {
-  properties: {
-    licensorID: require('./offer').schema.properties.licensorID,
-    password: {
-      type: 'string'
-    },
-    productID: require('./product').schema.properties.productID,
-    pricing: require('./offer').schema.properties.pricing
-  }
+exports.properties = {
+  licensorID: require('./common/licensor-id'),
+  password: {type: 'string'},
+  productID: require('./common/product-id'),
+  pricing: require('./common/pricing')
 }
 
 exports.handler = function (body, service, end, fail, lock) {

@@ -2,10 +2,8 @@ var licensorPath = require('../../paths/licensor')
 var listProduts = require('../../data/list-products')
 var readJSONFile = require('../../data/read-json-file')
 
-exports.schema = {
-  properties: {
-    licensorID: require('./offer').schema.properties.licensorID
-  }
+exports.properties = {
+  licensorID: require('./common/licensor-id')
 }
 
 exports.handler = function (body, service, end, fail) {

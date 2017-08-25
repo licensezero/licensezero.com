@@ -1,21 +1,14 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var readProduct = require('../../data/read-product')
 var runParallel = require('run-parallel')
 var sanitizeProduct = require('../../data/sanitize-product')
 
-exports.schema = {
-  properties: {
-    products: {
-      type: 'array',
-      minItems: 1,
-      // TODO: Revisit quote products limit
-      maxItems: 100,
-      items: {
-        description: 'product id',
-        type: 'string',
-        pattern: UUIDV4
-      }
-    }
+exports.properties = {
+  products: {
+    type: 'array',
+    minItems: 1,
+    // TODO: Revisit quote products limit
+    maxItems: 100,
+    items: require('./common/product-id')
   }
 }
 

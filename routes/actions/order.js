@@ -1,6 +1,5 @@
 var JURISDICTIONS = require('../../data/jurisdictions')
 var TIERS = require('../../data/private-license-tiers')
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var orderPath = require('../../paths/order')
@@ -10,33 +9,27 @@ var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var uuid = require('uuid/v4')
 
-exports.schema = {
-  properties: {
-    licensee: {
-      description: 'your legal name',
-      type: 'string',
-      minLength: 4
-    },
-    jurisdiction: {
-      description: 'legal jurisdiction where you reside',
-      type: 'string',
-      enum: JURISDICTIONS
-    },
-    products: {
-      type: 'array',
-      minItems: 1,
-      // TODO: Revisit buy products limit
-      maxItems: 100,
-      items: {
-        description: 'product id',
-        type: 'string',
-        pattern: UUIDV4
-      }
-    },
-    tier: {
-      type: 'string',
-      enum: Object.keys(TIERS)
-    }
+exports.properties = {
+  licensee: {
+    description: 'your legal name',
+    type: 'string',
+    minLength: 4
+  },
+  jurisdiction: {
+    description: 'legal jurisdiction where you reside',
+    type: 'string',
+    enum: JURISDICTIONS
+  },
+  products: {
+    type: 'array',
+    minItems: 1,
+    // TODO: Revisit buy products limit
+    maxItems: 100,
+    items: require('./common/product-id')
+  },
+  tier: {
+    type: 'string',
+    enum: Object.keys(TIERS)
   }
 }
 

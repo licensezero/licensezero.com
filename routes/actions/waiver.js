@@ -5,33 +5,29 @@ var readProduct = require('../../data/read-product')
 var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
 
-exports.schema = {
-  properties: {
-    licensorID: require('./offer').schema.properties.licensorID,
-    password: {
-      type: 'string'
-    },
-    productID: require('./product').schema.properties.productID,
-    beneficiary: {
-      description: 'beneficiary legal name',
-      type: 'string',
-      minLength: 4
-    },
-    term: {
-      oneOf: [
-        {
-          description: 'term of waiver, in calendar days',
-          type: 'integer',
-          min: 7, // 7 days
-          max: 3650 // 10 years
-        },
-        {
-          description: 'waive forever',
-          type: 'string',
-          const: 'forever'
-        }
-      ]
-    }
+exports.properties = {
+  licensorID: require('./common/licensor-id'),
+  password: {type: 'string'},
+  productID: require('./common/product-id'),
+  beneficiary: {
+    description: 'beneficiary legal name',
+    type: 'string',
+    minLength: 4
+  },
+  term: {
+    oneOf: [
+      {
+        description: 'term of waiver, in calendar days',
+        type: 'integer',
+        min: 7, // 7 days
+        max: 3650 // 10 years
+      },
+      {
+        description: 'waive forever',
+        type: 'string',
+        const: 'forever'
+      }
+    ]
   }
 }
 

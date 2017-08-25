@@ -7,14 +7,10 @@ var productsListPath = require('../../paths/products-list')
 var runSeries = require('run-series')
 var stringifyProducts = require('../../data/stringify-products')
 
-exports.schema = {
-  properties: {
-    licensorID: require('./offer').schema.properties.licensorID,
-    password: {
-      type: 'string'
-    },
-    productID: require('./product').schema.properties.productID
-  }
+exports.properties = {
+  licensorID: require('./common/licensor-id'),
+  password: {type: 'string'},
+  productID: require('./common/product-id')
 }
 
 exports.handler = function (body, service, end, fail, lock) {

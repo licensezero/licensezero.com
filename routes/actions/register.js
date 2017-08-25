@@ -9,28 +9,23 @@ var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stripeNoncePath = require('../../paths/stripe-nonce')
 
-exports.schema = {
-  properties: {
-    email: {
-      description: 'your e-mail address',
-      type: 'string',
-      format: 'email'
-    },
-    name: {
-      description: 'your legal name',
-      type: 'string',
-      minLength: 4
-    },
-    jurisdiction: {
-      description: 'legal jurisdiction where you reside',
-      type: 'string',
-      enum: JURISDICTIONS
-    },
-    terms: {
-      type: 'string',
-      const: 'I agree to the latest published terms of service.'
-    }
-  }
+exports.properties = {
+  email: {
+    description: 'your e-mail address',
+    type: 'string',
+    format: 'email'
+  },
+  name: {
+    description: 'your legal name',
+    type: 'string',
+    minLength: 4
+  },
+  jurisdiction: {
+    description: 'legal jurisdiction where you reside',
+    type: 'string',
+    enum: JURISDICTIONS
+  },
+  terms: require('./common/terms')
 }
 
 exports.handler = function (body, service, end, fail) {
