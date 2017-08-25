@@ -113,7 +113,6 @@ tape('Stripe OAuth connect', function (test) {
           // Submit
           .click('input[type="submit"]')
           .waitForExist('h1.thanks', 10000)
-          .saveScreenshot('success.png')
           .getText('h1.thanks')
           .then(function (text) {
             test.equal(text, 'Thank You')
