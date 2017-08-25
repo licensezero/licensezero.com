@@ -8,11 +8,15 @@ var generateKeypair = require('../data/generate-keypair')
 var html = require('../html')
 var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
+var outline = require('outline-numbering')
 var parseJSON = require('json-parse-errback')
 var path = require('path')
 var requestStripeCredentials = require('../stripe/request-credentials')
 var runWaterfall = require('run-waterfall')
+var stripANSI = require('strip-ansi')
 var stripeNoncePath = require('../paths/stripe-nonce')
+var terms = require('../forms/terms')
+var toANSI = require('commonform-terminal')
 var uuid = require('uuid/v4')
 
 module.exports = function (request, response, service) {
@@ -180,32 +184,47 @@ module.exports = function (request, response, service) {
         function emailLicensor (
           email, licensorID, stripeID, publicKey, passphrase, done
         ) {
-          service.email({
-            to: email,
-            subject: 'Licensor Registration',
-            // TODO: Attach copy of terms of service
-            text: [
-              [
-                'Thank you for registering as a licensor',
-                'though licensezero.com.'
-              ].join('\n'),
-              [
-                'Your unique licensor ID is:',
-                licensorID
-              ].join('\n'),
-              [
-                'License Zero will use the following',
-                'Ed25519 public key to sign licenses',
-                'sold on your behalf:'
-              ].join('\n'),
-              [
-                publicKey.slice(0, 32),
-                publicKey.slice(32)
-              ].join('\n')
-            ]
-          }, ecb(done, function () {
-            done(null, licensorID, stripeID, passphrase)
-          }))
+          runWaterfall([
+            terms,
+            function (terms, done) {
+              service.email({
+                to: email,
+                subject: 'Licensor Registration',
+                // TODO: Attach copy of terms of service
+                text: [
+                  [
+                    'Thank you for registering as a licensor',
+                    'though licensezero.com.'
+                  ].join('\n'),
+                  [
+                    'Your unique licensor ID is:',
+                    licensorID
+                  ].join('\n'),
+                  [
+                    'License Zero will use the following',
+                    'Ed25519 public key to sign licenses',
+                    'sold on your behalf:'
+                  ].join('\n'),
+                  [
+                    publicKey.slice(0, 32),
+                    publicKey.slice(32)
+                  ].join('\n')
+                ],
+                terms: (
+                  'Terms of Service\n\n' +
+                  stripANSI(
+                    toANSI(
+                      terms.commonform,
+                      terms.directions,
+                      {numbering: outline}
+                    )
+                  ).replace(/^ {4}/, '')
+                )
+              }, ecb(done, function () {
+                done(null, licensorID, stripeID, passphrase)
+              }))
+            }
+          ], done)
         },
         function appendToAccounts (
           licensorID, stripeID, passphrase, done

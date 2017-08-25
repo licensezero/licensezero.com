@@ -22,11 +22,20 @@ module.exports = function email (service, serverLog) {
       form.append('text', message.text.join('\n\n'))
       var license = message.license
       if (license) {
-        var buffer = Buffer.from(JSON.stringify(license))
-        form.append('attachment', buffer, {
+        var licenseBuffer = Buffer.from(JSON.stringify(license))
+        form.append('attachment', licenseBuffer, {
           filename: license.productID + '.json',
           contentType: 'text/plain',
-          knownLength: buffer.length
+          knownLength: licenseBuffer.length
+        })
+      }
+      var terms = message.terms
+      if (terms) {
+        var termsBuffer = Buffer.from(terms)
+        form.append('attachment', termsBuffer, {
+          filename: 'terms-of-service.txt',
+          contentType: 'text/plain',
+          knownLength: termsBuffer.length
         })
       }
       var options = {

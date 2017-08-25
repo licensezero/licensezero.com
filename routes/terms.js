@@ -1,10 +1,18 @@
-var html = require('../html')
+var commonformToHTML = require('commonform-html')
+var terms = require('../forms/terms')
 
 // TODO: terms of service
 
 module.exports = function (request, response, service) {
-  response.setHeader('Content-Type', 'text/html')
-  response.end(html`
+  terms(function (error, terms) {
+    if (error) {
+      console.error(error)
+      service.log.error(error)
+      response.statusCode = 500
+      return response.end()
+    }
+    response.setHeader('Content-Type', 'text/html')
+    response.end(`
 <!doctype html>
 <html lang=en>
 <head>
@@ -14,8 +22,24 @@ module.exports = function (request, response, service) {
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
-  <h1>License Zero | Terms</h1>
+  <header><h1>License Zero | Terms</h1></header>
+  <main>
+      <article class=commonform>
+        ${
+          commonformToHTML(
+            terms.commonform,
+            terms.directions,
+            {
+              title: 'License Zero Terms of Use',
+              html5: true,
+              lists: true
+            }
+          )
+        }
+      </article>
+  </main>
 </body>
 </html>
-  `)
+    `.trim())
+  })
 }
