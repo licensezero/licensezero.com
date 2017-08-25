@@ -26,6 +26,11 @@ exports.properties = {
     min: 7, // one week
     max: 365 // one year
   },
+  description: {
+    type: 'string',
+    minLength: 8,
+    maxLength: 144
+  },
   terms: require('./common/terms')
 }
 
@@ -54,7 +59,8 @@ exports.handler = function (body, service, end, fail, lock) {
                 licensor: licensorID,
                 pricing: body.pricing,
                 grace: body.grace,
-                repository: body.repository
+                repository: body.repository,
+                description: body.description
               }))
             ], done)
           },

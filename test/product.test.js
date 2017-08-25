@@ -45,6 +45,7 @@ tape('product', function (test) {
                 jurisdiction: LICENSOR.jurisdiction,
                 publicKey: LICENSOR.publicKey
               },
+              description: OFFER.description,
               error: false
             },
             'response'

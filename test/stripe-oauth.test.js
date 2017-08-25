@@ -66,6 +66,7 @@ tape('Stripe OAuth connect', function (test) {
             enterprise: 10000
           },
           grace: 180,
+          description: 'a test project',
           terms: 'I agree to the latest published terms of service.'
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'offer error false')
