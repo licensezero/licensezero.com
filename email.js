@@ -25,7 +25,7 @@ module.exports = function email (service, serverLog) {
         var licenseBuffer = Buffer.from(JSON.stringify(license))
         form.append('attachment', licenseBuffer, {
           filename: license.productID + '.json',
-          contentType: 'text/plain',
+          contentType: 'application/json',
           knownLength: licenseBuffer.length
         })
       }
