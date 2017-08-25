@@ -29,9 +29,8 @@ module.exports = function email (service, serverLog) {
           knownLength: licenseBuffer.length
         })
       }
-      var terms = message.terms
-      if (terms) {
-        var termsBuffer = Buffer.from(terms)
+      if (message.terms) {
+        var termsBuffer = Buffer.from(message.terms)
         form.append('attachment', termsBuffer, {
           filename: 'terms-of-service.txt',
           contentType: 'text/plain',
@@ -41,8 +40,8 @@ module.exports = function email (service, serverLog) {
       var options = {
         method: 'POST',
         host: 'api.mailgun.net',
-        path: '/v3/licensezero.com/messages',
-        auth: 'api:' + service.MAILGUN_KEY,
+        path: '/v3/' + service.mailgun.domain + '/messages',
+        auth: 'api:' + service.mailgun.key,
         headers: form.getHeaders()
       }
       form.pipe(

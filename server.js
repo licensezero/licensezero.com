@@ -13,6 +13,7 @@ var service = {
   publicKey: decode(process.env.PUBLIC_KEY),
   privateKey: decode(process.env.PRIVATE_KEY),
   stripe: require('../stripe-environment'),
+  mailgun: require('../mailgun-environment'),
   fee: 100
 }
 
