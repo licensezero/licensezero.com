@@ -15,6 +15,7 @@ module.exports = function (service, callback) {
         .catch(done)
         .then(function (hashed) {
           fs.writeFile(file, JSON.stringify({
+            licensorID: LICENSOR.id,
             name: LICENSOR.name,
             email: LICENSOR.email,
             jurisdiction: LICENSOR.jurisdiction,

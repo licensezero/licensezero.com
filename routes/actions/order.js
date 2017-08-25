@@ -44,16 +44,16 @@ exports.handler = function (body, service, end, fail, lock) {
   var products = body.products
   var tier = body.tier
   runParallel(
-    products.map(function (product, index) {
+    products.map(function (productID, index) {
       return function (done) {
-        readProduct(service, product, function (error, data) {
+        readProduct(service, productID, function (error, product) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + product
+              error.userMessage += ': ' + productID
             }
             done(error)
           }
-          products[index] = data
+          products[index] = product
           done()
         })
       }
@@ -74,7 +74,7 @@ exports.handler = function (body, service, end, fail, lock) {
         if (retracted.length !== 0) {
           return fail(
             'retracted products: ' +
-            retracted.map(idOf).join(', ')
+            retracted.map(productIDOf).join(', ')
           )
         }
         var noTier = products.filter(function (product) {
@@ -83,7 +83,7 @@ exports.handler = function (body, service, end, fail, lock) {
         if (noTier.length !== 0) {
           return fail(
             'not available for tier: ' +
-            noTier.map(idOf).join(', ')
+            noTier.map(productIDOf).join(', ')
           )
         }
         var orderID = uuid()
@@ -105,7 +105,7 @@ exports.handler = function (body, service, end, fail, lock) {
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
           fs.writeFile.bind(fs, file, JSON.stringify({
-            id: orderID,
+            orderID: orderID,
             tier: tier,
             jurisdiction: body.jurisdiction,
             licensee: body.licensee,
@@ -117,7 +117,6 @@ exports.handler = function (body, service, end, fail, lock) {
         ], function (error) {
           /* istanbul ignore if */
           if (error) {
-            console.error(error)
             fail('internal error')
           } else {
             end({location: '/pay/' + orderID})
@@ -128,6 +127,6 @@ exports.handler = function (body, service, end, fail, lock) {
   )
 }
 
-function idOf (argument) {
-  return argument.id
+function productIDOf (argument) {
+  return argument.productID
 }

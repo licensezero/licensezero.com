@@ -23,17 +23,17 @@ exports.handler = function (body, service, end, fail, lock) {
   var products = body.products
   var results = new Array(products.length)
   runParallel(
-    products.map(function (product, index) {
+    products.map(function (productID, index) {
       return function (done) {
-        readProduct(service, product, function (error, data) {
+        readProduct(service, productID, function (error, product) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + product
+              error.userMessage += ': ' + productID
             }
             done(error)
           } else {
-            sanitizeProduct(data)
-            results[index] = data
+            sanitizeProduct(product)
+            results[index] = product
             done()
           }
         })

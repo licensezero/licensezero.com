@@ -17,7 +17,7 @@ tape('quote', function (test) {
       writeTestLicensor.bind(null, service),
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
         }), ecb(done, function (response) {
@@ -28,7 +28,7 @@ tape('quote', function (test) {
       },
       function offerSecond (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/second'
         }), ecb(done, function (response) {
@@ -47,24 +47,24 @@ tape('quote', function (test) {
             response.products,
             [
               {
-                id: firstProduct,
+                productID: firstProduct,
                 pricing: OFFER.pricing,
                 grace: 180,
                 repository: 'http://example.com/first',
                 licensor: {
-                  id: LICENSOR.id,
+                  licensorID: LICENSOR.id,
                   name: 'Test User',
                   jurisdiction: 'US-CA',
                   publicKey: LICENSOR.publicKey
                 }
               },
               {
-                id: secondProduct,
+                productID: secondProduct,
                 pricing: OFFER.pricing,
                 grace: 180,
                 repository: 'http://example.com/second',
                 licensor: {
-                  id: LICENSOR.id,
+                  licensorID: LICENSOR.id,
                   name: 'Test User',
                   jurisdiction: 'US-CA',
                   publicKey: LICENSOR.publicKey
@@ -104,24 +104,24 @@ tape('quote w/ nonexistent', function (test) {
 
 tape('quote w/ retracted', function (test) {
   server(function (port, service, close) {
-    var product
+    var productID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
-          product = response.product
+          productID = response.product
           done()
         }))
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          product: product,
-          id: LICENSOR.id,
+          product: productID,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'retract error false')
@@ -131,10 +131,10 @@ tape('quote w/ retracted', function (test) {
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          products: [product]
+          products: [productID]
         }, ecb(done, function (response) {
           test.equal(
-            response.products[0].id, product,
+            response.products[0].productID, productID,
             'product'
           )
           test.equal(

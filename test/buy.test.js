@@ -19,7 +19,7 @@ tape.skip('buy', function (test) {
       writeTestLicensor.bind(null, service),
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
         }), ecb(done, function (response) {
@@ -30,7 +30,7 @@ tape.skip('buy', function (test) {
       },
       function offerSecond (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
         }), ecb(done, function (response) {
@@ -117,24 +117,24 @@ tape('order w/ nonexistent', function (test) {
 
 tape('order w/ retracted', function (test) {
   server(function (port, service, close) {
-    var product
+    var productID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
-          product = response.product
+          productID = response.product
           done()
         }))
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          product: product,
-          id: LICENSOR.id,
+          product: productID,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'retract error false')
@@ -144,14 +144,14 @@ tape('order w/ retracted', function (test) {
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          products: [product],
+          products: [productID],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'solo'
         }, ecb(done, function (response) {
           test.equal(
             response.error,
-            'retracted products: ' + product,
+            'retracted products: ' + productID,
             'retracted error'
           )
           done()

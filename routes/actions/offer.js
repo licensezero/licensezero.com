@@ -33,7 +33,7 @@ TIER_NAMES.forEach(function (tier) {
 })
 
 var properties = {
-  id: {
+  licensor: {
     description: 'licensor id',
     type: 'string',
     pattern: UUIDV4
@@ -65,15 +65,15 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var id = body.id
-  var product = uuid()
-  lock([body.id], function (release) {
+  var licensorID = body.licensor.licensorID
+  var productID = uuid()
+  lock([licensorID], function (release) {
     runSeries([
       function (done) {
         runParallel([
           checkRepository.bind(null, body),
           recordAcceptance.bind(null, service, {
-            licensor: id,
+            licensor: licensorID,
             date: new Date().toISOString()
           })
         ], done)
@@ -81,12 +81,12 @@ exports.handler = function (body, service, end, fail, lock) {
       function writeFile (done) {
         runParallel([
           function writeProductFile (done) {
-            var file = productPath(service, product)
+            var file = productPath(service, productID)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify({
-                id: product,
-                licensor: id,
+                productID: productID,
+                licensor: licensorID,
                 pricing: body.pricing,
                 grace: body.grace,
                 repository: body.repository
@@ -94,10 +94,10 @@ exports.handler = function (body, service, end, fail, lock) {
             ], done)
           },
           function appendToLicensorProductsList (done) {
-            var file = productsListPath(service, id)
+            var file = productsListPath(service, licensorID)
             var content = stringifyProducts([
               {
-                product: product,
+                product: productID,
                 offered: new Date().toISOString(),
                 retracted: null
               }
@@ -120,7 +120,7 @@ exports.handler = function (body, service, end, fail, lock) {
           fail('internal error')
         }
       } else {
-        end({product: product})
+        end({product: productID})
       }
     }))
   })

@@ -10,12 +10,7 @@ var runSeries = require('run-series')
 var stripeNoncePath = require('../../paths/stripe-nonce')
 
 exports.schema = {
-  type: 'object',
   properties: {
-    action: {
-      type: 'string',
-      const: 'register'
-    },
     email: {
       description: 'your e-mail address',
       type: 'string',
@@ -35,9 +30,7 @@ exports.schema = {
       type: 'string',
       const: 'I agree to the latest published terms of service.'
     }
-  },
-  required: ['action', 'email', 'name', 'jurisdiction', 'terms'],
-  additionalProperties: false
+  }
 }
 
 exports.handler = function (body, service, end, fail) {

@@ -17,7 +17,7 @@ tape('waiver', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -28,7 +28,7 @@ tape('waiver', function (test) {
       function issueWaiver (done) {
         apiRequest(port, {
           action: 'waiver',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: product,
           beneficiary: 'SomeCo, Inc.',
@@ -54,7 +54,7 @@ tape('waiver', function (test) {
           )
           apiRequest(port, {
             action: 'licensor',
-            id: LICENSOR.id
+            licensor: LICENSOR.id
           }, ecb(done, function (response) {
             var publicKey = response.publicKey
             test.assert(
@@ -84,7 +84,7 @@ tape('waiver for nonexistent product', function (test) {
       function issueWaiver (done) {
         apiRequest(port, {
           action: 'waiver',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: uuid(),
           beneficiary: 'SomeCo, Inc.',
@@ -112,7 +112,7 @@ tape('waiver for retracted product', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'offer: error false')
@@ -124,7 +124,7 @@ tape('waiver for retracted product', function (test) {
         apiRequest(port, {
           action: 'retract',
           product: product,
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'retract: error false')
@@ -134,7 +134,7 @@ tape('waiver for retracted product', function (test) {
       function issueWaiver (done) {
         apiRequest(port, {
           action: 'waiver',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: product,
           beneficiary: 'SomeCo, Inc.',

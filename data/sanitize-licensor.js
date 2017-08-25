@@ -1,4 +1,4 @@
-var WHITELIST = ['id', 'name', 'jurisdiction', 'publicKey']
+var WHITELIST = ['licensorID', 'name', 'jurisdiction', 'publicKey']
 
 module.exports = function (licensor) {
   Object.keys(licensor).forEach(function (key) {

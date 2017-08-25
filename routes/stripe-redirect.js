@@ -122,8 +122,8 @@ module.exports = function (request, response, service) {
           }
         },
         function writeLicensorFile (stripeData, nonceData, done) {
-          var id = uuid()
-          var licensorFile = licensorPath(service, id)
+          var licensorID = uuid()
+          var licensorFile = licensorPath(service, licensorID)
           var keypair = generateKeypair()
           var passphrase = encode(crypto.randomBytes(32))
           var stripeID = stripeData.stripe_user_id
@@ -140,6 +140,7 @@ module.exports = function (request, response, service) {
               fs.writeFile(
                 licensorFile,
                 JSON.stringify({
+                  licensorID: licensorID,
                   name: nonceData.name,
                   email: nonceData.email,
                   jurisdiction: nonceData.jurisdiction,
@@ -160,7 +161,7 @@ module.exports = function (request, response, service) {
               to: 'administrator@licensezero.com',
               subject: 'Licensor Registration',
               text: [
-                'id: ' + id,
+                'id: ' + licensorID,
                 'name: ' + nonceData.name,
                 'email: ' + nonceData.email,
                 'jurisdiction: ' + nonceData.jurisdiction
@@ -168,17 +169,17 @@ module.exports = function (request, response, service) {
             }, function (error) {
               if (error) service.log.error(error)
             })
-            done(null, id, stripeID, passphrase)
+            done(null, licensorID, stripeID, passphrase)
           }))
         },
-        function appendToAccountsList (id, stripeID, passphrase, done) {
+        function appendToAccounts (licensorID, stripeID, passphrase, done) {
           var file = accountsPath(service)
-          var line = stripeID + '\t' + id + '\n'
+          var line = stripeID + '\t' + licensorID + '\n'
           fs.appendFile(file, line, ecb(done, function () {
-            done(null, id, passphrase)
+            done(null, licensorID, passphrase)
           }))
         }
-      ], function (error, id, passphrase) {
+      ], function (error, licensorID, passphrase) {
         if (error) {
           response.statusCode = error.statusCode || 500
           response.end()
@@ -204,7 +205,7 @@ module.exports = function (request, response, service) {
   </p>
   <dl>
     <dt>Licensor ID</dt>
-    <dd><code class=id>${id}</code></dd>
+    <dd><code class=id>${licensorID}</code></dd>
     <dt>Access Token</dt>
     <dd><code class=token>${passphrase}</code></dd>
   </dl>

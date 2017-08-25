@@ -29,7 +29,7 @@ module.exports = function (service, callback) {
               // Check expiration.
               if (expired(order.date)) {
                 var dataToLog = {
-                  order: order.id,
+                  order: order.orderID,
                   file: file
                 }
                 log.info(dataToLog, 'expired')

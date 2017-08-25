@@ -10,7 +10,7 @@ var stringifyProducts = require('../../data/stringify-products')
 
 exports.schema = {
   properties: {
-    id: {
+    licensor: {
       description: 'licensor id',
       type: 'string',
       pattern: UUIDV4
@@ -27,24 +27,24 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var product = body.product
-  var id = body.id
-  lock([product, id], function (release) {
+  var licensorID = body.licensor.licensorID
+  var productID = body.product
+  lock([licensorID, productID], function (release) {
     runSeries([
       function markRetracted (done) {
-        var file = productPath(service, product)
+        var file = productPath(service, productID)
         mutateJSONFile(file, function (data) {
           data.retracted = true
         }, annotateENOENT('no such product', done))
       },
       function removeFromProductsList (done) {
-        var file = productsListPath(service, id)
+        var file = productsListPath(service, licensorID)
         mutateTextFile(file, function (text) {
           return stringifyProducts(
             parseProducts(text)
               .map(function (element) {
                 if (
-                  element.product === product &&
+                  element.product === productID &&
                   element.retracted === null
                 ) {
                   element.retracted = new Date().toISOString()

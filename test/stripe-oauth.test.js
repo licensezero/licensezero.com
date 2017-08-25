@@ -55,7 +55,7 @@ tape('Stripe OAuth connect', function (test) {
       },
       function offer (done) {
         apiRequest(port, {
-          id: licensorID,
+          licensor: licensorID,
           password: password,
           action: 'offer',
           repository: 'http://example.com',

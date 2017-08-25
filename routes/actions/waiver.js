@@ -7,9 +7,8 @@ var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
 
 exports.schema = {
-  type: 'object',
   properties: {
-    id: {
+    licensor: {
       description: 'licensor id',
       type: 'string',
       pattern: UUIDV4
@@ -42,16 +41,12 @@ exports.schema = {
         }
       ]
     }
-  },
-  additionalProperties: false,
-  required: ['id', 'password', 'product', 'beneficiary', 'term']
+  }
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var product = body.product
-  var id = body.id
-  var licensor = body.licensor
-  readProduct(service, product, function (error, data) {
+  var productID = body.product
+  readProduct(service, productID, function (error, product) {
     if (error) {
       if (error.userMessage) {
         fail(error.userMessage)
@@ -59,15 +54,15 @@ exports.handler = function (body, service, end, fail, lock) {
         fail(error)
       }
     } else {
-      if (data.retracted) {
+      if (product.retracted) {
         fail('retracted product')
       } else {
+        var licensor = product.licensor
         var document = waiver({
           name: licensor.name,
           jurisdiction: licensor.jurisdiction,
-          id: id,
-          repository: data.repository,
-          product: body.product,
+          repository: product.repository,
+          product: productID,
           beneficiary: body.beneficiary,
           date: new Date().toISOString(),
           term: body.term

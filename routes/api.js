@@ -108,6 +108,7 @@ module.exports = function api (request, response, service) {
                 } else if (!licensor) {
                   fail('access denied')
                 } else {
+                  licensor.licensorID = body.licensor
                   body.licensor = licensor
                   route()
                 }
@@ -141,15 +142,15 @@ module.exports = function api (request, response, service) {
 }
 
 function checkAuthentication (request, body, service, callback) {
-  var id = body.id
+  var licensorID = body.licensor
   var password = body.password
   runWaterfall([
-    fs.readFile.bind(fs, licensorPath(service, id)),
+    fs.readFile.bind(fs, licensorPath(service, licensorID)),
     parseJSON,
-    function (parsed, done) {
-      argon2.verify(parsed.password, password)
+    function (licensor, done) {
+      argon2.verify(licensor.password, password)
         .then(function (match) {
-          callback(null, match ? parsed : false)
+          callback(null, match ? licensor : false)
         })
     }
   ], callback)

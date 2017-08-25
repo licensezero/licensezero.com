@@ -81,7 +81,7 @@ function get (request, response, service, order) {
         return html`
           <tr>
             <td>
-              <p><code>${escape(product.id)}</code></p>
+              <p><code>${escape(product.productID)}</code></p>
               <p>
                 <a
                   href="${escape(product.repository)}"
@@ -128,7 +128,7 @@ function get (request, response, service, order) {
       </tfoot>
     </table>
   </section>
-  <form class=pay method=post action=/pay/${order.id}>
+  <form class=pay method=post action=/pay/${order.orderID}>
     <section id=payment>
       <h2>Credit Card Payment</h2>
       <div id=card></div>
@@ -216,17 +216,19 @@ function post (request, response, service, order) {
                   var document = privateLicense({
                     date: new Date().toISOString(),
                     tier: order.tier,
-                    product: pick(product, ['id', 'repository']),
+                    product: pick(product, [
+                      'productID', 'repository'
+                    ]),
                     licensee: {
                       name: order.licensee,
                       jurisdiction: order.jurisdiction
                     },
                     licensor: pick(product.licensor, [
-                      'id', 'name', 'jurisdiction', 'publicKey'
+                      'name', 'jurisdiction'
                     ])
                   })
                   var license = {
-                    productID: product.id,
+                    productID: product.productID,
                     document: document,
                     publicKey: product.licensor.publicKey,
                     signature: encode(
@@ -246,9 +248,10 @@ function post (request, response, service, order) {
                       .concat([
                         'Licensee: ' + order.licenseed,
                         'Jurisdiction: ' + order.jurisdiction,
-                        'Product:      ' + product.id,
+                        'Product:      ' + product.productID,
                         'Repository:   ' + product.repository,
                         'License Tier: ' + capitalize(order.tier)
+                        // TODO: Add order number
                       ].join('\n')),
                     license: license
                   }, ecb(done, function () {

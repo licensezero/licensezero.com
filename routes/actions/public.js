@@ -6,9 +6,8 @@ var publicLicense = require('../../forms/public-license')
 var readProduct = require('../../data/read-product')
 
 exports.schema = {
-  type: 'object',
   properties: {
-    id: {
+    licensor: {
       description: 'licensor id',
       type: 'string',
       pattern: UUIDV4
@@ -21,14 +20,12 @@ exports.schema = {
       type: 'string',
       pattern: UUIDV4
     }
-  },
-  additionalProperties: false,
-  required: ['id', 'password', 'product']
+  }
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var product = body.product
-  readProduct(service, product, function (error, data) {
+  var productID = body.product
+  readProduct(service, productID, function (error, product) {
     if (error) {
       /* istanbul ignore else */
       if (error.userMessage) {
@@ -38,15 +35,15 @@ exports.handler = function (body, service, end, fail, lock) {
         fail('internal error')
       }
     } else {
-      if (data.retracted) {
+      if (product.retracted) {
         fail('retracted product')
       } else {
         var document = publicLicense({
-          name: data.licensor.name,
-          publicKey: data.licensor.publicKey,
-          grace: data.grace,
-          term: data.term,
-          product: product
+          name: product.licensor.name,
+          publicKey: product.licensor.publicKey,
+          grace: product.grace,
+          term: product.term,
+          product: productID
         })
         end({
           document: document,

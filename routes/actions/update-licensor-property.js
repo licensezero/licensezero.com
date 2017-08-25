@@ -6,7 +6,7 @@ var runWaterfall = require('run-waterfall')
 
 module.exports = function (key) {
   var properties = {
-    id: {
+    licensor: {
       description: 'licensor id',
       type: 'string',
       pattern: UUIDV4
@@ -18,16 +18,11 @@ module.exports = function (key) {
   }
   properties[key] = require('./register').schema.properties[key]
   return {
-    schema: {
-      type: 'object',
-      properties: properties,
-      required: Object.keys(properties),
-      additionalProperties: false
-    },
+    schema: {properties: properties},
     handler: function (body, service, end, fail, lock) {
-      var id = body.id
-      var file = licensorPath(service, id)
-      lock(id, function (release) {
+      var licensorID = body.licensor.licensorID
+      var file = licensorPath(service, licensorID)
+      lock(licensorID, function (release) {
         runWaterfall([
           fs.readFile.bind(fs, file),
           parseJSON,

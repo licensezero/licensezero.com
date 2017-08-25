@@ -1,26 +1,22 @@
 var UUIDV4 = require('../../data/uuidv4-pattern')
-var fs = require('fs')
 var licensorPath = require('../../paths/licensor')
 var listProduts = require('../../data/list-products')
-var parseJSON = require('json-parse-errback')
+var readJSONFile = require('../../data/read-json-file')
 
 exports.schema = {
-  type: 'object',
   properties: {
-    id: {
+    licensor: {
       description: 'licensor id',
       type: 'string',
       pattern: UUIDV4
     }
-  },
-  required: ['id'],
-  additionalProperties: false
+  }
 }
 
 exports.handler = function (body, service, end, fail) {
-  var id = body.id
-  var file = licensorPath(service, id)
-  fs.readFile(file, function (error, buffer) {
+  var licensorID = body.licensor
+  var file = licensorPath(service, licensorID)
+  readJSONFile(file, function (error, licensor) {
     if (error) {
       /* istanbul ignore else */
       if (error.code === 'ENOENT') {
@@ -29,25 +25,17 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      parseJSON(buffer, function (error, licensor) {
+      listProduts(service, licensorID, function (error, products) {
         /* istanbul ignore if */
         if (error) {
           service.log.error(error)
           fail('internal error')
         } else {
-          listProduts(service, id, function (error, products) {
-            /* istanbul ignore if */
-            if (error) {
-              service.log.error(error)
-              fail('internal error')
-            } else {
-              end({
-                name: licensor.name,
-                jurisdiction: licensor.jurisdiction,
-                publicKey: licensor.publicKey,
-                products: products
-              })
-            }
+          end({
+            name: licensor.name,
+            jurisdiction: licensor.jurisdiction,
+            publicKey: licensor.publicKey,
+            products: products
           })
         }
       })

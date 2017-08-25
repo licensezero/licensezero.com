@@ -17,7 +17,7 @@ tape('public', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -28,7 +28,7 @@ tape('public', function (test) {
       function publicLicense (done) {
         apiRequest(port, {
           action: 'public',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: product
         }, ecb(done, function (response) {
@@ -81,7 +81,7 @@ tape('public for nonexistent product', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'public',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: uuid()
         }, ecb(done, function (response) {
@@ -107,7 +107,7 @@ tape('public for retracted product', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'offer: error false')
@@ -119,7 +119,7 @@ tape('public for retracted product', function (test) {
         apiRequest(port, {
           action: 'retract',
           product: product,
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'retract: error false')
@@ -129,7 +129,7 @@ tape('public for retracted product', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'public',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: product
         }, ecb(done, function (response) {

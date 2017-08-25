@@ -7,7 +7,7 @@ Beneficiary:  ${options.beneficiary}
 Licensor:     ${options.name}
               ${options.jurisdiction} (ISO 3166-2)
 
-Product Code: ${options.product}
+Product:      ${options.product}
               ${options.repository}
 
 Date:         ${options.date} (ISO 8601)

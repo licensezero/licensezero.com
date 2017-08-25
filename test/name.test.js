@@ -13,14 +13,14 @@ tape('name', function (test) {
       writeTestLicensor.bind(null, service),
       apiRequest.bind(null, port, {
         action: 'name',
-        id: LICENSOR.id,
+        licensor: LICENSOR.id,
         password: LICENSOR.password,
         name: newName
       }),
       function (done) {
         apiRequest(port, {
           action: 'licensor',
-          id: LICENSOR.id
+          licensor: LICENSOR.id
         }, ecb(done, function (response) {
           test.equal(response.name, newName, 'name updated')
           done()

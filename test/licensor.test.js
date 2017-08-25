@@ -14,7 +14,7 @@ tape('licensor', function (test) {
       test.error(error)
       apiRequest(port, {
         action: 'licensor',
-        id: LICENSOR.id
+        licensor: LICENSOR.id
       }, function (error, response) {
         if (error) {
           test.error(error)
@@ -51,7 +51,7 @@ tape('licensor w/ invalid id', function (test) {
   server(function (port, service, close) {
     apiRequest(port, {
       action: 'licensor',
-      id: LICENSOR.id
+      licensor: LICENSOR.id
     }, function (error, response) {
       if (error) {
         test.error(error)
@@ -74,7 +74,7 @@ tape('licensor w/ product', function (test) {
       writeTestLicensor.bind(null, service),
       function offerProduct (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           product = response.product
@@ -84,7 +84,7 @@ tape('licensor w/ product', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'licensor',
-          id: LICENSOR.id
+          licensor: LICENSOR.id
         }, ecb(done, function (response) {
           test.equal(
             response.products.length, 1,
@@ -112,7 +112,7 @@ tape('licensor w/ retracted product', function (test) {
       writeTestLicensor.bind(null, service),
       function offerProduct (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           product = response.product
@@ -122,7 +122,7 @@ tape('licensor w/ retracted product', function (test) {
       function retractProduct (done) {
         apiRequest(port, {
           action: 'retract',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: product
         }, ecb(done, function (response) {
@@ -133,7 +133,7 @@ tape('licensor w/ retracted product', function (test) {
       function listLicensorProducts (done) {
         apiRequest(port, {
           action: 'licensor',
-          id: LICENSOR.id
+          licensor: LICENSOR.id
         }, ecb(done, function (response) {
           test.equal(
             response.products.length, 1,
@@ -162,7 +162,7 @@ tape('licensor w/ retracted product', function (test) {
       writeTestLicensor.bind(null, service),
       function offerFirstProduct (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
         }), ecb(done, function (response) {
@@ -173,7 +173,7 @@ tape('licensor w/ retracted product', function (test) {
       },
       function offerSecondProduct (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/second'
         }), ecb(done, function (response) {
@@ -185,7 +185,7 @@ tape('licensor w/ retracted product', function (test) {
       function retractFirstProduct (done) {
         apiRequest(port, {
           action: 'retract',
-          id: LICENSOR.id,
+          licensor: LICENSOR.id,
           password: LICENSOR.password,
           product: firstProduct
         }, ecb(done, function (response) {
@@ -196,7 +196,7 @@ tape('licensor w/ retracted product', function (test) {
       function listLicensorProducts (done) {
         apiRequest(port, {
           action: 'licensor',
-          id: LICENSOR.id
+          licensor: LICENSOR.id
         }, ecb(done, function (response) {
           var products = response.products
           test.equal(
