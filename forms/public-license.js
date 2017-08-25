@@ -1,6 +1,8 @@
+var VERSION = '1.0.0'
+
 module.exports = function (options) {
   return `
-Licenze Zero Public License 1.0.0
+Licenze Zero Public License ${VERSION}
 
 Copyright ${options.name}
           Ed25519:
@@ -46,3 +48,5 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   `.trim()
 }
+
+module.exports.version = VERSION
