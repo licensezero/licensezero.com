@@ -10,6 +10,7 @@ Licensor:     ${options.name}
               ${options.jurisdiction} (ISO 3166-2)
 
 Product:      ${options.product}
+              ${options.description}
               ${options.repository}
 
 Date:         ${options.date} (ISO 8601)

@@ -228,7 +228,7 @@ function post (request, response, service, order) {
                       date: new Date().toISOString(),
                       tier: order.tier,
                       product: pick(product, [
-                        'productID', 'repository'
+                        'productID', 'repository', 'description'
                       ]),
                       licensee: {
                         name: order.licensee,

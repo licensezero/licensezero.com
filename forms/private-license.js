@@ -60,6 +60,7 @@ ${options.date} (ISO 8601)
       subsequent version of the work:
 
           ${options.productID}
+          ${options.description}
           ${options.repository}
 
       "Derivative Works" shall mean any work, whether in Source or Object

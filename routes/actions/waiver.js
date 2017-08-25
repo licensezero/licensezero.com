@@ -53,6 +53,7 @@ exports.handler = function (body, service, end, fail, lock) {
           jurisdiction: licensor.jurisdiction,
           repository: product.repository,
           product: productID,
+          description: product.description,
           beneficiary: body.beneficiary,
           date: new Date().toISOString(),
           term: body.term.toString()
