@@ -8,6 +8,7 @@ var productsListPath = require('../../paths/products-list')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stringifyProducts = require('../../data/stringify-products')
+var termsAcceptancesPath = require('../../paths/terms-acceptances')
 var uuid = require('uuid/v4')
 
 var priceSchema = {
@@ -55,6 +56,7 @@ var properties = {
   },
   terms: {
     type: 'string',
+    // TODO: "with..." -> "to the latest public terms"
     const: 'I agree with the latest public terms of service.'
   }
 }
@@ -71,7 +73,21 @@ exports.handler = function (body, service, end, fail, lock) {
   var product = uuid()
   lock([body.id], function (release) {
     runSeries([
-      checkRepository.bind(null, body),
+      function (done) {
+        runParallel([
+          checkRepository.bind(null, body),
+          function recordTermsAcceptance (done) {
+            fs.appendFile(
+              termsAcceptancesPath(service),
+              JSON.stringify({
+                licensor: id,
+                date: new Date().toISOString()
+              }),
+              done
+            )
+          }
+        ], done)
+      },
       function writeFile (done) {
         runParallel([
           function writeProductFile (done) {
