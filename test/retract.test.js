@@ -16,7 +16,7 @@ tape('retract', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -27,8 +27,8 @@ tape('retract', function (test) {
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          product: product,
-          licensor: LICENSOR.id,
+          productID: product,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -50,8 +50,8 @@ tape('retract nonexistent', function (test) {
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          product: uuid(),
-          licensor: LICENSOR.id,
+          productID: uuid(),
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(

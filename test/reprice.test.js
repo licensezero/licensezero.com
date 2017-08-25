@@ -15,7 +15,7 @@ tape('reprice', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -26,8 +26,8 @@ tape('reprice', function (test) {
       function reprice (done) {
         apiRequest(port, {
           action: 'reprice',
-          product: product,
-          licensor: LICENSOR.id,
+          productID: product,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password,
           pricing: {
             solo: 1000,

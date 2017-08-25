@@ -108,7 +108,6 @@ module.exports = function api (request, response, service) {
                 } else if (!licensor) {
                   fail('access denied')
                 } else {
-                  licensor.licensorID = body.licensor
                   body.licensor = licensor
                   route()
                 }
@@ -142,7 +141,7 @@ module.exports = function api (request, response, service) {
 }
 
 function checkAuthentication (request, body, service, callback) {
-  var licensorID = body.licensor
+  var licensorID = body.licensorID
   var password = body.password
   runWaterfall([
     fs.readFile.bind(fs, licensorPath(service, licensorID)),

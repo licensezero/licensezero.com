@@ -129,7 +129,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
       function useCredentials (id, password, done) {
         apiRequest(port, {
           action: 'email',
-          licensor: id,
+          licensorID: id,
           password: password,
           email: 'another@example.com'
         }, ecb(done, function (response) {
@@ -140,7 +140,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
       function fetchLicensor (id, done) {
         apiRequest(port, {
           action: 'licensor',
-          licensor: id
+          licensorID: id
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'false error')
           test.equal(response.name, 'Test Licensor', 'name')

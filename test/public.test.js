@@ -17,7 +17,7 @@ tape('public', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -28,9 +28,9 @@ tape('public', function (test) {
       function publicLicense (done) {
         apiRequest(port, {
           action: 'public',
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          product: product
+          productID: product
         }, ecb(done, function (response) {
           test.equal(
             response.error, false,
@@ -81,9 +81,9 @@ tape('public for nonexistent product', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'public',
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          product: uuid()
+          productID: uuid()
         }, ecb(done, function (response) {
           test.equal(
             response.error, 'no such product',
@@ -107,7 +107,7 @@ tape('public for retracted product', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'offer: error false')
@@ -118,8 +118,8 @@ tape('public for retracted product', function (test) {
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          product: product,
-          licensor: LICENSOR.id,
+          productID: product,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, ecb(done, function (response) {
           test.equal(response.error, false, 'retract: error false')
@@ -129,9 +129,9 @@ tape('public for retracted product', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'public',
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          product: product
+          productID: product
         }, ecb(done, function (response) {
           test.equal(
             response.error, 'retracted product',

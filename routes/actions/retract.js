@@ -1,4 +1,3 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var annotateENOENT = require('../../data/annotate-enoent')
 var mutateJSONFile = require('../../data/mutate-json-file')
 var mutateTextFile = require('../../data/mutate-text-file')
@@ -10,25 +9,17 @@ var stringifyProducts = require('../../data/stringify-products')
 
 exports.schema = {
   properties: {
-    licensor: {
-      description: 'licensor id',
-      type: 'string',
-      pattern: UUIDV4
-    },
+    licensorID: require('./offer').schema.properties.licensorID,
     password: {
       type: 'string'
     },
-    product: {
-      description: 'product id',
-      type: 'string',
-      pattern: UUIDV4
-    }
+    productID: require('./product').schema.properties.productID
   }
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var licensorID = body.licensor.licensorID
-  var productID = body.product
+  var licensorID = body.licensorID
+  var productID = body.productID
   lock([licensorID, productID], function (release) {
     runSeries([
       function markRetracted (done) {

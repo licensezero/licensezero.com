@@ -16,7 +16,7 @@ tape('product', function (test) {
       writeTestLicensor.bind(null, service),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')
@@ -27,7 +27,7 @@ tape('product', function (test) {
       function requestProduct (done) {
         apiRequest(port, {
           action: 'product',
-          product: productID
+          productID: productID
         }, ecb(done, function (response) {
           test.assert(
             !response.hasOwnProperty('stripe'),
@@ -64,7 +64,7 @@ tape('nonexistent product', function (test) {
   server(function (port, service, close) {
     apiRequest(port, {
       action: 'product',
-      product: uuid()
+      productID: uuid()
     }, function (error, response) {
       if (error) {
         test.error(error)

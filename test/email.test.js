@@ -16,7 +16,7 @@ tape('email', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'email',
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password,
           email: newAddress
         }, ecb(done, function (response) {
@@ -40,7 +40,7 @@ tape('email w/ bad authorization', function (test) {
       function (done) {
         apiRequest(port, {
           action: 'email',
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: 'not correct',
           email: newAddress
         }, ecb(done, function (response) {

@@ -1,20 +1,15 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var licensorPath = require('../../paths/licensor')
 var listProduts = require('../../data/list-products')
 var readJSONFile = require('../../data/read-json-file')
 
 exports.schema = {
   properties: {
-    licensor: {
-      description: 'licensor id',
-      type: 'string',
-      pattern: UUIDV4
-    }
+    licensorID: require('./offer').schema.properties.licensorID
   }
 }
 
 exports.handler = function (body, service, end, fail) {
-  var licensorID = body.licensor
+  var licensorID = body.licensorID
   var file = licensorPath(service, licensorID)
   readJSONFile(file, function (error, licensor) {
     if (error) {

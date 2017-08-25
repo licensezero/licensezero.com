@@ -22,7 +22,7 @@ tape('deleteExpiredOrders', function (test) {
       writeTestLicensor.bind(null, service),
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensor: LICENSOR.id,
+          licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), ecb(done, function (response) {
           test.equal(response.error, false, 'error false')

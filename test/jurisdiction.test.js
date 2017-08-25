@@ -12,14 +12,14 @@ tape('jurisdiction', function (test) {
       writeTestLicensor.bind(null, service),
       apiRequest.bind(null, port, {
         action: 'jurisdiction',
-        licensor: LICENSOR.id,
+        licensorID: LICENSOR.id,
         password: LICENSOR.password,
         jurisdiction: 'US-TX'
       }),
       function (done) {
         apiRequest(port, {
           action: 'licensor',
-          licensor: LICENSOR.id
+          licensorID: LICENSOR.id
         }, ecb(done, function (response) {
           test.equal(response.jurisdiction, 'US-TX', 'US-TX')
           done()

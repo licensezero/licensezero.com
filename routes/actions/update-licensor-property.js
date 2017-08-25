@@ -1,4 +1,3 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var fs = require('fs')
 var licensorPath = require('../../paths/licensor')
 var parseJSON = require('json-parse-errback')
@@ -6,11 +5,7 @@ var runWaterfall = require('run-waterfall')
 
 module.exports = function (key) {
   var properties = {
-    licensor: {
-      description: 'licensor id',
-      type: 'string',
-      pattern: UUIDV4
-    },
+    licensorID: require('./offer').schema.properties.licensorID,
     password: {
       description: 'licensor password',
       type: 'string'
@@ -20,7 +15,7 @@ module.exports = function (key) {
   return {
     schema: {properties: properties},
     handler: function (body, service, end, fail, lock) {
-      var licensorID = body.licensor.licensorID
+      var licensorID = body.licensorID
       var file = licensorPath(service, licensorID)
       lock(licensorID, function (release) {
         runWaterfall([

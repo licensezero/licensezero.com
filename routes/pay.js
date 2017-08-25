@@ -189,6 +189,7 @@ function post (request, response, service, order) {
       return response.end()
     }
     var products = order.products
+    // TODO: Delete order file
     runParallel(
       [
         recordAcceptance.bind(null, service, {

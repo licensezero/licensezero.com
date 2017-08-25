@@ -4,7 +4,7 @@ var sanitizeProduct = require('../../data/sanitize-product')
 
 exports.schema = {
   properties: {
-    product: {
+    productID: {
       description: 'product id',
       type: 'string',
       pattern: UUIDV4
@@ -13,7 +13,7 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail) {
-  readProduct(service, body.product, function (error, data) {
+  readProduct(service, body.productID, function (error, data) {
     if (error) {
       service.log.error(error)
       /* istanbul ignore else */

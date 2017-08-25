@@ -33,7 +33,7 @@ TIER_NAMES.forEach(function (tier) {
 })
 
 var properties = {
-  licensor: {
+  licensorID: {
     description: 'licensor id',
     type: 'string',
     pattern: UUIDV4
@@ -65,7 +65,7 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var licensorID = body.licensor.licensorID
+  var licensorID = body.licensorID
   var productID = uuid()
   lock([licensorID], function (release) {
     runSeries([

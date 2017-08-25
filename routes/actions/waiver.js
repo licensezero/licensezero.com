@@ -1,4 +1,3 @@
-var UUIDV4 = require('../../data/uuidv4-pattern')
 var decode = require('../../data/decode')
 var ed25519 = require('ed25519')
 var encode = require('../../data/encode')
@@ -8,19 +7,11 @@ var waiver = require('../../forms/waiver')
 
 exports.schema = {
   properties: {
-    licensor: {
-      description: 'licensor id',
-      type: 'string',
-      pattern: UUIDV4
-    },
+    licensorID: require('./offer').schema.properties.licensorID,
     password: {
       type: 'string'
     },
-    product: {
-      description: 'product id',
-      type: 'string',
-      pattern: UUIDV4
-    },
+    productID: require('./product').schema.properties.productID,
     beneficiary: {
       description: 'beneficiary legal name',
       type: 'string',
@@ -45,7 +36,7 @@ exports.schema = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var productID = body.product
+  var productID = body.productID
   readProduct(service, productID, function (error, product) {
     if (error) {
       if (error.userMessage) {
