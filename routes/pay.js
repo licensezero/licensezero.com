@@ -207,7 +207,13 @@ function post (request, response, service, order) {
                   amount: product.price + product.tax,
                   currency: 'usd',
                   source: data.token,
-                  application_fee: service.fee
+                  application_fee: service.fee,
+                  statement_descriptor: 'License Zero License',
+                  metadata: {
+                    orderID: order.orderID,
+                    jurisdiction: order.jurisdiction,
+                    licensee: order.licensee
+                  }
                 }, {
                   stripe_account: product.licensor.stripe.id
                 }, done)
