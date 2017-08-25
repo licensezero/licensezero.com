@@ -51,9 +51,11 @@ exports.handler = function (body, service, end, fail) {
         to: body.email,
         subject: 'Register as a licensezero.com Licensor',
         text: [
-          'To register as a licensor through',
-          'licensezero.com, follow this link',
-          'to connect your Stripe account:',
+          [
+            'To register as a licensor through',
+            'licensezero.com, follow this link',
+            'to connect your Stripe account:'
+          ].join('\n'),
           'https://connect.stripe.com/oauth/authorize?' +
           querystring.stringify({
             response_type: 'code',

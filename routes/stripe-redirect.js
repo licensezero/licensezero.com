@@ -158,21 +158,58 @@ module.exports = function (request, response, service) {
             }
           ], ecb(done, function () {
             service.email({
-              to: 'administrator@licensezero.com',
+              to: 'registrations@licensezero.com',
               subject: 'Licensor Registration',
               text: [
-                'id: ' + licensorID,
-                'name: ' + nonceData.name,
-                'email: ' + nonceData.email,
-                'jurisdiction: ' + nonceData.jurisdiction
+                [
+                  'id: ' + licensorID,
+                  'name: ' + nonceData.name,
+                  'email: ' + nonceData.email,
+                  'jurisdiction: ' + nonceData.jurisdiction
+                ].join('\n')
               ]
             }, function (error) {
               if (error) service.log.error(error)
             })
+            done(
+              null, nonceData.email, licensorID, stripeID,
+              encode(keypair.publicKey), passphrase
+            )
+          }))
+        },
+        function emailLicensor (
+          email, licensorID, stripeID, publicKey, passphrase, done
+        ) {
+          service.email({
+            to: email,
+            subject: 'Licensor Registration',
+            // TODO: Attach copy of terms of service
+            text: [
+              [
+                'Thank you for registering as a licensor',
+                'though licensezero.com.'
+              ].join('\n'),
+              [
+                'Your unique licensor ID is:',
+                licensorID
+              ].join('\n'),
+              [
+                'License Zero will use the following',
+                'Ed25519 public key to sign licenses',
+                'sold on your behalf:'
+              ].join('\n'),
+              [
+                publicKey.slice(0, 32),
+                publicKey.slice(32)
+              ].join('\n')
+            ]
+          }, ecb(done, function () {
             done(null, licensorID, stripeID, passphrase)
           }))
         },
-        function appendToAccounts (licensorID, stripeID, passphrase, done) {
+        function appendToAccounts (
+          licensorID, stripeID, passphrase, done
+        ) {
           var file = accountsPath(service)
           var line = stripeID + '\t' + licensorID + '\n'
           fs.appendFile(file, line, ecb(done, function () {

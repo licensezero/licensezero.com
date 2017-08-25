@@ -17,6 +17,7 @@ var html = require('../html')
 var internalError = require('./internal-error')
 var lamos = require('lamos')
 var orderPath = require('../paths/order')
+var padStart = require('string.prototype.padstart')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
 var readJSONFile = require('../data/read-json-file')
@@ -255,18 +256,28 @@ function post (request, response, service, order) {
                     }
                     service.email({
                       to: data.email,
-                      subject: 'License Zero License File',
+                      subject: 'License Zero Receipt and License File',
                       text: []
-                        .concat(
-                          'Attached is a License Zero license file for:'
-                        )
                         .concat([
-                          'Licensee: ' + order.licenseed,
+                          'Thank you for buying a license through ' +
+                          'licensezero.com.',
+                          'Order ID' + order.orderID,
+                          [
+                            'Price: ' + priceColumn(product.price),
+                            'Tax:   ' + priceColumn(product.tax),
+                            '-------' + '-'.repeat(10),
+                            'Total: ' + priceColumn(product.total)
+                          ].join('\n'),
+                          'Attached is a License Zero license file for:'
+                        ])
+                        // TODO: Add CLI license import instructions
+                        .concat([
+                          'Licensee:     ' + order.licensee,
                           'Jurisdiction: ' + order.jurisdiction,
                           'Product:      ' + product.productID,
+                          'Description:  ' + product.description,
                           'Repository:   ' + product.repository,
                           'License Tier: ' + capitalize(order.tier)
-                          // TODO: Add order number
                         ].join('\n')),
                       license: license
                     }, ecb(done, function () {
@@ -276,8 +287,52 @@ function post (request, response, service, order) {
                   function (license, done) {
                     recordSignature(
                       service, license.publicKey, license.signature,
-                      done
+                      ecb(done, function () {
+                        done(null, license)
+                      })
                     )
+                  },
+                  function emailLicensorStatement (license, done) {
+                    service.email({
+                      to: product.licensor.email,
+                      subject: 'License Zero Statement',
+                      text: [
+                        [
+                          'License Zero sold a license',
+                          'on your behalf.'
+                        ].join('\n'),
+                        [
+                          'Order:        ' + order.orderID,
+                          'Product:      ' + product.productID,
+                          'Description:  ' + product.description,
+                          'Repository:   ' + product.repository,
+                          'Tier:         ' + capitalize(order.tier)
+                        ].join('\n'),
+                        [
+                          'Price:     ' + priceColumn(product.price),
+                          'Tax:       ' + (
+                            priceColumn(product.tax) + ' ' +
+                            '(' + order.jurisdiction + ')'
+                          ),
+                          '-----------' + '-'.repeat(10),
+                          'Agent Fee: ' + priceColumn(service.fee),
+                          '-----------' + '-'.repeat(10),
+                          'Total:     ' + priceColumn(
+                            product.total - service.fee
+                          )
+                        ].join('\n'),
+                        [
+                          'The Ed25519 cryptographic signature to the',
+                          'license is:'
+                        ].join('\n'),
+                        [
+                          license.signature.slice(0, 32),
+                          license.signature.slice(32, 64),
+                          license.signature.slice(64, 96),
+                          license.signature.slice(96)
+                        ].join('\n')
+                      ]
+                    }, done)
                   }
                 ], done)
               }
@@ -379,4 +434,8 @@ function truncate (string, length) {
   } else {
     return string.slice(0, length - 3) + '…'
   }
+}
+
+function priceColumn (amount) {
+  return padStart(formatPrice(amount), 10, ' ')
 }

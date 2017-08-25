@@ -22,13 +22,9 @@ module.exports = function email (service, serverLog) {
       form.append('text', message.text.join('\n\n'))
       var license = message.license
       if (license) {
-        var buffer = Buffer.from(
-          license.document + '\n\n' +
-          'Ed25519 Cryptographic Signature:\n' +
-          license.signature
-        )
+        var buffer = Buffer.from(JSON.stringify(license))
         form.append('attachment', buffer, {
-          filename: license.productID + '.license',
+          filename: license.productID + '.json',
           contentType: 'text/plain',
           knownLength: buffer.length
         })
