@@ -19,7 +19,7 @@ module.exports = function testServer (callback) {
     var log = pino({}, fs.createWriteStream('test-server.log'))
     configuration.log = log
     var server = http.createServer(makeHandler(configuration, log))
-    server.listen(0, function onListening () {
+    server.listen(8080, function onListening () {
       callback(this.address().port, configuration, function done () {
         server.close(function () {
           rimraf.sync(directory)

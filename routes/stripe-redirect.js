@@ -1,5 +1,6 @@
 var accountsPath = require('../paths/accounts')
 var argon2 = require('argon2')
+var crypto = require('crypto')
 var ecb = require('ecb')
 var encode = require('../data/encode')
 var fs = require('fs')
@@ -7,7 +8,6 @@ var generateKeypair = require('../data/generate-keypair')
 var html = require('../html')
 var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
-var niceware = require('niceware')
 var parseJSON = require('json-parse-errback')
 var path = require('path')
 var requestStripeCredentials = require('../stripe/request-credentials')
@@ -125,7 +125,7 @@ module.exports = function (request, response, service) {
           var id = uuid()
           var licensorFile = licensorPath(service, id)
           var keypair = generateKeypair()
-          var passphrase = niceware.generatePassphrase(18).join(' ')
+          var passphrase = encode(crypto.randomBytes(32))
           var stripeID = stripeData.stripe_user_id
           runWaterfall([
             mkdirp.bind(null, path.dirname(licensorFile)),
@@ -189,12 +189,12 @@ module.exports = function (request, response, service) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>LicenseZero | Registration<title>
+  <title>LicenseZero | Registration</title>
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
-  <h1>Registration Complete!</h2>
+  <h1>Registration Complete</h2>
   <p>You've connected your Stripe account to LicenseZero.</p>
   <p>
     To offer licenses, install the

@@ -1,6 +1,5 @@
 // TODO: POST /pay/{order}
 // TODO: POST /pay/{order} error UI
-// TODO: log [licensor name, jurisdiction, email, date accepted terms]
 
 var AJV = require('ajv')
 var Busboy = require('busboy')
@@ -19,7 +18,6 @@ var internalError = require('./internal-error')
 var orderPath = require('../paths/order')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
-var pump = require('pump')
 var readJSONFile = require('../data/read-json-file')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
@@ -34,27 +32,18 @@ module.exports = function (request, response, service) {
   var method = request.method
   if (method === 'GET' || method === 'POST') {
     var orderID = request.parameters.order
-    if (!UUID_RE.test(orderID)) {
-      notFound(response)
-    } else {
-      var file = orderPath(service, orderID)
-      readJSONFile(file, function (error, order) {
-        if (error) {
-          if (error.code === 'ENOENT') {
-            notFound(response)
-          } else {
-            service.log.error(error)
-            internalError(response)
-          }
-        } else if (expired(order.date)) {
-          notFound(response)
-        } else {
-          (method === 'GET' ? get : post)(
-            request, response, service, order
-          )
-        }
-      })
-    }
+    if (!UUID_RE.test(orderID)) return notFound(response)
+    var file = orderPath(service, orderID)
+    readJSONFile(file, function (error, order) {
+      if (error) {
+        if (error.code === 'ENOENT') return notFound(response)
+        service.log.error(error)
+        internalError(response)
+      } else if (expired(order.date)) {
+        return notFound(response)
+      }
+      (method === 'GET' ? get : post)(request, response, service, order)
+    })
   } else {
     response.statusCode = 405
     response.end()
@@ -189,106 +178,107 @@ var validatePost = ajv.compile(postSchema)
 
 function post (request, response, service, order) {
   var data = {}
-  pump(
-    response,
-    new Busboy({headers: request.headers})
-      .on('field', function (name, value) {
-        if (name === 'email') {
-          data.email = value
-        } else if (name === 'terms') {
-          data.terms = value
+  var parser = new Busboy({headers: request.headers})
+  parser.on('field', function (name, value) {
+    if (Object.keys(postSchema.properties).includes(name)) {
+      data[name] = value
+    }
+  })
+  parser.once('finish', function () {
+    if (!validatePost(data)) {
+      response.statusCode = 400
+      return response.end()
+    }
+    var products = order.products
+    runParallel(
+      [
+        function recordTermsAcceptance (done) {
+          fs.appendFile(
+            termsAcceptancesPath(service),
+            JSON.stringify({
+              licensee: order.licensee,
+              jurisdiction: order.jurisdiction,
+              email: order.email,
+              date: new Date().toISOString()
+            }),
+            done
+          )
         }
-      }),
-    function (error) {
-      if (error || !validatePost(data)) {
-        response.statusCode = 400
-        response.end()
-      } else {
-        var products = order.products
-        var record = [
-          function (done) {
-            fs.appendFile(
-              termsAcceptancesPath(service),
-              JSON.stringify({
-                licensee: order.licensee,
-                jurisdiction: order.jurisdiction,
-                email: order.email,
-                date: new Date().toISOString()
-              }),
-              done
-            )
-          }
-        ]
-        runParallel(record.concat(products.map(function (product) {
-          return runSeries.bind(null, [
+      ].concat(products.map(function (product) {
+        return function (done) {
+          runSeries([
             function chargeCustomer (done) {
               service.stripe.api.charges.create({
                 amount: product.price + product.tax,
                 currency: 'usd',
-                description: 'licensezero.com',
                 source: data.token,
-                stripe_account: product.licensor.stripe.id,
                 application_fee: service.fee
+              }, {
+                stripe_account: product.licensor.stripe.id
               }, done)
             },
-            runWaterfall.bind(null, [
-              function emaiLicense (done) {
-                var document = privateLicense({
-                  date: new Date().toISOString(),
-                  tier: order.tier,
-                  product: pick(product, ['id', 'repository']),
-                  licensee: {
-                    name: order.licensee,
-                    jurisdiction: order.jurisdiction
-                  },
-                  licensor: pick(product.licensor, [
-                    'id', 'name', 'jurisdiction', 'publicKey'
-                  ])
-                })
-                var license = {
-                  productID: product.id,
-                  document: document,
-                  publicKey: product.licensor.publicKey,
-                  signature: encode(
-                    ed25519.Sign(
-                      Buffer.from(document, 'ascii'),
-                      decode(product.licensor.privateKey)
+            function (done) {
+              runWaterfall([
+                function emaiLicense (done) {
+                  var document = privateLicense({
+                    date: new Date().toISOString(),
+                    tier: order.tier,
+                    product: pick(product, ['id', 'repository']),
+                    licensee: {
+                      name: order.licensee,
+                      jurisdiction: order.jurisdiction
+                    },
+                    licensor: pick(product.licensor, [
+                      'id', 'name', 'jurisdiction', 'publicKey'
+                    ])
+                  })
+                  var license = {
+                    productID: product.id,
+                    document: document,
+                    publicKey: product.licensor.publicKey,
+                    signature: encode(
+                      ed25519.Sign(
+                        Buffer.from(document, 'ascii'),
+                        decode(product.licensor.privateKey)
+                      )
                     )
-                  )
+                  }
+                  service.email({
+                    to: data.email,
+                    subject: 'License Zero License File',
+                    text: []
+                      .concat(
+                        'Attached is a License Zero license file for:'
+                      )
+                      .concat([
+                        'Licensee: ' + order.licenseed,
+                        'Jurisdiction: ' + order.jurisdiction,
+                        'Product:      ' + product.id,
+                        'Repository:   ' + product.repository,
+                        'License Tier: ' + capitalize(order.tier)
+                      ].join('\n')),
+                    license: license
+                  }, ecb(done, function () {
+                    done(null, license)
+                  }))
+                },
+                function recordSignatures (license, done) {
+                  fs.appendFile(signaturesPath(service), (
+                    license.publicKey + ' ' +
+                    license.signature + '\n'
+                  ), done)
                 }
-                service.email({
-                  to: data.email,
-                  subject: 'License Zero License File',
-                  text: []
-                    .concat(
-                      'Attached is a License Zero license file for:'
-                    )
-                    .concat([
-                      'Licensee: ' + order.licenseed,
-                      'Jurisdiction: ' + order.jurisdiction,
-                      'Product:      ' + product.id,
-                      'Repository:   ' + product.repository,
-                      'License Tier: ' + capitalize(order.tier)
-                    ].join('\n')),
-                  license: license
-                }, ecb(done, function () {
-                  done(null, license)
-                }))
-              },
-              function recordSignatures (license, done) {
-                fs.appendFile(signaturesPath(service), (
-                  license.publicKey + ' ' +
-                  license.signature + '\n'
-                ), done)
-              }
-            ])
-          ])
-        })), function (error) {
-          if (error) {
-            service.log.error(error)
-            response.statusCode = 500
-            response.setHeader('Content-Type', 'text/html')
-            response.end(html`
+              ], done)
+            }
+          ], done)
+        }
+      })),
+    function (error) {
+      if (error) {
+        service.log.error(error)
+        response.statusCode = 500
+        response.setHeader('Content-Type', 'text/html')
+        response.end(html`
 <!doctype html>
 <html lang=en>
 <head>
@@ -311,11 +301,11 @@ function post (request, response, service, order) {
   </main>
 </body>
 </html>
-            `)
-          } else {
-            response.statusCode = 200
-            response.setHeader('Content-Type', 'text/html')
-            response.end(html`
+        `)
+      } else {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/html')
+        response.end(html`
 <!doctype html>
 <html lang=en>
 <head>
@@ -334,12 +324,11 @@ function post (request, response, service, order) {
   </main>
 </body>
 </html>
-            `)
-          }
-        })
+        `)
       }
-    }
-  )
+    })
+  })
+  request.pipe(parser)
 }
 
 function expired (created) {

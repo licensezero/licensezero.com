@@ -10,7 +10,7 @@ var uuid = require('uuid/v4')
 var webdriver = require('./webdriver')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape.only('buy', function (test) {
+tape.skip('buy', function (test) {
   server(function (port, service, close) {
     var firstProduct
     var secondProduct

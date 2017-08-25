@@ -57,11 +57,10 @@ exports.handler = function (body, service, end, fail) {
         'To register as a licensor through',
         'licensezero.com, follow this link',
         'to connect your Stripe account:',
-        '',
         'https://connect.stripe.com/oauth/authorize?' +
         querystring.stringify({
           response_type: 'code',
-          client_id: service.STRIPE_ID,
+          client_id: service.stripe.application,
           scope: 'read_write',
           state: nonce
         })

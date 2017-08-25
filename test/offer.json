@@ -2,10 +2,10 @@
   "action": "offer",
   "repository": "http://example.com/",
   "pricing": {
-    "solo": 5,
-    "team": 10,
-    "company": 50,
-    "enterprise": 100
+    "solo": 200,
+    "team": 500,
+    "company": 1000,
+    "enterprise": 10000
   },
   "grace": 180,
   "terms": "I agree with the latest public terms of service."

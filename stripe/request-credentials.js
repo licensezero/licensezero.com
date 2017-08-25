@@ -6,7 +6,7 @@ var simpleConcat = require('simple-concat')
 
 var TESTING = process.env.NODE_ENV === 'test'
 
-module.exports = function requestCredentials (service, code, callback) {
+module.exports = function (service, code, callback) {
   if (TESTING && code === 'TEST_STRIPE_CODE') {
     return callback(null, {
       stripe_user_id: 'FAKE_STRIPE_ID',
@@ -14,14 +14,15 @@ module.exports = function requestCredentials (service, code, callback) {
     })
   }
   var form = new FormData()
-  form.append('client_secret', service.stripe.secret)
-  form.append('code', code)
   form.append('grant_type', 'authorization_code')
+  form.append('code', code)
+  form.append('client_secret', service.stripe.private)
   form.pipe(
     https.request({
       method: 'POST',
       host: 'connect.stripe.com',
-      path: '/oauth/token'
+      path: '/oauth/token',
+      headers: form.getHeaders()
     })
       .once('error', callback)
       .once('response', function (response) {
