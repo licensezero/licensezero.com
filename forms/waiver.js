@@ -1,6 +1,8 @@
+var VERSION = '1.0.0'
+
 module.exports = function (options) {
   return `
-License Zero Private Waiver 1.0.0
+License Zero Private Waiver ${VERSION}
 
 Beneficiary:  ${options.beneficiary}
 
@@ -38,3 +40,5 @@ on this waiver in redistributing and using the Project without an
 additional license from Licensor.
   `.trim()
 }
+
+module.exports.version = VERSION

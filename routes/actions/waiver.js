@@ -1,6 +1,7 @@
 var decode = require('../../data/decode')
 var ed25519 = require('ed25519')
 var encode = require('../../data/encode')
+var lamos = require('lamos')
 var readProduct = require('../../data/read-product')
 var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
@@ -45,18 +46,22 @@ exports.handler = function (body, service, end, fail, lock) {
         fail('retracted product')
       } else {
         var licensor = product.licensor
-        var document = waiver({
+        var parameters = {
+          FORM: 'waiver',
+          VERSION: waiver.version,
           name: licensor.name,
           jurisdiction: licensor.jurisdiction,
           repository: product.repository,
           product: productID,
           beneficiary: body.beneficiary,
           date: new Date().toISOString(),
-          term: body.term
-        })
+          term: body.term.toString()
+        }
+        var manifest = lamos.stableStringify(parameters)
+        var document = waiver(parameters)
         var signature = encode(
           ed25519.Sign(
-            Buffer.from(document, 'ascii'),
+            Buffer.from(manifest + '\n\n' + document),
             decode(licensor.privateKey)
           )
         )
@@ -68,6 +73,7 @@ exports.handler = function (body, service, end, fail, lock) {
               fail('internal error')
             } else {
               end({
+                manifest: manifest,
                 document: document,
                 signature: signature
               })

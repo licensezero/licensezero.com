@@ -39,6 +39,11 @@ tape('waiver', function (test) {
             'error false'
           )
           test.assert(
+            response.hasOwnProperty('manifest'),
+            'manifest'
+          )
+          var manifest = response.manifest
+          test.assert(
             response.hasOwnProperty('document'),
             'document'
           )
@@ -57,9 +62,10 @@ tape('waiver', function (test) {
             licensorID: LICENSOR.id
           }, ecb(done, function (response) {
             var publicKey = response.publicKey
+            // TODO Publish license verification code as open source
             test.assert(
               ed25519.Verify(
-                Buffer.from(document, 'ascii'),
+                Buffer.from(manifest + '\n\n' + document, 'utf8'),
                 Buffer.from(signature, 'hex'),
                 Buffer.from(publicKey, 'hex')
               ),

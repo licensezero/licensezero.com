@@ -2,12 +2,14 @@
 var TIERS = require('../data/private-license-tiers')
 var capitalize = require('../routes/capitalize')
 
+var VERSION = '1.0.0'
+
 module.exports = function (options) {
   var licensor = options.licensor
   var licensee = options.licensee
   return `
 Licenze Zero ${capitalize(options.tier)} Private License
-Version 1.0.0
+Version ${VERSION}
 https://licensezero.com
 
 ${options.date} (ISO 8601)
@@ -175,3 +177,5 @@ function sublicensing (tier) {
     `.trim()
   }
 }
+
+module.exports.version = VERSION

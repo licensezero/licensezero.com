@@ -15,6 +15,7 @@ var formatPrice = require('./format-price')
 var fs = require('fs')
 var html = require('../html')
 var internalError = require('./internal-error')
+var lamos = require('lamos')
 var orderPath = require('../paths/order')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
@@ -221,7 +222,9 @@ function post (request, response, service, order) {
               function (done) {
                 runWaterfall([
                   function emaiLicense (done) {
-                    var document = privateLicense({
+                    var parameters = {
+                      FORM: 'private license',
+                      VERSION: privateLicense.version,
                       date: new Date().toISOString(),
                       tier: order.tier,
                       product: pick(product, [
@@ -234,14 +237,18 @@ function post (request, response, service, order) {
                       licensor: pick(product.licensor, [
                         'name', 'jurisdiction'
                       ])
-                    })
+                    }
+                    var manifest = lamos.stableStringify(parameters)
+                    var document = privateLicense(parameters)
                     var license = {
                       productID: product.productID,
                       document: document,
                       publicKey: product.licensor.publicKey,
                       signature: encode(
                         ed25519.Sign(
-                          Buffer.from(document, 'ascii'),
+                          Buffer.from(
+                            manifest + '\n\n' + document, 'utf8'
+                          ),
                           decode(product.licensor.privateKey)
                         )
                       )
