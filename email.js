@@ -20,6 +20,19 @@ module.exports = function email (service, serverLog) {
       form.append('to', message.to)
       form.append('subject', message.subject)
       form.append('text', message.text.join('\n\n'))
+      var license = message.license
+      if (license) {
+        var buffer = Buffer.from(
+          license.document + '\n\n' +
+          'Ed25519 Cryptographic Signature:\n' +
+          license.signature
+        )
+        form.append('attachment', buffer, {
+          filename: license.productID + '.license',
+          contentType: 'text/plain',
+          knownLength: buffer.length
+        })
+      }
       var options = {
         method: 'POST',
         host: 'api.mailgun.net',

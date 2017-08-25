@@ -10,7 +10,7 @@ var uuid = require('uuid/v4')
 var webdriver = require('./webdriver')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('buy', function (test) {
+tape.only('buy', function (test) {
   server(function (port, service, close) {
     var firstProduct
     var secondProduct
@@ -78,7 +78,10 @@ tape('buy', function (test) {
           // Submit
           // .saveScreenshot('screen.png')
           .click('input[type="submit"]')
-          .then(function () {
+          .waitForExist('h1')
+          .getText('h1.thanks')
+          .then(function (text) {
+            test.equal(text, 'Thank You')
             done()
           })
           .catch(done)

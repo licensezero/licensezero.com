@@ -90,14 +90,18 @@ exports.handler = function (body, service, end, fail, lock) {
         var file = orderPath(service, orderID)
         var pricedProducts = products.map(function (product) {
           product.price = product.pricing[tier]
+          // TODO: Calculate tax
+          product.tax = 0
+          product.total = product.price + product.tax
           delete product.pricing
           return product
         })
-        var subtotal = pricedProducts.reduce(function (subtotal, product) {
+        var subtotal = products.reduce(function (subtotal, product) {
           return subtotal + product.price
         }, 0)
-        // TODO: Calculate tax
-        var tax = 0
+        var tax = products.reduce(function (tax, product) {
+          return tax + product.tax
+        }, 0)
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
           fs.writeFile.bind(fs, file, JSON.stringify({

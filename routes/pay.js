@@ -1,27 +1,38 @@
-// TODO: application: service.stripe.application
-// TODO: application_fee: (service.fee * results.length)
 // TODO: POST /pay/{order}
 // TODO: POST /pay/{order} error UI
 // TODO: log [licensor name, jurisdiction, email, date accepted terms]
 
+var AJV = require('ajv')
+var Busboy = require('busboy')
 var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
-var orderPath = require('../paths/order')
 var capitalize = require('./capitalize')
+var decode = require('../data/decode')
+var ecb = require('ecb')
+var ed25519 = require('ed25519')
+var encode = require('../data/encode')
 var escape = require('./escape')
 var formatPrice = require('./format-price')
+var fs = require('fs')
 var html = require('../html')
 var internalError = require('./internal-error')
+var orderPath = require('../paths/order')
+var pick = require('../data/pick')
+var privateLicense = require('../forms/private-license')
+var pump = require('pump')
 var readJSONFile = require('../data/read-json-file')
+var runParallel = require('run-parallel')
+var runSeries = require('run-series')
+var runWaterfall = require('run-waterfall')
+var signaturesPath = require('../paths/signatures')
+var termsAcceptancesPath = require('../paths/terms-acceptances')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)
 
 module.exports = function (request, response, service) {
-  if (request.method !== 'GET') {
-    response.statusCode = 405
-    response.end()
-  } else {
+  var method = request.method
+  if (method === 'GET' || method === 'POST') {
     var orderID = request.parameters.order
     if (!UUID_RE.test(orderID)) {
       notFound(response)
@@ -38,8 +49,21 @@ module.exports = function (request, response, service) {
         } else if (expired(order.date)) {
           notFound(response)
         } else {
-          response.setHeader('Content-Type', 'text/html')
-          response.end(html`
+          (method === 'GET' ? get : post)(
+            request, response, service, order
+          )
+        }
+      })
+    }
+  } else {
+    response.statusCode = 405
+    response.end()
+  }
+}
+
+function get (request, response, service, order) {
+  response.setHeader('Content-Type', 'text/html')
+  response.end(html`
 <!doctype html>
 <html lang=en>
 <head>
@@ -82,7 +106,11 @@ module.exports = function (request, response, service) {
               </p>
               <p>
                 ${escape(capitalize(order.tier))} License:
-                ${order.tier === 'solo' ? 'one user' : TIERS[order.tier] + ' users'},
+                ${
+                  order.tier === 'solo'
+                    ? 'one user'
+                    : TIERS[order.tier] + ' users'
+                },
                 perpetual,
                 with upgrades
               </p>
@@ -112,7 +140,7 @@ module.exports = function (request, response, service) {
       </tfoot>
     </table>
   </section>
-  <form class=pay>
+  <form class=pay method=post action=/pay/${order.id}>
     <section id=payment>
       <h2>Credit Card Payment</h2>
       <div id=card></div>
@@ -134,11 +162,184 @@ module.exports = function (request, response, service) {
   <script src=/pay.js></script>
 </main></body>
 </html>
-          `)
-        }
-      })
+  `)
+}
+
+var postSchema = {
+  type: 'object',
+  properties: {
+    email: {
+      type: 'string',
+      format: 'email'
+    },
+    terms: {
+      const: 'accepted'
+    },
+    token: {
+      type: 'string',
+      pattern: '^tok_'
     }
-  }
+  },
+  required: ['email', 'terms', 'token'],
+  additionalProperties: false
+}
+
+var ajv = new AJV()
+var validatePost = ajv.compile(postSchema)
+
+function post (request, response, service, order) {
+  var data = {}
+  pump(
+    response,
+    new Busboy({headers: request.headers})
+      .on('field', function (name, value) {
+        if (name === 'email') {
+          data.email = value
+        } else if (name === 'terms') {
+          data.terms = value
+        }
+      }),
+    function (error) {
+      if (error || !validatePost(data)) {
+        response.statusCode = 400
+        response.end()
+      } else {
+        var products = order.products
+        var record = [
+          function (done) {
+            fs.appendFile(
+              termsAcceptancesPath(service),
+              JSON.stringify({
+                licensee: order.licensee,
+                jurisdiction: order.jurisdiction,
+                email: order.email,
+                date: new Date().toISOString()
+              }),
+              done
+            )
+          }
+        ]
+        runParallel(record.concat(products.map(function (product) {
+          return runSeries.bind(null, [
+            function chargeCustomer (done) {
+              service.stripe.api.charges.create({
+                amount: product.price + product.tax,
+                currency: 'usd',
+                description: 'licensezero.com',
+                source: data.token,
+                stripe_account: product.licensor.stripe.id,
+                application_fee: service.fee
+              }, done)
+            },
+            runWaterfall.bind(null, [
+              function emaiLicense (done) {
+                var document = privateLicense({
+                  date: new Date().toISOString(),
+                  tier: order.tier,
+                  product: pick(product, ['id', 'repository']),
+                  licensee: {
+                    name: order.licensee,
+                    jurisdiction: order.jurisdiction
+                  },
+                  licensor: pick(product.licensor, [
+                    'id', 'name', 'jurisdiction', 'publicKey'
+                  ])
+                })
+                var license = {
+                  productID: product.id,
+                  document: document,
+                  publicKey: product.licensor.publicKey,
+                  signature: encode(
+                    ed25519.Sign(
+                      Buffer.from(document, 'ascii'),
+                      decode(product.licensor.privateKey)
+                    )
+                  )
+                }
+                service.email({
+                  to: data.email,
+                  subject: 'License Zero License File',
+                  text: []
+                    .concat(
+                      'Attached is a License Zero license file for:'
+                    )
+                    .concat([
+                      'Licensee: ' + order.licenseed,
+                      'Jurisdiction: ' + order.jurisdiction,
+                      'Product:      ' + product.id,
+                      'Repository:   ' + product.repository,
+                      'License Tier: ' + capitalize(order.tier)
+                    ].join('\n')),
+                  license: license
+                }, ecb(done, function () {
+                  done(null, license)
+                }))
+              },
+              function recordSignatures (license, done) {
+                fs.appendFile(signaturesPath(service), (
+                  license.publicKey + ' ' +
+                  license.signature + '\n'
+                ), done)
+              }
+            ])
+          ])
+        })), function (error) {
+          if (error) {
+            service.log.error(error)
+            response.statusCode = 500
+            response.setHeader('Content-Type', 'text/html')
+            response.end(html`
+<!doctype html>
+<html lang=en>
+<head>
+  <meta charset=UTF-8>
+  <title>License Zero | Technical Error</title>
+  <link rel=stylesheet href=/normalize.css>
+  <link rel=stylesheet href=/styles.css>
+</head>
+<body>
+  <header><h1>Technical Error</h1></header>
+  <main>
+    <p>
+      One or more of your license purchases
+      failed to go through, due to a technical error.
+    </p>
+    <p>
+      Please check your e-mail for purchases
+      that completed successfully.
+    </p>
+  </main>
+</body>
+</html>
+            `)
+          } else {
+            response.statusCode = 200
+            response.setHeader('Content-Type', 'text/html')
+            response.end(html`
+<!doctype html>
+<html lang=en>
+<head>
+  <meta charset=UTF-8>
+  <title>License Zero | Thank You</title>
+  <link rel=stylesheet href=/normalize.css>
+  <link rel=stylesheet href=/styles.css>
+</head>
+<body>
+  <header><h1 class=thanks>Thank You</h1></header>
+  <main>
+    <p>
+      Your purchase was successful.
+      You will receive receipts and license files by e-mail shortly.
+    </p>
+  </main>
+</body>
+</html>
+            `)
+          }
+        })
+      }
+    }
+  )
 }
 
 function expired (created) {
@@ -153,7 +354,7 @@ function notFound (response) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>License Zero | Buy Licenses<title>
+  <title>License Zero | Buy Licenses</title>
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
