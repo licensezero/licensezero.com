@@ -1,7 +1,7 @@
 var decode = require('../../data/decode')
 var ed25519 = require('ed25519')
 var encode = require('../../data/encode')
-var lamos = require('lamos')
+var stringify = require('../../stringify')
 var readProduct = require('../../data/read-product')
 var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
@@ -58,7 +58,7 @@ exports.handler = function (body, service, end, fail, lock) {
           date: new Date().toISOString(),
           term: body.term.toString()
         }
-        var manifest = lamos.stableStringify(parameters)
+        var manifest = stringify(parameters)
         var document = waiver(parameters)
         var signature = encode(
           ed25519.Sign(

@@ -15,7 +15,6 @@ var formatPrice = require('./format-price')
 var fs = require('fs')
 var html = require('../html')
 var internalError = require('./internal-error')
-var lamos = require('lamos')
 var orderPath = require('../paths/order')
 var padStart = require('string.prototype.padstart')
 var pick = require('../data/pick')
@@ -26,6 +25,7 @@ var recordSignature = require('../data/record-signature')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
+var stringify = require('../stringify')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)
@@ -239,7 +239,7 @@ function post (request, response, service, order) {
                         'name', 'jurisdiction'
                       ])
                     }
-                    var manifest = lamos.stableStringify(parameters)
+                    var manifest = stringify(parameters)
                     var document = privateLicense(parameters)
                     var license = {
                       productID: product.productID,

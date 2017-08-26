@@ -18,7 +18,7 @@
     "html-entities": "^1.2.1",
     "http-hash": "^2.0.0",
     "http-https": "^1.0.0",
-    "lamos": "^3.0.3",
+    "json-stable-stringify-without-jsonify": "^1.0.1",
     "lock": "^0.1.4",
     "mkdirp": "^0.5.1",
     "node-schedule": "^1.2.4",
