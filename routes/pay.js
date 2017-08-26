@@ -243,6 +243,7 @@ function post (request, response, service, order) {
                     var document = privateLicense(parameters)
                     var license = {
                       productID: product.productID,
+                      manifest: manifest,
                       document: document,
                       publicKey: product.licensor.publicKey,
                       signature: encode(
