@@ -1,1 +1,1 @@
-module.exports = require('json-stable-stringify-without-jsonify')
+module.exports = require('json-stable-stringify')
