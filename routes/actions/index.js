@@ -15,5 +15,6 @@ module.exports = {
   public: require('./public'),
   quote: require('./quote'),
   order: require('./order'),
-  reprice: require('./reprice')
+  reprice: require('./reprice'),
+  reset: require('./reset')
 }

@@ -10,11 +10,7 @@ var runSeries = require('run-series')
 var stripeNoncePath = require('../../paths/stripe-nonce')
 
 exports.properties = {
-  email: {
-    description: 'your e-mail address',
-    type: 'string',
-    format: 'email'
-  },
+  email: require('./common/email'),
   name: {
     description: 'your legal name',
     type: 'string',

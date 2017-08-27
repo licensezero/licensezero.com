@@ -2,10 +2,9 @@ var AJV = require('ajv')
 var Lock = require('lock')
 var argon2 = require('argon2')
 var doNotCache = require('do-not-cache')
-var fs = require('fs')
-var licensorPath = require('../paths/licensor')
+var ecb = require('ecb')
 var parseJSON = require('json-parse-errback')
-var runWaterfall = require('run-waterfall')
+var readLicensor = require('../data/read-licensor')
 
 // TODO: Revisit body size limit for large buys with many UUIDs
 var REQUEST_BODY_LIMIT = 1024
@@ -140,14 +139,10 @@ module.exports = function api (request, response, service) {
 function checkAuthentication (request, body, service, callback) {
   var licensorID = body.licensorID
   var password = body.password
-  runWaterfall([
-    fs.readFile.bind(fs, licensorPath(service, licensorID)),
-    parseJSON,
-    function (licensor, done) {
-      argon2.verify(licensor.password, password)
-        .then(function (match) {
-          callback(null, match ? licensor : false)
-        })
-    }
-  ], callback)
+  readLicensor(service, licensorID, ecb(callback, function (licensor) {
+    argon2.verify(licensor.password, password)
+      .then(function (match) {
+        callback(null, match ? licensor : false)
+      })
+  }))
 }
