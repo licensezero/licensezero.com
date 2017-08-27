@@ -113,16 +113,6 @@ function get (request, response, service, order) {
         `
       })}
       </tbody>
-      <tbody class=subtotal>
-        <tr>
-          <td>Subtotal:</td>
-          <td class=price>${escape(formatPrice(order.subtotal))}</td>
-        </tr>
-        <tr>
-          <td>Tax:</td>
-          <td class=price>${escape(formatPrice(order.tax))}</td>
-        </tr>
-      </tbody>
       <tfoot class=total>
         <tr>
           <td>Total:</td>
@@ -206,7 +196,7 @@ function post (request, response, service, order) {
             runSeries([
               function chargeCustomer (done) {
                 service.stripe.api.charges.create({
-                  amount: product.price + product.tax,
+                  amount: product.price,
                   currency: 'usd',
                   source: data.token,
                   application_fee: service.fee,
@@ -262,13 +252,8 @@ function post (request, response, service, order) {
                         .concat([
                           'Thank you for buying a license through ' +
                           'licensezero.com.',
-                          'Order ID' + order.orderID,
-                          [
-                            'Price: ' + priceColumn(product.price),
-                            'Tax:   ' + priceColumn(product.tax),
-                            '-------' + '-'.repeat(10),
-                            'Total: ' + priceColumn(product.total)
-                          ].join('\n'),
+                          'Order ID: ' + order.orderID,
+                          'Total: ' + priceColumn(product.price),
                           'Attached is a License Zero license file for:'
                         ])
                         // TODO: Add CLI license import instructions
@@ -311,10 +296,6 @@ function post (request, response, service, order) {
                         ].join('\n'),
                         [
                           'Price:     ' + priceColumn(product.price),
-                          'Tax:       ' + (
-                            priceColumn(product.tax) + ' ' +
-                            '(' + order.jurisdiction + ')'
-                          ),
                           '-----------' + '-'.repeat(10),
                           'Agent Fee: ' + priceColumn(service.fee),
                           '-----------' + '-'.repeat(10),

@@ -83,17 +83,11 @@ exports.handler = function (body, service, end, fail, lock) {
         var file = orderPath(service, orderID)
         var pricedProducts = products.map(function (product) {
           product.price = product.pricing[tier]
-          // TODO: Calculate tax
-          product.tax = 0
-          product.total = product.price + product.tax
           delete product.pricing
           return product
         })
-        var subtotal = products.reduce(function (subtotal, product) {
-          return subtotal + product.price
-        }, 0)
-        var tax = products.reduce(function (tax, product) {
-          return tax + product.tax
+        var total = products.reduce(function (total, product) {
+          return total + product.price
         }, 0)
         runSeries([
           mkdirp.bind(null, path.dirname(file)),
@@ -103,9 +97,7 @@ exports.handler = function (body, service, end, fail, lock) {
             jurisdiction: body.jurisdiction,
             licensee: body.licensee,
             products: pricedProducts,
-            subtotal: subtotal,
-            tax: tax,
-            total: subtotal + tax
+            total: total
           }))
         ], function (error) {
           /* istanbul ignore if */
