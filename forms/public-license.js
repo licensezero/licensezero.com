@@ -5,9 +5,10 @@ module.exports = function (options) {
 Licenze Zero Public License ${VERSION}
 
 Copyright ${options.name}
-          Ed25519:
-          ${options.publicKey.slice(0, 32)}
-          ${options.publicKey.slice(32)}
+          ${options.jurisdiction} (ISO 3166-2)
+
+          Ed25519: ${options.publicKey.slice(0, 32)}
+                   ${options.publicKey.slice(32)}
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -33,7 +34,8 @@ are met:
 
         Artless Devices LLC
         https://licensezero.com
-        Product: ${options.product}
+        Product: ${options.productID}
+        Licensor: ${options.licensorID}
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -46,7 +48,7 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  `.trim()
+  `.trim() + '\n'
 }
 
 module.exports.version = VERSION

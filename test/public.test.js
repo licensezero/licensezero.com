@@ -6,11 +6,12 @@ var ecb = require('ecb')
 var ed25519 = require('ed25519')
 var runSeries = require('run-series')
 var server = require('./server')
+var stringify = require('json-stable-stringify')
 var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('public', function (test) {
+tape.only('public', function (test) {
   server(function (port, service, close) {
     var product
     runSeries([
@@ -37,30 +38,102 @@ tape('public', function (test) {
             'error false'
           )
           test.assert(
-            response.hasOwnProperty('document'),
+            response.hasOwnProperty('license'),
             'document'
           )
-          var document = response.document
+          var license = response.license
           test.assert(
-            response.hasOwnProperty('signature'),
-            'signature'
+            license.hasOwnProperty('document'),
+            'license.document'
           )
-          var signature = response.signature
           test.assert(
-            /^[0-9a-f]{128}$/.test(signature),
-            'ed25519 signature'
+            license.hasOwnProperty('licensorSignature'),
+            'license.licensorSignature'
+          )
+          test.assert(
+            /^[0-9a-f]{128}$/.test(license.licensorSignature),
+            'licensor ed25519 signature'
+          )
+          test.assert(
+            license.hasOwnProperty('agentSignature'),
+            'license.agentSignature'
+          )
+          test.assert(
+            /^[0-9a-f]{128}$/.test(license.agentSignature),
+            'agent ed25519 signature'
+          )
+          test.assert(
+            response.hasOwnProperty('metadata'),
+            'metadata'
+          )
+          var metadata = response.metadata
+          console.log(license.document)
+          test.assert(
+            metadata.hasOwnProperty('licensezero'),
+            'licensezero'
+          )
+          var licensezero = metadata.licensezero
+          test.assert(
+            licensezero.hasOwnProperty('licensorSignature'),
+            'licensezero.licensorSignature'
+          )
+          test.assert(
+            licensezero.hasOwnProperty('agentSignature'),
+            'licensezero.agentSignature'
           )
           apiRequest(port, {
             action: 'key'
           }, ecb(done, function (response) {
-            var key = response.key
+            var agentPublicKey = response.key
+            // Validate license signatures.
             test.assert(
               ed25519.Verify(
-                Buffer.from(document, 'ascii'),
-                Buffer.from(signature, 'hex'),
-                Buffer.from(key, 'hex')
+                Buffer.from(license.document, 'utf8'),
+                Buffer.from(license.licensorSignature, 'hex'),
+                Buffer.from(LICENSOR.publicKey, 'hex')
               ),
-              'verifiable agent signature'
+              'valid document licensor signature'
+            )
+            test.assert(
+              ed25519.Verify(
+                Buffer.from(
+                  license.document +
+                  '---\nLicensor:\n' +
+                  [
+                    license.licensorSignature.slice(0, 32),
+                    license.licensorSignature.slice(32, 64),
+                    license.licensorSignature.slice(64, 96),
+                    license.licensorSignature.slice(96)
+                  ].join('\n') + '\n',
+                  'utf8'
+                ),
+                Buffer.from(license.agentSignature, 'hex'),
+                Buffer.from(agentPublicKey, 'hex')
+              ),
+              'valid document agent signature'
+            )
+            // Validate metadata signatures.
+            test.assert(
+              ed25519.Verify(
+                Buffer.from(stringify(licensezero.license), 'utf8'),
+                Buffer.from(licensezero.licensorSignature, 'hex'),
+                Buffer.from(LICENSOR.publicKey, 'hex')
+              ),
+              'valid metadata licensor signature'
+            )
+            test.assert(
+              ed25519.Verify(
+                Buffer.from(
+                  stringify({
+                    license: licensezero.license,
+                    licensorSignature: licensezero.licensorSignature
+                  }),
+                  'utf8'
+                ),
+                Buffer.from(licensezero.agentSignature, 'hex'),
+                Buffer.from(agentPublicKey, 'hex')
+              ),
+              'valid metadata agent signature'
             )
             done()
           }))
