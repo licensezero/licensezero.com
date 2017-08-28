@@ -186,7 +186,6 @@ module.exports = function (request, response, service) {
               service.email({
                 to: email,
                 subject: 'Licensor Registration',
-                // TODO: Attach copy of terms of service
                 text: [
                   [
                     'Thank you for registering as a licensor',
