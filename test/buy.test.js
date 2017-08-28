@@ -7,7 +7,6 @@ var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
 var uuid = require('uuid/v4')
-var webdriver = require('./webdriver')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape.skip('buy', function (test) {
@@ -57,6 +56,7 @@ tape.skip('buy', function (test) {
         }))
       },
       function pay (done) {
+        var webdriver = require('./webdriver')
         webdriver
           .url('http://localhost:' + port + location)
           .waitForExist('iframe')

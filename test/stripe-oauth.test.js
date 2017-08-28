@@ -3,7 +3,6 @@ var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var webdriver = require('./webdriver')
 
 tape('Stripe OAuth connect', function (test) {
   server(function (port, service, close) {
@@ -37,6 +36,7 @@ tape('Stripe OAuth connect', function (test) {
         })
       },
       function authorize (done) {
+        var webdriver = require('./webdriver')
         webdriver.url(oauthLocation)
           .waitForExist('=Skip this account form', 10000)
           .click('=Skip this account form')
@@ -93,6 +93,7 @@ tape('Stripe OAuth connect', function (test) {
         }))
       },
       function pay (done) {
+        var webdriver = require('./webdriver')
         webdriver
           .url('http://localhost:' + port + paymentLocation)
           .waitForExist('iframe')
