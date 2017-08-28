@@ -1,5 +1,6 @@
 var decode = require('./data/decode')
-var deleteExpiredOrders = require('./jobs/delete-expired-orders')
+var sweepOrders = require('./jobs/delete-expired-orders')
+var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 var http = require('http')
 var makeHandler = require('./')
 var pino = require('pino')
@@ -40,10 +41,12 @@ server.listen(PORT, function onListening () {
   log.info({event: 'listening', port: boundPort})
 })
 
-// TODO: reset token sweeper
-deleteExpiredOrders(service)
-schedule.scheduleJob('0 * * * *', function () {
-  deleteExpiredOrders(service, function () { /* pass */ })
+var jobs = [sweepOrders, sweepResetTokens]
+jobs.forEach(function (job) {
+  job(service, function () { })
+  schedule.scheduleJob('0 * * * *', function () {
+    job(service, function () { /* pass */ })
+  })
 })
 
 function logSignalAndShutDown () {
