@@ -5,10 +5,9 @@ var html = require('../html')
 var internalError = require('./internal-error')
 var licensorPath = require('../paths/licensor')
 var lock = require('./lock')
+var mutateJSONFile = require('../data/mutate-json-file')
 var readJSONFile = require('../data/read-json-file')
-var readLicensor = require('../data/read-licensor')
 var resetTokenPath = require('../paths/reset-token')
-var runParallel = require('run-parallel')
 var runWaterfall = require('run-waterfall')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
@@ -43,15 +42,12 @@ function get (request, response, service) {
       var licensorID = tokenData.licensorID
       lock(licensorID, function (release) {
         runWaterfall([
-          runParallel.bind(null, {
-            licensor: readLicensor.bind(null, service, licensorID),
-            hash: hashPassword.bind(null, password)
-          }),
-          function writeLicensorFile (prior, done) {
-            var licensor = prior.licensor
-            licensor.password = prior.hash
+          hashPassword.bind(null, password),
+          function writeLicensorFile (hash, done) {
             var licensorFile = licensorPath(service, licensorID)
-            fs.writeFile(licensorFile, JSON.stringify(licensor), done)
+            mutateJSONFile(licensorFile, function (data) {
+              data.password = hash
+            }, done)
           }
         ], release(function (error) {
           if (error) {
