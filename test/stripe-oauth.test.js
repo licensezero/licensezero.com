@@ -38,7 +38,7 @@ tape('Stripe OAuth connect', function (test) {
       },
       function authorize (done) {
         webdriver.url(oauthLocation)
-          .waitForExist('=Skip this account form')
+          .waitForExist('=Skip this account form', 10000)
           .click('=Skip this account form')
           .getText('code.id')
           .then(function (text) {
