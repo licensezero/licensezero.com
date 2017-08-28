@@ -1,10 +1,10 @@
 var accountsPath = require('../paths/accounts')
-var argon2 = require('argon2')
 var crypto = require('crypto')
 var ecb = require('ecb')
 var encode = require('../data/encode')
 var fs = require('fs')
 var generateKeypair = require('../data/generate-keypair')
+var hashPassword = require('../data/hash-password')
 var html = require('../html')
 var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
@@ -133,12 +133,8 @@ module.exports = function (request, response, service) {
           var stripeID = stripeData.stripe_user_id
           runWaterfall([
             mkdirp.bind(null, path.dirname(licensorFile)),
-            function hashPassphrase (_, done) {
-              argon2.hash(passphrase)
-                .catch(done)
-                .then(function (result) {
-                  done(null, result)
-                })
+            function (_, done) {
+              hashPassword(passphrase, done)
             },
             function writeLicensorFile (hash, done) {
               fs.writeFile(

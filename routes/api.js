@@ -1,8 +1,8 @@
 var AJV = require('ajv')
-var Lock = require('lock')
 var argon2 = require('argon2')
 var doNotCache = require('do-not-cache')
 var ecb = require('ecb')
+var lock = require('./lock')
 var parseJSON = require('json-parse-errback')
 var readLicensor = require('../data/read-licensor')
 
@@ -41,8 +41,6 @@ Object.keys(actions).forEach(function (key) {
   }
   action.validate = ajv.compile(action.schema)
 })
-
-var lock = new Lock()
 
 module.exports = function api (request, response, service) {
   parseBodyAndRespond()

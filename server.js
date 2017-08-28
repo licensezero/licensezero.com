@@ -40,8 +40,8 @@ server.listen(PORT, function onListening () {
   log.info({event: 'listening', port: boundPort})
 })
 
+// TODO: reset token sweeper
 deleteExpiredOrders(service)
-
 schedule.scheduleJob('0 * * * *', function () {
   deleteExpiredOrders(service, function () { /* pass */ })
 })

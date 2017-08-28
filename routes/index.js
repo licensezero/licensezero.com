@@ -20,6 +20,7 @@ routes.set('/stripe-redirect', require('./stripe-redirect'))
 routes.set('/stripe-webhook', require('./stripe-webhook'))
 
 routes.set('/pay/:order', require('./pay'))
+routes.set('/reset/:token', require('./reset'))
 
 routes.set('/terms', require('./terms'))
 
