@@ -67,7 +67,6 @@ tape.only('public', function (test) {
             'metadata'
           )
           var metadata = response.metadata
-          console.log(license.document)
           test.assert(
             metadata.hasOwnProperty('licensezero'),
             'licensezero'
