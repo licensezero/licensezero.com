@@ -11,7 +11,7 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape.only('public', function (test) {
+tape('public', function (test) {
   server(function (port, service, close) {
     var product
     runSeries([
@@ -79,6 +79,10 @@ tape.only('public', function (test) {
           test.assert(
             licensezero.hasOwnProperty('agentSignature'),
             'licensezero.agentSignature'
+          )
+          test.equal(
+            metadata.license, 'SEE LICENSE IN LICENSE',
+            'metadata.license'
           )
           apiRequest(port, {
             action: 'key'

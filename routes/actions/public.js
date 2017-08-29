@@ -75,6 +75,9 @@ exports.handler = function (body, service, end, fail, lock) {
             agentSignature: agentLicenseSignature
           },
           metadata: {
+            // See: https://docs.npmjs.com/files/package.json#license
+            // TODO: Replace w/ SPDX identifier.
+            license: 'SEE LICENSE IN LICENSE',
             licensezero: {
               license: licenseData,
               licensorSignature: licensorMetadataSignature,
