@@ -15,7 +15,7 @@ module.exports = function testServer (callback) {
       privateKey: keys.privateKey,
       stripe: require('../stripe-environment'),
       mailgun: require('../mailgun-environment'),
-      fee: 100
+      fee: 25
     }
     var log = pino({}, fs.createWriteStream('test-server.log'))
     configuration.log = log

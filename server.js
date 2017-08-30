@@ -15,7 +15,7 @@ var service = {
   privateKey: decode(process.env.PRIVATE_KEY),
   stripe: require('./stripe-environment'),
   mailgun: require('./mailgun-environment'),
-  fee: 100
+  fee: 25
 }
 
 var NAME = require('./package.json').name

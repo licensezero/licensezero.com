@@ -5,6 +5,7 @@ var AJV = require('ajv')
 var Busboy = require('busboy')
 var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
+var applicationFee = require('../stripe/application-fee')
 var capitalize = require('./capitalize')
 var decode = require('../data/decode')
 var ecb = require('ecb')
@@ -192,6 +193,7 @@ function post (request, response, service, order) {
             date: new Date().toISOString()
           })
         ].concat(products.map(function (product) {
+          var fee = applicationFee(service, product.product)
           return function (done) {
             runSeries([
               function chargeCustomer (done) {
@@ -199,7 +201,7 @@ function post (request, response, service, order) {
                   amount: product.price,
                   currency: 'usd',
                   source: data.token,
-                  application_fee: service.fee,
+                  application_fee: fee,
                   statement_descriptor: 'License Zero License',
                   metadata: {
                     orderID: order.orderID,
@@ -297,10 +299,10 @@ function post (request, response, service, order) {
                         [
                           'Price:     ' + priceColumn(product.price),
                           '-----------' + '-'.repeat(10),
-                          'Agent Fee: ' + priceColumn(service.fee),
+                          'Agent Fee: ' + priceColumn(fee),
                           '-----------' + '-'.repeat(10),
                           'Total:     ' + priceColumn(
-                            product.total - service.fee
+                            product.total - fee
                           )
                         ].join('\n'),
                         [
