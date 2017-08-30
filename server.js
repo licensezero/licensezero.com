@@ -13,14 +13,15 @@ var service = {
   port: PORT,
   publicKey: decode(process.env.PUBLIC_KEY),
   privateKey: decode(process.env.PRIVATE_KEY),
-  stripe: require('../stripe-environment'),
-  mailgun: require('../mailgun-environment'),
+  stripe: require('./stripe-environment'),
+  mailgun: require('./mailgun-environment'),
   fee: 100
 }
 
 var NAME = require('./package.json').name
 var VERSION = require('./package.json').version
 var log = pino({name: NAME + '@' + VERSION})
+service.log = log
 
 log.info({event: 'data', directory: DIRECTORY})
 

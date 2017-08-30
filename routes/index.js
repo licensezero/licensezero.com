@@ -6,6 +6,7 @@ var send = require('send')
 
 var routes = module.exports = require('http-hash')()
 
+routes.set('/', require('./homepage'))
 routes.set('/api/v0', require('./api'))
 
 routes.set('/stripe-redirect', require('./stripe-redirect'))
@@ -32,6 +33,7 @@ routes.set('/pay.js', function (request, response, service) {
 
 staticFile('normalize.css')
 staticFile('styles.css')
+staticFile('logo-100.png')
 
 function staticFile (file) {
   var filePath = path.join(__dirname, '..', 'static', file)
