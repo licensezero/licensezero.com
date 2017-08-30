@@ -91,7 +91,18 @@ ${options.date} (ISO 8601)
 
    4. Redistribution. You may reproduce and distribute copies of the
       Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form.
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of the License Zero Public License
+          applied to the Work; and
+
+      (b) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works.
 
       You may add Your own copyright statement to Your modifications and
       may provide additional or different license terms and conditions
