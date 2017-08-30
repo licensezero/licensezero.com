@@ -11,14 +11,16 @@ tape('GET /pay.js', function (test) {
           response.headers['content-type'],
           'application/javascript'
         )
-        test.end()
-        close()
+        finish()
       })
       .once('error', function (error) {
         test.fail(error, 'no error')
-        test.end()
-        close()
+        finish()
       })
       .end()
+    function finish () {
+      test.end()
+      close()
+    }
   })
 })

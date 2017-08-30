@@ -12,15 +12,17 @@ tape('GET /robots.txt', function (test) {
         simpleConcat(response, function (error, buffer) {
           test.error(error)
           test.assert(buffer.toString().includes('Disallow: /pay/'))
-          test.end()
-          close()
+          finish()
         })
       })
       .once('error', function (error) {
         test.fail(error, 'no error')
-        test.end()
-        close()
+        finish()
       })
       .end()
+    function finish () {
+      test.end()
+      close()
+    }
   })
 })

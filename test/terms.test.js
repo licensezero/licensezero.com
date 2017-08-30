@@ -8,14 +8,16 @@ tape('GET /terms', function (test) {
       .once('response', function (response) {
         test.equal(response.statusCode, 200)
         test.equal(response.headers['content-type'], 'text/html')
-        test.end()
-        close()
+        finish()
       })
       .once('error', function (error) {
         test.fail(error, 'no error')
-        test.end()
-        close()
+        finish()
       })
       .end()
+    function finish () {
+      test.end()
+      close()
+    }
   })
 })

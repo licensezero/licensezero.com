@@ -15,22 +15,19 @@ tape('offer', function (test) {
         licensorID: LICENSOR.id,
         password: LICENSOR.password
       }), function (error, response) {
-        if (error) {
-          test.error(error)
-        } else {
-          test.equal(
-            response.error, false,
-            'error false'
-          )
-          test.assert(
-            response.hasOwnProperty('product'),
-            'product'
-          )
-          test.assert(
-            new RegExp(UUIDV4).test(response.product),
-            'UUIDv4'
-          )
-        }
+        test.error(error)
+        test.equal(
+          response.error, false,
+          'error false'
+        )
+        test.assert(
+          response.hasOwnProperty('product'),
+          'product'
+        )
+        test.assert(
+          new RegExp(UUIDV4).test(response.product),
+          'UUIDv4'
+        )
         test.end()
         close()
       })

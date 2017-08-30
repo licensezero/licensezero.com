@@ -15,15 +15,17 @@ function testCSS (file) {
             response.headers['content-type'],
             'text/css; charset=UTF-8'
           )
-          test.end()
-          close()
+          finish()
         })
         .once('error', function (error) {
           test.fail(error, 'no error')
-          test.end()
-          close()
+          finish()
         })
         .end()
+      function finish () {
+        test.end()
+        close()
+      }
     })
   })
 }
