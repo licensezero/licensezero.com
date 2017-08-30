@@ -16,5 +16,6 @@ module.exports = {
   quote: require('./quote'),
   order: require('./order'),
   reprice: require('./reprice'),
-  reset: require('./reset')
+  reset: require('./reset'),
+  version: require('./version')
 }

@@ -1,5 +1,6 @@
 {
   "name": "licensezero-server",
+  "version": "0.0.0",
   "description": "License Zero paid license portal",
   "private": true,
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
