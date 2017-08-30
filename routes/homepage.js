@@ -1,3 +1,5 @@
+var footer = require('../partials/footer')
+var header = require('../partials/header')
 var html = require('../html')
 
 module.exports = function (request, response, service) {
@@ -12,19 +14,10 @@ module.exports = function (request, response, service) {
     <link rel=stylesheet href=/styles.css>
   </head>
   <body>
-    <header>
-      <img src=/logo-100.png alt="License Zero">
-      <h1>License Zero</h1>
-      <p>sustainable software in the open</p>
-    </header>
+    ${header()}
     <main>
     </main>
-    <footer>
-      a service of
-      <a href=https://artlessdevices.com target=_blank>
-        Artless Devices LLC
-      </a>
-    </footer>
+    ${footer()}
   </body>
 </html>
   `)
