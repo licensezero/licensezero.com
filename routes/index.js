@@ -11,6 +11,10 @@ routes.set('/products/:productID', require('./products'))
 routes.set('/buy', require('./buy'))
 routes.set('/api/v0', require('./api'))
 
+routes.set('/forms/private-license', require('./private-license'))
+routes.set('/forms/public-license', require('./public-license'))
+routes.set('/forms/waiver', require('./waiver'))
+
 routes.set('/stripe-redirect', require('./stripe-redirect'))
 routes.set('/stripe-webhook', require('./stripe-webhook'))
 
