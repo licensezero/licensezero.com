@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+var ed25519 = require('ed25519')
+var crypto = require('crypto')
+
+var keypair = ed25519.MakeKeypair(crypto.randomBytes(32))
+
+console.log('export PUBLIC_KEY="' + keypair.publicKey.toString('hex') + '"')
+console.log('export PRIVATE_KEY="' + keypair.privateKey.toString('hex') + '"')
