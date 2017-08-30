@@ -12,8 +12,11 @@ var ecb = require('ecb')
 var ed25519 = require('ed25519')
 var encode = require('../data/encode')
 var escape = require('./escape')
+var footer = require('../partials/footer')
 var formatPrice = require('./format-price')
 var fs = require('fs')
+var head = require('../partials/head')
+var header = require('../partials/header')
 var html = require('../html')
 var internalError = require('./internal-error')
 var orderPath = require('../paths/order')
@@ -58,16 +61,9 @@ function get (request, response, service, order) {
   response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>License Zero | Buy Licenses</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+${head('Buy Licenses')}
 <body>
-  <header>
-    <h1>License Zero | Buy Licenses</h1>
-  </header>
+  ${header()}
   <main>
   <section>
     <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
@@ -142,7 +138,7 @@ function get (request, response, service, order) {
   </form>
   <script src=https://js.stripe.com/v3/></script>
   <script src=/pay.js></script>
-</main></body>
+</main>${footer()}</body>
 </html>
   `)
 }

@@ -164,3 +164,42 @@ tape('order w/ retracted', function (test) {
     })
   })
 })
+
+tape('POST /buy', function (test) {
+  server(function (port, service, close) {
+    var productID
+    runSeries([
+      writeTestLicensor.bind(null, service),
+      function offer (done) {
+        apiRequest(port, Object.assign(clone(OFFER), {
+          licensorID: LICENSOR.id,
+          password: LICENSOR.password
+        }), ecb(done, function (response) {
+          test.equal(response.error, false, 'error false')
+          productID = response.product
+          done()
+        }))
+      },
+      function browse (done) {
+        require('./webdriver')
+          .url('http://localhost:' + port + '/products/' + productID)
+          .waitForExist('h2')
+          .setValue('#licensee', 'SomeCo, Inc.')
+          .selectByIndex('#jurisdiction', 0)
+          .selectByIndex('#tier', 1)
+          .click('button[type="submit"]')
+          .waitForExist('iframe')
+          .getText('h2')
+          .then(function (text) {
+            test.equal(text, 'Credit Card Payment', 'credit card')
+            done()
+          })
+          .catch(done)
+      }
+    ], function (error) {
+      test.error(error, 'no error')
+      test.end()
+      close()
+    })
+  })
+})

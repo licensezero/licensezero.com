@@ -1,3 +1,4 @@
+var JURISDICTIONS = require('../data/jurisdictions')
 var TIERS = require('../data/private-license-tiers')
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var capitalize = require('./capitalize')
@@ -63,6 +64,7 @@ module.exports = function (request, response, service) {
           ? retracted()
           : priceList(product.pricing)
       }
+      ${orderForm(product)}
     </main>
     ${footer()}
   </body>
@@ -89,5 +91,56 @@ ${
   })
 }
 </dl>
+  `
+}
+
+function orderForm (product) {
+  return html`
+<h3>Order a License</h3>
+<form method=POST action=/buy>
+  <input
+      type=hidden
+      name=products[]
+      value="${escape(product.productID)}">
+  <p>
+    <label>
+      Licensee Legal Name
+      <input
+        type=text
+        name=licensee
+        id=licensee
+        required>
+    </label>
+  </p>
+  <p>
+    <label>
+      Licensee Jurisdiction
+      <select name=jurisdiction id=jurisdiction>
+        ${JURISDICTIONS.map(function (code) {
+          return html`
+            <option value="${escape(code)}">
+              ${escape(code)}
+            </option>
+          `
+        })}
+      </select>
+    </label>
+  </p>
+  <p>
+    <label>
+      License Tier
+      <select name=tier id=tier>
+        ${Object.keys(TIERS).map(function (tier) {
+          return html`
+            <option value="${escape(tier)}">
+              ${escape(capitalize(tier))}
+            </option>
+          `
+        })}
+      </select>
+    </label>
+  </p>
+  <button type=submit>Order</button>
+</form>
   `
 }
