@@ -6,7 +6,6 @@ var terms = require('../forms/terms')
 module.exports = function (request, response, service) {
   terms(function (error, terms) {
     if (error) {
-      console.error(error)
       service.log.error(error)
       response.statusCode = 500
       return response.end()

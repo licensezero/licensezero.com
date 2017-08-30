@@ -10,6 +10,7 @@ var send = require('send')
 var routes = module.exports = require('http-hash')()
 
 routes.set('/', require('./homepage'))
+routes.set('/products/:productID', require('./products'))
 routes.set('/api/v0', require('./api'))
 
 routes.set('/stripe-redirect', require('./stripe-redirect'))

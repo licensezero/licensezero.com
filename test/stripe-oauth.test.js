@@ -5,7 +5,7 @@ var server = require('./server')
 var tape = require('tape')
 
 tape('Stripe OAuth connect', function (test) {
-  server(function (port, service, close) {
+  server(8080, function (port, service, close) {
     var oauthLocation
     var licensorID
     var password

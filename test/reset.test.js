@@ -60,47 +60,45 @@ tape('reset link', function (test) {
         if (match) resetToken = match[1]
       })
     })
-    writeTestLicensor(service, function (error) {
-      test.error(error, 'no error')
-      runSeries([
-        function resetAction (done) {
-          apiRequest(port, {
-            action: 'reset',
-            licensorID: LICENSOR.id,
-            email: LICENSOR.email
-          }, function (error, response) {
-            test.error(error, 'no error')
-            test.equal(response.error, false, 'error false')
+    runSeries([
+      writeTestLicensor.bind(null, service),
+      function resetAction (done) {
+        apiRequest(port, {
+          action: 'reset',
+          licensorID: LICENSOR.id,
+          email: LICENSOR.email
+        }, function (error, response) {
+          test.error(error, 'no error')
+          test.equal(response.error, false, 'error false')
+          done()
+        })
+      },
+      function visitResetPage (done) {
+        require('./webdriver')
+          .url('http://localhost:' + port + '/reset/' + resetToken)
+          .waitForExist('h1')
+          .getText('code.token')
+          .then(function (text) {
+            newToken = text
             done()
           })
-        },
-        function visitResetPage (done) {
-          require('./webdriver')
-            .url('http://localhost:' + port + '/reset/' + resetToken)
-            .waitForExist('h1')
-            .getText('code.token')
-            .then(function (text) {
-              newToken = text
-              done()
-            })
-            .catch(done)
-        },
-        function useNewToken (done) {
-          apiRequest(port, {
-            action: 'jurisdiction',
-            licensorID: LICENSOR.id,
-            password: newToken,
-            jurisdiction: 'US-TX'
-          }, ecb(done, function (response) {
-            test.equal(response.error, false, 'no error')
-            done()
-          }))
-        }
-      ], function (error) {
-        test.error(error, 'error')
-        test.end()
-        close()
-      })
+          .catch(done)
+      },
+      function useNewToken (done) {
+        apiRequest(port, {
+          action: 'jurisdiction',
+          licensorID: LICENSOR.id,
+          password: newToken,
+          jurisdiction: 'US-TX'
+        }, ecb(done, function (response) {
+          test.equal(response.error, false, 'no error')
+          done()
+        }))
+      }
+    ], function (error) {
+      test.error(error, 'error')
+      test.end()
+      close()
     })
   })
 })

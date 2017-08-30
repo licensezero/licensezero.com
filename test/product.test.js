@@ -77,3 +77,40 @@ tape('nonexistent product', function (test) {
     })
   })
 })
+
+tape('/product/{id}', function (test) {
+  server(function (port, service, close) {
+    var productID
+    runSeries([
+      writeTestLicensor.bind(null, service),
+      function offer (done) {
+        apiRequest(port, Object.assign(clone(OFFER), {
+          licensorID: LICENSOR.id,
+          password: LICENSOR.password
+        }), ecb(done, function (response) {
+          test.equal(response.error, false, 'error false')
+          productID = response.product
+          done()
+        }))
+      },
+      function browse (done) {
+        require('./webdriver')
+          .url('http://localhost:' + port + '/products/' + productID)
+          .waitForExist('h2')
+          .getText('h2')
+          .then(function (text) {
+            test.equal(
+              text, 'Product ' + productID,
+              'product header'
+            )
+            done()
+          })
+          .catch(done)
+      }
+    ], function (error) {
+      test.error(error, 'no error')
+      test.end()
+      close()
+    })
+  })
+})
