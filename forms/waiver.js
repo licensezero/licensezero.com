@@ -9,7 +9,7 @@ Beneficiary:  ${options.beneficiary}
 Licensor:     ${options.name}
               ${options.jurisdiction} (ISO 3166-2)
 
-Product:      ${options.product}
+Product:      ${options.productID}
               ${options.description}
               ${options.repository}
 
@@ -25,14 +25,15 @@ Agent:        Artless Devices LLC
               US-CA (ISO 3166-2)
               https://licensezero.com
 
-The Licensor hereby irrevocably waives the third numbered clause of
-the License Zero Public License:
+The Licensor hereby irrevocably waives Condition 3 of the
+License Zero Public License:
 
 1.  as applied to the product licensed by the Agent under the
     Product Code
 
 2.  for the Beneficiary, as well as Beneficary employees and
-    natural-person contractors providing Beneficiary services
+    natural-person independent contractors providing services
+    to Beneficiary
 
 3.  for the Term
 

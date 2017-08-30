@@ -52,7 +52,7 @@ exports.handler = function (body, service, end, fail, lock) {
           name: licensor.name,
           jurisdiction: licensor.jurisdiction,
           repository: product.repository,
-          product: productID,
+          productID: productID,
           description: product.description,
           beneficiary: body.beneficiary,
           date: new Date().toISOString(),

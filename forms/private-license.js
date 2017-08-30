@@ -71,12 +71,15 @@ ${options.date} (ISO 8601)
       separable from, or merely link (or bind by name) to the interfaces of,
       the Work and Derivative Works thereof.
 
-   2. Grant of Copyright License. Subject to the terms and conditions of this
-      License, the Licensor hereby grants to You a perpetual,
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, the Licensor hereby grants to You a perpetual,
       worldwide, non-exclusive, irrevocable copyright license to
       reproduce, prepare Derivative Works of, publicly display,
       publicly perform, and distribute the Work and such Derivative
       Works in Source or Object form.
+
+      Licensor represents that Licensor is legally entitled to grant the
+      above copyright license.
 
    3. Grant of Patent License. Subject to the terms and conditions of
       this License, the Licensor hereby grants to You a perpetual,
@@ -92,17 +95,8 @@ ${options.date} (ISO 8601)
    4. Redistribution. You may reproduce and distribute copies of the
       Work or Derivative Works thereof in any medium, with or without
       modifications, and in Source or Object form, provided that You
-      meet the following conditions:
-
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of the License Zero Public License
-          applied to the Work; and
-
-      (b) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works.
+      comply with Condition 1 and Condition 2 of the the License Zero
+      Public License applied to the Work.
 
       You may add Your own copyright statement to Your modifications and
       may provide additional or different license terms and conditions
@@ -153,13 +147,13 @@ ${sublicensing(options.tier)}
 
 function sublicensing (tier) {
   if (tier === 'solo') {
-    return `
+    return '   ' + `
    5. Sublicensing. The licenses granted in Section 2 (Grant of Copyright
       License) and Section 3 (Grant of Patent License) do not permit You
-      to sublicense others.
+      to sublicense.
     `.trim()
   } else if (tier === 'enterprise') {
-    return `
+    return '   ' + `
    5. Sublicensing. The licenses granted in Section 2 (Grant of Copyright
       License) and Section 3 (Grant of Patent License) permit You to
       sublicense Your employees and natural-person independent contractors
@@ -167,12 +161,13 @@ function sublicensing (tier) {
     `.trim()
   } else {
     var limit = TIERS[tier].toString()
-    return `
+    return '   ' + `
    5. Sublicensing. The licenses granted in Section 2 (Grant of Copyright
       License) and Section 3 (Grant of Patent License) permit You to
       sublicense Your employees and natural-person independent contractors
-      providing services to You, up to a maximum of ${limit} individuals in any
-      single 365-calendar-day period.
+      providing services to You, up to a maximum of ${limit} individuals
+      sublicensed to exercise permission under this License in any rolling
+      365-calendar-day period.
     `.trim()
   }
 }
