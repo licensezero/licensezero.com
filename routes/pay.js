@@ -193,7 +193,7 @@ function post (request, response, service, order) {
             date: new Date().toISOString()
           })
         ].concat(products.map(function (product) {
-          var fee = applicationFee(service, product.product)
+          var fee = applicationFee(service, product.price)
           return function (done) {
             runSeries([
               function chargeCustomer (done) {
