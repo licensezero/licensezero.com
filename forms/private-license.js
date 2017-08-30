@@ -144,37 +144,24 @@ function sublicensing (tier) {
   if (tier === 'solo') {
     return `
    5. Sublicensing. The licenses granted in Section 2 (Grant of Copyright
-      License) and Section 3 (Grant of Patent License) permit You to
-      sublicense others, to the extent necessary to use, reproduce, and
-      distribute Derivative Works and other works of authorship that utilize
-      or incorporate the Work that You license, provided those works afford
-      significant additional functionality over that of the Work alone.This
-      License is conditional upon Your adherence to limits on your permission
-      to sublicense.
+      License) and Section 3 (Grant of Patent License) do not permit You
+      to sublicense others.
     `.trim()
   } else if (tier === 'enterprise') {
     return `
    5. Sublicensing. The licenses granted in Section 2 (Grant of Copyright
       License) and Section 3 (Grant of Patent License) permit You to
-      sublicense (i) Your employees and natural-person independent contractors
-      providing services to You; and (ii) anyone, to the extent necessary to
-      use, reproduce, and distribute Derivative Works and other works of
-      authorship that utilize or incorporate the Work that You license,
-      provided those works afford significant additional functionality over
-      that of the Work alone.
+      sublicense Your employees and natural-person independent contractors
+      providing services to You.
     `.trim()
   } else {
     var limit = TIERS[tier].toString()
     return `
    5. Sublicensing. The licenses granted in Section 2 (Grant of Copyright
       License) and Section 3 (Grant of Patent License) permit You to
-      sublicense (i) Your employees and natural-person independent contractors
+      sublicense Your employees and natural-person independent contractors
       providing services to You, up to a maximum of ${limit} individuals in any
-      single 365-calendar-day period; and (ii) anyone, to the extent necessary
-      to use, reproduce, and distribute Derivative Works and other works of
-      authorship that utilize or incorporate the Work that You license,
-      provided those works afford significant additional functionality over
-      that of the Work alone.
+      single 365-calendar-day period.
     `.trim()
   }
 }
