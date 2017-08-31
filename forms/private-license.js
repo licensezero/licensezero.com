@@ -16,6 +16,12 @@ ${options.date} (ISO 8601)
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
+   These terms are derived from, and distinct from:
+
+   The Apache License, Version 2.0
+   (c) 2004 The Apache Foundation
+   https://www.apache.org/licenses/
+
    1. Definitions.
 
       "License" shall mean the terms and conditions for use, reproduction,
