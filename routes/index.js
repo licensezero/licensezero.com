@@ -22,6 +22,7 @@ routes.set('/pay/:order', require('./pay'))
 routes.set('/reset/:token', require('./reset'))
 
 routes.set('/terms-of-service', require('./terms-of-service'))
+routes.set('/privacy-notice', require('./privacy-notice'))
 routes.set('/agency-agreement', require('./agency-agreement'))
 
 routes.set('/pay.js', function (request, response, service) {

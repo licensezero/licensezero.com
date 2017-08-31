@@ -5,6 +5,7 @@ var tape = require('tape')
 
 sanityCheck('terms-of-service', 'Terms of Service')
 sanityCheck('agency-agreement', 'Agency Agreement')
+sanityCheck('privacy-notice', 'Privacy Notice')
 
 function sanityCheck (path, header) {
   tape('GET /' + path, function (test) {
