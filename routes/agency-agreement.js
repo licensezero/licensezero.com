@@ -1,7 +1,7 @@
 var commonformToHTML = require('commonform-html')
-var terms = require('../forms/terms-of-service')
+var terms = require('../forms/agency-agreement')
 
-// TODO: terms of service
+// TODO: agency agreement
 
 module.exports = function (request, response, service) {
   terms(function (error, terms) {
@@ -16,12 +16,12 @@ module.exports = function (request, response, service) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>License Zero | Terms of Service</title>
+  <title>License Zero | Agency Agreement</title>
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
-  <header><h1>License Zero | Terms of Service</h1></header>
+  <header><h1>License Zero | Agency Agreement</h1></header>
   <main>
       <article class=commonform>
         ${
@@ -29,7 +29,7 @@ module.exports = function (request, response, service) {
             terms.commonform,
             terms.directions,
             {
-              title: 'License Zero Terms of Use',
+              title: 'License Zero Agency Agreement',
               html5: true,
               lists: true
             }
