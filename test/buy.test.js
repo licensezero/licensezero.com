@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -21,22 +20,24 @@ tape.skip('buy', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           firstProduct = response.product
           done()
-        }))
+        })
       },
       function offerSecond (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           secondProduct = response.product
           done()
-        }))
+        })
       },
       function order (done) {
         apiRequest(port, {
@@ -45,7 +46,8 @@ tape.skip('buy', function (test) {
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'order error false')
           test.assert(
             response.location.indexOf('/pay/') === 0,
@@ -53,7 +55,7 @@ tape.skip('buy', function (test) {
           )
           location = response.location
           done()
-        }))
+        })
       },
       function pay (done) {
         var webdriver = require('./webdriver')
@@ -124,11 +126,12 @@ tape('order w/ retracted', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           productID = response.product
           done()
-        }))
+        })
       },
       function retract (done) {
         apiRequest(port, {
@@ -136,10 +139,11 @@ tape('order w/ retracted', function (test) {
           productID: productID,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'retract error false')
           done()
-        }))
+        })
       },
       function order (done) {
         apiRequest(port, {
@@ -148,14 +152,15 @@ tape('order w/ retracted', function (test) {
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'solo'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error,
             'retracted products: ' + productID,
             'retracted error'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -174,11 +179,12 @@ tape('POST /buy', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           productID = response.product
           done()
-        }))
+        })
       },
       function browse (done) {
         require('./webdriver')

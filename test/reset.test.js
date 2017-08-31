@@ -1,6 +1,5 @@
 var LICENSOR = require('./licensor')
 var apiRequest = require('./api-request')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -90,10 +89,11 @@ tape('reset link', function (test) {
           licensorID: LICENSOR.id,
           password: newToken,
           jurisdiction: 'US-TX'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'no error')
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'error')

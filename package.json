@@ -12,7 +12,6 @@
     "commonform-markup-parse": "^0.4.2",
     "commonform-terminal": "^1.0.1",
     "do-not-cache": "^1.0.1",
-    "ecb": "^1.0.0",
     "ed25519": "0.0.4",
     "flush-write-stream": "^1.0.2",
     "form-data": "^2.2.0",

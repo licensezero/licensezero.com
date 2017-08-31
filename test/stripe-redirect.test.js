@@ -1,5 +1,4 @@
 var apiRequest = require('./api-request')
-var ecb = require('ecb')
 var http = require('http')
 var querystring = require('querystring')
 var runWaterfall = require('run-waterfall')
@@ -116,13 +115,14 @@ tape('GET /stripe-redirect w/ test state', function (test) {
           .once('error', done)
           .once('response', function (response) {
             test.equal(response.statusCode, 200, '200')
-            simpleConcat(response, ecb(done, function (buffer) {
+            simpleConcat(response, function (error, buffer) {
+              if (error) return done(error)
               var id = /<code class=id>([^<]+)<\/code>/
                 .exec(buffer.toString())[1]
               var token = /<code class=token>([^<]+)<\/code>/
                 .exec(buffer.toString())[1]
               done(null, id, token)
-            }))
+            })
           })
           .end()
       },
@@ -132,20 +132,22 @@ tape('GET /stripe-redirect w/ test state', function (test) {
           licensorID: id,
           password: password,
           email: 'another@example.com'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done(null, id)
-        }))
+        })
       },
       function fetchLicensor (id, done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: id
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           test.equal(response.name, 'Test Licensor', 'name')
           done(null, id)
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

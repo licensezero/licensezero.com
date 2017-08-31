@@ -1,6 +1,5 @@
 var accountsPath = require('../paths/accounts')
 var crypto = require('crypto')
-var ecb = require('ecb')
 var encode = require('../data/encode')
 var fs = require('fs')
 var generateKeypair = require('../data/generate-keypair')
@@ -69,10 +68,10 @@ module.exports = function (request, response, service) {
           })
         },
         function deleteNonceFile (read, done) {
-          fs.unlink(nonceFile, ecb(done, function (error) {
+          fs.unlink(nonceFile, function (error) {
             request.log.error(error)
             done(null, read)
-          }))
+          })
         },
         function parseNonceFile (buffer, done) {
           parseJSON(buffer, function (error, parsed) {
@@ -156,7 +155,8 @@ module.exports = function (request, response, service) {
                 done
               )
             }
-          ], ecb(done, function () {
+          ], function (error) {
+            if (error) return done(error)
             service.email({
               to: 'registrations@licensezero.com',
               subject: 'Licensor Registration',
@@ -175,7 +175,7 @@ module.exports = function (request, response, service) {
               null, nonceData.email, licensorID, stripeID,
               encode(keypair.publicKey), passphrase
             )
-          }))
+          })
         },
         function emailLicensor (
           email, licensorID, stripeID, publicKey, passphrase, done
@@ -215,9 +215,10 @@ module.exports = function (request, response, service) {
                     )
                   ).replace(/^ {4}/, '')
                 )
-              }, ecb(done, function () {
+              }, function (error) {
+                if (error) return done(error)
                 done(null, licensorID, stripeID, passphrase)
-              }))
+              })
             }
           ], done)
         },
@@ -226,9 +227,10 @@ module.exports = function (request, response, service) {
         ) {
           var file = accountsPath(service)
           var line = stripeID + '\t' + licensorID + '\n'
-          fs.appendFile(file, line, ecb(done, function () {
+          fs.appendFile(file, line, function (error) {
+            if (error) return done(error)
             done(null, licensorID, passphrase)
-          }))
+          })
         }
       ], function (error, licensorID, passphrase) {
         if (error) {

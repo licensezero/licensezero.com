@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -17,11 +16,12 @@ tape('reprice', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           product = response.product
           done()
-        }))
+        })
       },
       function reprice (done) {
         apiRequest(port, {
@@ -35,10 +35,11 @@ tape('reprice', function (test) {
             company: 1000,
             enterprise: 1000
           }
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

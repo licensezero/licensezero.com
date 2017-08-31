@@ -1,5 +1,4 @@
 var annotateENOENT = require('./annotate-enoent')
-var ecb = require('ecb')
 var licensorPath = require('../paths/licensor')
 var productPath = require('../paths/product')
 var readJSONFile = require('./read-json-file')
@@ -13,16 +12,18 @@ module.exports = function (service, productID, callback) {
     },
     function readLicensorData (product, done) {
       var file = licensorPath(service, product.licensor)
-      readJSONFile(file, ecb(done, function (licensor) {
+      readJSONFile(file, function (error, licensor) {
+        if (error) return done(error)
         done(null, {
           licensor: licensor,
           product: product
         })
-      }))
+      })
     }
-  ], ecb(callback, function (results) {
+  ], function (error, results) {
+    if (error) return callback(error)
     callback(null, Object.assign(results.product, {
       licensor: results.licensor
     }))
-  }))
+  })
 }

@@ -1,5 +1,4 @@
 var apiRequest = require('./api-request')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -68,12 +67,13 @@ tape('Stripe OAuth connect', function (test) {
           grace: 180,
           description: 'a test project',
           terms: 'I agree to the latest published terms of service.'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'offer error false')
           test.assert(response.hasOwnProperty('product'), 'product id')
           product = response.product
           done()
-        }))
+        })
       },
       function order (done) {
         apiRequest(port, {
@@ -82,7 +82,8 @@ tape('Stripe OAuth connect', function (test) {
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'order error false')
           test.assert(
             response.location.indexOf('/pay/') === 0,
@@ -90,7 +91,7 @@ tape('Stripe OAuth connect', function (test) {
           )
           paymentLocation = response.location
           done()
-        }))
+        })
       },
       function pay (done) {
         var webdriver = require('./webdriver')

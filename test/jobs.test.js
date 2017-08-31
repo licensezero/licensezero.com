@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var fs = require('fs')
 var http = require('http')
 var mutateJSONFile = require('../data/mutate-json-file')
@@ -26,11 +25,12 @@ tape('sweep orders', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           productID = response.product
           done()
-        }))
+        })
       },
       function order (done) {
         apiRequest(port, {
@@ -39,7 +39,8 @@ tape('sweep orders', function (test) {
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'order error false')
           test.assert(
             response.location.indexOf('/pay/') === 0,
@@ -47,18 +48,19 @@ tape('sweep orders', function (test) {
           )
           location = response.location
           done()
-        }))
+        })
       },
       function backdateOrder (done) {
         var directory = ordersPath(service)
-        fs.readdir(directory, ecb(done, function (entries) {
+        fs.readdir(directory, function (error, entries) {
+          if (error) return done(error)
           var file = path.join(directory, entries[0])
           mutateJSONFile(file, function (data) {
             var yesteryear = new Date()
             yesteryear.setFullYear(yesteryear.getFullYear() - 1)
             data.date = yesteryear
           }, done)
-        }))
+        })
       },
       function tryToPayAfterBackdating (done) {
         http.get(
@@ -116,14 +118,15 @@ tape('sweep reset tokens', function (test) {
         },
         function backdateResetToken (done) {
           var directory = resetTokensPath(service)
-          fs.readdir(directory, ecb(done, function (entries) {
+          fs.readdir(directory, function (error, entries) {
+            if (error) return done(error)
             var file = path.join(directory, entries[0])
             mutateJSONFile(file, function (data) {
               var yesteryear = new Date()
               yesteryear.setFullYear(yesteryear.getFullYear() - 1)
               data.date = yesteryear
             }, done)
-          }))
+          })
         },
         function sweep (done) {
           sweepResetTokens(service, done)

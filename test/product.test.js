@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -18,17 +17,19 @@ tape('product', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           productID = response.product
           done()
-        }))
+        })
       },
       function requestProduct (done) {
         apiRequest(port, {
           action: 'product',
           productID: productID
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.assert(
             !response.hasOwnProperty('stripe'),
             'no Stripe data'
@@ -51,7 +52,7 @@ tape('product', function (test) {
             'response'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -87,11 +88,12 @@ tape('/product/{id}', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           productID = response.product
           done()
-        }))
+        })
       },
       function browse (done) {
         require('./webdriver')

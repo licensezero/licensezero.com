@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var ed25519 = require('ed25519')
 var runSeries = require('run-series')
 var server = require('./server')
@@ -19,11 +18,12 @@ tape('waiver', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           product = response.product
           done()
-        }))
+        })
       },
       function issueWaiver (done) {
         apiRequest(port, {
@@ -33,7 +33,8 @@ tape('waiver', function (test) {
           productID: product,
           beneficiary: 'SomeCo, Inc.',
           term: 365
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, false,
             'error false'
@@ -60,7 +61,8 @@ tape('waiver', function (test) {
           apiRequest(port, {
             action: 'licensor',
             licensorID: LICENSOR.id
-          }, ecb(done, function (response) {
+          }, function (error, response) {
+            if (error) return done(error)
             var publicKey = response.publicKey
             // TODO Publish license verification code as open source
             test.assert(
@@ -72,8 +74,8 @@ tape('waiver', function (test) {
               'verifiable signature'
             )
             done()
-          }))
-        }))
+          })
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -95,13 +97,14 @@ tape('waiver for nonexistent product', function (test) {
           productID: uuid(),
           beneficiary: 'SomeCo, Inc.',
           term: 365
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, 'no such product',
             'no such product'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -120,11 +123,12 @@ tape('waiver for retracted product', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
           product = response.product
           done()
-        }))
+        })
       },
       function retract (done) {
         apiRequest(port, {
@@ -132,10 +136,11 @@ tape('waiver for retracted product', function (test) {
           productID: product,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'retract: error false')
           done()
-        }))
+        })
       },
       function issueWaiver (done) {
         apiRequest(port, {
@@ -145,13 +150,14 @@ tape('waiver for retracted product', function (test) {
           productID: product,
           beneficiary: 'SomeCo, Inc.',
           term: 365
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, 'retracted product',
             'retracted product'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

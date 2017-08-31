@@ -1,7 +1,6 @@
 var AJV = require('ajv')
 var argon2 = require('argon2')
 var doNotCache = require('do-not-cache')
-var ecb = require('ecb')
 var lock = require('./lock')
 var parseJSON = require('json-parse-errback')
 var readLicensor = require('../data/read-licensor')
@@ -137,10 +136,11 @@ module.exports = function api (request, response, service) {
 function checkAuthentication (request, body, service, callback) {
   var licensorID = body.licensorID
   var password = body.password
-  readLicensor(service, licensorID, ecb(callback, function (licensor) {
+  readLicensor(service, licensorID, function (error, licensor) {
+    if (error) return callback(error)
     argon2.verify(licensor.password, password)
       .then(function (match) {
         callback(null, match ? licensor : false)
       })
-  }))
+  })
 }

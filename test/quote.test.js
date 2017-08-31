@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -20,28 +19,31 @@ tape('quote', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           firstProduct = response.product
           done()
-        }))
+        })
       },
       function offerSecond (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/second'
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           secondProduct = response.product
           done()
-        }))
+        })
       },
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
           products: [firstProduct, secondProduct]
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           test.deepEqual(
             response.products,
@@ -76,7 +78,7 @@ tape('quote', function (test) {
             'quotes terms'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -113,11 +115,12 @@ tape('quote w/ retracted', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           productID = response.product
           done()
-        }))
+        })
       },
       function retract (done) {
         apiRequest(port, {
@@ -125,16 +128,18 @@ tape('quote w/ retracted', function (test) {
           productID: productID,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'retract error false')
           done()
-        }))
+        })
       },
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
           products: [productID]
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.products[0].productID, productID,
             'product'
@@ -144,7 +149,7 @@ tape('quote w/ retracted', function (test) {
             'retracted'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

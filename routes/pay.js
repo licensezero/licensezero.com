@@ -8,7 +8,6 @@ var UUIDV4 = require('../data/uuidv4-pattern')
 var applicationFee = require('../stripe/application-fee')
 var capitalize = require('./capitalize')
 var decode = require('../data/decode')
-var ecb = require('ecb')
 var ed25519 = require('ed25519')
 var encode = require('../data/encode')
 var escape = require('./escape')
@@ -264,16 +263,18 @@ function post (request, response, service, order) {
                           'License Tier: ' + capitalize(order.tier)
                         ].join('\n')),
                       license: license
-                    }, ecb(done, function () {
+                    }, function (error) {
+                      if (error) return done(error)
                       done(null, license)
-                    }))
+                    })
                   },
                   function (license, done) {
                     recordSignature(
                       service, license.publicKey, license.signature,
-                      ecb(done, function () {
+                      function (error) {
+                        if (error) return done(error)
                         done(null, license)
-                      })
+                      }
                     )
                   },
                   function emailLicensorStatement (license, done) {

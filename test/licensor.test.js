@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -76,16 +75,18 @@ tape('licensor w/ product', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           product = response.product
           done()
-        }))
+        })
       },
       function (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.products.length, 1,
             'one product'
@@ -95,7 +96,7 @@ tape('licensor w/ product', function (test) {
             'offered product'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -114,10 +115,11 @@ tape('licensor w/ retracted product', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           product = response.product
           done()
-        }))
+        })
       },
       function retractProduct (done) {
         apiRequest(port, {
@@ -125,16 +127,18 @@ tape('licensor w/ retracted product', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           productID: product
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done()
-        }))
+        })
       },
       function listLicensorProducts (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.products.length, 1,
             'one product listed'
@@ -144,7 +148,7 @@ tape('licensor w/ retracted product', function (test) {
             'product retracted'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -165,22 +169,24 @@ tape('licensor w/ retracted product', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/first'
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           firstProduct = response.product
           done()
-        }))
+        })
       },
       function offerSecondProduct (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           repository: 'http://example.com/second'
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           secondProduct = response.product
           done()
-        }))
+        })
       },
       function retractFirstProduct (done) {
         apiRequest(port, {
@@ -188,16 +194,18 @@ tape('licensor w/ retracted product', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           productID: firstProduct
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done()
-        }))
+        })
       },
       function listLicensorProducts (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           var products = response.products
           test.equal(
             products.length, 2,
@@ -222,7 +230,7 @@ tape('licensor w/ retracted product', function (test) {
             'second product not retracted'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

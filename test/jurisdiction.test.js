@@ -1,6 +1,5 @@
 var LICENSOR = require('./licensor')
 var apiRequest = require('./api-request')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -20,10 +19,11 @@ tape('jurisdiction', function (test) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.jurisdiction, 'US-TX', 'US-TX')
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

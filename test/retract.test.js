@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -18,11 +17,12 @@ tape('retract', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           product = response.product
           done()
-        }))
+        })
       },
       function retract (done) {
         apiRequest(port, {
@@ -30,10 +30,11 @@ tape('retract', function (test) {
           productID: product,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -53,13 +54,14 @@ tape('retract nonexistent', function (test) {
           productID: uuid(),
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, 'no such product',
             'no such product'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

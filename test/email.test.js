@@ -1,6 +1,5 @@
 var LICENSOR = require('./licensor')
 var apiRequest = require('./api-request')
-var ecb = require('ecb')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -19,10 +18,11 @@ tape('email', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           email: newAddress
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -43,10 +43,11 @@ tape('email w/ bad authorization', function (test) {
           licensorID: LICENSOR.id,
           password: 'not correct',
           email: newAddress
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, 'access denied', 'access denied')
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

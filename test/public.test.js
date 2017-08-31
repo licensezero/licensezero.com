@@ -2,7 +2,6 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ecb = require('ecb')
 var ed25519 = require('ed25519')
 var runSeries = require('run-series')
 var server = require('./server')
@@ -20,11 +19,12 @@ tape('public', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'error false')
           product = response.product
           done()
-        }))
+        })
       },
       function publicLicense (done) {
         apiRequest(port, {
@@ -32,7 +32,8 @@ tape('public', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           productID: product
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, false,
             'error false'
@@ -86,7 +87,8 @@ tape('public', function (test) {
           )
           apiRequest(port, {
             action: 'key'
-          }, ecb(done, function (response) {
+          }, function (error, response) {
+            if (error) return done(error)
             var agentPublicKey = response.key
             // Validate license signatures.
             test.assert(
@@ -139,8 +141,8 @@ tape('public', function (test) {
               'valid metadata agent signature'
             )
             done()
-          }))
-        }))
+          })
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -160,13 +162,14 @@ tape('public for nonexistent product', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           productID: uuid()
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, 'no such product',
             'no such product'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -185,11 +188,12 @@ tape('public for retracted product', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }), ecb(done, function (response) {
+        }), function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
           product = response.product
           done()
-        }))
+        })
       },
       function retract (done) {
         apiRequest(port, {
@@ -197,10 +201,11 @@ tape('public for retracted product', function (test) {
           productID: product,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(response.error, false, 'retract: error false')
           done()
-        }))
+        })
       },
       function (done) {
         apiRequest(port, {
@@ -208,13 +213,14 @@ tape('public for retracted product', function (test) {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
           productID: product
-        }, ecb(done, function (response) {
+        }, function (error, response) {
+          if (error) return done(error)
           test.equal(
             response.error, 'retracted product',
             'retracted product'
           )
           done()
-        }))
+        })
       }
     ], function (error) {
       test.error(error, 'no error')

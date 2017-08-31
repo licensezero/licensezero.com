@@ -1,5 +1,4 @@
 var FormData = require('form-data')
-var ecb = require('ecb')
 var https = require('https')
 var parseJSON = require('json-parse-errback')
 var simpleConcat = require('simple-concat')
@@ -26,9 +25,10 @@ module.exports = function (service, code, callback) {
     })
       .once('error', callback)
       .once('response', function (response) {
-        simpleConcat(response, ecb(callback, function (buffer) {
+        simpleConcat(response, function (error, buffer) {
+          if (error) return callback(error)
           parseJSON(buffer, callback)
-        }))
+        })
       })
   )
 }
