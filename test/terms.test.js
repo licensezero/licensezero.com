@@ -1,18 +1,26 @@
 var http = require('http')
 var server = require('./server')
+var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
-sanityCheck('terms-of-service')
-sanityCheck('agency-agreement')
+sanityCheck('terms-of-service', 'Terms of Service')
+sanityCheck('agency-agreement', 'Agency Agreement')
 
-function sanityCheck (path) {
+function sanityCheck (path, header) {
   tape('GET /' + path, function (test) {
     server(function (port, configuration, close) {
       http.request({port: port, path: '/' + path})
         .once('response', function (response) {
           test.equal(response.statusCode, 200)
           test.equal(response.headers['content-type'], 'text/html')
-          finish()
+          simpleConcat(response, function (error, body) {
+            test.error(error)
+            test.assert(
+              body.toString().includes(header),
+              header
+            )
+            finish()
+          })
         })
         .once('error', function (error) {
           test.fail(error, 'no error')

@@ -1,4 +1,8 @@
 var commonformToHTML = require('commonform-html')
+var footer = require('./partials/footer')
+var head = require('./partials/head')
+var header = require('./partials/header')
+var html = require('./html')
 var terms = require('../forms/terms-of-service')
 
 // TODO: terms of service
@@ -11,18 +15,14 @@ module.exports = function (request, response, service) {
       return response.end()
     }
     response.setHeader('Content-Type', 'text/html')
-    response.end(`
+    response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>License Zero | Terms of Service</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+${head()}
 <body>
-  <header><h1>License Zero | Terms of Service</h1></header>
+  ${header()}
   <main>
+      <h2>Terms of Service</h2>
       <article class=commonform>
         ${
           commonformToHTML(
@@ -37,6 +37,7 @@ module.exports = function (request, response, service) {
         }
       </article>
   </main>
+  ${footer()}
 </body>
 </html>
     `.trim())
