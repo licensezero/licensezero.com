@@ -142,6 +142,8 @@ ${sublicensing(options.tier)}
       defend, and hold the Licensor harmless for any liability
       incurred by, or claims asserted against, the Licensor by reason
       of your accepting any such warranty or additional liability.
+
+  END OF TERMS AND CONDITIONS
   `.trim()
 }
 
