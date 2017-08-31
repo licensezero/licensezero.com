@@ -31,7 +31,7 @@ exports.properties = {
     minLength: 8,
     maxLength: 144
   },
-  terms: require('./common/terms')
+  terms: require('./common/agency-terms')
 }
 
 exports.handler = function (body, service, end, fail, lock) {

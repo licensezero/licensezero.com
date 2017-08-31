@@ -66,7 +66,7 @@ tape('Stripe OAuth connect', function (test) {
           },
           grace: 180,
           description: 'a test project',
-          terms: 'I agree to the latest published terms of service.'
+          terms: 'I agree to the latest published agency agreement.'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer error false')
