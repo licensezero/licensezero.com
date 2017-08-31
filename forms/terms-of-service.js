@@ -2,10 +2,10 @@ var fs = require('fs')
 var parse = require('commonform-markup-parse')
 var path = require('path')
 
-var BLANKS = require('./terms.blanks.json')
+var BLANKS = require('./terms-of-service.blanks.json')
 
 module.exports = function (callback) {
-  var file = path.join(__dirname, 'terms.cform')
+  var file = path.join(__dirname, 'terms-of-service.cform')
   fs.readFile(file, 'ascii', function (error, markup) {
     if (error) return callback(error)
     try {

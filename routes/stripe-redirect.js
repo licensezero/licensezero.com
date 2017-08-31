@@ -14,7 +14,7 @@ var requestStripeCredentials = require('../stripe/request-credentials')
 var runWaterfall = require('run-waterfall')
 var stripANSI = require('strip-ansi')
 var stripeNoncePath = require('../paths/stripe-nonce')
-var terms = require('../forms/terms')
+var terms = require('../forms/terms-of-service')
 var toANSI = require('commonform-terminal')
 var uuid = require('uuid/v4')
 

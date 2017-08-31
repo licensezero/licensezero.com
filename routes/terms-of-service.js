@@ -1,5 +1,5 @@
 var commonformToHTML = require('commonform-html')
-var terms = require('../forms/terms')
+var terms = require('../forms/terms-of-service')
 
 // TODO: terms of service
 
