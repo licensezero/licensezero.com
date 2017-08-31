@@ -93,7 +93,10 @@ tape('GET /stripe-redirect w/ test state', function (test) {
           email: email,
           name: 'Test Licensor',
           jurisdiction: 'US-CA',
-          terms: 'I agree to the latest published terms of service.'
+          terms: (
+            'I agree to the terms of service at ' +
+            'https://licensezero.com/terms-of-service.'
+          )
         }, function (error, response) {
           if (error) {
             test.error(error)

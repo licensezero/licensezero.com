@@ -21,7 +21,7 @@ routes.set('/stripe-webhook', require('./stripe-webhook'))
 routes.set('/pay/:order', require('./pay'))
 routes.set('/reset/:token', require('./reset'))
 
-routes.set('/terms', require('./terms'))
+routes.set('/terms-of-service', require('./terms-of-service'))
 
 routes.set('/pay.js', function (request, response, service) {
   response.setHeader('Content-Type', 'application/javascript')

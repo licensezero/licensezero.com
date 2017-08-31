@@ -25,7 +25,10 @@ tape('Stripe OAuth connect', function (test) {
           email: 'test@example.com',
           name: 'Test Licensor',
           jurisdiction: 'US-CA',
-          terms: 'I agree to the latest published terms of service.'
+          terms: (
+            'I agree to the terms of service at ' +
+            'https://licensezero.com/terms-of-service.'
+          )
         }, function (error, response) {
           if (error) {
             test.error(error)
@@ -66,7 +69,10 @@ tape('Stripe OAuth connect', function (test) {
           },
           grace: 180,
           description: 'a test project',
-          terms: 'I agree to the latest published agency agreement.'
+          terms: (
+            'I agree to the agency agreement at ' +
+            'https://licensezero.com/agency-agreement.'
+          )
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer error false')
