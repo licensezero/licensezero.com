@@ -4,7 +4,7 @@ var escape = require('../escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
-var html = require('../html')
+var html = require('./html')
 var privateLicense = require('../forms/private-license')
 
 module.exports = function (request, response, service) {

@@ -1,7 +1,7 @@
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
-var html = require('../html')
+var html = require('./html')
 
 module.exports = function (service, response, error) {
   service.log.error(error)
