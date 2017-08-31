@@ -1,4 +1,4 @@
-var escape = require('../../escape')
+var escape = require('../escape')
 var html = require('../html')
 
 module.exports = function (subtitle) {

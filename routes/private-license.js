@@ -1,6 +1,6 @@
 var TIERS = require('../data/private-license-tiers')
 var capitalize = require('./capitalize')
-var escape = require('../escape')
+var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')

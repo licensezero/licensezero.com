@@ -1,4 +1,4 @@
-var escape = require('../escape')
+var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
