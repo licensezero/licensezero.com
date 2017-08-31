@@ -3521,9 +3521,9 @@
       }
     },
     "pino-http": {
-      "version": "2.6.1",
-      "resolved": "https://registry.npmjs.org/pino-http/-/pino-http-2.6.1.tgz",
-      "integrity": "sha1-rsfoUu6PR6CJvEvkYUpifSwwJZg=",
+      "version": "2.6.2",
+      "resolved": "https://registry.npmjs.org/pino-http/-/pino-http-2.6.2.tgz",
+      "integrity": "sha512-89bJRjW5rdTHm7nTe5hou93V+5DHqqfzk53xFO+cQw1hi+XXHKLHTAKeLJ2LYK1ChLQlhIDrQMffE88KFta/HA==",
       "requires": {
         "pino": "4.7.1"
       }
