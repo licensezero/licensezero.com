@@ -1,7 +1,7 @@
 var escape = require('../escape')
-var footer = require('../partials/footer')
-var head = require('../partials/head')
-var header = require('../partials/header')
+var footer = require('./partials/footer')
+var head = require('./partials/head')
+var header = require('./partials/header')
 var html = require('../html')
 var waiver = require('../forms/waiver')
 

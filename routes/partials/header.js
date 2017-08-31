@@ -1,4 +1,4 @@
-var html = require('../html')
+var html = require('../../html')
 
 module.exports = function () {
   return html`
