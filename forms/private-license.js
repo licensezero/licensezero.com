@@ -52,7 +52,7 @@ ${options.date} (ISO 8601)
       not limited to compiled object code, generated documentation,
       and conversions to other media types.
 
-      "Work" shall mean this work of authorship, whether in Source or
+      "Work" shall mean the work of authorship, whether in Source or
       Object form, made available under the License, and any later work of
       authorship that the Licensor publishes and offers for license as a
       subsequent version of the work:
