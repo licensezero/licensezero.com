@@ -1,5 +1,4 @@
 var commonformToHTML = require('commonform-html')
-var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
@@ -21,7 +20,6 @@ module.exports = function (form, title) {
   <body>
     ${header()}
     <main>
-        <h2>${escape(title)}</h2>
         <article class=commonform>
           ${
             commonformToHTML(

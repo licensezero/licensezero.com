@@ -14,7 +14,7 @@ module.exports = function (request, response, service) {
   <body>
     ${header()}
     <main>
-      <h2>Example Waiver</h2>
+      <h1>Waiver</h1>
       <p>
         License Zero permits licensors to waive the
         condition of the

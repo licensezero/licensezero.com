@@ -11,7 +11,8 @@ routes.set('/products/:productID', require('./products'))
 routes.set('/buy', require('./buy'))
 routes.set('/api/v0', require('./api'))
 
-routes.set('/forms/private-license', require('./private-license'))
+routes.set('/forms', require('./forms'))
+routes.set('/forms/private-licenses', require('./private-licenses'))
 routes.set('/forms/public-license', require('./public-license'))
 routes.set('/forms/waiver', require('./waiver'))
 
@@ -21,9 +22,11 @@ routes.set('/stripe-webhook', require('./stripe-webhook'))
 routes.set('/pay/:order', require('./pay'))
 routes.set('/reset/:token', require('./reset'))
 
-routes.set('/terms-of-service', require('./terms-of-service'))
+routes.set('/terms', require('./terms'))
+routes.set('/terms/service', require('./terms-of-service'))
+routes.set('/terms/agency', require('./agency-terms'))
+
 routes.set('/privacy-notice', require('./privacy-notice'))
-routes.set('/agency-agreement', require('./agency-agreement'))
 
 routes.set('/pay.js', function (request, response, service) {
   response.setHeader('Content-Type', 'application/javascript')

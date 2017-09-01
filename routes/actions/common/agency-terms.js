@@ -1,4 +1,4 @@
 module.exports = {
   type: 'string',
-  const: 'I agree to the agency agreement at https://licensezero.com/agency-agreement.'
+  const: 'I agree to the agency terms at https://licensezero.com/terms/agency.'
 }

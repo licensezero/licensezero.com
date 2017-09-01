@@ -10,11 +10,11 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html>
-  ${head()}
+  ${head('Public License')}
   <body>
     ${header()}
     <main>
-      <h2>Example Public License</h2>
+      <h1>Public License</h1>
       <p>
         The public license for products available through
         License Zero tiers is based on the two-clause BSD

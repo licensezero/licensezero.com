@@ -1,6 +1,5 @@
 var footer = require('./partials/footer')
 var head = require('./partials/head')
-var nav = require('./partials/nav')
 var header = require('./partials/header')
 var html = require('./html')
 
@@ -9,14 +8,19 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html lang=EN>
-  ${head()}
+  ${head('Terms')}
   <body>
     ${header()}
-    ${nav()}
     <main>
-    <!-- TODO: licensor terminal demo -->
-    <!-- TODO: licensee terminal demo -->
-      <nav>
+      <p>
+        All users of License Zero must agree to
+        <a href=/terms/service>terms of service</a>.
+      </p>
+      <p>
+        To offer private licenses through License Zero,
+        licensors must agree to
+        <a href=/terms/agency>agency terms</a>.
+      </p>
     </main>
     ${footer()}
   </body>

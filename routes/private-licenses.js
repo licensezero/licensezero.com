@@ -12,11 +12,11 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html>
-  ${head()}
+  ${head('Private Licenses')}
   <body>
     ${header()}
     <main>
-      <h2>Example Private Licenses</h2>
+      <h1>Private Licenses</h1>
       <p>
         Private licenses for sale through License Zero
         come in four distinct “tiers”:
