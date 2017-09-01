@@ -27,7 +27,7 @@ tape('Stripe OAuth connect', function (test) {
           jurisdiction: 'US-CA',
           terms: (
             'I agree to the terms of service at ' +
-            'https://licensezero.com/terms-of-service.'
+            'https://licensezero.com/terms/service.'
           )
         }, function (error, response) {
           if (error) {

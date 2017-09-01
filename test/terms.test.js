@@ -3,8 +3,8 @@ var server = require('./server')
 var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
-sanityCheck('terms-of-service', 'Terms of Service')
-sanityCheck('agency-agreement', 'Agency Agreement')
+sanityCheck('terms/service', 'Terms of Service')
+sanityCheck('terms/agency', 'Agency Terms')
 sanityCheck('privacy-notice', 'Privacy Notice')
 
 function sanityCheck (path, header) {
