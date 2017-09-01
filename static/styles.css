@@ -173,5 +173,5 @@ nav[role=navigation] ul li {
 }
 
 pre {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
