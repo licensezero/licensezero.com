@@ -28,18 +28,18 @@ module.exports = function (request, response, service) {
       </p>
       <ol>
         <li>
-          commercial use, other than work that produces
-          contributions back to the product, is limited to
-          a grace period of a set number of calendar days
+          limits commercial use, other than work that
+          produces contributions back to the product, to a
+          grace period of a set number of calendar days
         </li>
         <li>
-          that condition falls away if other licenses
-          cease to be available, reducing the terms to
-          the standard form two-clause BSD License
+          drops the commercial use limit away if other
+          licenses cease to be available, reducing the terms
+          to the standard form two-clause BSD License
         </li>
         <li>
-          the copyright notice includes the public key
-          with which License Zero will sign private licenses
+          include the public key with which License Zero
+          will sign private licenses in the copyright notice
         </li>
       </ol>
       <pre class=license>${escape(publicLicense({
