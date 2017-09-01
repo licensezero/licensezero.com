@@ -3,6 +3,7 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var nav = require('./partials/nav')
 var publicLicense = require('../forms/public-license')
 
 module.exports = function (request, response, service) {
@@ -12,6 +13,7 @@ module.exports = function (request, response, service) {
 <html>
   ${head('Public License')}
   <body>
+    ${nav()}
     ${header()}
     <main>
       <h1>Public License</h1>

@@ -5,6 +5,7 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var nav = require('./partials/nav')
 var privateLicense = require('../forms/private-license')
 
 module.exports = function (request, response, service) {
@@ -14,6 +15,7 @@ module.exports = function (request, response, service) {
 <html>
   ${head('Private Licenses')}
   <body>
+    ${nav()}
     ${header()}
     <main>
       <h1>Private Licenses</h1>

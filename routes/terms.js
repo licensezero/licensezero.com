@@ -2,6 +2,7 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var nav = require('./partials/nav')
 
 module.exports = function (request, response, service) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
@@ -10,6 +11,7 @@ module.exports = function (request, response, service) {
 <html lang=EN>
   ${head('Terms')}
   <body>
+    ${nav()}
     ${header()}
     <main>
       <p>

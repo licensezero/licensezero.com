@@ -9,17 +9,16 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html lang=EN>
-  ${head()}
-  <body>
-    ${header()}
-    ${nav()}
-    <main>
+${head()}
+<body>
+  ${nav()}
+  ${header()}
+  <main>
     <!-- TODO: licensor terminal demo -->
     <!-- TODO: licensee terminal demo -->
-      <nav>
-    </main>
-    ${footer()}
-  </body>
+  </main>
+  ${footer()}
+</body>
 </html>
   `)
 }

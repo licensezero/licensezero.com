@@ -18,6 +18,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
+var nav = require('./partials/nav')
 var orderPath = require('../paths/order')
 var padStart = require('string.prototype.padstart')
 var pick = require('../data/pick')
@@ -62,82 +63,85 @@ function get (request, response, service, order) {
 <html lang=en>
 ${head('Buy Licenses')}
 <body>
+  ${nav()}
   ${header()}
   <main>
-  <section>
-    <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
-  </section>
-  <section>
-    <table class=invoice>
-      <thead>
-        <tr>
-          <th>License</th>
-          <th>Price (USD)</th>
-        </tr>
-      </thead>
-      <tbody>
-      ${order.products.map(function (product) {
-        return html`
+    <section>
+      <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
+    </section>
+    <section>
+      <table class=invoice>
+        <thead>
           <tr>
-            <td>
-              <p><code>${escape(product.productID)}</code></p>
-              <p>
-                <a
-                  href="${escape(product.repository)}"
-                  target=_blank
-                  >${escape(truncate(product.repository, 30))}</a>
-              </p>
-              <p>
-                ${escape(product.licensor.name)}
-                [${escape(product.licensor.jurisdiction)}]
-              </p>
-              <p>
-                ${escape(capitalize(order.tier))} License:
-                ${
-                  order.tier === 'solo'
-                    ? 'one user'
-                    : TIERS[order.tier] + ' users'
-                },
-                perpetual,
-                with upgrades
-              </p>
-            </td>
-            <td class=price>
-              ${escape(formatPrice(product.price))}
-            </td>
+            <th>License</th>
+            <th>Price (USD)</th>
           </tr>
-        `
-      })}
-      </tbody>
-      <tfoot class=total>
-        <tr>
-          <td>Total:</td>
-          <td class=price>${escape(formatPrice(order.total))}</td>
-        </tr>
-      </tfoot>
-    </table>
-  </section>
-  <form class=pay method=post action=/pay/${order.orderID}>
-    <section id=payment>
-      <h2>Credit Card Payment</h2>
-      <div id=card></div>
-      <div id=card-errors></div>
+        </thead>
+        <tbody>
+        ${order.products.map(function (product) {
+          return html`
+            <tr>
+              <td>
+                <p><code>${escape(product.productID)}</code></p>
+                <p>
+                  <a
+                    href="${escape(product.repository)}"
+                    target=_blank
+                    >${escape(truncate(product.repository, 30))}</a>
+                </p>
+                <p>
+                  ${escape(product.licensor.name)}
+                  [${escape(product.licensor.jurisdiction)}]
+                </p>
+                <p>
+                  ${escape(capitalize(order.tier))} License:
+                  ${
+                    order.tier === 'solo'
+                      ? 'one user'
+                      : TIERS[order.tier] + ' users'
+                  },
+                  perpetual,
+                  with upgrades
+                </p>
+              </td>
+              <td class=price>
+                ${escape(formatPrice(product.price))}
+              </td>
+            </tr>
+          `
+        })}
+        </tbody>
+        <tfoot class=total>
+          <tr>
+            <td>Total:</td>
+            <td class=price>${escape(formatPrice(order.total))}</td>
+          </tr>
+        </tfoot>
+      </table>
     </section>
-    <section id=email>
-      <input name=email type=email>
-    </section>
-    <section id=terms>
-      <label>
-        <input type=checkbox name=terms value=accepted required>
-        Check this box to accept License Zero&rsquo;s
-        <a href=/terms target=_blank>terms of service</a>.
-      </label>
-    </section>
-    <input id=submitButton type=submit value="Buy Licenses">
-  </form>
-  <script src=https://js.stripe.com/v3/></script>
-  <script src=/pay.js></script>
-</main>${footer()}</body>
+    <form class=pay method=post action=/pay/${order.orderID}>
+      <section id=payment>
+        <h2>Credit Card Payment</h2>
+        <div id=card></div>
+        <div id=card-errors></div>
+      </section>
+      <section id=email>
+        <input name=email type=email>
+      </section>
+      <section id=terms>
+        <label>
+          <input type=checkbox name=terms value=accepted required>
+          Check this box to accept License Zero&rsquo;s
+          <a href=/terms target=_blank>terms of service</a>.
+        </label>
+      </section>
+      <input id=submitButton type=submit value="Buy Licenses">
+    </form>
+    <script src=https://js.stripe.com/v3/></script>
+    <script src=/pay.js></script>
+  </main>
+  ${footer()}
+</body>
 </html>
   `)
 }
@@ -333,14 +337,10 @@ function post (request, response, service, order) {
         response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>License Zero | Technical Error</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+${head('Technical Error')}
 <body>
-  <header><h1>Technical Error</h1></header>
+  ${nav()}
+  ${header('Technical Error')}
   <main>
     <p>
       One or more of your license purchases
@@ -351,6 +351,7 @@ function post (request, response, service, order) {
       that completed successfully.
     </p>
   </main>
+  ${footer()}
 </body>
 </html>
         `)
@@ -360,20 +361,18 @@ function post (request, response, service, order) {
         response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>License Zero | Thank You</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+${head('Thank you')}
 <body>
-  <header><h1 class=thanks>Thank You</h1></header>
+  ${nav()}
+  ${header()}
   <main>
+    <h1 class=thanks>Thank You</h1>
     <p>
       Your purchase was successful.
       You will receive receipts and license files by e-mail shortly.
     </p>
   </main>
+  ${footer()}
 </body>
 </html>
         `)
@@ -393,18 +392,17 @@ function notFound (response) {
   response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>License Zero | Buy Licenses</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
-<body><main>
-  <h1>Invalid or Expired Purchase</h2>
-  <p>
-    There is no active purchase at the link you reached.
-  </p>
-</main></body>
+${head('Invalid or Expired')}
+<body>
+  ${nav()}
+  ${header()}
+  <main>
+    <h1>Invalid or Expired Purchase</h2>
+    <p>
+      There is no active purchase at the link you reached.
+    </p>
+  </main>
+</body>
 </html>
   `)
 }

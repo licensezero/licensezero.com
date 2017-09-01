@@ -7,7 +7,7 @@ body {
   text-align: center;
 }
 
-header, main, footer {
+header, main, footer, nav[role=navigation] {
   margin-left: auto;
   margin-right: auto;
   max-width: 700px;
@@ -15,7 +15,6 @@ header, main, footer {
 }
 
 header {
-  margin-top: 2rem;
   text-align: center;
 }
 
@@ -147,7 +146,19 @@ h2, h3 {
 }
 
 nav[role=navigation] {
-  padding: 0.5rem 0;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  padding: 0;
+  text-align: right;
+  text-transform: lowercase;
+}
+
+nav[role=navigation] a {
+  border: none;
+}
+
+nav[role=navigation] a:before {
+  content: '/';
 }
 
 nav[role=navigation] ul {
@@ -158,10 +169,5 @@ nav[role=navigation] ul {
 
 nav[role=navigation] ul li {
   display: inline;
-  padding: 0;
-}
-
-nav[role=navigation] ul li:first-of-type:before {
-  content: '';
-  padding: 0;
+  padding: 0.5rem;
 }

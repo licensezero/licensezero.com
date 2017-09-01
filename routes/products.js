@@ -8,6 +8,7 @@ var formatPrice = require('./format-price')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var nav = require('./partials/nav')
 var notFound = require('./not-found')
 var readProduct = require('../data/read-product')
 var sanitizeProduct = require('../data/sanitize-product')
@@ -29,6 +30,7 @@ module.exports = function (request, response, service) {
 <html lang=EN>
   ${head('Product ' + productID)}
   <body>
+    ${nav()}
     ${header()}
     <main>
       <h2>Product ${escape(productID)}</h2>
