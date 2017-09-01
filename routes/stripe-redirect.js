@@ -1,11 +1,15 @@
 var accountsPath = require('../paths/accounts')
 var ed25519 = require('../ed25519')
+var footer = require('./partials/footer')
 var fs = require('fs')
 var generatePassword = require('../data/generate-password')
 var hashPassword = require('../data/hash-password')
+var head = require('./partials/head')
+var header = require('./partials/header')
 var html = require('./html')
 var licensorPath = require('../paths/licensor')
 var mkdirp = require('mkdirp')
+var nav = require('./partials/nav')
 var outline = require('outline-numbering')
 var parseJSON = require('json-parse-errback')
 var path = require('path')
@@ -32,18 +36,18 @@ module.exports = function (request, response, service) {
       response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>LicenseZero | Registration<title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+${head('Registration')}
 <body>
-  <h1>Registration Rejected</h2>
-  <p>
-    You declined to connect a Stripe account to LicenseZero.
-    You must connect a standard Stripe account to use LicenseZero.
-  </p>
+  ${nav()}
+  ${header()}
+  <main>
+    <h1>Registration Rejected</h2>
+    <p>
+      You declined to connect a Stripe account to LicenseZero.
+      You must connect a standard Stripe account to use LicenseZero.
+    </p>
+  </main>
+  ${footer()}
 </body>
 </html>
       `)
@@ -240,27 +244,27 @@ module.exports = function (request, response, service) {
           response.end(html`
 <!doctype html>
 <html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>LicenseZero | Registration</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+${head('Registration')}
 <body>
-  <h1>Registration Complete</h2>
-  <p>You've connected your Stripe account to LicenseZero.</p>
-  <p>
-    To offer licenses, install the
-    <a href=https://www.npmjs.com/package/licensezero-cli
-      ><code>licensezero</code> command line interface</a>
-    and import your licensor credentials:
-  </p>
-  <dl>
-    <dt>Licensor ID</dt>
-    <dd><code class=id>${licensorID}</code></dd>
-    <dt>Access Token</dt>
-    <dd><code class=token>${passphrase}</code></dd>
-  </dl>
+  ${nav()}
+  ${header()}
+  <main>
+    <h1>Registration Complete</h2>
+    <p>You've connected your Stripe account to LicenseZero.</p>
+    <p>
+      To offer licenses, install the
+      <a href=https://www.npmjs.com/package/licensezero-cli
+        ><code>licensezero</code> command line interface</a>
+      and import your licensor credentials:
+    </p>
+    <dl>
+      <dt>Licensor ID</dt>
+      <dd><code class=id>${licensorID}</code></dd>
+      <dt>Access Token</dt>
+      <dd><code class=token>${passphrase}</code></dd>
+    </dl>
+  </main>
+  ${footer()}
 </body>
 </html>
           `)
