@@ -12,6 +12,8 @@ module.exports = function (request, response, service) {
   <body>
     ${header()}
     <main>
+    <!-- TODO: licensor terminal demo -->
+    <!-- TODO: licensee terminal demo -->
     </main>
     ${footer()}
   </body>
