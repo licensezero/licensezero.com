@@ -103,9 +103,13 @@ tape('Stripe OAuth connect', function (test) {
       function pay (done) {
         service.email.events.once('message', function (message) {
           license = message.license
-          done()
+          if (!calledBack) {
+            calledBack = true
+            done()
+          }
         })
         var webdriver = require('./webdriver')
+        var calledBack = false
         webdriver
           .url('http://localhost:' + port + paymentLocation)
           .waitForExist('iframe')
@@ -130,6 +134,12 @@ tape('Stripe OAuth connect', function (test) {
           .getText('h1.thanks')
           .then(function (text) {
             test.equal(text, 'Thank You')
+          })
+          .catch(function (error) {
+            if (!calledBack) {
+              calledBack = true
+              done(error)
+            }
           })
       },
       function (done) {

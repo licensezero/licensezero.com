@@ -180,7 +180,24 @@ function post (request, response, service, order) {
       return response.end()
     }
     var products = order.products
+    var stripeMetadata = {
+      orderID: order.orderID,
+      jurisdiction: order.jurisdiction,
+      licensee: order.licensee
+    }
+    var stripeCustomerID
     runSeries([
+      // See https://stripe.com/docs/connect/shared-customers.
+      function createSharedCustomer (done) {
+        service.stripe.api.customers.create({
+          metadata: stripeMetadata,
+          source: data.token
+        }, function (error, customer) {
+          if (error) return done(error)
+          stripeCustomerID = customer.id
+          done()
+        })
+      },
       runParallel.bind(null,
         [
           recordAcceptance.bind(null, service, {
@@ -193,22 +210,27 @@ function post (request, response, service, order) {
           var fee = applicationFee(service, product.price)
           return function (done) {
             runSeries([
-              function chargeCustomer (done) {
-                service.stripe.api.charges.create({
-                  amount: product.price,
-                  currency: 'usd',
-                  source: data.token,
-                  application_fee: fee,
-                  statement_descriptor: 'License Zero License',
-                  metadata: {
-                    orderID: order.orderID,
-                    jurisdiction: order.jurisdiction,
-                    licensee: order.licensee
-                  }
-                }, {
-                  stripe_account: product.licensor.stripe.id
-                }, done)
-              },
+              runWaterfall.bind(null, [
+                function createSharedCustomerToken (done) {
+                  service.stripe.api.tokens.create({
+                    customer: stripeCustomerID
+                  }, {
+                    stripe_account: product.licensor.stripe.id
+                  }, done)
+                },
+                function chargeSharedCustomer (token, done) {
+                  service.stripe.api.charges.create({
+                    amount: product.price,
+                    currency: 'usd',
+                    source: token.id,
+                    application_fee: fee,
+                    statement_descriptor: 'License Zero License',
+                    metadata: stripeMetadata
+                  }, {
+                    stripe_account: product.licensor.stripe.id
+                  }, done)
+                }
+              ]),
               function (done) {
                 runWaterfall([
                   function emaiLicense (done) {
@@ -320,9 +342,18 @@ function post (request, response, service, order) {
           }
         }))
       ),
-      function deleteOrderFile (done) {
-        var file = orderPath(service, order.orderID)
-        fs.unlink(file, done)
+      function (done) {
+        runParallel([
+          function deleteOrderFile (done) {
+            var file = orderPath(service, order.orderID)
+            fs.unlink(file, done)
+          },
+          function deleteCustomer (done) {
+            service.stripe.api.customers.del(
+              stripeCustomerID, done
+            )
+          }
+        ], done)
       }
     ], function (error) {
       if (error) {

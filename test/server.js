@@ -37,3 +37,7 @@ module.exports = function testServer () {
     })
   })
 }
+
+process.on('uncaughtExceptoin', function (error) {
+  console.error(error)
+})
