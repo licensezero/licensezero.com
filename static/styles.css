@@ -172,6 +172,6 @@ nav[role=navigation] ul li {
   padding: 0.5rem;
 }
 
-pre code {
+pre {
   overflow-x: scroll;
 }
