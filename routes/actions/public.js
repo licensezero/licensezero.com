@@ -1,6 +1,4 @@
-var decode = require('../../data/decode')
-var ed25519 = require('ed25519')
-var encode = require('../../data/encode')
+var ed25519 = require('../../ed25519')
 var publicLicense = require('../../forms/public-license')
 var readProduct = require('../../data/read-product')
 var stringify = require('../../stringify')
@@ -37,36 +35,24 @@ exports.handler = function (body, service, end, fail, lock) {
           version: publicLicense.VERSION
         }
         var document = publicLicense(licenseData)
-        var licensorLicenseSignature = encode(
-          ed25519.Sign(
-            Buffer.from(document, 'utf8'),
-            decode(body.licensor.privateKey)
-          )
+        var licensorLicenseSignature = ed25519.sign(
+          document, body.licensor.privateKey
         )
-        var agentLicenseSignature = encode(
-          ed25519.Sign(
-            Buffer.from(
-              document + '---\nLicensor:\n' +
-              signatureLines(licensorLicenseSignature) + '\n',
-              'utf8'
-            ),
-            service.privateKey
-          )
+        var agentLicenseSignature = ed25519.sign(
+          document + '---\nLicensor:\n' +
+          signatureLines(licensorLicenseSignature) + '\n',
+          service.privateKey
         )
-        var licensorMetadataSignature = encode(
-          ed25519.Sign(
-            Buffer.from(stringify(licenseData), 'utf8'),
-            decode(body.licensor.privateKey)
-          )
+        var licensorMetadataSignature = ed25519.sign(
+          stringify(licenseData),
+          body.licensor.privateKey
         )
-        var agentMetadataSiganture = encode(
-          ed25519.Sign(
-            Buffer.from(stringify({
-              license: licenseData,
-              licensorSignature: licensorMetadataSignature
-            }), 'utf8'),
-            service.privateKey
-          )
+        var agentMetadataSiganture = ed25519.sign(
+          stringify({
+            license: licenseData,
+            licensorSignature: licensorMetadataSignature
+          }),
+          service.privateKey
         )
         end({
           license: {

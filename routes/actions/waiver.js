@@ -1,6 +1,4 @@
-var decode = require('../../data/decode')
-var ed25519 = require('ed25519')
-var encode = require('../../data/encode')
+var ed25519 = require('../../ed25519')
 var stringify = require('../../stringify')
 var readProduct = require('../../data/read-product')
 var recordSignature = require('../../data/record-signature')
@@ -60,11 +58,9 @@ exports.handler = function (body, service, end, fail, lock) {
         }
         var manifest = stringify(parameters)
         var document = waiver(parameters)
-        var signature = encode(
-          ed25519.Sign(
-            Buffer.from(manifest + '\n\n' + document),
-            decode(licensor.privateKey)
-          )
+        var signature = ed25519.sign(
+          manifest + '\n\n' + document,
+          licensor.privateKey
         )
         recordSignature(
           service, licensor.publicKey, signature,

@@ -2,7 +2,7 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ed25519 = require('ed25519')
+var ed25519 = require('../ed25519')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -66,10 +66,10 @@ tape('waiver', function (test) {
             var publicKey = response.publicKey
             // TODO Publish license verification code as open source
             test.assert(
-              ed25519.Verify(
-                Buffer.from(manifest + '\n\n' + document, 'utf8'),
-                Buffer.from(signature, 'hex'),
-                Buffer.from(publicKey, 'hex')
+              ed25519.verify(
+                manifest + '\n\n' + document,
+                signature,
+                publicKey
               ),
               'verifiable signature'
             )

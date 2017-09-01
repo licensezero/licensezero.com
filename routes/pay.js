@@ -7,9 +7,7 @@ var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
 var applicationFee = require('../stripe/application-fee')
 var capitalize = require('./capitalize')
-var decode = require('../data/decode')
-var ed25519 = require('ed25519')
-var encode = require('../data/encode')
+var ed25519 = require('../ed25519')
 var escape = require('./escape')
 var footer = require('./partials/footer')
 var formatPrice = require('./format-price')
@@ -238,13 +236,9 @@ function post (request, response, service, order) {
                       manifest: manifest,
                       document: document,
                       publicKey: product.licensor.publicKey,
-                      signature: encode(
-                        ed25519.Sign(
-                          Buffer.from(
-                            manifest + '\n\n' + document, 'utf8'
-                          ),
-                          decode(product.licensor.privateKey)
-                        )
+                      signature: ed25519.sign(
+                        manifest + '\n\n' + document,
+                        product.licensor.privateKey
                       )
                     }
                     service.email({

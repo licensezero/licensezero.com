@@ -1,8 +1,8 @@
 var accountsPath = require('../paths/accounts')
 var crypto = require('crypto')
+var ed25519 = require('../ed25519')
 var encode = require('../data/encode')
 var fs = require('fs')
-var generateKeypair = require('../data/generate-keypair')
 var hashPassword = require('../data/hash-password')
 var html = require('./html')
 var licensorPath = require('../paths/licensor')
@@ -127,7 +127,7 @@ module.exports = function (request, response, service) {
         function writeLicensorFile (stripeData, nonceData, done) {
           var licensorID = uuid()
           var licensorFile = licensorPath(service, licensorID)
-          var keypair = generateKeypair()
+          var keypair = ed25519.keys()
           var passphrase = encode(crypto.randomBytes(32))
           var stripeID = stripeData.stripe_user_id
           runWaterfall([

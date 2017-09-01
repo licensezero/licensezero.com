@@ -1,5 +1,4 @@
-var crypto = require('crypto')
-var ed25519 = require('ed25519')
+var ed25519 = require('../ed25519')
 var fs = require('fs')
 var http = require('http')
 var makeHandler = require('../')
@@ -17,7 +16,7 @@ module.exports = function testServer () {
     callback = arguments[0]
   }
   fs.mkdtemp('/tmp/', function withDirectory (ignore, directory) {
-    var keys = ed25519.MakeKeypair(crypto.randomBytes(32))
+    var keys = ed25519.keys()
     var configuration = {
       directory: directory,
       publicKey: keys.publicKey,

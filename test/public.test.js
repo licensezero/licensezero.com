@@ -2,7 +2,7 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
-var ed25519 = require('ed25519')
+var ed25519 = require('../ed25519')
 var runSeries = require('run-series')
 var server = require('./server')
 var stringify = require('json-stable-stringify')
@@ -92,51 +92,45 @@ tape('public', function (test) {
             var agentPublicKey = response.key
             // Validate license signatures.
             test.assert(
-              ed25519.Verify(
-                Buffer.from(license.document, 'utf8'),
-                Buffer.from(license.licensorSignature, 'hex'),
-                Buffer.from(LICENSOR.publicKey, 'hex')
+              ed25519.verify(
+                license.document,
+                license.licensorSignature,
+                LICENSOR.publicKey
               ),
               'valid document licensor signature'
             )
             test.assert(
-              ed25519.Verify(
-                Buffer.from(
-                  license.document +
-                  '---\nLicensor:\n' +
-                  [
-                    license.licensorSignature.slice(0, 32),
-                    license.licensorSignature.slice(32, 64),
-                    license.licensorSignature.slice(64, 96),
-                    license.licensorSignature.slice(96)
-                  ].join('\n') + '\n',
-                  'utf8'
-                ),
-                Buffer.from(license.agentSignature, 'hex'),
-                Buffer.from(agentPublicKey, 'hex')
+              ed25519.verify(
+                license.document +
+                '---\nLicensor:\n' +
+                [
+                  license.licensorSignature.slice(0, 32),
+                  license.licensorSignature.slice(32, 64),
+                  license.licensorSignature.slice(64, 96),
+                  license.licensorSignature.slice(96)
+                ].join('\n') + '\n',
+                license.agentSignature,
+                agentPublicKey
               ),
               'valid document agent signature'
             )
             // Validate metadata signatures.
             test.assert(
-              ed25519.Verify(
-                Buffer.from(stringify(licensezero.license), 'utf8'),
-                Buffer.from(licensezero.licensorSignature, 'hex'),
-                Buffer.from(LICENSOR.publicKey, 'hex')
+              ed25519.verify(
+                stringify(licensezero.license),
+                licensezero.licensorSignature,
+                LICENSOR.publicKey
               ),
               'valid metadata licensor signature'
             )
             test.assert(
-              ed25519.Verify(
-                Buffer.from(
-                  stringify({
-                    license: licensezero.license,
-                    licensorSignature: licensezero.licensorSignature
-                  }),
-                  'utf8'
-                ),
-                Buffer.from(licensezero.agentSignature, 'hex'),
-                Buffer.from(agentPublicKey, 'hex')
+              ed25519.verify(
+                stringify({
+                  license: licensezero.license,
+                  licensorSignature: licensezero.licensorSignature
+                }),
+                licensezero.agentSignature,
+                agentPublicKey
               ),
               'valid metadata agent signature'
             )

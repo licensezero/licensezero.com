@@ -1,5 +1,4 @@
-var ed25519 = require('ed25519')
-var decode = require('./decode')
+var ed25519 = require('../ed25519')
 
 var REQUIRED = [
   'productID', 'manifest', 'document', 'publicKey', 'signature'
@@ -11,9 +10,9 @@ module.exports = function (license) {
       return false
     }
   }
-  return ed25519.Verify(
-    Buffer.from(license.manifest + '\n\n' + license.document, 'utf8'),
-    decode(license.signature),
-    decode(license.publicKey)
+  return ed25519.verify(
+    license.manifest + '\n\n' + license.document,
+    license.signature,
+    license.publicKey
   )
 }
