@@ -414,8 +414,8 @@ ${head('Technical Error')}
       failed to go through, due to a technical error.
     </p>
     <p>
-      Please check your e-mail for purchases
-      that completed successfully.
+      Please check your e-mail for any purchases
+      that may have completed successfully.
     </p>
   </main>
   ${footer()}
