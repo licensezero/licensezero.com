@@ -16,11 +16,14 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
+var mkdirp = require('mkdirp')
 var nav = require('./partials/nav')
 var orderPath = require('../paths/order')
 var padStart = require('string.prototype.padstart')
+var path = require('path')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
+var purchasePath = require('../paths/purchase')
 var readJSONFile = require('../data/read-json-file')
 var recordAcceptance = require('../data/record-acceptance')
 var recordSignature = require('../data/record-signature')
@@ -28,6 +31,7 @@ var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 var stringify = require('../stringify')
+var uuid = require('uuid/v4')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)
@@ -186,6 +190,8 @@ function post (request, response, service, order) {
       licensee: order.licensee
     }
     var stripeCustomerID
+    var licenses = []
+    var purchaseID = uuid()
     runSeries([
       // See https://stripe.com/docs/connect/shared-customers.
       function createSharedCustomer (done) {
@@ -263,6 +269,7 @@ function post (request, response, service, order) {
                         product.licensor.privateKey
                       )
                     }
+                    licenses.push(license)
                     service.email({
                       to: data.email,
                       subject: 'License Zero Receipt and License File',
@@ -352,6 +359,16 @@ function post (request, response, service, order) {
             service.stripe.api.customers.del(
               stripeCustomerID, done
             )
+          },
+          function writePurchase (done) {
+            var file = purchasePath(service, purchaseID)
+            runSeries([
+              mkdirp.bind(null, path.dirname(file)),
+              fs.writeFile.bind(null, file, JSON.stringify({
+                date: new Date().toISOString(),
+                licenses: licenses
+              }))
+            ], done)
           }
         ], done)
       }
@@ -384,6 +401,9 @@ ${head('Technical Error')}
       } else {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/html')
+        var purchaseURL = (
+          'https://licensezero.com/purchases/' + purchaseID
+        )
         response.end(html`
 <!doctype html>
 <html lang=en>
@@ -397,6 +417,12 @@ ${head('Thank you')}
       Your purchase was successful.
       You will receive receipts and license files by e-mail shortly.
     </p>
+    <p>
+      To load all of your new licenses into the License
+      Zero command line interface, run the following
+      command anytime in the next twenty four hours:
+    </p>
+    <pre><code class=install>l0-purchased ${purchaseURL}</code></pre>
   </main>
   ${footer()}
 </body>

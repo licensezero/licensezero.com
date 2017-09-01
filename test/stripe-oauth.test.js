@@ -1,6 +1,9 @@
 var apiRequest = require('./api-request')
+var http = require('http')
+var parseJSON = require('json-parse-errback')
 var runSeries = require('run-series')
 var server = require('./server')
+var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
 tape('Stripe OAuth connect', function (test) {
@@ -11,6 +14,7 @@ tape('Stripe OAuth connect', function (test) {
     var product
     var paymentLocation
     var license
+    var importPurchaseCommand
     runSeries([
       function register (done) {
         service.email.events.once('message', function (message) {
@@ -103,13 +107,8 @@ tape('Stripe OAuth connect', function (test) {
       function pay (done) {
         service.email.events.once('message', function (message) {
           license = message.license
-          if (!calledBack) {
-            calledBack = true
-            done()
-          }
         })
         var webdriver = require('./webdriver')
-        var calledBack = false
         webdriver
           .url('http://localhost:' + port + paymentLocation)
           .waitForExist('iframe')
@@ -135,14 +134,38 @@ tape('Stripe OAuth connect', function (test) {
           .then(function (text) {
             test.equal(text, 'Thank You')
           })
-          .catch(function (error) {
-            if (!calledBack) {
-              calledBack = true
-              done(error)
-            }
+          .getText('code.install')
+          .then(function (text) {
+            importPurchaseCommand = text
+            done()
           })
+          .catch(done)
       },
-      function (done) {
+      function fetchBundle (done) {
+        var pathname = /\/purchases\/[0-9a-f-]+/
+          .exec(importPurchaseCommand)[0]
+        http.request({port: port, path: pathname})
+          .once('error', done)
+          .once('response', function (response) {
+            simpleConcat(response, function (error, body) {
+              if (error) return done(error)
+              parseJSON(body, function (error, parsed) {
+                if (error) return done(error)
+                test.equal(
+                  typeof parsed.date, 'string',
+                  'date'
+                )
+                test.assert(
+                  Array.isArray(parsed.licenses),
+                  'array of licenses'
+                )
+                done()
+              })
+            })
+          })
+          .end()
+      },
+      function upgrade (done) {
         apiRequest(port, {
           action: 'upgrade',
           license: license,

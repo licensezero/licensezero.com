@@ -171,3 +171,7 @@ nav[role=navigation] ul li {
   display: inline;
   padding: 0.5rem;
 }
+
+pre code {
+  overflow-x: scroll;
+}

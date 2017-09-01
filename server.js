@@ -1,10 +1,11 @@
 var decode = require('./data/decode')
-var sweepOrders = require('./jobs/delete-expired-orders')
-var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 var http = require('http')
 var makeHandler = require('./')
 var pino = require('pino')
 var schedule = require('node-schedule')
+var sweepOrders = require('./jobs/delete-expired-orders')
+var sweepPurchases = require('./jobs/delete-expired-purchases')
+var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
 var DIRECTORY = process.env.DIRECTORY || 'licensezero'
 var PORT = process.env.PORT || 8080
@@ -42,7 +43,7 @@ server.listen(PORT, function onListening () {
   log.info({event: 'listening', port: boundPort})
 })
 
-var jobs = [sweepOrders, sweepResetTokens]
+var jobs = [sweepOrders, sweepResetTokens, sweepPurchases]
 jobs.forEach(function (job) {
   job(service, function () { })
   schedule.scheduleJob('0 * * * *', function () {
