@@ -228,7 +228,8 @@ function post (request, response, service, order) {
                       },
                       licensor: pick(product.licensor, [
                         'name', 'jurisdiction'
-                      ])
+                      ]),
+                      price: product.price
                     }
                     var manifest = stringify(parameters)
                     var document = privateLicense(parameters)

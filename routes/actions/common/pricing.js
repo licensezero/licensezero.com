@@ -10,11 +10,6 @@ var pricingSchema = module.exports = {
 }
 
 TIER_NAMES.forEach(function (tier) {
-  pricingSchema.properties[tier] = {
-    description: 'price per license, in United States cents',
-    type: 'integer',
-    min: 300, // 3 dollars
-    max: 100000 // 1,000 dollars
-  }
+  pricingSchema.properties[tier] = require('./price')
   pricingSchema.required.push(tier)
 })

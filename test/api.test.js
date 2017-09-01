@@ -60,6 +60,6 @@ tape('oversize payload', function (test) {
         test.end()
         close()
       })
-      .end(JSON.stringify({key: 'x'.repeat(10000)}))
+      .end(JSON.stringify({key: 'x'.repeat(500001)}))
   })
 })

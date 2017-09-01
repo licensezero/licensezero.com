@@ -1,25 +1,10 @@
-var JURISDICTIONS = require('../../data/jurisdictions')
-var TIERS = require('../../data/private-license-tiers')
-var fs = require('fs')
-var mkdirp = require('mkdirp')
-var orderPath = require('../../paths/order')
-var path = require('path')
 var readProduct = require('../../data/read-product')
 var runParallel = require('run-parallel')
-var runSeries = require('run-series')
-var uuid = require('uuid/v4')
+var writeOrder = require('../../data/write-order')
 
 exports.properties = {
-  licensee: {
-    description: 'your legal name',
-    type: 'string',
-    minLength: 4
-  },
-  jurisdiction: {
-    description: 'legal jurisdiction where you reside',
-    type: 'string',
-    enum: JURISDICTIONS
-  },
+  licensee: require('./common/name'),
+  jurisdiction: require('./common/jurisdiction'),
   products: {
     type: 'array',
     minItems: 1,
@@ -27,10 +12,7 @@ exports.properties = {
     maxItems: 100,
     items: require('./common/product-id')
   },
-  tier: {
-    type: 'string',
-    enum: Object.keys(TIERS)
-  }
+  tier: require('./common/tier')
 }
 
 exports.handler = function (body, service, end, fail, lock) {
@@ -79,34 +61,19 @@ exports.handler = function (body, service, end, fail, lock) {
             noTier.map(productIDOf).join(', ')
           )
         }
-        var orderID = uuid()
-        var file = orderPath(service, orderID)
         var pricedProducts = products.map(function (product) {
           product.price = product.pricing[tier]
           delete product.pricing
           return product
         })
-        var total = products.reduce(function (total, product) {
-          return total + product.price
-        }, 0)
-        runSeries([
-          mkdirp.bind(null, path.dirname(file)),
-          fs.writeFile.bind(fs, file, JSON.stringify({
-            orderID: orderID,
-            tier: tier,
-            jurisdiction: body.jurisdiction,
-            licensee: body.licensee,
-            products: pricedProducts,
-            total: total
-          }))
-        ], function (error) {
-          /* istanbul ignore if */
-          if (error) {
-            fail('internal error')
-          } else {
-            end({location: '/pay/' + orderID})
+        writeOrder(
+          service, pricedProducts, tier,
+          body.licensee, body.jurisdiction,
+          function (error, orderID) {
+            if (error) return fail('internal error')
+            else end({location: '/pay/' + orderID})
           }
-        })
+        )
       }
     }
   )

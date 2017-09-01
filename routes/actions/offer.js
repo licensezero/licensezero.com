@@ -13,12 +13,7 @@ var uuid = require('uuid/v4')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   password: {type: 'string'},
-  repository: {
-    description: 'source code repository',
-    type: 'string',
-    format: 'uri',
-    pattern: '^(https|http)://'
-  },
+  repository: require('./common/repository'),
   pricing: require('./common/pricing'),
   grace: {
     description: 'number of calendar days grace period',
@@ -26,11 +21,7 @@ exports.properties = {
     min: 7, // one week
     max: 365 // one year
   },
-  description: {
-    type: 'string',
-    minLength: 8,
-    maxLength: 144
-  },
+  description: require('./common/description'),
   terms: require('./common/agency-terms')
 }
 

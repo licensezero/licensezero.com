@@ -6,7 +6,7 @@ var parseJSON = require('json-parse-errback')
 var readLicensor = require('../data/read-licensor')
 
 // TODO: Revisit body size limit for large buys with many UUIDs
-var REQUEST_BODY_LIMIT = 1024
+var REQUEST_BODY_LIMIT = 500000
 
 var actions = require('./actions')
 

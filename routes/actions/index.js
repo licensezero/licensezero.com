@@ -1,4 +1,3 @@
-// TODO: upgrade
 // TODO: unregister
 
 module.exports = {
@@ -17,5 +16,6 @@ module.exports = {
   order: require('./order'),
   reprice: require('./reprice'),
   reset: require('./reset'),
-  version: require('./version')
+  version: require('./version'),
+  upgrade: require('./upgrade')
 }

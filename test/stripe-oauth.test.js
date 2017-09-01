@@ -10,6 +10,7 @@ tape('Stripe OAuth connect', function (test) {
     var password
     var product
     var paymentLocation
+    var license
     runSeries([
       function register (done) {
         service.email.events.once('message', function (message) {
@@ -100,6 +101,10 @@ tape('Stripe OAuth connect', function (test) {
         })
       },
       function pay (done) {
+        service.email.events.once('message', function (message) {
+          license = message.license
+          done()
+        })
         var webdriver = require('./webdriver')
         webdriver
           .url('http://localhost:' + port + paymentLocation)
@@ -125,9 +130,22 @@ tape('Stripe OAuth connect', function (test) {
           .getText('h1.thanks')
           .then(function (text) {
             test.equal(text, 'Thank You')
-            done()
           })
-          .catch(done)
+      },
+      function (done) {
+        apiRequest(port, {
+          action: 'upgrade',
+          license: license,
+          tier: 'company'
+        }, function (error, response) {
+          test.error(error, 'no upgrade error')
+          test.equal(response.error, false, 'upgrade error false')
+          test.assert(
+            response.location.includes('/pay/'),
+            'upgrade payment location'
+          )
+          done()
+        })
       }
     ], function (error) {
       test.error(error, 'no error')
