@@ -194,6 +194,21 @@ function post (request, response, service, order) {
     var purchaseID = uuid()
     runSeries([
       // See https://stripe.com/docs/connect/shared-customers.
+      //
+      // 1.  Create a Customer object on License Zero's own Stripe
+      //     account, using the token from Stripe.js.
+      //
+      // 2.  For each product transaction, generate a payment token
+      //     from the Customer.
+      //
+      // 3.  Use those tokens to create Charge objects on Licensors'
+      //     Connect-ed Stripe accounts.
+      //
+      // 4.  Delete the Customer object, to prevent any further Charges,
+      //     Subscriptions, &c.  Stripe will retain records of the
+      //     Charges made with generated tokens.
+      //
+      // Stripe Step 1:
       function createSharedCustomer (done) {
         service.stripe.api.customers.create({
           metadata: stripeMetadata,
@@ -217,6 +232,7 @@ function post (request, response, service, order) {
           return function (done) {
             runSeries([
               runWaterfall.bind(null, [
+                // Stripe Step 2:
                 function createSharedCustomerToken (done) {
                   service.stripe.api.tokens.create({
                     customer: stripeCustomerID
@@ -224,6 +240,7 @@ function post (request, response, service, order) {
                     stripe_account: product.licensor.stripe.id
                   }, done)
                 },
+                // Stripe Step 3:
                 function chargeSharedCustomer (token, done) {
                   service.stripe.api.charges.create({
                     amount: product.price,
@@ -355,11 +372,18 @@ function post (request, response, service, order) {
             var file = orderPath(service, order.orderID)
             fs.unlink(file, done)
           },
+          // Stripe Step 4:
           function deleteCustomer (done) {
             service.stripe.api.customers.del(
               stripeCustomerID, done
             )
           },
+          // Write a JSON file containing all license data,
+          // from all transactions, to a capability URL
+          // generated for the purchase. The licensee can
+          // use this URL to load all the new licenses into
+          // CLI at once, without pulling them out of
+          // e-mail.
           function writePurchase (done) {
             var file = purchasePath(service, purchaseID)
             runSeries([
