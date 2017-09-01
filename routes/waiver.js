@@ -29,12 +29,11 @@ module.exports = function (request, response, service) {
         beneficiary: 'Example Beneficiary',
         name: 'Example Licensor',
         jurisdiction: 'US-CA',
-        productID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
-        description: 'a fake product to demonstrate license terms',
-        repository: 'https://licensezero.com/forms/private-license',
-        term: 365,
-        grace: 180,
-        date: '2017-09-01T12:00:00.000Z'
+        productID: '________-____-4___-____-____________',
+        description: 'a made-up product to demonstrate license terms',
+        repository: 'https://example.com/project',
+        term: '____',
+        date: '2017-04-01T12:00:00.000Z'
       }))}</pre>
       <h2>Forever</h2>
       <pre class=license>${escape(waiver({
@@ -42,11 +41,10 @@ module.exports = function (request, response, service) {
         name: 'Example Licensor',
         term: 'forever',
         jurisdiction: 'US-CA',
-        productID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
-        description: 'a fake product to demonstrate license terms',
-        repository: 'https://licensezero.com/forms/private-license',
-        grace: 180,
-        date: '2017-09-01T12:00:00.000Z'
+        productID: '________-____-4___-____-____________',
+        description: 'a made-up product to demonstrate license terms',
+        repository: 'https://example.com/project',
+        date: '2017-04-01T12:00:00.000Z'
       }))}</pre>
     </main>
     ${footer()}

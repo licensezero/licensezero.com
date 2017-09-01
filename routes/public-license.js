@@ -47,10 +47,10 @@ module.exports = function (request, response, service) {
       <pre class=license>${escape(publicLicense({
         name: 'Example Licensor',
         jurisdiction: 'US-CA',
-        publicKey: 'X'.repeat(64),
-        productID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
-        licensorID: 'XXXXXXXX-XXXX-4XXX XXXX-XXXXXXXXXXXX',
-        grace: 180
+        publicKey: '_'.repeat(64),
+        productID: '________-____-4___-____-____________',
+        licensorID: '________-____-4___ ____-____________',
+        grace: '____'
       }))}</pre>
     </main>
     ${footer()}
