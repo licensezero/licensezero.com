@@ -12,7 +12,7 @@
     "commonform-markup-parse": "^0.4.2",
     "commonform-terminal": "^1.0.1",
     "do-not-cache": "^1.0.1",
-    "ed25519": "0.0.4",
+    "ed25519-supercop": "^1.0.2",
     "flush-write-stream": "^1.0.2",
     "form-data": "^2.3.1",
     "html-entities": "^1.2.1",

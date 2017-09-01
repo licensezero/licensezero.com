@@ -283,6 +283,7 @@ function post (request, response, service, order) {
                       publicKey: product.licensor.publicKey,
                       signature: ed25519.sign(
                         manifest + '\n\n' + document,
+                        product.licensor.publicKey,
                         product.licensor.privateKey
                       )
                     }

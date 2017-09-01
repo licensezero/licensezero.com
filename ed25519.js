@@ -1,37 +1,19 @@
-var crypto = require('crypto')
-var ed25519 = require('ed25519')
+var supercop = require('ed25519-supercop')
 
 module.exports = {
   keys: function () {
-    var buffers = ed25519.MakeKeypair(crypto.randomBytes(32))
+    var buffers = supercop.createKeyPair(supercop.createSeed())
     return {
-      privateKey: buffers.privateKey.toString('hex'),
+      privateKey: buffers.secretKey.toString('hex'),
       publicKey: buffers.publicKey.toString('hex')
     }
   },
-  sign: function (message, privateKey) {
-    return ed25519.Sign(
-      coerceUTF8(message),
-      coerceHex(privateKey)
-    ).toString('hex')
+  sign: function (message, publicKey, privateKey) {
+    return supercop.sign(message, publicKey, privateKey)
+      .toString('hex')
   },
   verify: function (message, signature, publicKey) {
-    return ed25519.Verify(
-      coerceUTF8(message),
-      coerceHex(signature),
-      coerceHex(publicKey)
-    ).toString('hex')
+    return supercop.verify(signature, message, publicKey)
+      .toString('hex')
   }
-}
-
-function coerceUTF8 (argument) {
-  return Buffer.isBuffer(argument)
-    ? argument
-    : Buffer.from(argument, 'utf8')
-}
-
-function coerceHex (argument) {
-  return Buffer.isBuffer(argument)
-    ? argument
-    : Buffer.from(argument, 'hex')
 }

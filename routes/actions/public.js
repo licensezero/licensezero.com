@@ -36,15 +36,17 @@ exports.handler = function (body, service, end, fail, lock) {
         }
         var document = publicLicense(licenseData)
         var licensorLicenseSignature = ed25519.sign(
-          document, body.licensor.privateKey
+          document, body.licensor.publicKey, service.privateKey
         )
         var agentLicenseSignature = ed25519.sign(
           document + '---\nLicensor:\n' +
           signatureLines(licensorLicenseSignature) + '\n',
+          service.publicKey,
           service.privateKey
         )
         var licensorMetadataSignature = ed25519.sign(
           stringify(licenseData),
+          body.licensor.publicKey,
           body.licensor.privateKey
         )
         var agentMetadataSiganture = ed25519.sign(
@@ -52,6 +54,7 @@ exports.handler = function (body, service, end, fail, lock) {
             license: licenseData,
             licensorSignature: licensorMetadataSignature
           }),
+          service.publicKey,
           service.privateKey
         )
         end({

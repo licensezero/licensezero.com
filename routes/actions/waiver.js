@@ -60,6 +60,7 @@ exports.handler = function (body, service, end, fail, lock) {
         var document = waiver(parameters)
         var signature = ed25519.sign(
           manifest + '\n\n' + document,
+          licensor.publicKey,
           licensor.privateKey
         )
         recordSignature(
