@@ -34,7 +34,7 @@ tape('register w/ valid body', function (test) {
       jurisdiction: 'US-CA',
       terms: (
         'I agree to the terms of service at ' +
-        'https://licensezero.com/terms-of-service.'
+        'https://licensezero.com/terms/service.'
       )
     }, function (error, response) {
       if (error) {
@@ -74,7 +74,7 @@ tape.skip('confirmation w/ bad stripe code', function (test) {
           jurisdiction: 'US-CA',
           terms: (
             'I agree to the terms of service at ' +
-            'https://licensezero.com/terms-of-service.'
+            'https://licensezero.com/terms/service.'
           )
         }, function (error, response) {
           if (error) {

@@ -70,8 +70,8 @@ tape('Stripe OAuth connect', function (test) {
           grace: 180,
           description: 'a test project',
           terms: (
-            'I agree to the agency agreement at ' +
-            'https://licensezero.com/agency-agreement.'
+            'I agree to the agency terms at ' +
+            'https://licensezero.com/terms/agency.'
           )
         }, function (error, response) {
           if (error) return done(error)

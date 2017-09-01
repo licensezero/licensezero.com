@@ -5,7 +5,7 @@ var tape = require('tape')
 
 testForm('waiver')
 testForm('public-license')
-testForm('private-license')
+testForm('private-licenses')
 
 function testForm (form) {
   tape('GET /forms/' + form, function (test) {
