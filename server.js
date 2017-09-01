@@ -1,4 +1,3 @@
-var decode = require('./data/decode')
 var http = require('http')
 var makeHandler = require('./')
 var pino = require('pino')
@@ -12,8 +11,8 @@ var PORT = process.env.PORT || 8080
 var service = {
   directory: DIRECTORY,
   port: PORT,
-  publicKey: decode(process.env.PUBLIC_KEY),
-  privateKey: decode(process.env.PRIVATE_KEY),
+  publicKey: Buffer.from(process.env.PUBLIC_KEY, 'hex'),
+  privateKey: Buffer.from(process.env.PRIVATE_KEY, 'hex'),
   stripe: require('./environment/stripe'),
   mailgun: require('./environment/mailgun'),
   fee: 15

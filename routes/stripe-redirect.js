@@ -148,8 +148,8 @@ ${head('Registration')}
                   jurisdiction: nonceData.jurisdiction,
                   registered: new Date().toISOString(),
                   password: hash,
-                  publicKey: encode(keypair.publicKey),
-                  privateKey: encode(keypair.privateKey),
+                  publicKey: keypair.publicKey,
+                  privateKey: keypair.privateKey,
                   stripe: {
                     id: stripeID,
                     refresh: stripeData.refresh_token
@@ -176,7 +176,7 @@ ${head('Registration')}
             })
             done(
               null, nonceData.email, licensorID, stripeID,
-              encode(keypair.publicKey), passphrase
+              keypair.publicKey, passphrase
             )
           })
         },
