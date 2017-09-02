@@ -192,6 +192,7 @@ function post (request, response, service, order) {
     var stripeCustomerID
     var licenses = []
     var purchaseID = uuid()
+    // TODO: batch payments by licensor
     runSeries([
       // See https://stripe.com/docs/connect/shared-customers.
       //
