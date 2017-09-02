@@ -30,7 +30,7 @@ are met:
 
     This condition is waived if licenses on other terms cease to
     be available via the following agent, or a successor named in a
-    subsequent release, for three consecutive calendar months:
+    subsequent release, for 90 consecutive calendar days:
 
         Artless Devices LLC
         https://licensezero.com
