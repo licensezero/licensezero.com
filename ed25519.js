@@ -1,19 +1,24 @@
-var supercop = require('ed25519-supercop')
+var sodium = require('sodium').api
 
 module.exports = {
   keys: function () {
-    var buffers = supercop.createKeyPair(supercop.createSeed())
+    var buffers = sodium.crypto_sign_keypair()
     return {
       privateKey: buffers.secretKey.toString('hex'),
       publicKey: buffers.publicKey.toString('hex')
     }
   },
   sign: function (message, publicKey, privateKey) {
-    return supercop.sign(message, publicKey, privateKey)
-      .toString('hex')
+    return sodium.crypto_sign_detached(
+      Buffer.from(message, 'utf8'),
+      Buffer.from(privateKey, 'hex')
+    ).toString('hex')
   },
   verify: function (message, signature, publicKey) {
-    return supercop.verify(signature, message, publicKey)
-      .toString('hex')
+    return sodium.crypto_sign_verify_detached(
+      Buffer.from(signature, 'hex'),
+      Buffer.from(message, 'utf8'),
+      Buffer.from(publicKey, 'hex')
+    )
   }
 }

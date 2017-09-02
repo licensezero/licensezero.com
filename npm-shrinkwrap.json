@@ -1216,14 +1216,6 @@
         "jsbn": "0.1.1"
       }
     },
-    "ed25519-supercop": {
-      "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/ed25519-supercop/-/ed25519-supercop-1.0.2.tgz",
-      "integrity": "sha1-gOadCB0hZHtc1OOR1aO4Qhramc4=",
-      "requires": {
-        "nan": "2.6.2"
-      }
-    },
     "ee-first": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
@@ -4115,6 +4107,14 @@
       "dev": true,
       "requires": {
         "hoek": "2.16.3"
+      }
+    },
+    "sodium": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/sodium/-/sodium-2.0.1.tgz",
+      "integrity": "sha1-ZO//bXaZyPJvkbmsW2/DqlULJXk=",
+      "requires": {
+        "nan": "2.6.2"
       }
     },
     "sorted-array-functions": {
