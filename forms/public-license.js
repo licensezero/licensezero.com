@@ -25,7 +25,7 @@ are met:
 3.  Use in any manner primarily intended for or directed toward
     commercial advantage or private monetary compensation, and not
     development of modifications to be submitted to the licensor for
-    distribution under these terms, must be limited to ${options.grace}
+    distribution under public license, must be limited to ${options.grace}
     calendar days.
 
     This condition is waived if licenses on other terms cease to
