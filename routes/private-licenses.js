@@ -10,6 +10,10 @@ var nav = require('./partials/nav')
 var privateLicense = require('../forms/private-license')
 var runParallel = require('run-parallel')
 
+var REPOSITORY = (
+  'https://github.com/licensezero/licensezero-private-licenses'
+)
+
 module.exports = function (request, response, service) {
   runParallel(Object.keys(TIERS).reduce(function (jobs, key) {
     jobs[key] = privateLicense.bind(null, {
@@ -103,6 +107,11 @@ module.exports = function (request, response, service) {
           individual users, like employees and contractors.
         </li>
       </ol>
+      <p>
+        To review changes to, and submit feeback about,
+        the License Zero private licenses, visit
+        <a href=${REPOSITORY}>${REPOSITORY}</a>.
+      </p>
       ${Object.keys(results).map(function (tier) {
         return html`
           <h3 id="${escape(tier)}">${escape(capitalize(tier))} Tier</h3>

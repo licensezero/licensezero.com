@@ -7,6 +7,10 @@ var internalError = require('./internal-error')
 var nav = require('./partials/nav')
 var publicLicense = require('../forms/public-license')
 
+var REPOSITORY = (
+  'https://github.com/licensezero/licensezero-public-license'
+)
+
 module.exports = function (request, response, service) {
   publicLicense({
     name: 'Example Licensor',
@@ -57,6 +61,11 @@ module.exports = function (request, response, service) {
           will sign private licenses in the copyright notice
         </li>
       </ol>
+      <p>
+        To review changes to, and submit feeback about,
+        the License Zero Public License, visit
+        <a href=${REPOSITORY}>${REPOSITORY}</a>.
+      </p>
       <pre class=license>${escape(document)}</pre>
     </main>
     ${footer()}
