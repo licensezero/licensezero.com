@@ -28,7 +28,7 @@ routes.set('/terms', require('./terms'))
 routes.set('/terms/service', require('./terms-of-service'))
 routes.set('/terms/agency', require('./agency-terms'))
 
-routes.set('/privacy-notice', require('./privacy-notice'))
+routes.set('/privacy', require('./privacy'))
 
 routes.set('/pay.js', function (request, response, service) {
   response.setHeader('Content-Type', 'application/javascript')
