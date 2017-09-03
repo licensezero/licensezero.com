@@ -1,0 +1,9 @@
+[submodule "forms/privacy"]
+	path = forms/privacy
+	url = git@github.com:licensezero/licensezero-privacy
+[submodule "forms/service"]
+	path = forms/service
+	url = git@github.com:licensezero/licensezero-terms-of-service
+[submodule "forms/agency"]
+	path = forms/agency
+	url = git@github.com:licensezero/licensezero-agency-terms

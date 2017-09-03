@@ -3,9 +3,9 @@ var parse = require('commonform-markup-parse')
 var path = require('path')
 
 module.exports = function (basename) {
-  var BLANKS = require('./' + basename + '.blanks.json')
+  var BLANKS = require('./' + basename + '/blanks.json')
   return function (callback) {
-    var file = path.join(__dirname, basename + '.cform')
+    var file = path.join(__dirname, basename, basename + '.cform')
     fs.readFile(file, 'ascii', function (error, markup) {
       if (error) return callback(error)
       try {

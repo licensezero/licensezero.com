@@ -1,2 +1,2 @@
 var loadCommonForm = require('./load-common-form')
-module.exports = loadCommonForm('agency-terms')
+module.exports = loadCommonForm('agency')
