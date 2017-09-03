@@ -1,4 +1,7 @@
 {
-  "Agent": "Artless Devices LLC",
-  "Website": "https://licensezero.com"
+  "Company": "Artless Devices LLC",
+  "Company Form": "California limited liability company",
+  "Website": "licensezero.com",
+  "URL": "https://licensezero.com/privacy",
+  "Repository": "https://github.com/licensezero/licensezero-privacy-notice"
 }
