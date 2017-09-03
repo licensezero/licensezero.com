@@ -176,3 +176,8 @@ nav[role=navigation] ul li {
 pre {
   overflow-x: auto;
 }
+
+.commonform .conspicuous > p {
+  font-style: italic;
+  font-weight: bold;
+}
