@@ -7,3 +7,6 @@
 [submodule "forms/agency"]
 	path = forms/agency
 	url = git@github.com:licensezero/licensezero-agency-terms
+[submodule "forms/public-license"]
+	path = forms/public-license
+	url = git@github.com:licensezero/licensezero-public-license

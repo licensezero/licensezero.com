@@ -34,45 +34,50 @@ exports.handler = function (body, service, end, fail, lock) {
           publicKey: product.licensor.publicKey,
           version: publicLicense.VERSION
         }
-        var document = publicLicense(licenseData)
-        var licensorLicenseSignature = ed25519.sign(
-          document, body.licensor.publicKey, product.licensor.privateKey
-        )
-        var agentLicenseSignature = ed25519.sign(
-          document + '---\nLicensor:\n' +
-          signatureLines(licensorLicenseSignature) + '\n',
-          service.publicKey,
-          service.privateKey
-        )
-        var licensorMetadataSignature = ed25519.sign(
-          stringify(licenseData),
-          body.licensor.publicKey,
-          body.licensor.privateKey
-        )
-        var agentMetadataSiganture = ed25519.sign(
-          stringify({
-            license: licenseData,
-            licensorSignature: licensorMetadataSignature
-          }),
-          service.publicKey,
-          service.privateKey
-        )
-        end({
-          license: {
-            document: document,
-            licensorSignature: licensorLicenseSignature,
-            agentSignature: agentLicenseSignature
-          },
-          metadata: {
-            // See: https://docs.npmjs.com/files/package.json#license
-            // TODO: Replace w/ SPDX identifier.
-            license: 'SEE LICENSE IN LICENSE',
-            licensezero: {
-              license: licenseData,
-              licensorSignature: licensorMetadataSignature,
-              agentSignature: agentMetadataSiganture
-            }
+        publicLicense(licenseData, function (error, document) {
+          if (error) {
+            service.log.error(error)
+            return fail('internal error')
           }
+          var licensorLicenseSignature = ed25519.sign(
+            document, body.licensor.publicKey, product.licensor.privateKey
+          )
+          var agentLicenseSignature = ed25519.sign(
+            document + '---\nLicensor:\n' +
+            signatureLines(licensorLicenseSignature) + '\n',
+            service.publicKey,
+            service.privateKey
+          )
+          var licensorMetadataSignature = ed25519.sign(
+            stringify(licenseData),
+            body.licensor.publicKey,
+            body.licensor.privateKey
+          )
+          var agentMetadataSiganture = ed25519.sign(
+            stringify({
+              license: licenseData,
+              licensorSignature: licensorMetadataSignature
+            }),
+            service.publicKey,
+            service.privateKey
+          )
+          end({
+            license: {
+              document: document,
+              licensorSignature: licensorLicenseSignature,
+              agentSignature: agentLicenseSignature
+            },
+            metadata: {
+              // See: https://docs.npmjs.com/files/package.json#license
+              // TODO: Replace w/ SPDX identifier.
+              license: 'SEE LICENSE IN LICENSE',
+              licensezero: {
+                license: licenseData,
+                licensorSignature: licensorMetadataSignature,
+                agentSignature: agentMetadataSiganture
+              }
+            }
+          })
         })
       }
     }

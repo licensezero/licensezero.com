@@ -3,12 +3,25 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var internalError = require('./internal-error')
 var nav = require('./partials/nav')
 var publicLicense = require('../forms/public-license')
 
 module.exports = function (request, response, service) {
-  response.setHeader('Content-Type', 'text/html')
-  response.end(html`
+  publicLicense({
+    name: 'Example Licensor',
+    jurisdiction: 'US-CA',
+    publicKey: '_'.repeat(64),
+    productID: '________-____-4___-____-____________',
+    licensorID: '________-____-4___ ____-____________',
+    grace: '____'
+  }, function (error, document) {
+    if (error) {
+      service.log.error(error)
+      return internalError(response, error)
+    }
+    response.setHeader('Content-Type', 'text/html')
+    response.end(html`
 <!doctype html>
 <html>
   ${head('Public License')}
@@ -44,17 +57,11 @@ module.exports = function (request, response, service) {
           will sign private licenses in the copyright notice
         </li>
       </ol>
-      <pre class=license>${escape(publicLicense({
-        name: 'Example Licensor',
-        jurisdiction: 'US-CA',
-        publicKey: '_'.repeat(64),
-        productID: '________-____-4___-____-____________',
-        licensorID: '________-____-4___ ____-____________',
-        grace: '____'
-      }))}</pre>
+      <pre class=license>${escape(document)}</pre>
     </main>
     ${footer()}
   </body>
 </html>
-  `)
+    `)
+  })
 }
