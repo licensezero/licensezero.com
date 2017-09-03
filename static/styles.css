@@ -21,6 +21,7 @@ header {
 footer {
   border-top: 1px solid black;
   font-size: 90%;
+  padding-top: 0.5rem;
   padding-bottom: 5rem;
   text-align: right;
 }
