@@ -276,43 +276,45 @@ function post (request, response, service, order) {
                       price: product.price
                     }
                     var manifest = stringify(parameters)
-                    var document = privateLicense(parameters)
-                    var license = {
-                      productID: product.productID,
-                      manifest: manifest,
-                      document: document,
-                      publicKey: product.licensor.publicKey,
-                      signature: ed25519.sign(
-                        manifest + '\n\n' + document,
-                        product.licensor.publicKey,
-                        product.licensor.privateKey
-                      )
-                    }
-                    licenses.push(license)
-                    service.email({
-                      to: data.email,
-                      subject: 'License Zero Receipt and License File',
-                      text: []
-                        .concat([
-                          'Thank you for buying a license through ' +
-                          'licensezero.com.',
-                          'Order ID: ' + order.orderID,
-                          'Total: ' + priceColumn(product.price),
-                          'Attached is a License Zero license file for:'
-                        ])
-                        // TODO: Add CLI license import instructions
-                        .concat([
-                          'Licensee:     ' + order.licensee,
-                          'Jurisdiction: ' + order.jurisdiction,
-                          'Product:      ' + product.productID,
-                          'Description:  ' + product.description,
-                          'Repository:   ' + product.repository,
-                          'License Tier: ' + capitalize(order.tier)
-                        ].join('\n')),
-                      license: license
-                    }, function (error) {
+                    privateLicense(parameters, function (error, document) {
                       if (error) return done(error)
-                      done(null, license)
+                      var license = {
+                        productID: product.productID,
+                        manifest: manifest,
+                        document: document,
+                        publicKey: product.licensor.publicKey,
+                        signature: ed25519.sign(
+                          manifest + '\n\n' + document,
+                          product.licensor.publicKey,
+                          product.licensor.privateKey
+                        )
+                      }
+                      licenses.push(license)
+                      service.email({
+                        to: data.email,
+                        subject: 'License Zero Receipt and License File',
+                        text: []
+                          .concat([
+                            'Thank you for buying a license through ' +
+                            'licensezero.com.',
+                            'Order ID: ' + order.orderID,
+                            'Total: ' + priceColumn(product.price),
+                            'Attached is a License Zero license file for:'
+                          ])
+                          // TODO: Add CLI license import instructions
+                          .concat([
+                            'Licensee:     ' + order.licensee,
+                            'Jurisdiction: ' + order.jurisdiction,
+                            'Product:      ' + product.productID,
+                            'Description:  ' + product.description,
+                            'Repository:   ' + product.repository,
+                            'License Tier: ' + capitalize(order.tier)
+                          ].join('\n')),
+                        license: license
+                      }, function (error) {
+                        if (error) return done(error)
+                        done(null, license)
+                      })
                     })
                   },
                   function (license, done) {

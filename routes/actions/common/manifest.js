@@ -6,7 +6,7 @@ var productProperties = {
 
 var properties = {
   FORM: {const: 'private license'},
-  VERSION: {enum: ['1.0.0']},
+  VERSION: {enum: ['0.0.0']},
   date: {
     type: 'string',
     format: 'date-time'

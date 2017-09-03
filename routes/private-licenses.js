@@ -5,12 +5,36 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var internalError = require('./internal-error')
 var nav = require('./partials/nav')
 var privateLicense = require('../forms/private-license')
+var runParallel = require('run-parallel')
 
 module.exports = function (request, response, service) {
-  response.setHeader('Content-Type', 'text/html')
-  response.end(html`
+  runParallel(Object.keys(TIERS).reduce(function (jobs, key) {
+    jobs[key] = privateLicense.bind(null, {
+      date: '2017-09-01T12:00:00.000Z',
+      tier: key,
+      licensee: {
+        name: 'Example Licensee',
+        jurisdiction: 'US-CA'
+      },
+      licensor: {
+        name: 'Example Licensor',
+        jurisdiction: 'US-CA'
+      },
+      productID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
+      description: 'a fake product to demonstrate license terms',
+      repository: 'https://licensezero.com/forms/private-license'
+    })
+    return jobs
+  }, {}), function (error, results) {
+    if (error) {
+      service.log.error(error)
+      return internalError(response, error)
+    }
+    response.setHeader('Content-Type', 'text/html')
+    response.end(html`
 <!doctype html>
 <html>
   ${head('Private Licenses')}
@@ -32,7 +56,11 @@ module.exports = function (request, response, service) {
             <dd>
               <a href="#${escape(tier)}">
                 ${(TIERS[tier] || 'unlimited').toString()}
-                ${TIERS[tier] === null || TIERS[tier] > 1 ? 'users' : 'user'}
+                ${
+                  TIERS[tier] === null || TIERS[tier] > 1
+                    ? 'users'
+                    : 'user'
+                  }
               </a>
             </dd>
           `
@@ -75,29 +103,16 @@ module.exports = function (request, response, service) {
           individual users, like employees and contractors.
         </li>
       </ol>
-      ${Object.keys(TIERS).map(function (tier) {
+      ${Object.keys(results).map(function (tier) {
         return html`
           <h3 id="${escape(tier)}">${escape(capitalize(tier))} Tier</h3>
-          <pre class=license>${escape(privateLicense({
-            date: '2017-09-01T12:00:00.000Z',
-            tier: tier,
-            licensee: {
-              name: 'Example Licensee',
-              jurisdiction: 'US-CA'
-            },
-            licensor: {
-              name: 'Example Licensor',
-              jurisdiction: 'US-CA'
-            },
-            productID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
-            description: 'a fake product to demonstrate license terms',
-            repository: 'https://licensezero.com/forms/private-license'
-          }))}</pre>
+          <pre class=license>${escape(results[tier])}</pre>
         `
       })}
     </main>
     ${footer()}
   </body>
 </html>
-  `)
+    `)
+  })
 }
