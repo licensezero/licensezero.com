@@ -341,11 +341,11 @@ function post (request, response, service, order) {
                           'Tier:         ' + capitalize(order.tier)
                         ].join('\n'),
                         [
-                          'Price:     ' + priceColumn(product.price),
-                          '-----------' + '-'.repeat(10),
-                          'Agent Fee: ' + priceColumn(fee),
-                          '-----------' + '-'.repeat(10),
-                          'Total:     ' + priceColumn(
+                          'Price:      ' + priceColumn(product.price),
+                          '------------' + '-'.repeat(10),
+                          'Commission: ' + priceColumn(fee),
+                          '------------' + '-'.repeat(10),
+                          'Total:      ' + priceColumn(
                             product.total - fee
                           )
                         ].join('\n'),

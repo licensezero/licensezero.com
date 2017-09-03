@@ -15,7 +15,7 @@ var service = {
   privateKey: Buffer.from(process.env.PRIVATE_KEY, 'hex'),
   stripe: require('./environment/stripe'),
   mailgun: require('./environment/mailgun'),
-  fee: 15
+  commission: 15
 }
 
 var NAME = require('./package.json').name
