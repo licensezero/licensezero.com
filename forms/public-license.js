@@ -1,15 +1,16 @@
-var fs = require('fs')
 var mustache = require('mustache')
 var path = require('path')
 
-var VERSION = require('./public-license/version.json')
+var VERSION = require('./public-license/version')
 
-var TEMPLATE = path.join(
-  __dirname, 'public-license', 'LICENSE.mustache'
+var withCached = require('./with-cached')(
+  path.join(
+    __dirname, 'public-license', 'LICENSE.mustache'
+  )
 )
 
 module.exports = function (options, callback) {
-  fs.readFile(TEMPLATE, 'utf8', function (error, template) {
+  withCached(function (error, template) {
     if (error) return callback(error)
     callback(null, mustache.render(
       template,

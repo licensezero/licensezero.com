@@ -1,13 +1,14 @@
-var fs = require('fs')
 var mustache = require('mustache')
 var path = require('path')
 
 var VERSION = require('./waiver/version.json')
 
-var TEMPLATE = path.join(__dirname, 'waiver', 'WAIVER.mustache')
+var withCached = require('./with-cached')(
+  path.join(__dirname, 'waiver', 'WAIVER.mustache')
+)
 
 module.exports = function (options, callback) {
-  fs.readFile(TEMPLATE, 'utf8', function (error, template) {
+  withCached(function (error, template) {
     if (error) return callback(error)
     var licensor = options.licensor
     var beneficiary = options.beneficiary

@@ -1,12 +1,14 @@
-var fs = require('fs')
 var parse = require('commonform-markup-parse')
 var path = require('path')
+var withCached = require('./with-cached')
 
 module.exports = function (basename) {
   var BLANKS = require('./' + basename + '/blanks.json')
+  var withMarkup = withCached(
+    path.join(__dirname, basename, basename + '.cform')
+  )
   return function (callback) {
-    var file = path.join(__dirname, basename, basename + '.cform')
-    fs.readFile(file, 'ascii', function (error, markup) {
+    withMarkup(function (error, markup) {
       if (error) return callback(error)
       try {
         var parsed = parse(markup)

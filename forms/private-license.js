@@ -1,16 +1,17 @@
 var TIERS = require('../data/private-license-tiers')
-var fs = require('fs')
 var mustache = require('mustache')
 var path = require('path')
 
 var VERSION = require('./private-licenses/version')
 
-var TEMPLATE = path.join(
-  __dirname, 'private-licenses', 'LICENSE.mustache'
+var withCached = require('./with-cached')(
+  path.join(
+    __dirname, 'private-licenses', 'LICENSE.mustache'
+  )
 )
 
 module.exports = function (options, callback) {
-  fs.readFile(TEMPLATE, 'utf8', function (error, template) {
+  withCached(function (error, template) {
     if (error) return callback(error)
     var view = {
       version: VERSION,
