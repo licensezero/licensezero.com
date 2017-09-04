@@ -1,4 +1,3 @@
-// TODO: POST /pay/{order}
 // TODO: POST /pay/{order} error UI
 
 var AJV = require('ajv')
