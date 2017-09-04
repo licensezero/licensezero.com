@@ -4,5 +4,5 @@ var crypto = require('crypto')
 
 var keypair = ed25519.keys()
 
-console.log('export PUBLIC_KEY="' + keypair.publicKey.toString('hex') + '"')
-console.log('export PRIVATE_KEY="' + keypair.privateKey.toString('hex') + '"')
+process.stdout.write('export PUBLIC_KEY="' + keypair.publicKey.toString('hex') + '"\n')
+process.stdout.write('export PRIVATE_KEY="' + keypair.privateKey.toString('hex') + '"\n')
