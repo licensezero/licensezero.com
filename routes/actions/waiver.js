@@ -57,27 +57,32 @@ exports.handler = function (body, service, end, fail, lock) {
           term: body.term.toString()
         }
         var manifest = stringify(parameters)
-        var document = waiver(parameters)
-        var signature = ed25519.sign(
-          manifest + '\n\n' + document,
-          licensor.publicKey,
-          licensor.privateKey
-        )
-        recordSignature(
-          service, licensor.publicKey, signature,
-          function (error, done) {
-            if (error) {
-              service.log.error(error)
-              fail('internal error')
-            } else {
-              end({
-                manifest: manifest,
-                document: document,
-                signature: signature
-              })
-            }
+        waiver(parameters, function (error, document) {
+          if (error) {
+            service.log.error(error)
+            return fail('internal error')
           }
-        )
+          var signature = ed25519.sign(
+            manifest + '\n\n' + document,
+            licensor.publicKey,
+            licensor.privateKey
+          )
+          recordSignature(
+            service, licensor.publicKey, signature,
+            function (error, done) {
+              if (error) {
+                service.log.error(error)
+                fail('internal error')
+              } else {
+                end({
+                  manifest: manifest,
+                  document: document,
+                  signature: signature
+                })
+              }
+            }
+          )
+        })
       }
     }
   })

@@ -3,12 +3,40 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var internalError = require('./internal-error')
 var nav = require('./partials/nav')
+var runParallel = require('run-parallel')
 var waiver = require('../forms/waiver')
 
 module.exports = function (request, response, service) {
-  response.setHeader('Content-Type', 'text/html')
-  response.end(html`
+  runParallel({
+    forever: waiver.bind(null, {
+      beneficiary: 'Example Beneficiary',
+      name: 'Example Licensor',
+      jurisdiction: 'US-CA',
+      productID: '________-____-4___-____-____________',
+      description: 'a made-up product to demonstrate license terms',
+      repository: 'https://example.com/project',
+      term: 'forever',
+      date: '2017-04-01T12:00:00.000Z'
+    }),
+    term: waiver.bind(null, {
+      beneficiary: 'Example Beneficiary',
+      name: 'Example Licensor',
+      jurisdiction: 'US-CA',
+      productID: '________-____-4___-____-____________',
+      description: 'a made-up product to demonstrate license terms',
+      repository: 'https://example.com/project',
+      term: '____',
+      date: '2017-04-01T12:00:00.000Z'
+    })
+  }, function (error, results) {
+    if (error) {
+      service.log.error(error)
+      return internalError(response, error)
+    }
+    response.setHeader('Content-Type', 'text/html')
+    response.end(html`
 <!doctype html>
 <html>
   ${head()}
@@ -25,30 +53,13 @@ module.exports = function (request, response, service) {
         using a standard form waiver.
       </p>
       <h2>For a Term</h2>
-      <pre class=license>${escape(waiver({
-        beneficiary: 'Example Beneficiary',
-        name: 'Example Licensor',
-        jurisdiction: 'US-CA',
-        productID: '________-____-4___-____-____________',
-        description: 'a made-up product to demonstrate license terms',
-        repository: 'https://example.com/project',
-        term: '____',
-        date: '2017-04-01T12:00:00.000Z'
-      }))}</pre>
+      <pre class=license>${escape(results.term)}</pre>
       <h2>Forever</h2>
-      <pre class=license>${escape(waiver({
-        beneficiary: 'Example Beneficiary',
-        name: 'Example Licensor',
-        term: 'forever',
-        jurisdiction: 'US-CA',
-        productID: '________-____-4___-____-____________',
-        description: 'a made-up product to demonstrate license terms',
-        repository: 'https://example.com/project',
-        date: '2017-04-01T12:00:00.000Z'
-      }))}</pre>
+      <pre class=license>${escape(results.forever)}</pre>
     </main>
     ${footer()}
   </body>
 </html>
-  `)
+    `)
+  })
 }
