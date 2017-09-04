@@ -22,7 +22,6 @@ module.exports = function (options, callback) {
         secondHalfOfKey: options.publicKey.slice(32),
         grace: options.grace.toString(),
         productID: options.productID,
-        licensorID: options.licensorID,
         agentName: 'Artless Devices LLC',
         agentWebsite: 'https://licensezero.com'
       }

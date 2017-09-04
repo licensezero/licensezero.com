@@ -10,7 +10,6 @@ exports.properties = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var licensorID = body.licensorID
   var productID = body.productID
   readProduct(service, productID, function (error, product) {
     if (error) {
@@ -28,7 +27,6 @@ exports.handler = function (body, service, end, fail, lock) {
         var licenseData = {
           grace: product.grace,
           jurisdiction: product.licensor.jurisdiction,
-          licensorID: licensorID,
           name: product.licensor.name,
           productID: productID,
           publicKey: product.licensor.publicKey,
