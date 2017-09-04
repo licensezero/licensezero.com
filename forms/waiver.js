@@ -1,6 +1,8 @@
 var mustache = require('mustache')
 var path = require('path')
 
+// TODO: lock the grace period?
+
 var VERSION = require('./waiver/version.json')
 
 var withCached = require('./with-cached')(
