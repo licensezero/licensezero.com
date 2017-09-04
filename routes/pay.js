@@ -1,5 +1,3 @@
-// TODO: POST /pay/{order} error UI
-
 var AJV = require('ajv')
 var Busboy = require('busboy')
 var TIERS = require('../data/private-license-tiers')
@@ -57,7 +55,8 @@ module.exports = function (request, response, service) {
   }
 }
 
-function get (request, response, service, order) {
+function get (request, response, service, order, postData) {
+  response.statusCode = postData ? 400 : 200
   response.setHeader('Content-Type', 'text/html')
   response.end(html`
 <!doctype html>
@@ -125,9 +124,11 @@ ${head('Buy Licenses')}
         <h2>Credit Card Payment</h2>
         <div id=card></div>
         <div id=card-errors></div>
+        ${errorsFor('token')}
       </section>
       <section id=email>
-        <input name=email type=email>
+        <input name=email type=email value="${postValue('name')}">
+        ${errorsFor('email')}
       </section>
       <section id=terms>
         <label>
@@ -135,6 +136,7 @@ ${head('Buy Licenses')}
           Check this box to accept License Zero&rsquo;s
           <a href=/terms target=_blank>terms of service</a>.
         </label>
+        ${errorsFor('terms')}
       </section>
       <input id=submitButton type=submit value="Buy Licenses">
     </form>
@@ -145,6 +147,25 @@ ${head('Buy Licenses')}
 </body>
 </html>
   `)
+
+  function errorsFor (name) {
+    if (!postData) return undefined
+    if (!Array.isArray(postData.errors)) return undefined
+    var errors = postData.errors.filter(function (error) {
+      return error.name === name
+    })
+    return html`
+      ${errors.map(function (error) {
+        return html`<p class=error>${escape(error.message)}</p>`
+      })}
+    `
+  }
+
+  function postValue (name) {
+    if (!postData) return undefined
+    if (!postData[name]) return undefined
+    return escape(postData[name])
+  }
 }
 
 var postSchema = {
@@ -166,7 +187,7 @@ var postSchema = {
   additionalProperties: false
 }
 
-var ajv = new AJV()
+var ajv = new AJV({allErrors: true})
 var validatePost = ajv.compile(postSchema)
 
 function post (request, response, service, order) {
@@ -179,8 +200,29 @@ function post (request, response, service, order) {
   })
   parser.once('finish', function () {
     if (!validatePost(data)) {
-      response.statusCode = 400
-      return response.end()
+      data.errors = validatePost.errors.map(function (error) {
+        var dataPath = error.dataPath
+        if (dataPath === '.email') {
+          return {
+            name: 'email',
+            message: 'You must provide a valid e-mail address.'
+          }
+        } else if (dataPath === '.terms') {
+          return {
+            name: 'terms',
+            message: 'You must accept the terms to continue.'
+          }
+        } else if (dataPath === '.token') {
+          return {
+            name: 'token',
+            message: 'You must provide payment to continue.'
+          }
+        } else {
+          service.log.info(error, 'unexpected schema error')
+          return null
+        }
+      })
+      return get(request, response, service, order, data)
     }
     var products = order.products
     var stripeMetadata = {

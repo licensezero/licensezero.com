@@ -25,7 +25,7 @@ module.exports = function html (/* strings, values... */) {
 
 function toString (value) {
   /* istanbul ignore else */
-  if (value === false || value === undefined) {
+  if (value === false || value === undefined || value === null) {
     return ''
   } else if (Array.isArray(value)) {
     return value.join('')
