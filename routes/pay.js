@@ -204,7 +204,9 @@ function post (request, response, service, order) {
       // 3.  Use those tokens to create Charge objects on Licensors'
       //     Connect-ed Stripe accounts.
       //
-      // 4.  Delete the Customer object, to prevent any further Charges,
+      // 4.  Capture the charges once the licenses go out by e-mail.
+      //
+      // 5.  Delete the Customer object, to prevent any further Charges,
       //     Subscriptions, &c.  Stripe will retain records of the
       //     Charges made with generated tokens.
       //
@@ -229,6 +231,7 @@ function post (request, response, service, order) {
           })
         ].concat(products.map(function (product) {
           var commission = applicationFee(product)
+          var chargeID
           return function (done) {
             runSeries([
               runWaterfall.bind(null, [
@@ -248,10 +251,18 @@ function post (request, response, service, order) {
                     source: token.id,
                     application_fee: commission,
                     statement_descriptor: 'License Zero License',
-                    metadata: stripeMetadata
+                    metadata: stripeMetadata,
+                    // Do not capture yet.
+                    // Wait until the e-mail goes through.
+                    capture: false
                   }, {
                     stripe_account: product.licensor.stripe.id
-                  }, done)
+                  }, function (error, charge) {
+                    if (error) return done(error)
+                    service.log.info(charge, 'charge')
+                    chargeID = charge.id
+                    done()
+                  })
                 }
               ]),
               function (done) {
@@ -364,6 +375,14 @@ function post (request, response, service, order) {
                     }, done)
                   }
                 ], done)
+              },
+              function captureCharge (done) {
+                // Stripe Step 4:
+                service.stripe.api.charges.capture(
+                  chargeID,
+                  {stripe_account: product.licensor.stripe.id},
+                  done
+                )
               }
             ], done)
           }
@@ -375,7 +394,7 @@ function post (request, response, service, order) {
             var file = orderPath(service, order.orderID)
             fs.unlink(file, done)
           },
-          // Stripe Step 4:
+          // Stripe Step 5:
           function deleteCustomer (done) {
             service.stripe.api.customers.del(
               stripeCustomerID, done
