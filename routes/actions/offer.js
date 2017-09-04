@@ -51,7 +51,8 @@ exports.handler = function (body, service, end, fail, lock) {
                 pricing: body.pricing,
                 grace: body.grace,
                 repository: body.repository,
-                description: body.description
+                description: body.description,
+                commission: service.commission
               }))
             ], done)
           },

@@ -59,7 +59,8 @@ tape('quote', function (test) {
                   name: 'Test User',
                   jurisdiction: 'US-CA',
                   publicKey: LICENSOR.publicKey
-                }
+                },
+                commission: service.commission
               },
               {
                 productID: secondProduct,
@@ -72,7 +73,8 @@ tape('quote', function (test) {
                   name: 'Test User',
                   jurisdiction: 'US-CA',
                   publicKey: LICENSOR.publicKey
-                }
+                },
+                commission: service.commission
               }
             ],
             'quotes terms'

@@ -1,3 +1,3 @@
-module.exports = function (service, total) {
-  return Math.floor((total / 100) * service.commission)
+module.exports = function (product) {
+  return Math.floor((product.price / 100) * product.commission)
 }

@@ -229,7 +229,7 @@ function post (request, response, service, order) {
             date: new Date().toISOString()
           })
         ].concat(products.map(function (product) {
-          var fee = applicationFee(service, product.price)
+          var commission = applicationFee(product)
           return function (done) {
             runSeries([
               runWaterfall.bind(null, [
@@ -247,7 +247,7 @@ function post (request, response, service, order) {
                     amount: product.price,
                     currency: 'usd',
                     source: token.id,
-                    application_fee: fee,
+                    application_fee: commission,
                     statement_descriptor: 'License Zero License',
                     metadata: stripeMetadata
                   }, {
@@ -345,10 +345,10 @@ function post (request, response, service, order) {
                         [
                           'Price:      ' + priceColumn(product.price),
                           '------------' + '-'.repeat(10),
-                          'Commission: ' + priceColumn(fee),
+                          'Commission: ' + priceColumn(commission),
                           '------------' + '-'.repeat(10),
                           'Total:      ' + priceColumn(
-                            product.total - fee
+                            product.total - commission
                           )
                         ].join('\n'),
                         [

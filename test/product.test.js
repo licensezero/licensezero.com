@@ -47,6 +47,7 @@ tape('product', function (test) {
                 publicKey: LICENSOR.publicKey
               },
               description: OFFER.description,
+              commission: service.commission,
               error: false
             },
             'response'
