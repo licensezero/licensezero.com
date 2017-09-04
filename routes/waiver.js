@@ -11,24 +11,38 @@ var waiver = require('../forms/waiver')
 module.exports = function (request, response, service) {
   runParallel({
     forever: waiver.bind(null, {
-      beneficiary: 'Example Beneficiary',
-      name: 'Example Licensor',
-      jurisdiction: 'US-CA',
-      productID: '________-____-4___-____-____________',
-      description: 'a made-up product to demonstrate license terms',
-      repository: 'https://example.com/project',
-      term: 'forever',
-      date: '2017-04-01T12:00:00.000Z'
+      licensor: {
+        name: 'Example Licensor',
+        jurisdiction: 'US-CA'
+      },
+      beneficiary: {
+        name: 'Example Beneficiary',
+        jurisdiction: 'US-CA'
+      },
+      product: {
+        productID: '________-____-4___-____-____________',
+        description: 'a made-up product to demonstrate license terms',
+        repository: 'https://example.com/project'
+      },
+      date: '2017-04-01T12:00:00.000Z',
+      term: 'forever'
     }),
     term: waiver.bind(null, {
-      beneficiary: 'Example Beneficiary',
-      name: 'Example Licensor',
-      jurisdiction: 'US-CA',
-      productID: '________-____-4___-____-____________',
-      description: 'a made-up product to demonstrate license terms',
-      repository: 'https://example.com/project',
-      term: '____',
-      date: '2017-04-01T12:00:00.000Z'
+      licensor: {
+        name: 'Example Licensor',
+        jurisdiction: 'US-CA'
+      },
+      beneficiary: {
+        name: 'Example Beneficiary',
+        jurisdiction: 'US-CA'
+      },
+      product: {
+        productID: '________-____-4___-____-____________',
+        description: 'a made-up product to demonstrate license terms',
+        repository: 'https://example.com/project'
+      },
+      date: '2017-04-01T12:00:00.000Z',
+      term: '____'
     })
   }, function (error, results) {
     if (error) {

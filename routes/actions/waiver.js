@@ -13,6 +13,7 @@ exports.properties = {
     type: 'string',
     minLength: 4
   },
+  jurisdiction: require('./common/jurisdiction'),
   term: {
     oneOf: [
       {
@@ -47,12 +48,19 @@ exports.handler = function (body, service, end, fail, lock) {
         var parameters = {
           FORM: 'waiver',
           VERSION: waiver.version,
-          name: licensor.name,
-          jurisdiction: licensor.jurisdiction,
-          repository: product.repository,
-          productID: productID,
-          description: product.description,
-          beneficiary: body.beneficiary,
+          beneficiary: {
+            name: body.beneficiary,
+            jurisdiction: body.jurisdiction
+          },
+          licensor: {
+            name: licensor.name,
+            jurisdiction: licensor.jurisdiction
+          },
+          product: {
+            productID: productID,
+            description: product.description,
+            repository: product.repository
+          },
           date: new Date().toISOString(),
           term: body.term.toString()
         }

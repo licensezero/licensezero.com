@@ -32,6 +32,7 @@ tape('waiver', function (test) {
           password: LICENSOR.password,
           productID: product,
           beneficiary: 'SomeCo, Inc.',
+          jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
@@ -96,6 +97,7 @@ tape('waiver for nonexistent product', function (test) {
           password: LICENSOR.password,
           productID: uuid(),
           beneficiary: 'SomeCo, Inc.',
+          jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
@@ -149,6 +151,7 @@ tape('waiver for retracted product', function (test) {
           password: LICENSOR.password,
           productID: product,
           beneficiary: 'SomeCo, Inc.',
+          jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
