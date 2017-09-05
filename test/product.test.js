@@ -38,7 +38,6 @@ tape('product', function (test) {
             response, {
               productID: productID,
               repository: OFFER.repository,
-              grace: OFFER.grace,
               pricing: OFFER.pricing,
               licensor: {
                 licensorID: LICENSOR.id,

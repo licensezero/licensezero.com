@@ -52,7 +52,6 @@ tape('quote', function (test) {
                 productID: firstProduct,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
-                grace: 180,
                 repository: 'http://example.com/first',
                 licensor: {
                   licensorID: LICENSOR.id,
@@ -66,7 +65,6 @@ tape('quote', function (test) {
                 productID: secondProduct,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
-                grace: 180,
                 repository: 'http://example.com/second',
                 licensor: {
                   licensorID: LICENSOR.id,

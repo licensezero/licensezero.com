@@ -8,6 +8,5 @@
     "enterprise": 10000
   },
   "description": "a test project",
-  "grace": 180,
   "terms": "I agree to the agency terms at https://licensezero.com/terms/agency."
 }

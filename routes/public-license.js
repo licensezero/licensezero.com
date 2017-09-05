@@ -17,8 +17,7 @@ module.exports = function (request, response, service) {
     jurisdiction: 'US-CA',
     publicKey: '_'.repeat(64),
     productID: '________-____-4___-____-____________',
-    licensorID: '________-____-4___ ____-____________',
-    grace: '____'
+    licensorID: '________-____-4___ ____-____________'
   }, function (error, document) {
     if (error) {
       service.log.error(error)

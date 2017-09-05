@@ -72,7 +72,6 @@ tape('Stripe OAuth connect', function (test) {
             company: 5000,
             enterprise: 10000
           },
-          grace: 180,
           description: 'a test project',
           terms: (
             'I agree to the agency terms at ' +

@@ -15,12 +15,6 @@ exports.properties = {
   password: {type: 'string'},
   repository: require('./common/repository'),
   pricing: require('./common/pricing'),
-  grace: {
-    description: 'number of calendar days grace period',
-    type: 'integer',
-    min: 7, // one week
-    max: 365 // one year
-  },
   description: require('./common/description'),
   terms: require('./common/agency-terms')
 }
@@ -49,7 +43,6 @@ exports.handler = function (body, service, end, fail, lock) {
                 productID: productID,
                 licensor: licensorID,
                 pricing: body.pricing,
-                grace: body.grace,
                 repository: body.repository,
                 description: body.description,
                 commission: service.commission

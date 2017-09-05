@@ -25,7 +25,6 @@ exports.handler = function (body, service, end, fail, lock) {
         fail('retracted product')
       } else {
         var licenseData = {
-          grace: product.grace,
           jurisdiction: product.licensor.jurisdiction,
           name: product.licensor.name,
           productID: productID,
