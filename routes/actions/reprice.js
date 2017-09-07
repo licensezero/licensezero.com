@@ -1,16 +1,16 @@
 var mutateJSONFile = require('../../data/mutate-json-file')
-var productPath = require('../../paths/product')
+var projectPath = require('../../paths/project')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   password: {type: 'string'},
-  productID: require('./common/product-id'),
+  projectID: require('./common/project-id'),
   pricing: require('./common/pricing')
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  lock([body.licensorID, body.productID], function (release) {
-    var file = productPath(service, body.productID)
+  lock([body.licensorID, body.projectID], function (release) {
+    var file = projectPath(service, body.projectID)
     mutateJSONFile(file, function (data) {
       data.pricing = body.pricing
     }, release(function (error) {

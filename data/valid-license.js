@@ -1,7 +1,7 @@
 var ed25519 = require('../ed25519')
 
 var REQUIRED = [
-  'productID', 'manifest', 'document', 'publicKey', 'signature'
+  'projectID', 'manifest', 'document', 'publicKey', 'signature'
 ]
 
 module.exports = function (license) {

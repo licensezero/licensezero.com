@@ -1,32 +1,32 @@
-var readProduct = require('../../data/read-product')
+var readProject = require('../../data/read-project')
 var runParallel = require('run-parallel')
-var sanitizeProduct = require('../../data/sanitize-product')
+var sanitizeProject = require('../../data/sanitize-project')
 
 exports.properties = {
-  products: {
+  projects: {
     type: 'array',
     minItems: 1,
-    // TODO: Revisit quote products limit
+    // TODO: Revisit quote projects limit
     maxItems: 100,
-    items: require('./common/product-id')
+    items: require('./common/project-id')
   }
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var products = body.products
-  var results = new Array(products.length)
+  var projects = body.projects
+  var results = new Array(projects.length)
   runParallel(
-    products.map(function (productID, index) {
+    projects.map(function (projectID, index) {
       return function (done) {
-        readProduct(service, productID, function (error, product) {
+        readProject(service, projectID, function (error, project) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + productID
+              error.userMessage += ': ' + projectID
             }
             done(error)
           } else {
-            sanitizeProduct(product)
-            results[index] = product
+            sanitizeProject(project)
+            results[index] = project
             done()
           }
         })
@@ -41,7 +41,7 @@ exports.handler = function (body, service, end, fail, lock) {
           fail('internal error')
         }
       } else {
-        end({products: results})
+        end({projects: results})
       }
     }
   )

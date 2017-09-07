@@ -1,37 +1,37 @@
 var annotateENOENT = require('../../data/annotate-enoent')
 var mutateJSONFile = require('../../data/mutate-json-file')
 var mutateTextFile = require('../../data/mutate-text-file')
-var parseProducts = require('../../data/parse-products')
-var productPath = require('../../paths/product')
-var productsListPath = require('../../paths/products-list')
+var parseProjects = require('../../data/parse-projects')
+var projectPath = require('../../paths/project')
+var projectsListPath = require('../../paths/projects-list')
 var runSeries = require('run-series')
-var stringifyProducts = require('../../data/stringify-products')
+var stringifyProjects = require('../../data/stringify-projects')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   password: {type: 'string'},
-  productID: require('./common/product-id')
+  projectID: require('./common/project-id')
 }
 
 exports.handler = function (body, service, end, fail, lock) {
   var licensorID = body.licensorID
-  var productID = body.productID
-  lock([licensorID, productID], function (release) {
+  var projectID = body.projectID
+  lock([licensorID, projectID], function (release) {
     runSeries([
       function markRetracted (done) {
-        var file = productPath(service, productID)
+        var file = projectPath(service, projectID)
         mutateJSONFile(file, function (data) {
           data.retracted = true
-        }, annotateENOENT('no such product', done))
+        }, annotateENOENT('no such project', done))
       },
-      function removeFromProductsList (done) {
-        var file = productsListPath(service, licensorID)
+      function removeFromProjectsList (done) {
+        var file = projectsListPath(service, licensorID)
         mutateTextFile(file, function (text) {
-          return stringifyProducts(
-            parseProducts(text)
+          return stringifyProjects(
+            parseProjects(text)
               .map(function (element) {
                 if (
-                  element.product === productID &&
+                  element.project === projectID &&
                   element.retracted === null
                 ) {
                   element.retracted = new Date().toISOString()

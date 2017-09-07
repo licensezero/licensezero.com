@@ -17,7 +17,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('sweep orders', function (test) {
   server(function (port, service, close) {
-    var productID
+    var projectID
     var location
     runSeries([
       writeTestLicensor.bind(null, service),
@@ -28,14 +28,14 @@ tape('sweep orders', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          productID = response.product
+          projectID = response.project
           done()
         })
       },
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          products: [productID],
+          projects: [projectID],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'

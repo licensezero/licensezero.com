@@ -11,7 +11,7 @@ tape('Stripe OAuth connect', function (test) {
     var oauthLocation
     var licensorID
     var password
-    var product
+    var project
     var paymentLocation
     var license
     var importPurchaseCommand
@@ -80,15 +80,15 @@ tape('Stripe OAuth connect', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer error false')
-          test.assert(response.hasOwnProperty('product'), 'product id')
-          product = response.product
+          test.assert(response.hasOwnProperty('project'), 'project id')
+          project = response.project
           done()
         })
       },
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          products: [product],
+          projects: [project],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'

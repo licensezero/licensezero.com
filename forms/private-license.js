@@ -23,7 +23,7 @@ module.exports = function (options, callback) {
       agentWebsite: 'https://licensezero.com',
       licenseeName: options.licensee.name,
       licenseeJurisdiction: options.licensee.jurisdiction,
-      productID: options.productID,
+      projectID: options.projectID,
       description: options.description,
       repository: options.repository
     }

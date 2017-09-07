@@ -21,11 +21,11 @@ tape('offer', function (test) {
           'error false'
         )
         test.assert(
-          response.hasOwnProperty('product'),
-          'product'
+          response.hasOwnProperty('project'),
+          'project'
         )
         test.assert(
-          new RegExp(UUIDV4).test(response.product),
+          new RegExp(UUIDV4).test(response.project),
           'UUIDv4'
         )
         test.end()

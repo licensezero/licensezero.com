@@ -6,12 +6,12 @@ var runSeries = require('run-series')
 var uuid = require('uuid/v4')
 
 module.exports = function (
-  service, pricedProducts, tier, licensee, jurisdiction, callback
+  service, pricedProjects, tier, licensee, jurisdiction, callback
 ) {
   var orderID = uuid()
   var file = orderPath(service, orderID)
-  var total = pricedProducts.reduce(function (total, product) {
-    return total + product.price
+  var total = pricedProjects.reduce(function (total, project) {
+    return total + project.price
   }, 0)
   runSeries([
     mkdirp.bind(null, path.dirname(file)),
@@ -20,7 +20,7 @@ module.exports = function (
       tier: tier,
       jurisdiction: jurisdiction,
       licensee: licensee,
-      products: pricedProducts,
+      projects: pricedProjects,
       total: total
     }))
   ], function (error) {

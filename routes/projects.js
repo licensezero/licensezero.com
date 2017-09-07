@@ -10,38 +10,38 @@ var header = require('./partials/header')
 var html = require('./html')
 var nav = require('./partials/nav')
 var notFound = require('./not-found')
-var readProduct = require('../data/read-product')
-var sanitizeProduct = require('../data/sanitize-product')
+var readProject = require('../data/read-project')
+var sanitizeProject = require('../data/sanitize-project')
 
 module.exports = function (request, response, service) {
-  var productID = request.parameters.productID
-  if (!UUID.test(productID)) {
+  var projectID = request.parameters.projectID
+  if (!UUID.test(projectID)) {
     var error = new Error()
-    error.userMessage = 'invalid product identifier'
+    error.userMessage = 'invalid project identifier'
     return notFound(service, response, error)
   }
-  readProduct(service, productID, function (error, product) {
+  readProject(service, projectID, function (error, project) {
     if (error) return notFound(service, response, error)
-    sanitizeProduct(product)
-    var licensor = product.licensor
+    sanitizeProject(project)
+    var licensor = project.licensor
     response.setHeader('Content-Type', 'text/html; charset=UTf-8')
     response.end(html`
 <!doctype html>
 <html lang=EN>
-  ${head('Product ' + productID)}
+  ${head('Project ' + projectID)}
   <body>
     ${nav()}
     ${header()}
     <main>
-      <h2>Product ${escape(productID)}</h2>
+      <h2>Project ${escape(projectID)}</h2>
       <section>
         <dl>
           <dt>Description</dt>
-          <dd class=description>${escape(product.description)}</dd>
+          <dd class=description>${escape(project.description)}</dd>
           <dt>Repository</dt>
           <dd class=repository>
-            <a href="${escape(product.repository)}" target=_blank>
-              ${escape(product.repository)}
+            <a href="${escape(project.repository)}" target=_blank>
+              ${escape(project.repository)}
             </a>
           </dd>
         </dl>
@@ -62,11 +62,11 @@ module.exports = function (request, response, service) {
       </section>
       <h3>Pricing</h3>
       ${
-        product.retracted
+        project.retracted
           ? retracted()
-          : priceList(product.pricing)
+          : priceList(project.pricing)
       }
-      ${orderForm(product)}
+      ${orderForm(project)}
     </main>
     ${footer()}
   </body>
@@ -77,7 +77,7 @@ module.exports = function (request, response, service) {
 
 function retracted () {
   return html`
-<p>The licensor has retracted this product from public sale.</p>
+<p>The licensor has retracted this project from public sale.</p>
   `
 }
 
@@ -96,14 +96,14 @@ ${
   `
 }
 
-function orderForm (product) {
+function orderForm (project) {
   return html`
 <h3>Order a License</h3>
 <form method=POST action=/buy>
   <input
       type=hidden
-      name=products[]
-      value="${escape(product.productID)}">
+      name=projects[]
+      value="${escape(project.projectID)}">
   <p>
     <label>
       Licensee Legal Name

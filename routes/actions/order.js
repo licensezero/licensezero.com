@@ -1,34 +1,34 @@
-var readProduct = require('../../data/read-product')
+var readProject = require('../../data/read-project')
 var runParallel = require('run-parallel')
 var writeOrder = require('../../data/write-order')
 
 exports.properties = {
   licensee: require('./common/name'),
   jurisdiction: require('./common/jurisdiction'),
-  products: {
+  projects: {
     type: 'array',
     minItems: 1,
-    // TODO: Revisit buy products limit
+    // TODO: Revisit buy projects limit
     maxItems: 100,
-    items: require('./common/product-id')
+    items: require('./common/project-id')
   },
   tier: require('./common/tier')
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var products = body.products
+  var projects = body.projects
   var tier = body.tier
   runParallel(
-    products.map(function (productID, index) {
+    projects.map(function (projectID, index) {
       return function (done) {
-        readProduct(service, productID, function (error, product) {
+        readProject(service, projectID, function (error, project) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + productID
+              error.userMessage += ': ' + projectID
             }
             done(error)
           }
-          products[index] = product
+          projects[index] = project
           done()
         })
       }
@@ -43,31 +43,31 @@ exports.handler = function (body, service, end, fail, lock) {
           fail('internal error')
         }
       } else {
-        var retracted = products.filter(function (product) {
-          return product.retracted
+        var retracted = projects.filter(function (project) {
+          return project.retracted
         })
         if (retracted.length !== 0) {
           return fail(
-            'retracted products: ' +
-            retracted.map(productIDOf).join(', ')
+            'retracted projects: ' +
+            retracted.map(projectIDOf).join(', ')
           )
         }
-        var noTier = products.filter(function (product) {
-          return !product.pricing.hasOwnProperty(tier)
+        var noTier = projects.filter(function (project) {
+          return !project.pricing.hasOwnProperty(tier)
         })
         if (noTier.length !== 0) {
           return fail(
             'not available for tier: ' +
-            noTier.map(productIDOf).join(', ')
+            noTier.map(projectIDOf).join(', ')
           )
         }
-        var pricedProducts = products.map(function (product) {
-          product.price = product.pricing[tier]
-          delete product.pricing
-          return product
+        var pricedProjects = projects.map(function (project) {
+          project.price = project.pricing[tier]
+          delete project.pricing
+          return project
         })
         writeOrder(
-          service, pricedProducts, tier,
+          service, pricedProjects, tier,
           body.licensee, body.jurisdiction,
           function (error, orderID) {
             if (error) return fail('internal error')
@@ -79,6 +79,6 @@ exports.handler = function (body, service, end, fail, lock) {
   )
 }
 
-function productIDOf (argument) {
-  return argument.productID
+function projectIDOf (argument) {
+  return argument.projectID
 }

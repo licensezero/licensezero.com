@@ -1,12 +1,12 @@
-var readProduct = require('../../data/read-product')
-var sanitizeProduct = require('../../data/sanitize-product')
+var readProject = require('../../data/read-project')
+var sanitizeProject = require('../../data/sanitize-project')
 
 exports.properties = {
-  productID: require('./common/product-id')
+  projectID: require('./common/project-id')
 }
 
 exports.handler = function (body, service, end, fail) {
-  readProduct(service, body.productID, function (error, data) {
+  readProject(service, body.projectID, function (error, data) {
     if (error) {
       service.log.error(error)
       /* istanbul ignore else */
@@ -16,7 +16,7 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      sanitizeProduct(data)
+      sanitizeProject(data)
       end(data)
     }
   })

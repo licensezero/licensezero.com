@@ -42,7 +42,7 @@ module.exports = function (request, response, service) {
       service.log.error(error)
       return
     }
-    // If we're running in product, we may still receive testing-mode
+    // If we're running in project, we may still receive testing-mode
     // events.  Ignore them.
     if (!TESTING && event.livemode === false) {
       return

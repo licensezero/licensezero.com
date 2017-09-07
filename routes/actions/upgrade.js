@@ -1,11 +1,11 @@
 var parseJSON = require('json-parse-errback')
-var readProduct = require('../../data/read-product')
+var readProject = require('../../data/read-project')
 var validLicense = require('../../data/valid-license')
 var validManifest = require('../../data/valid-manifest')
 var writeOrder = require('../../data/write-order')
 
 var licenseProperties = {
-  productID: require('./common/product-id'),
+  projectID: require('./common/project-id'),
   manifest: {type: 'string'},
   document: {type: 'string'},
   publicKey: require('./common/public-key'),
@@ -32,21 +32,21 @@ exports.handler = function (body, service, end, fail, lock) {
     if (error || !validManifest(manifest)) {
       return fail('invalid license manifest')
     }
-    var productID = manifest.product.productID
-    readProduct(service, productID, function (error, product) {
+    var projectID = manifest.project.projectID
+    readProject(service, projectID, function (error, project) {
       if (error) return fail(error.userMessage)
-      if (product.retracted) return fail('retracted product')
-      if (product.licensor.publicKey !== license.publicKey) {
+      if (project.retracted) return fail('retracted project')
+      if (project.licensor.publicKey !== license.publicKey) {
         return fail('public key mismatch')
       }
-      if (!product.pricing.hasOwnProperty(tier)) {
+      if (!project.pricing.hasOwnProperty(tier)) {
         return fail('not available for tier ' + tier)
       }
-      product.price = Math.min(MINIMUM_COST, product.pricing[tier])
-      delete product.pricing
-      var pricedProducts = [product]
+      project.price = Math.min(MINIMUM_COST, project.pricing[tier])
+      delete project.pricing
+      var pricedProjects = [project]
       writeOrder(
-        service, pricedProducts, tier,
+        service, pricedProjects, tier,
         manifest.licensee, manifest.jurisdiction,
         function (error, orderID) {
           if (error) return fail('internal error')

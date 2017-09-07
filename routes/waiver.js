@@ -19,9 +19,9 @@ module.exports = function (request, response, service) {
         name: 'Example Beneficiary',
         jurisdiction: 'US-CA'
       },
-      product: {
-        productID: '________-____-4___-____-____________',
-        description: 'a made-up product to demonstrate license terms',
+      project: {
+        projectID: '________-____-4___-____-____________',
+        description: 'a made-up project to demonstrate license terms',
         repository: 'https://example.com/project'
       },
       date: '2017-04-01T12:00:00.000Z',
@@ -36,9 +36,9 @@ module.exports = function (request, response, service) {
         name: 'Example Beneficiary',
         jurisdiction: 'US-CA'
       },
-      product: {
-        productID: '________-____-4___-____-____________',
-        description: 'a made-up product to demonstrate license terms',
+      project: {
+        projectID: '________-____-4___-____-____________',
+        description: 'a made-up project to demonstrate license terms',
         repository: 'https://example.com/project'
       },
       date: '2017-04-01T12:00:00.000Z',

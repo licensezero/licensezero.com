@@ -2,12 +2,12 @@ var checkRepository = require('./check-repository')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
-var productPath = require('../../paths/product')
-var productsListPath = require('../../paths/products-list')
+var projectPath = require('../../paths/project')
+var projectsListPath = require('../../paths/projects-list')
 var recordAcceptance = require('../../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
-var stringifyProducts = require('../../data/stringify-products')
+var stringifyProjects = require('../../data/stringify-projects')
 var uuid = require('uuid/v4')
 
 exports.properties = {
@@ -21,7 +21,7 @@ exports.properties = {
 
 exports.handler = function (body, service, end, fail, lock) {
   var licensorID = body.licensorID
-  var productID = uuid()
+  var projectID = uuid()
   lock([licensorID], function (release) {
     runSeries([
       function (done) {
@@ -35,12 +35,12 @@ exports.handler = function (body, service, end, fail, lock) {
       },
       function writeFile (done) {
         runParallel([
-          function writeProductFile (done) {
-            var file = productPath(service, productID)
+          function writeProjectFile (done) {
+            var file = projectPath(service, projectID)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify({
-                productID: productID,
+                projectID: projectID,
                 licensor: licensorID,
                 pricing: body.pricing,
                 repository: body.repository,
@@ -49,11 +49,11 @@ exports.handler = function (body, service, end, fail, lock) {
               }))
             ], done)
           },
-          function appendToLicensorProductsList (done) {
-            var file = productsListPath(service, licensorID)
-            var content = stringifyProducts([
+          function appendToLicensorProjectsList (done) {
+            var file = projectsListPath(service, licensorID)
+            var content = stringifyProjects([
               {
-                product: productID,
+                project: projectID,
                 offered: new Date().toISOString(),
                 retracted: null
               }
@@ -76,7 +76,7 @@ exports.handler = function (body, service, end, fail, lock) {
           fail('internal error')
         }
       } else {
-        end({product: productID})
+        end({project: projectID})
       }
     }))
   })

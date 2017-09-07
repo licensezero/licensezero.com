@@ -16,7 +16,7 @@ module.exports = function (request, response, service) {
     name: 'Example Licensor',
     jurisdiction: 'US-CA',
     publicKey: '_'.repeat(64),
-    productID: '________-____-4___-____-____________',
+    projectID: '________-____-4___-____-____________',
     licensorID: '________-____-4___ ____-____________'
   }, function (error, document) {
     if (error) {
@@ -34,7 +34,7 @@ module.exports = function (request, response, service) {
     <main>
       <h1>Public License</h1>
       <p>
-        The public license for products available through
+        The public license for projects available through
         License Zero tiers is based on the two-clause BSD
         License, with significant changes.  You should
         consult your own lawyers about whether the
@@ -47,7 +47,7 @@ module.exports = function (request, response, service) {
       <ol>
         <li>
           limits commercial use, other than work that
-          produces contributions back to the product, to a
+          produces contributions back to the project, to a
           grace period of a set number of calendar days
         </li>
         <li>

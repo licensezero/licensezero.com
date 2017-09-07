@@ -1,5 +1,5 @@
-var productProperties = {
-  productID: require('./product-id'),
+var projectProperties = {
+  projectID: require('./project-id'),
   repository: require('./repository'),
   description: require('./description')
 }
@@ -12,10 +12,10 @@ var properties = {
     format: 'date-time'
   },
   tier: require('./tier'),
-  product: {
+  project: {
     type: 'object',
-    properties: productProperties,
-    required: Object.keys(productProperties),
+    properties: projectProperties,
+    required: Object.keys(projectProperties),
     additionalProperties: false
   },
   licensee: {

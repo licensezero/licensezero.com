@@ -20,7 +20,7 @@ module.exports = function (options, callback) {
         jurisdiction: options.jurisdiction,
         firstHalfOfKey: options.publicKey.slice(0, 32),
         secondHalfOfKey: options.publicKey.slice(32),
-        productID: options.productID,
+        projectID: options.projectID,
         agentName: 'Artless Devices LLC',
         agentWebsite: 'https://licensezero.com'
       }

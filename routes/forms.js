@@ -15,7 +15,7 @@ ${head('Forms')}
   ${header()}
   <main>
     <p>
-      License Zero products are licensed
+      License Zero projects are licensed
       to the public on the terms of a
       <a href=/forms/public-license>standard public license</a>.
     </p>

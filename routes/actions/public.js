@@ -1,17 +1,17 @@
 var ed25519 = require('../../ed25519')
 var publicLicense = require('../../forms/public-license')
-var readProduct = require('../../data/read-product')
+var readProject = require('../../data/read-project')
 var stringify = require('../../stringify')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   password: {type: 'string'},
-  productID: require('./common/product-id')
+  projectID: require('./common/project-id')
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var productID = body.productID
-  readProduct(service, productID, function (error, product) {
+  var projectID = body.projectID
+  readProject(service, projectID, function (error, project) {
     if (error) {
       /* istanbul ignore else */
       if (error.userMessage) {
@@ -21,14 +21,14 @@ exports.handler = function (body, service, end, fail, lock) {
         fail('internal error')
       }
     } else {
-      if (product.retracted) {
-        fail('retracted product')
+      if (project.retracted) {
+        fail('retracted project')
       } else {
         var licenseData = {
-          jurisdiction: product.licensor.jurisdiction,
-          name: product.licensor.name,
-          productID: productID,
-          publicKey: product.licensor.publicKey,
+          jurisdiction: project.licensor.jurisdiction,
+          name: project.licensor.name,
+          projectID: projectID,
+          publicKey: project.licensor.publicKey,
           version: publicLicense.VERSION
         }
         publicLicense(licenseData, function (error, document) {
@@ -37,7 +37,7 @@ exports.handler = function (body, service, end, fail, lock) {
             return fail('internal error')
           }
           var licensorLicenseSignature = ed25519.sign(
-            document, body.licensor.publicKey, product.licensor.privateKey
+            document, body.licensor.publicKey, project.licensor.privateKey
           )
           var agentLicenseSignature = ed25519.sign(
             document + '---\nLicensor:\n' +

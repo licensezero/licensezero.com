@@ -11,7 +11,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('waiver', function (test) {
   server(function (port, service, close) {
-    var product
+    var project
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -21,7 +21,7 @@ tape('waiver', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          product = response.product
+          project = response.project
           done()
         })
       },
@@ -30,7 +30,7 @@ tape('waiver', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: product,
+          projectID: project,
           beneficiary: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           term: 365
@@ -86,7 +86,7 @@ tape('waiver', function (test) {
   })
 })
 
-tape('waiver for nonexistent product', function (test) {
+tape('waiver for nonexistent project', function (test) {
   server(function (port, service, close) {
     runSeries([
       writeTestLicensor.bind(null, service),
@@ -95,15 +95,15 @@ tape('waiver for nonexistent product', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: uuid(),
+          projectID: uuid(),
           beneficiary: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'no such product',
-            'no such product'
+            response.error, 'no such project',
+            'no such project'
           )
           done()
         })
@@ -116,9 +116,9 @@ tape('waiver for nonexistent product', function (test) {
   })
 })
 
-tape('waiver for retracted product', function (test) {
+tape('waiver for retracted project', function (test) {
   server(function (port, service, close) {
-    var product
+    var project
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -128,14 +128,14 @@ tape('waiver for retracted product', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
-          product = response.product
+          project = response.project
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          productID: product,
+          projectID: project,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, function (error, response) {
@@ -149,15 +149,15 @@ tape('waiver for retracted product', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: product,
+          projectID: project,
           beneficiary: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'retracted product',
-            'retracted product'
+            response.error, 'retracted project',
+            'retracted project'
           )
           done()
         })

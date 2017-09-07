@@ -12,7 +12,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('public', function (test) {
   server(function (port, service, close) {
-    var product
+    var project
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -22,7 +22,7 @@ tape('public', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          product = response.product
+          project = response.project
           done()
         })
       },
@@ -31,7 +31,7 @@ tape('public', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: product
+          projectID: project
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -146,7 +146,7 @@ tape('public', function (test) {
   })
 })
 
-tape('public for nonexistent product', function (test) {
+tape('public for nonexistent project', function (test) {
   server(function (port, service, close) {
     runSeries([
       writeTestLicensor.bind(null, service),
@@ -155,12 +155,12 @@ tape('public for nonexistent product', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: uuid()
+          projectID: uuid()
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'no such product',
-            'no such product'
+            response.error, 'no such project',
+            'no such project'
           )
           done()
         })
@@ -173,9 +173,9 @@ tape('public for nonexistent product', function (test) {
   })
 })
 
-tape('public for retracted product', function (test) {
+tape('public for retracted project', function (test) {
   server(function (port, service, close) {
-    var product
+    var project
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -185,14 +185,14 @@ tape('public for retracted product', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
-          product = response.product
+          project = response.project
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          productID: product,
+          projectID: project,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, function (error, response) {
@@ -206,12 +206,12 @@ tape('public for retracted product', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: product
+          projectID: project
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'retracted product',
-            'retracted product'
+            response.error, 'retracted project',
+            'retracted project'
           )
           done()
         })

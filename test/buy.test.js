@@ -10,8 +10,8 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape.skip('buy', function (test) {
   server(function (port, service, close) {
-    var firstProduct
-    var secondProduct
+    var firstProject
+    var secondProject
     var location
     runSeries([
       writeTestLicensor.bind(null, service),
@@ -23,7 +23,7 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProduct = response.product
+          firstProject = response.project
           done()
         })
       },
@@ -35,14 +35,14 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProduct = response.product
+          secondProject = response.project
           done()
         })
       },
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          products: [firstProduct, secondProduct],
+          projects: [firstProject, secondProject],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'team'
@@ -98,18 +98,18 @@ tape.skip('buy', function (test) {
 
 tape('order w/ nonexistent', function (test) {
   server(function (port, service, close) {
-    var product = uuid()
+    var project = uuid()
     apiRequest(port, {
       action: 'order',
-      products: [product],
+      projects: [project],
       licensee: 'SomeCo, Inc.',
       jurisdiction: 'US-CA',
       tier: 'solo'
     }, function (error, response) {
       test.error(error)
       test.equal(
-        response.error, 'no such product: ' + product,
-        'no such product'
+        response.error, 'no such project: ' + project,
+        'no such project'
       )
       test.end()
       close()
@@ -119,7 +119,7 @@ tape('order w/ nonexistent', function (test) {
 
 tape('order w/ retracted', function (test) {
   server(function (port, service, close) {
-    var productID
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -129,14 +129,14 @@ tape('order w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          productID = response.product
+          projectID = response.project
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          productID: productID,
+          projectID: projectID,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, function (error, response) {
@@ -148,7 +148,7 @@ tape('order w/ retracted', function (test) {
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          products: [productID],
+          projects: [projectID],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
           tier: 'solo'
@@ -156,7 +156,7 @@ tape('order w/ retracted', function (test) {
           if (error) return done(error)
           test.equal(
             response.error,
-            'retracted products: ' + productID,
+            'retracted projects: ' + projectID,
             'retracted error'
           )
           done()
@@ -172,7 +172,7 @@ tape('order w/ retracted', function (test) {
 
 tape('POST /buy', function (test) {
   server(function (port, service, close) {
-    var productID
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -182,13 +182,13 @@ tape('POST /buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          productID = response.product
+          projectID = response.project
           done()
         })
       },
       function browse (done) {
         require('./webdriver')
-          .url('http://localhost:' + port + '/products/' + productID)
+          .url('http://localhost:' + port + '/projects/' + projectID)
           .waitForExist('h2')
           .setValue('#licensee', 'SomeCo, Inc.')
           .selectByIndex('#jurisdiction', 0)

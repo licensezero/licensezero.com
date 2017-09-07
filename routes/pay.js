@@ -78,20 +78,20 @@ ${head('Buy Licenses')}
           </tr>
         </thead>
         <tbody>
-        ${order.products.map(function (product) {
+        ${order.projects.map(function (project) {
           return html`
             <tr>
               <td>
-                <p><code>${escape(product.productID)}</code></p>
+                <p><code>${escape(project.projectID)}</code></p>
                 <p>
                   <a
-                    href="${escape(product.repository)}"
+                    href="${escape(project.repository)}"
                     target=_blank
-                    >${escape(truncate(product.repository, 30))}</a>
+                    >${escape(truncate(project.repository, 30))}</a>
                 </p>
                 <p>
-                  ${escape(product.licensor.name)}
-                  [${escape(product.licensor.jurisdiction)}]
+                  ${escape(project.licensor.name)}
+                  [${escape(project.licensor.jurisdiction)}]
                 </p>
                 <p>
                   ${escape(capitalize(order.tier))} License:
@@ -105,7 +105,7 @@ ${head('Buy Licenses')}
                 </p>
               </td>
               <td class=price>
-                ${escape(formatPrice(product.price))}
+                ${escape(formatPrice(project.price))}
               </td>
             </tr>
           `
@@ -224,7 +224,7 @@ function post (request, response, service, order) {
       })
       return get(request, response, service, order, data)
     }
-    var products = order.products
+    var projects = order.projects
     var stripeMetadata = {
       orderID: order.orderID,
       jurisdiction: order.jurisdiction,
@@ -240,7 +240,7 @@ function post (request, response, service, order) {
       // 1.  Create a Customer object on License Zero's own Stripe
       //     account, using the token from Stripe.js.
       //
-      // 2.  For each product transaction, generate a payment token
+      // 2.  For each project transaction, generate a payment token
       //     from the Customer.
       //
       // 3.  Use those tokens to create Charge objects on Licensors'
@@ -271,8 +271,8 @@ function post (request, response, service, order) {
             email: order.email,
             date: new Date().toISOString()
           })
-        ].concat(products.map(function (product) {
-          var commission = applicationFee(product)
+        ].concat(projects.map(function (project) {
+          var commission = applicationFee(project)
           var chargeID
           return function (done) {
             runSeries([
@@ -282,13 +282,13 @@ function post (request, response, service, order) {
                   service.stripe.api.tokens.create({
                     customer: stripeCustomerID
                   }, {
-                    stripe_account: product.licensor.stripe.id
+                    stripe_account: project.licensor.stripe.id
                   }, done)
                 },
                 // Stripe Step 3:
                 function chargeSharedCustomer (token, done) {
                   service.stripe.api.charges.create({
-                    amount: product.price,
+                    amount: project.price,
                     currency: 'usd',
                     source: token.id,
                     application_fee: commission,
@@ -298,7 +298,7 @@ function post (request, response, service, order) {
                     // Wait until the e-mail goes through.
                     capture: false
                   }, {
-                    stripe_account: product.licensor.stripe.id
+                    stripe_account: project.licensor.stripe.id
                   }, function (error, charge) {
                     if (error) return done(error)
                     service.log.info(charge, 'charge')
@@ -315,30 +315,30 @@ function post (request, response, service, order) {
                       VERSION: privateLicense.version,
                       date: new Date().toISOString(),
                       tier: order.tier,
-                      product: pick(product, [
-                        'productID', 'repository', 'description'
+                      project: pick(project, [
+                        'projectID', 'repository', 'description'
                       ]),
                       licensee: {
                         name: order.licensee,
                         jurisdiction: order.jurisdiction
                       },
-                      licensor: pick(product.licensor, [
+                      licensor: pick(project.licensor, [
                         'name', 'jurisdiction'
                       ]),
-                      price: product.price
+                      price: project.price
                     }
                     var manifest = stringify(parameters)
                     privateLicense(parameters, function (error, document) {
                       if (error) return done(error)
                       var license = {
-                        productID: product.productID,
+                        projectID: project.projectID,
                         manifest: manifest,
                         document: document,
-                        publicKey: product.licensor.publicKey,
+                        publicKey: project.licensor.publicKey,
                         signature: ed25519.sign(
                           manifest + '\n\n' + document,
-                          product.licensor.publicKey,
-                          product.licensor.privateKey
+                          project.licensor.publicKey,
+                          project.licensor.privateKey
                         )
                       }
                       licenses.push(license)
@@ -350,16 +350,16 @@ function post (request, response, service, order) {
                             'Thank you for buying a license through ' +
                             'licensezero.com.',
                             'Order ID: ' + order.orderID,
-                            'Total: ' + priceColumn(product.price),
+                            'Total: ' + priceColumn(project.price),
                             'Attached is a License Zero license file for:'
                           ])
                           // TODO: Add CLI license import instructions
                           .concat([
                             'Licensee:     ' + order.licensee,
                             'Jurisdiction: ' + order.jurisdiction,
-                            'Product:      ' + product.productID,
-                            'Description:  ' + product.description,
-                            'Repository:   ' + product.repository,
+                            'Project:      ' + project.projectID,
+                            'Description:  ' + project.description,
+                            'Repository:   ' + project.repository,
                             'License Tier: ' + capitalize(order.tier)
                           ].join('\n')),
                         license: license
@@ -380,7 +380,7 @@ function post (request, response, service, order) {
                   },
                   function emailLicensorStatement (license, done) {
                     service.email({
-                      to: product.licensor.email,
+                      to: project.licensor.email,
                       subject: 'License Zero Statement',
                       text: [
                         [
@@ -389,18 +389,18 @@ function post (request, response, service, order) {
                         ].join('\n'),
                         [
                           'Order:        ' + order.orderID,
-                          'Product:      ' + product.productID,
-                          'Description:  ' + product.description,
-                          'Repository:   ' + product.repository,
+                          'Project:      ' + project.projectID,
+                          'Description:  ' + project.description,
+                          'Repository:   ' + project.repository,
                           'Tier:         ' + capitalize(order.tier)
                         ].join('\n'),
                         [
-                          'Price:      ' + priceColumn(product.price),
+                          'Price:      ' + priceColumn(project.price),
                           '------------' + '-'.repeat(10),
                           'Commission: ' + priceColumn(commission),
                           '------------' + '-'.repeat(10),
                           'Total:      ' + priceColumn(
-                            product.total - commission
+                            project.total - commission
                           )
                         ].join('\n'),
                         [
@@ -422,7 +422,7 @@ function post (request, response, service, order) {
                 // Stripe Step 4:
                 service.stripe.api.charges.capture(
                   chargeID,
-                  {stripe_account: product.licensor.stripe.id},
+                  {stripe_account: project.licensor.stripe.id},
                   done
                 )
               }

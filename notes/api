@@ -33,7 +33,7 @@ Licensor
                 price: Integer
               }
             }
-  Output:   {product: UUID}
+  Output:   {project: UUID}
   Effects:  - Offer licenses
 
   Verb:     publicKey

@@ -9,7 +9,7 @@ module.exports = {
   offer: require('./offer'),
   retract: require('./retract'),
   key: require('./key'),
-  product: require('./product'),
+  project: require('./project'),
   waiver: require('./waiver'),
   public: require('./public'),
   quote: require('./quote'),

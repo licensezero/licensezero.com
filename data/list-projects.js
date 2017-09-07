@@ -1,9 +1,9 @@
 var fs = require('fs')
-var parseProducts = require('./parse-products')
-var productsListPath = require('../paths/products-list')
+var parseProjects = require('./parse-projects')
+var projectsListPath = require('../paths/projects-list')
 
 module.exports = function (service, id, callback) {
-  var file = productsListPath(service, id)
+  var file = projectsListPath(service, id)
   fs.readFile(file, function (error, buffer) {
     if (error) {
       /* istanbul ignore else */
@@ -13,7 +13,7 @@ module.exports = function (service, id, callback) {
         callback(error)
       }
     } else {
-      callback(null, parseProducts(buffer))
+      callback(null, parseProjects(buffer))
     }
   })
 }

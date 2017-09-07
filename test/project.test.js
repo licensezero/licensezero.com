@@ -8,9 +8,9 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('product', function (test) {
+tape('project', function (test) {
   server(function (port, service, close) {
-    var productID
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -20,14 +20,14 @@ tape('product', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          productID = response.product
+          projectID = response.project
           done()
         })
       },
-      function requestProduct (done) {
+      function requestProject (done) {
         apiRequest(port, {
-          action: 'product',
-          productID: productID
+          action: 'project',
+          projectID: projectID
         }, function (error, response) {
           if (error) return done(error)
           test.assert(
@@ -36,7 +36,7 @@ tape('product', function (test) {
           )
           test.deepEqual(
             response, {
-              productID: productID,
+              projectID: projectID,
               repository: OFFER.repository,
               pricing: OFFER.pricing,
               licensor: {
@@ -62,16 +62,16 @@ tape('product', function (test) {
   })
 })
 
-tape('nonexistent product', function (test) {
+tape('nonexistent project', function (test) {
   server(function (port, service, close) {
     apiRequest(port, {
-      action: 'product',
-      productID: uuid()
+      action: 'project',
+      projectID: uuid()
     }, function (error, response) {
       if (error) {
         test.error(error)
       } else {
-        test.equal(response.error, 'no such product')
+        test.equal(response.error, 'no such project')
       }
       test.end()
       close()
@@ -79,9 +79,9 @@ tape('nonexistent product', function (test) {
   })
 })
 
-tape('/product/{id}', function (test) {
+tape('/project/{id}', function (test) {
   server(function (port, service, close) {
-    var productID
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -91,19 +91,19 @@ tape('/product/{id}', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          productID = response.product
+          projectID = response.project
           done()
         })
       },
       function browse (done) {
         require('./webdriver')
-          .url('http://localhost:' + port + '/products/' + productID)
+          .url('http://localhost:' + port + '/projects/' + projectID)
           .waitForExist('h2')
           .getText('h2')
           .then(function (text) {
             test.equal(
-              text, 'Product ' + productID,
-              'product header'
+              text, 'Project ' + projectID,
+              'project header'
             )
             done()
           })

@@ -35,8 +35,8 @@ tape('licensor', function (test) {
             'publicKey'
           )
           test.deepEqual(
-            response.products, [],
-            'products'
+            response.projects, [],
+            'projects'
           )
         }
         test.end()
@@ -66,18 +66,18 @@ tape('licensor w/ invalid id', function (test) {
   })
 })
 
-tape('licensor w/ product', function (test) {
+tape('licensor w/ project', function (test) {
   server(function (port, service, close) {
-    var product
+    var project
     runSeries([
       writeTestLicensor.bind(null, service),
-      function offerProduct (done) {
+      function offerProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), function (error, response) {
           if (error) return done(error)
-          product = response.product
+          project = response.project
           done()
         })
       },
@@ -88,12 +88,12 @@ tape('licensor w/ product', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.products.length, 1,
-            'one product'
+            response.projects.length, 1,
+            'one project'
           )
           test.equal(
-            response.products[0].product, product,
-            'offered product'
+            response.projects[0].project, project,
+            'offered project'
           )
           done()
         })
@@ -106,46 +106,46 @@ tape('licensor w/ product', function (test) {
   })
 })
 
-tape('licensor w/ retracted product', function (test) {
+tape('licensor w/ retracted project', function (test) {
   server(function (port, service, close) {
-    var product
+    var project
     runSeries([
       writeTestLicensor.bind(null, service),
-      function offerProduct (done) {
+      function offerProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password
         }), function (error, response) {
           if (error) return done(error)
-          product = response.product
+          project = response.project
           done()
         })
       },
-      function retractProduct (done) {
+      function retractProject (done) {
         apiRequest(port, {
           action: 'retract',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: product
+          projectID: project
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done()
         })
       },
-      function listLicensorProducts (done) {
+      function listLicensorProjects (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.products.length, 1,
-            'one product listed'
+            response.projects.length, 1,
+            'one project listed'
           )
           test.notEqual(
-            response.products[0].retracted, null,
-            'product retracted'
+            response.projects[0].retracted, null,
+            'project retracted'
           )
           done()
         })
@@ -158,13 +158,13 @@ tape('licensor w/ retracted product', function (test) {
   })
 })
 
-tape('licensor w/ retracted product', function (test) {
+tape('licensor w/ retracted project', function (test) {
   server(function (port, service, close) {
-    var firstProduct
-    var secondProduct
+    var firstProject
+    var secondProject
     runSeries([
       writeTestLicensor.bind(null, service),
-      function offerFirstProduct (done) {
+      function offerFirstProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
@@ -172,11 +172,11 @@ tape('licensor w/ retracted product', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          firstProduct = response.product
+          firstProject = response.project
           done()
         })
       },
-      function offerSecondProduct (done) {
+      function offerSecondProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
@@ -184,50 +184,50 @@ tape('licensor w/ retracted product', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          secondProduct = response.product
+          secondProject = response.project
           done()
         })
       },
-      function retractFirstProduct (done) {
+      function retractFirstProject (done) {
         apiRequest(port, {
           action: 'retract',
           licensorID: LICENSOR.id,
           password: LICENSOR.password,
-          productID: firstProduct
+          projectID: firstProject
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done()
         })
       },
-      function listLicensorProducts (done) {
+      function listLicensorProjects (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
         }, function (error, response) {
           if (error) return done(error)
-          var products = response.products
+          var projects = response.projects
           test.equal(
-            products.length, 2,
-            'two products'
+            projects.length, 2,
+            'two projects'
           )
           test.notEqual(
-            products
+            projects
               .find(function (element) {
-                return element.product === firstProduct
+                return element.project === firstProject
               })
               .retracted,
             null,
-            'first product retracted'
+            'first project retracted'
           )
           test.equal(
-            products
+            projects
               .find(function (element) {
-                return element.product === secondProduct
+                return element.project === secondProject
               })
               .retracted,
             null,
-            'second product not retracted'
+            'second project not retracted'
           )
           done()
         })

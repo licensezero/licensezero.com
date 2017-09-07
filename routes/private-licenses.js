@@ -27,8 +27,8 @@ module.exports = function (request, response, service) {
         name: 'Example Licensor',
         jurisdiction: 'US-CA'
       },
-      productID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
-      description: 'a fake product to demonstrate license terms',
+      projectID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
+      description: 'a fake project to demonstrate license terms',
       repository: 'https://licensezero.com/forms/private-license'
     })
     return jobs

@@ -1,13 +1,13 @@
 var ed25519 = require('../../ed25519')
 var stringify = require('../../stringify')
-var readProduct = require('../../data/read-product')
+var readProject = require('../../data/read-project')
 var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   password: {type: 'string'},
-  productID: require('./common/product-id'),
+  projectID: require('./common/project-id'),
   beneficiary: {
     description: 'beneficiary legal name',
     type: 'string',
@@ -32,8 +32,8 @@ exports.properties = {
 }
 
 exports.handler = function (body, service, end, fail, lock) {
-  var productID = body.productID
-  readProduct(service, productID, function (error, product) {
+  var projectID = body.projectID
+  readProject(service, projectID, function (error, project) {
     if (error) {
       if (error.userMessage) {
         fail(error.userMessage)
@@ -41,10 +41,10 @@ exports.handler = function (body, service, end, fail, lock) {
         fail(error)
       }
     } else {
-      if (product.retracted) {
-        fail('retracted product')
+      if (project.retracted) {
+        fail('retracted project')
       } else {
-        var licensor = product.licensor
+        var licensor = project.licensor
         var parameters = {
           FORM: 'waiver',
           VERSION: waiver.version,
@@ -56,10 +56,10 @@ exports.handler = function (body, service, end, fail, lock) {
             name: licensor.name,
             jurisdiction: licensor.jurisdiction
           },
-          product: {
-            productID: productID,
-            description: product.description,
-            repository: product.repository
+          project: {
+            projectID: projectID,
+            description: project.description,
+            repository: project.repository
           },
           date: new Date().toISOString(),
           term: body.term.toString()

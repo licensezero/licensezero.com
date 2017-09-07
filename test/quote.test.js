@@ -10,8 +10,8 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('quote', function (test) {
   server(function (port, service, close) {
-    var firstProduct
-    var secondProduct
+    var firstProject
+    var secondProject
     runSeries([
       writeTestLicensor.bind(null, service),
       function offerFirst (done) {
@@ -22,7 +22,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProduct = response.product
+          firstProject = response.project
           done()
         })
       },
@@ -34,22 +34,22 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProduct = response.product
+          secondProject = response.project
           done()
         })
       },
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          products: [firstProduct, secondProduct]
+          projects: [firstProject, secondProject]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
           test.deepEqual(
-            response.products,
+            response.projects,
             [
               {
-                productID: firstProduct,
+                projectID: firstProject,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 repository: 'http://example.com/first',
@@ -62,7 +62,7 @@ tape('quote', function (test) {
                 commission: service.commission
               },
               {
-                productID: secondProduct,
+                projectID: secondProject,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 repository: 'http://example.com/second',
@@ -90,15 +90,15 @@ tape('quote', function (test) {
 
 tape('quote w/ nonexistent', function (test) {
   server(function (port, service, close) {
-    var product = uuid()
+    var project = uuid()
     apiRequest(port, {
       action: 'quote',
-      products: [product]
+      projects: [project]
     }, function (error, response) {
       test.error(error)
       test.equal(
-        response.error, 'no such product: ' + product,
-        'no such product'
+        response.error, 'no such project: ' + project,
+        'no such project'
       )
       test.end()
       close()
@@ -108,7 +108,7 @@ tape('quote w/ nonexistent', function (test) {
 
 tape('quote w/ retracted', function (test) {
   server(function (port, service, close) {
-    var productID
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -118,14 +118,14 @@ tape('quote w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          productID = response.product
+          projectID = response.project
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          productID: productID,
+          projectID: projectID,
           licensorID: LICENSOR.id,
           password: LICENSOR.password
         }, function (error, response) {
@@ -137,15 +137,15 @@ tape('quote w/ retracted', function (test) {
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          products: [productID]
+          projects: [projectID]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.products[0].productID, productID,
-            'product'
+            response.projects[0].projectID, projectID,
+            'project'
           )
           test.equal(
-            response.products[0].retracted, true,
+            response.projects[0].retracted, true,
             'retracted'
           )
           done()

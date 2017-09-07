@@ -6,7 +6,7 @@ module.exports = function (buffer) {
     .map(function (line) {
       var parsed = JSON.parse(line)
       return {
-        product: parsed[0],
+        project: parsed[0],
         offered: parsed[1],
         retracted: parsed[2]
       }
