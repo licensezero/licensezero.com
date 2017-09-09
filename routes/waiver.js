@@ -8,6 +8,8 @@ var nav = require('./partials/nav')
 var runParallel = require('run-parallel')
 var waiver = require('../forms/waiver')
 
+var REPOSITORY = 'https://github.com/licensezero/licensezero-waiver'
+
 module.exports = function (request, response, service) {
   runParallel({
     forever: waiver.bind(null, {
@@ -65,6 +67,11 @@ module.exports = function (request, response, service) {
         <a href=/forms/public-license>License Zero Public License</a>
         limiting commercial use for specific beneficiaries,
         using a standard form waiver.
+      </p>
+      <p>
+        To review changes to, and submit feeback about,
+        the License Zero form waiver, visit
+        <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
       <h2>For a Term</h2>
       <pre class=license>${escape(results.term)}</pre>
