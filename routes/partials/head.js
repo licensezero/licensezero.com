@@ -15,9 +15,9 @@ module.exports = function (subtitle) {
 }
 
 var TWITTER_CARD = [
-  '<meta name="twitter:card" content="summary">',
-  '<meta name="twitter:title" content="License Zero // Manifesto">',
-  '<meta name="twitter:description" content="sustainable software in the open">',
-  '<meta name="twitter:image" content="https://licensezero.com/logo-100.png">',
-  '<meta name="twitter:site" content="@licensezero">'
+  '  <meta name="twitter:card" content="summary">',
+  '  <meta name="twitter:title" content="License Zero // Manifesto">',
+  '  <meta name="twitter:description" content="sustainable software in the open">',
+  '  <meta name="twitter:image" content="https://licensezero.com/logo-100.png">',
+  '  <meta name="twitter:site" content="@licensezero">'
 ]
