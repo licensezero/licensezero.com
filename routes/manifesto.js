@@ -35,7 +35,7 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html lang=EN>
-${head('About')}
+${head('Manifesto')}
 <body>
   ${nav()}
   ${header()}
