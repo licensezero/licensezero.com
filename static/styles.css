@@ -181,3 +181,14 @@ pre {
   font-style: italic;
   font-weight: bold;
 }
+
+.terminal {
+  background: black;
+  border-radius: 0.2rem;
+  color: white;
+  padding: 1rem;
+}
+
+.comment {
+  opacity: 0.5;
+}

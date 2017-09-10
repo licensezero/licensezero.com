@@ -1,8 +1,42 @@
+var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
-var nav = require('./partials/nav')
 var header = require('./partials/header')
 var html = require('./html')
+var nav = require('./partials/nav')
+
+var LICENSOR = [
+  'npm install -g licensezero-cli',
+  '# Installs the License Zero command-line interface',
+  'l0-register-licensor adam@licensezero.com "Adam Maintainer" US-TX',
+  '# Creates an identity for offering private licenses',
+  '# for Adam, a developer in Texas.',
+  '# Provides a link to connect a Stripe account for payments.',
+  'cd a-node-project',
+  'l0-offer --solo 500 --team 1000 --company 10000 --enterprise 50000',
+  '# Offer private licenses through licensezero.com at $5 for solo,',
+  '# $10 for team, $100 for company, and $500 for enterprise.',
+  'l0-license $NEW_PROJECT_UUID',
+  '# Writes LICENSE and package.json metadata for l0-bom to read.',
+  'git add LICENSE package.json',
+  'git commit -m "License Zero"'
+]
+
+var LICENSEE = [
+  'npm install -g licensezero-cli',
+  '# Installs the License Zero command-line interface.',
+  'l0-create-licensee someco "SomeCo, Inc." US-CA team',
+  '# Creates an identity, "someco", for a corporation in',
+  '# California that needs team-tier licenses.',
+  'cd a-node-project',
+  'l0-bom someco',
+  '# Lists License Zero dependencies in node_modules',
+  '# and the costs of missing licenses.',
+  'l0-buy someco',
+  '# Opens an online order page for a single credit card payment.',
+  'l0-purchased $ORDER_BUNDLE_URL',
+  '# Imports all purchased licenses from the order page.'
+]
 
 module.exports = function (request, response, service) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
@@ -14,11 +48,38 @@ ${head()}
   ${nav()}
   ${header()}
   <main>
-    <!-- TODO: licensor terminal demo -->
-    <!-- TODO: licensee terminal demo -->
+    <p>
+      License Zero is
+      <a href=/forms>license forms</a>,
+      <a href=https://github.com/licensezero/licensezero-cli>software tools</a>,
+      and an Internet vending machine
+      that software maintainers can use to offer
+      paid commercial licenses
+      for use of software developed in the open.
+    </p>
+    <p>
+      <a href=/manifesto>Read more</a>
+      about License Zero and what it means for software.
+    </p>
+    <h2>Maintainers</h2>
+    <pre class=terminal>${formatSession(LICENSOR)}</pre>
+    <h2>Commercial Users</h2>
+    <pre class=terminal>${formatSession(LICENSEE)}</pre>
   </main>
   ${footer()}
 </body>
 </html>
   `)
+}
+
+function formatSession (lines) {
+  return lines
+    .map(function (line) {
+      if (line.startsWith('#')) {
+        return '<span class=comment>' + escape(line) + '</span>'
+      } else {
+        return escape(line)
+      }
+    })
+    .join('\n')
 }
