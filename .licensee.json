@@ -7,6 +7,7 @@
     "dicer": "0.2.5",
     "docopt": "0.6.2",
     "doctrine": "1.5.0",
+    "entities": "1.1.1",
     "esquery": "1.0.0",
     "estraverse": "1.9.3",
     "esutils": "2.0.2",
@@ -31,6 +32,7 @@
     "sntp": "1.0.9",
     "source-map":"0.1.43 || 0.2.0",
     "streamsearch": "0.1.2",
+    "string.prototype.repeat": "0.2.0",
     "wgxpath": "1.0.0",
     "window-size": "0.1.0",
     "wordwrap": "0.0.2"
