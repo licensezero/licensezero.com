@@ -19,6 +19,7 @@ module.exports = function email (service, serverLog) {
       form.append('from', 'notifications@licensezero.com')
       form.append('to', message.to)
       form.append('subject', message.subject)
+      form.append('o:dkim', 'yes')
       form.append('text', message.text.join('\n\n'))
       var license = message.license
       if (license) {
