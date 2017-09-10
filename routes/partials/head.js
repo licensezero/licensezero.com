@@ -8,6 +8,15 @@ module.exports = function (subtitle) {
   <title>License Zero${subtitle && escape(' // ' + subtitle)}</title>
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
+  ${subtitle && subtitle.toLowerCase() === 'manifesto' && TWITTER_CARD.join('\n')}
 </head>
   `
 }
+
+var TWITTER_CARD = [
+  '<meta name="twitter:card" content="summary">',
+  '<meta name="twitter:title" content="License Zero // Manifesto">',
+  '<meta name="twitter:description" content="sustainable software in the open">',
+  '<meta name="twitter:image" content="https://licensezero.com/logo-100.png">',
+  '<meta name="twitter:site" content="@licensezero">'
+]
