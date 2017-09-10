@@ -159,7 +159,7 @@ nav[role=navigation] a {
 }
 
 nav[role=navigation] a:before {
-  content: '/';
+  content: '／';
 }
 
 nav[role=navigation] ul {
