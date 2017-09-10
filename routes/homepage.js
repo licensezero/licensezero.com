@@ -6,7 +6,7 @@ var html = require('./html')
 var nav = require('./partials/nav')
 
 var LICENSOR = [
-  'npm install -g licensezero-cli',
+  'npm install -g licensezero',
   '# Installs the License Zero command-line interface',
   'l0-register-licensor adam@licensezero.com "Adam Maintainer" US-TX',
   '# Creates an identity for offering private licenses',
@@ -23,7 +23,7 @@ var LICENSOR = [
 ]
 
 var LICENSEE = [
-  'npm install -g licensezero-cli',
+  'npm install -g licensezero',
   '# Installs the License Zero command-line interface.',
   'l0-create-licensee someco "SomeCo, Inc." US-CA team',
   '# Creates an identity, "someco", for a corporation in',
@@ -51,7 +51,7 @@ ${head()}
     <p>
       License Zero is
       <a href=/forms>license forms</a>,
-      <a href=https://github.com/licensezero/licensezero-cli>software tools</a>,
+      <a href=https://github.com/licensezero/>software tools</a>,
       and an Internet vending machine
       that software maintainers can use to offer
       paid commercial licenses
