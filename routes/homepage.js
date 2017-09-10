@@ -54,7 +54,7 @@ ${head()}
       <a href=https://github.com/licensezero/>software tools</a>,
       and an Internet vending machine
       that software maintainers can use to offer
-      paid commercial licenses
+      <a href=/forms/private-licenses>paid commercial licenses</a>
       for use of software developed in the open.
     </p>
     <p>
