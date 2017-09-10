@@ -50,11 +50,11 @@ ${head()}
   <main>
     <p>
       License Zero is
-      <a href=/forms>license forms</a>,
+      <a href=/licenses>license forms</a>,
       <a href=https://github.com/licensezero/>software tools</a>,
       and an Internet vending machine
       that software maintainers can use to offer
-      <a href=/forms/private-licenses>paid commercial licenses</a>
+      <a href=/licenses/private-licenses>paid commercial licenses</a>
       for use of software developed in the open.
     </p>
     <p>

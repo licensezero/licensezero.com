@@ -64,7 +64,7 @@ module.exports = function (request, response, service) {
       <p>
         License Zero permits licensors to waive the
         condition of the
-        <a href=/forms/public-license>License Zero Public License</a>
+        <a href=/licenses/public-license>License Zero Public License</a>
         limiting commercial use for specific beneficiaries,
         using a standard form waiver.
       </p>

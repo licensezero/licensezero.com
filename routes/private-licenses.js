@@ -29,7 +29,7 @@ module.exports = function (request, response, service) {
       },
       projectID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
       description: 'a fake project to demonstrate license terms',
-      repository: 'https://licensezero.com/forms/private-license'
+      repository: 'https://licensezero.com/licenses/private-license'
     })
     return jobs
   }, {}), function (error, results) {

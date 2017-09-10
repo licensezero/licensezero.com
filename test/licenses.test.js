@@ -8,9 +8,9 @@ testForm('public-license')
 testForm('private-licenses')
 
 function testForm (form) {
-  tape('GET /forms/' + form, function (test) {
+  tape('GET /licenses/' + form, function (test) {
     server(function (port, configuration, close) {
-      http.request({port: port, path: '/forms/' + form})
+      http.request({port: port, path: '/licenses/' + form})
         .once('error', function (error) {
           test.error(error, 'no error')
           finish()
