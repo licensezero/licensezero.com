@@ -871,6 +871,15 @@
         "readable-stream": "2.3.3"
       }
     },
+    "create-html-element": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/create-html-element/-/create-html-element-1.0.0.tgz",
+      "integrity": "sha1-34hjky3GBWXKW3Gwt7Kz2R8QQ48=",
+      "requires": {
+        "html-tags": "2.0.0",
+        "stringify-attributes": "1.0.0"
+      }
+    },
     "cron-parser": {
       "version": "2.4.1",
       "resolved": "https://registry.npmjs.org/cron-parser/-/cron-parser-2.4.1.tgz",
@@ -1362,6 +1371,11 @@
         "es6-iterator": "2.0.1",
         "es6-symbol": "3.1.1"
       }
+    },
+    "escape-goat": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/escape-goat/-/escape-goat-1.3.0.tgz",
+      "integrity": "sha512-E2nU1Y39N5UgfLU8qwMlK0vZrZprIwWLeVmDYN8wd/e37hMtGzu2w1DBiREts0XHfgyZEQlj/hYr0H0izF0HDQ=="
     },
     "escape-html": {
       "version": "1.0.3",
@@ -2131,6 +2145,11 @@
       "resolved": "https://registry.npmjs.org/html-entities/-/html-entities-1.2.1.tgz",
       "integrity": "sha1-DfKTUfByEWNRXfueVUPl9u7VFi8="
     },
+    "html-tags": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/html-tags/-/html-tags-2.0.0.tgz",
+      "integrity": "sha1-ELMKOGCF9Dzt41PMj6fLDe7qZos="
+    },
     "http-errors": {
       "version": "1.6.2",
       "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-1.6.2.tgz",
@@ -2293,6 +2312,11 @@
       "resolved": "https://registry.npmjs.org/invert-kv/-/invert-kv-1.0.0.tgz",
       "integrity": "sha1-EEqOSqym09jNFXqO+L+rLXo//bY=",
       "dev": true
+    },
+    "ip-regex": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/ip-regex/-/ip-regex-1.0.3.tgz",
+      "integrity": "sha1-3FiQdvZZ9BnCIgOaMzFvHHOH7/0="
     },
     "is-array": {
       "version": "1.0.1",
@@ -2719,6 +2743,15 @@
         "simple-concat": "1.0.0",
         "spdx-expression-validate": "1.0.2",
         "spdx-satisfies": "0.1.3"
+      }
+    },
+    "linkify-urls": {
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/linkify-urls/-/linkify-urls-1.3.1.tgz",
+      "integrity": "sha512-ZrtPWnfOsJTTXXUFMPUa01pO2AE7r12R2j1ZBfal5jE0AJgbiHmPM5j4buPJ/4GMdGjPG2BAmeSuwOAHi+cGVQ==",
+      "requires": {
+        "create-html-element": "1.0.0",
+        "url-regex": "4.1.1"
       }
     },
     "lint-staged": {
@@ -4386,6 +4419,14 @@
         "function-bind": "1.1.0"
       }
     },
+    "stringify-attributes": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/stringify-attributes/-/stringify-attributes-1.0.0.tgz",
+      "integrity": "sha1-nosvmpRn57SAk8shJOvBwX5jgsU=",
+      "requires": {
+        "escape-goat": "1.3.0"
+      }
+    },
     "stringstream": {
       "version": "0.0.5",
       "resolved": "https://registry.npmjs.org/stringstream/-/stringstream-0.0.5.tgz",
@@ -4618,6 +4659,11 @@
         "xtend": "4.0.1"
       }
     },
+    "tlds": {
+      "version": "1.196.0",
+      "resolved": "https://registry.npmjs.org/tlds/-/tlds-1.196.0.tgz",
+      "integrity": "sha512-nOB26YOmIWTyVs+tztlpLHYwkFQUZPuR+HULU0K+M+Ht1lGGGgbqoNBbhNLIIVEdI+Hhy/Ngih9KN1GS/a7x6A=="
+    },
     "tmp": {
       "version": "0.0.31",
       "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.0.31.tgz",
@@ -4735,6 +4781,15 @@
           "integrity": "sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=",
           "dev": true
         }
+      }
+    },
+    "url-regex": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/url-regex/-/url-regex-4.1.1.tgz",
+      "integrity": "sha512-ViSDgDPNKkrQHI81GLCjdDN+Rsk3tAW/uLXlBOJxtcHzWZjta58Z0APXhfXzS89YszsheMnEvXeDXsWUB53wwA==",
+      "requires": {
+        "ip-regex": "1.0.3",
+        "tlds": "1.196.0"
       }
     },
     "user-home": {
