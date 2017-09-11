@@ -10,13 +10,15 @@ On the making side, as a maintainer in the last few years, you feel for yourself
 
 That's wrong.  Something's broken.
 
+## Tension
+
 We code with friends on the Web for fun, to hone our craft, to scratch our itches, to chase beautiful ideas.  But more and more of our growing community isn't playing for joy.  They're playing to win.  They're playing other games.
 
 Open Source has always welcomed those uses, too.  But when the take is constant, and the give only occasional, what once was joyous can feel like thankless work.  There are more and more of you handing out code every day, but you're increasingly outnumbered all the same, and the community adopts more and more the character of its majority.
 
 We talk about the consequences as "sustainability" problems.  Sustainability is abstract; casualties aren't.  If you can't help caring about elegance in software, if you won't give up coding in the open, if you can't count on winning the Open Source dream-job lottery, or thriving in corporate conditions if you do, you need support to avoid harm to yourself and the integrity of your craft.  You need recognition, help, and material aid from those who rely on your work and take your time.  There's no good reason independent craft and life-sustaining software success shouldn't go hand-in-hand.
 
-## Confusion
+## Emptyhandedness
 
 Unfortunately, neither Open Source generally, nor Free Software specifically, helps here.  Open Source licenses [override legal defaults that make using and sharing software difficult and risky](https://oss.kemitchell.com).  They're handy, reliable, specialized tools for disarming the heavy weapons that copyright and other laws hand out to individual developers, want them or not.  But neither Open Source licenses nor Open Source tooling tell you how or why to make time to write software in the first place.  They don't tell you how to stay sane, or pay rent, so that you can write still more, or maintain what you've already made.  Even if there's clear need.  So Open Source licenses make amazing tools of selfless, total generosity, if you come from a situation free of worldly concern, and that's giving you can afford.  If you feel like every day is someone else's birthday, and being generous is becoming expensive, that's Open Source at scale.  Not a bug.
 
