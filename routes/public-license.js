@@ -43,7 +43,7 @@ module.exports = function (request, response, service) {
         href=/licenses/private>private license</a>.
         As a starting point, however, consider the
         following major differences from the two-clause
-        BSD License.  The License Zero Publice License:
+        BSD License.  The License Zero Public License:
       </p>
       <ol>
         <li>
@@ -62,7 +62,7 @@ module.exports = function (request, response, service) {
         </li>
       </ol>
       <p>
-        To review changes to, and submit feeback about,
+        To review changes to, and submit feedback about,
         the License Zero Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>

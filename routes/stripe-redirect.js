@@ -43,8 +43,8 @@ ${head('Registration')}
   <main>
     <h1>Registration Rejected</h2>
     <p>
-      You declined to connect a Stripe account to LicenseZero.
-      You must connect a standard Stripe account to use LicenseZero.
+      You declined to connect a Stripe account to License Zero.
+      You must connect a standard Stripe account to use License Zero.
     </p>
   </main>
   ${footer()}

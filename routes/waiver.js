@@ -69,7 +69,7 @@ module.exports = function (request, response, service) {
         using a standard form waiver.
       </p>
       <p>
-        To review changes to, and submit feeback about,
+        To review changes to, and submit feedback about,
         the License Zero form waiver, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>

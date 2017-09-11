@@ -110,7 +110,7 @@ module.exports = function (request, response, service) {
         </li>
       </ol>
       <p>
-        To review changes to, and submit feeback about,
+        To review changes to, and submit feedback about,
         the License Zero private licenses, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
