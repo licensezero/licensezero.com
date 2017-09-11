@@ -192,3 +192,13 @@ pre {
 .comment {
   opacity: 0.5;
 }
+
+ins {
+  color: darkgreen;
+  text-decoration: underline;
+}
+
+del {
+  color: darkred;
+  text-decoration: line-through;
+}

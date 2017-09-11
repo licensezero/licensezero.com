@@ -35,7 +35,8 @@ module.exports = function (request, response, service) {
       <h1>Public License</h1>
       <p>
         The public license for projects available through
-        License Zero tiers is based on the two-clause BSD
+        License Zero tiers is
+        <a href=/licenses/public/diff>based on the two-clause BSD</a>
         License, with significant changes.  You should
         consult your own lawyers about whether the
         terms meet your needs, and whether you need a <a
