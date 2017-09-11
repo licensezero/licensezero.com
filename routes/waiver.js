@@ -14,36 +14,36 @@ module.exports = function (request, response, service) {
   runParallel({
     forever: waiver.bind(null, {
       licensor: {
-        name: 'Example Licensor',
-        jurisdiction: 'US-CA'
+        name: '{Licensor Name}',
+        jurisdiction: '{Licensor Jurisdiction}'
       },
       beneficiary: {
-        name: 'Example Beneficiary',
-        jurisdiction: 'US-CA'
+        name: '{Beneficiary Name}',
+        jurisdiction: '{Beneficiary Jurisdiction}'
       },
       project: {
-        projectID: '________-____-4___-____-____________',
-        description: 'a made-up project to demonstrate license terms',
-        repository: 'https://example.com/project'
+        projectID: '{Project ID}',
+        description: '{Project Description}',
+        repository: '{Project Repository}'
       },
-      date: '2017-04-01T12:00:00.000Z',
+      date: '{Date}',
       term: 'forever'
     }),
     term: waiver.bind(null, {
       licensor: {
-        name: 'Example Licensor',
-        jurisdiction: 'US-CA'
+        name: '{Licensor Name}',
+        jurisdiction: '{Licensor Jurisdiction}'
       },
       beneficiary: {
-        name: 'Example Beneficiary',
-        jurisdiction: 'US-CA'
+        name: '{Beneficiary Name}',
+        jurisdiction: '{Beneficiary Jurisdiction}'
       },
       project: {
-        projectID: '________-____-4___-____-____________',
-        description: 'a made-up project to demonstrate license terms',
-        repository: 'https://example.com/project'
+        projectID: '{Project ID}',
+        description: '{Project Description}',
+        repository: '{Project Repository}'
       },
-      date: '2017-04-01T12:00:00.000Z',
+      date: '{Date}',
       term: '____'
     })
   }, function (error, results) {

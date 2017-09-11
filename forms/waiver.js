@@ -17,18 +17,18 @@ module.exports = function (options, callback) {
       template,
       {
         version: VERSION,
-        beneficiaryName: beneficiary.name,
+        beneficiary: beneficiary.name,
         beneficiaryJurisdiction: beneficiary.jurisdiction,
-        licensorName: licensor.name,
+        licensor: licensor.name,
         licensorJurisdiction: licensor.jurisdiction,
-        agentName: 'Artless Devices LLC',
+        agent: 'Artless Devices LLC',
         agentJurisdiction: 'US-CA',
         agentWebsite: 'https://licensezero.com',
         projectID: project.projectID,
         description: project.description,
         repository: project.repository,
         date: options.date,
-        term: options.term === 'forever' ? false : options.term
+        term: options.term === 'Forever' ? false : options.term
       }
     ))
   })
