@@ -58,6 +58,14 @@ ${head()}
       for use of software developed in the open.
     </p>
     <p>
+      License Zero software is free to distribute, and free to use
+      and modify for non-commercial purposes.  Business users can
+      identify all the licenses they need for a Node.js project
+      with a free tool, and buy them all through a single credit
+      card checkout page.  License prices, less fees, go directly to
+      developers&rsquo; accounts.
+    </p>
+    <p>
       <a href=/manifesto>Read more</a>
       about License Zero and what it means for software.
     </p>
