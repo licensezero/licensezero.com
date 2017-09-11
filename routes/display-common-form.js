@@ -3,6 +3,7 @@ var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var linkifyURLs = require('linkify-urls')
 var nav = require('./partials/nav')
 
 module.exports = function (form, title) {
@@ -24,13 +25,21 @@ ${head()}
   <main>
       <article class=commonform>
         ${
-          commonformToHTML(
-            terms.commonform,
-            terms.directions,
+          linkifyURLs(
+            commonformToHTML(
+              terms.commonform,
+              terms.directions,
+              {
+                title: 'License Zero ' + title,
+                html5: true,
+                lists: true
+              }
+            ),
             {
-              title: 'License Zero ' + title,
-              html5: true,
-              lists: true
+              type: 'string',
+              attributes: {
+                target: '_blank'
+              }
             }
           )
         }
