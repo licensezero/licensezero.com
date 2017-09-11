@@ -20,7 +20,7 @@ ${head('Licenses')}
       <a href=/licenses/public>standard public license</a>.
     </p>
     <p>
-      Private licnese sold through License Zero use
+      Private licenses sold through License Zero use
       <a href=/licenses/private>standard private licenses</a>
       in a few variations.
     </p>
