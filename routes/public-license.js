@@ -40,7 +40,7 @@ module.exports = function (request, response, service) {
         License, with significant changes.  You should
         consult your own lawyers about whether the
         terms meet your needs, and whether you need a <a
-        href=/licenses/private-licenses>private license</a>.
+        href=/licenses/private>private license</a>.
         As a starting point, however, consider the
         following major differences from the two-clause
         BSD License.  The License Zero Publice License:

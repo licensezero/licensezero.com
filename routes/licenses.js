@@ -17,11 +17,11 @@ ${head('Licenses')}
     <p>
       License Zero projects are licensed
       to the public on the terms of a
-      <a href=/licenses/public-license>standard public license</a>.
+      <a href=/licenses/public>standard public license</a>.
     </p>
     <p>
       Private licnese sold through License Zero use
-      <a href=/licenses/private-licenses>standard private licenses</a>
+      <a href=/licenses/private>standard private licenses</a>
       in a few variations.
     </p>
     <p>

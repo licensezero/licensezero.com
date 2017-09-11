@@ -14,9 +14,9 @@ routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))
 
 routes.set('/licenses', require('./licenses'))
-routes.set('/licenses/private-licenses', require('./private-licenses'))
+routes.set('/licenses/private', require('./private-licenses'))
 routes.set('/licenses/private/diff', require('./private-licenses-diff'))
-routes.set('/licenses/public-license', require('./public-license'))
+routes.set('/licenses/public', require('./public-license'))
 routes.set('/licenses/public/diff', require('./public-license-diff'))
 routes.set('/licenses/waiver', require('./waiver'))
 

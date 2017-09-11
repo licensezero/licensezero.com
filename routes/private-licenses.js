@@ -71,8 +71,10 @@ module.exports = function (request, response, service) {
         })}
       </dl>
       <p>
-        The form license for each tiers is based on The
-        Apache License, Version 2.0, with significant
+        The form license for each tiers is
+        <a href=/licenses/private/diff>
+        based on The Apache License, Version 2.0</a>,
+        with significant
         changes.  You should consult your own lawyers about
         whether the terms suit your needs.  As a starting
         point, however, consider the following major
