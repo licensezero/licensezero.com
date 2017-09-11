@@ -81,3 +81,17 @@ Second, that not everyone wants to succeed at open software development on the s
 Third, that all good software built openly, and _especially_ Open Source, has value, particularly when there's no price tag users can see.  Making costs invisible doesn't make products free.  Community and industry alike should celebrate those who bear, and hide, significant costs for others, especially those willing to stand by while others reap commercial rewards, gratis.  And recognize that all of you have a choice---in fact, many choices---about how to work and share your craft.
 
 Now you have one more.
+
+## People
+
+You may wonder why all this matters to me.  About who you're dealing with, and what I'm after.  [licensezero.com](https://licensezero.com) will be, as long as I can manage it, a very simple machine, an [artless device](https://artlessdevices.com) that pulls no punches.  But in your position, I'd wonder:  Who's making the choices around here?
+
+I'm [kemitchell](https://github.com/kemitchell).  Free and Open Source Software took me out of a tiny town in the Piney Woods of Texas.  Linux and the Web grabbed me early, and haven't let go since.  I vividly remember pulling together dollars, waiting for weekends with my father, in town, where I could find old editions of O'Reilly books used.  What I read in those books helped get me to Austin.
+
+I wasn't in Austin long before I started working in software.  And I kept working.  And learning.  And working.  And studying.  And working still more.  And eventually, more or less, burning out.  I chased a life goal to Moscow for a year to shake it, had a great time, and watched the US economy tank on Russian state TV.  My clientele was toast, but in a way, I was already done.  I took a look around at the incredible hackers I was meeting in Russia, met a few Americans doing good work as attorneys abroad, and figured I could run the middle.  Get a legal education, get a ticket back to Russia, and help [build bridges between American and Russian tech](https://twitter.com/medvedevrussiae/status/229994873569300480).
+
+From there to law school, still slinging software.  And to Silicon Valley, to work at a firm.  And then on my own, to Oakland, to take control of my practice, and [my tools](https://commonform.github.io).  Free again at last, I came back to the software community, and met some incredible hackers, especially in Oakland, especially around Node.js.  Russia went to war, the Russian-American bridges burnt down, and sanctions went up in their place.  But I found myself surrounded by great people, friends and sometimes clients, on the leading edge of Open Source and other communities rowing against the current of IP law.  I couldn't help it.  I started [writing in the open](https://writing.kemitchell.com/2016/09/21/MIT-License-Line-by-Line.html).  I started [contributing where I could help](https://github.com/npm/npm/releases/tag/v2.10.0).
+
+I see my friends struggle to maintain their craft.  I see them burn out.  I see them go it alone, without guidance, without leverage, without structural support.  As we slurp jjamppong in [Temescal](https://localwiki.org/oakland/Temescal), or sip coffee South of Market, or wolf down questionable pizza at [Sudo Room](http://sudoroom.org/), we can't help talking about software and where it's going.  How the community is changing.  About friends who've had to skip town to stay true.  About how long we'll last before we split, compromise, or fold.
+
+I'm here to help.
