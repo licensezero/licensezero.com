@@ -17,7 +17,7 @@ var LICENSOR = [
   '# Offer private licenses through licensezero.com at $5 for solo,',
   '# $10 for team, $100 for company, and $500 for enterprise.',
   'l0-license $NEW_PROJECT_UUID',
-  '# Writes LICENSE and package.json metadata for l0-bom to read.',
+  '# Writes LICENSE and package.json metadata for l0-quote to read.',
   'git add LICENSE package.json',
   'git commit -m "License Zero"'
 ]
@@ -29,7 +29,7 @@ var LICENSEE = [
   '# Creates an identity, "someco", for a corporation in',
   '# California that needs team-tier licenses.',
   'cd a-node-project',
-  'l0-bom someco',
+  'l0-quote someco',
   '# Lists License Zero dependencies in node_modules',
   '# and the costs of missing licenses.',
   'l0-buy someco',
