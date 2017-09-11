@@ -6,6 +6,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
+var linkStandards = require('./link-standards')
 var nav = require('./partials/nav')
 var privateLicense = require('../forms/private-license')
 var runParallel = require('run-parallel')
@@ -117,7 +118,7 @@ module.exports = function (request, response, service) {
       ${Object.keys(results).map(function (tier) {
         return html`
           <h3 id="${escape(tier)}">${escape(capitalize(tier))} Tier</h3>
-          <pre class=license>${escape(results[tier])}</pre>
+          <pre class=license>${linkStandards(escape(results[tier]))}</pre>
         `
       })}
     </main>

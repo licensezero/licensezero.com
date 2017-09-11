@@ -4,6 +4,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
+var linkStandards = require('./link-standards')
 var nav = require('./partials/nav')
 var publicLicense = require('../forms/public-license')
 
@@ -66,7 +67,7 @@ module.exports = function (request, response, service) {
         the License Zero Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
-      <pre class=license>${escape(document)}</pre>
+      <pre class=license>${linkStandards(escape(document))}</pre>
     </main>
     ${footer()}
   </body>
