@@ -18,19 +18,19 @@ var REPOSITORY = (
 module.exports = function (request, response, service) {
   runParallel(Object.keys(TIERS).reduce(function (jobs, key) {
     jobs[key] = privateLicense.bind(null, {
-      date: '2017-09-01T12:00:00.000Z',
+      date: '{Date}',
       tier: key,
       licensee: {
-        name: 'Example Licensee',
-        jurisdiction: 'US-CA'
+        name: '{Licensee Name}',
+        jurisdiction: '{Licensee Jurisdiction, e.g "US-CA"}'
       },
       licensor: {
-        name: 'Example Licensor',
-        jurisdiction: 'US-CA'
+        name: '{Licensor Name}',
+        jurisdiction: '{Licensor Name, e.g. "US-NY"}'
       },
-      projectID: 'XXXXXXXX-XXXX-4XXX-XXXX-XXXXXXXXXXXX',
-      description: 'a fake project to demonstrate license terms',
-      repository: 'https://licensezero.com/licenses/private-license'
+      projectID: '{Project ID}',
+      description: '{Project Description}',
+      repository: '{Project Repository URL}'
     })
     return jobs
   }, {}), function (error, results) {

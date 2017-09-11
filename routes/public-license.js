@@ -14,11 +14,10 @@ var REPOSITORY = (
 
 module.exports = function (request, response, service) {
   publicLicense({
-    name: 'Example Licensor',
-    jurisdiction: 'US-CA',
+    name: '{Licensor Name}',
+    jurisdiction: '{Jurisdiction Code, e.g. "US-CA"}',
     publicKey: '_'.repeat(64),
-    projectID: '________-____-4___-____-____________',
-    licensorID: '________-____-4___ ____-____________'
+    projectID: '{Project ID}'
   }, function (error, document) {
     if (error) {
       service.log.error(error)

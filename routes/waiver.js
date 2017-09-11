@@ -4,48 +4,35 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
+var linkStandards = require('./link-standards')
 var nav = require('./partials/nav')
 var runParallel = require('run-parallel')
 var waiver = require('../forms/waiver')
+var xtend = require('xtend')
 
 var REPOSITORY = 'https://github.com/licensezero/licensezero-waiver'
 
 module.exports = function (request, response, service) {
+  var common = {
+    licensor: {
+      name: '{Licensor Name}',
+      jurisdiction: '{Licensor Jurisdiction, e.g. "US-TX"}'
+    },
+    beneficiary: {
+      name: '{Beneficiary Name}',
+      jurisdiction: '{Beneficiary Jurisdiction, e.g. "US-NY"}'
+    },
+    project: {
+      projectID: '{Project ID}',
+      description: '{Project Description}',
+      repository: '{Project Repository URL}'
+    },
+    date: '{Date}',
+    term: 'forever'
+  }
   runParallel({
-    forever: waiver.bind(null, {
-      licensor: {
-        name: '{Licensor Name}',
-        jurisdiction: '{Licensor Jurisdiction}'
-      },
-      beneficiary: {
-        name: '{Beneficiary Name}',
-        jurisdiction: '{Beneficiary Jurisdiction}'
-      },
-      project: {
-        projectID: '{Project ID}',
-        description: '{Project Description}',
-        repository: '{Project Repository}'
-      },
-      date: '{Date}',
-      term: 'forever'
-    }),
-    term: waiver.bind(null, {
-      licensor: {
-        name: '{Licensor Name}',
-        jurisdiction: '{Licensor Jurisdiction}'
-      },
-      beneficiary: {
-        name: '{Beneficiary Name}',
-        jurisdiction: '{Beneficiary Jurisdiction}'
-      },
-      project: {
-        projectID: '{Project ID}',
-        description: '{Project Description}',
-        repository: '{Project Repository}'
-      },
-      date: '{Date}',
-      term: '____'
-    })
+    forever: waiver.bind(null, xtend(common, {term: 'forever'})),
+    term: waiver.bind(null, xtend(common, {term: '10'}))
   }, function (error, results) {
     if (error) {
       service.log.error(error)
