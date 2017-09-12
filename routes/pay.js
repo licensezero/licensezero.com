@@ -405,12 +405,8 @@ function post (request, response, service, order) {
                         ].join('\n'),
                         [
                           'Price:      ' + priceColumn(project.price),
-                          '------------' + '-'.repeat(10),
                           'Commission: ' + priceColumn(commission),
-                          '------------' + '-'.repeat(10),
-                          'Total:      ' + priceColumn(
-                            project.total - commission
-                          )
+                          'Total:      ' + priceColumn(project.price - commission)
                         ].join('\n'),
                         [
                           'The Ed25519 cryptographic signature to the',
