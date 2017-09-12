@@ -10,7 +10,7 @@ module.exports = function (subtitle) {
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
   ${subtitle && subtitle.toLowerCase() === 'manifesto' && TWITTER_CARD.join('\n')}
-  <meta name="epigram" content="veritas non auctoritas facit aequitas">
+  <meta name="epigram" content="veritas non auctoritas facit aequitatem">
 </head>
   `
 }
