@@ -13,7 +13,7 @@ tape('name', function (test) {
       apiRequest.bind(null, port, {
         action: 'name',
         licensorID: LICENSOR.id,
-        password: LICENSOR.password,
+        token: LICENSOR.token,
         name: newName
       }),
       function (done) {

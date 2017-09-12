@@ -11,7 +11,7 @@ module.exports = function (service, callback) {
   runSeries([
     mkdirp.bind(null, path.dirname(file)),
     function (done) {
-      argon2.hash(LICENSOR.password)
+      argon2.hash(LICENSOR.token)
         .catch(done)
         .then(function (hashed) {
           fs.writeFile(file, JSON.stringify({
@@ -20,7 +20,7 @@ module.exports = function (service, callback) {
             email: LICENSOR.email,
             jurisdiction: LICENSOR.jurisdiction,
             registered: new Date().toISOString(),
-            password: hashed,
+            token: hashed,
             publicKey: LICENSOR.publicKey,
             privateKey: LICENSOR.privateKey,
             stripe: {

@@ -24,7 +24,7 @@ tape('sweep orders', function (test) {
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')

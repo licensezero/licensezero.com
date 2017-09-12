@@ -18,7 +18,7 @@ tape('public', function (test) {
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -30,7 +30,7 @@ tape('public', function (test) {
         apiRequest(port, {
           action: 'public',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: project
         }, function (error, response) {
           if (error) return done(error)
@@ -154,7 +154,7 @@ tape('public for nonexistent project', function (test) {
         apiRequest(port, {
           action: 'public',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: uuid()
         }, function (error, response) {
           if (error) return done(error)
@@ -181,7 +181,7 @@ tape('public for retracted project', function (test) {
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
@@ -194,7 +194,7 @@ tape('public for retracted project', function (test) {
           action: 'retract',
           projectID: project,
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'retract: error false')
@@ -205,7 +205,7 @@ tape('public for retracted project', function (test) {
         apiRequest(port, {
           action: 'public',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: project
         }, function (error, response) {
           if (error) return done(error)

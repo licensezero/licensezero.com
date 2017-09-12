@@ -16,7 +16,7 @@ tape('email', function (test) {
         apiRequest(port, {
           action: 'email',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           email: newAddress
         }, function (error, response) {
           if (error) return done(error)
@@ -41,7 +41,7 @@ tape('email w/ bad authorization', function (test) {
         apiRequest(port, {
           action: 'email',
           licensorID: LICENSOR.id,
-          password: 'not correct',
+          token: 'not correct',
           email: newAddress
         }, function (error, response) {
           if (error) return done(error)

@@ -92,7 +92,7 @@ module.exports = function api (request, response, service) {
             schema: action.schema
           })
         } else {
-          if (action.schema.required.includes('password')) {
+          if (action.schema.required.includes('token')) {
             checkAuthentication(
               request, body, service, function (error, licensor) {
                 /* istanbul ignore if */
@@ -135,10 +135,10 @@ module.exports = function api (request, response, service) {
 
 function checkAuthentication (request, body, service, callback) {
   var licensorID = body.licensorID
-  var password = body.password
+  var token = body.token
   readLicensor(service, licensorID, function (error, licensor) {
     if (error) return callback(error)
-    argon2.verify(licensor.password, password)
+    argon2.verify(licensor.token, token)
       .then(function (match) {
         callback(null, match ? licensor : false)
       })

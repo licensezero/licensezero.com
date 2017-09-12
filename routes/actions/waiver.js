@@ -6,7 +6,7 @@ var waiver = require('../../forms/waiver')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
-  password: {type: 'string'},
+  token: {type: 'string'},
   projectID: require('./common/project-id'),
   beneficiary: {
     description: 'beneficiary legal name',

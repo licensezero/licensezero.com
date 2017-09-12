@@ -17,7 +17,7 @@ tape('quote', function (test) {
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           repository: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
@@ -29,7 +29,7 @@ tape('quote', function (test) {
       function offerSecond (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           repository: 'http://example.com/second'
         }), function (error, response) {
           if (error) return done(error)
@@ -114,7 +114,7 @@ tape('quote w/ retracted', function (test) {
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -127,7 +127,7 @@ tape('quote w/ retracted', function (test) {
           action: 'retract',
           projectID: projectID,
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'retract error false')

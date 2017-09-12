@@ -9,7 +9,7 @@ var stringifyProjects = require('../../data/stringify-projects')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
-  password: {type: 'string'},
+  token: {type: 'string'},
   projectID: require('./common/project-id')
 }
 

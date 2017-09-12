@@ -16,7 +16,7 @@ tape('retract', function (test) {
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -29,7 +29,7 @@ tape('retract', function (test) {
           action: 'retract',
           projectID: project,
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -53,7 +53,7 @@ tape('retract nonexistent', function (test) {
           action: 'retract',
           projectID: uuid(),
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(

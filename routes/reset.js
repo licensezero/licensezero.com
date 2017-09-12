@@ -1,6 +1,6 @@
 var fs = require('fs')
-var generatePassword = require('../data/generate-password')
-var hashPassword = require('../data/hash-password')
+var generateToken = require('../data/generate-token')
+var hashToken = require('../data/hash-token')
 var internalError = require('./internal-error')
 var licensorPath = require('../paths/licensor')
 var lock = require('./lock')
@@ -9,7 +9,6 @@ var readJSONFile = require('../data/read-json-file')
 var resetTokenPath = require('../paths/reset-token')
 var runWaterfall = require('run-waterfall')
 
-var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
@@ -44,15 +43,15 @@ function get (request, response, service) {
         service.log.error(error)
         return internalError(response)
       }
-      var password = generatePassword()
+      var token = generateToken()
       var licensorID = tokenData.licensorID
       lock(licensorID, function (release) {
         runWaterfall([
-          hashPassword.bind(null, password),
+          hashToken.bind(null, token),
           function writeLicensorFile (hash, done) {
             var licensorFile = licensorPath(service, licensorID)
             mutateJSONFile(licensorFile, function (data) {
-              data.password = hash
+              data.token = hash
             }, done)
           }
         ], release(function (error) {
@@ -61,7 +60,7 @@ function get (request, response, service) {
             return internalError(response)
           }
           response.setHeader('Content-Type', 'text/html')
-          // TODO: new password CLI instructions
+          // TODO: new token CLI instructions
           response.end(html`
 <!doctype html>
 <html lang=EN>
@@ -71,7 +70,7 @@ ${head()}
   ${header()}
   <main>
     <p>Your access token has been reset.  Your new access token is:</p>
-    <pre><code class=token>${password}</code><pre>
+    <pre><code class=token>${token}</code><pre>
   </main>
   ${footer()}
 </body>
@@ -95,7 +94,7 @@ function notFound (response) {
 <html lang=en>
 <head>
   <meta charset=UTF-8>
-  <title>License Zero | Password Reset</title>
+  <title>License Zero | Token Reset</title>
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
@@ -103,7 +102,7 @@ function notFound (response) {
   <main>
     <h1>Invalid or Expired Reset Link</h2>
     <p>
-      The link you followed to reset a password
+      The link you followed to reset a token
       is invalid or expired.
     </p>
   </main>

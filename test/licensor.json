@@ -2,7 +2,7 @@
   "email": "test@example.com",
   "name": "Test User",
   "id": "5005ede1-9151-4e40-9b71-45f784f6a9fa",
-  "password": "test",
+  "token": "test",
   "jurisdiction": "US-CA",
   "stripe": {
     "id": "TEST",

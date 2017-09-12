@@ -12,7 +12,7 @@ var uuid = require('uuid/v4')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
-  password: {type: 'string'},
+  token: {type: 'string'},
   repository: require('./common/repository'),
   pricing: require('./common/pricing'),
   description: require('./common/description'),

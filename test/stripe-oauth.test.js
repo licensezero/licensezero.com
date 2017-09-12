@@ -10,7 +10,7 @@ tape('Stripe OAuth connect', function (test) {
   server(8080, function (port, service, close) {
     var oauthLocation
     var licensorID
-    var password
+    var token
     var project
     var paymentLocation
     var license
@@ -53,7 +53,7 @@ tape('Stripe OAuth connect', function (test) {
           })
           .getText('code.token')
           .then(function (text) {
-            password = text
+            token = text
           })
           .then(function () {
             done()
@@ -64,7 +64,7 @@ tape('Stripe OAuth connect', function (test) {
         apiRequest(port, {
           action: 'offer',
           licensorID: licensorID,
-          password: password,
+          token: token,
           repository: 'http://example.com',
           pricing: {
             solo: 500,

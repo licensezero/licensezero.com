@@ -87,7 +87,7 @@ tape('reset link', function (test) {
         apiRequest(port, {
           action: 'jurisdiction',
           licensorID: LICENSOR.id,
-          password: newToken,
+          token: newToken,
           jurisdiction: 'US-TX'
         }, function (error, response) {
           if (error) return done(error)

@@ -12,7 +12,7 @@ tape('jurisdiction', function (test) {
       apiRequest.bind(null, port, {
         action: 'jurisdiction',
         licensorID: LICENSOR.id,
-        password: LICENSOR.password,
+        token: LICENSOR.token,
         jurisdiction: 'US-TX'
       }),
       function (done) {

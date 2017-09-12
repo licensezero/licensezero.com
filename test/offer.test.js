@@ -13,7 +13,7 @@ tape('offer', function (test) {
       test.error(error)
       apiRequest(port, Object.assign(clone(OFFER), {
         licensorID: LICENSOR.id,
-        password: LICENSOR.password
+        token: LICENSOR.token
       }), function (error, response) {
         test.error(error)
         test.equal(

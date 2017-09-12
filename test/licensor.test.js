@@ -74,7 +74,7 @@ tape('licensor w/ project', function (test) {
       function offerProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           project = response.project
@@ -114,7 +114,7 @@ tape('licensor w/ retracted project', function (test) {
       function offerProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           project = response.project
@@ -125,7 +125,7 @@ tape('licensor w/ retracted project', function (test) {
         apiRequest(port, {
           action: 'retract',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: project
         }, function (error, response) {
           if (error) return done(error)
@@ -167,7 +167,7 @@ tape('licensor w/ retracted project', function (test) {
       function offerFirstProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           repository: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
@@ -179,7 +179,7 @@ tape('licensor w/ retracted project', function (test) {
       function offerSecondProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           repository: 'http://example.com/second'
         }), function (error, response) {
           if (error) return done(error)
@@ -192,7 +192,7 @@ tape('licensor w/ retracted project', function (test) {
         apiRequest(port, {
           action: 'retract',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: firstProject
         }, function (error, response) {
           if (error) return done(error)

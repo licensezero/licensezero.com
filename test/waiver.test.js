@@ -17,7 +17,7 @@ tape('waiver', function (test) {
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -29,7 +29,7 @@ tape('waiver', function (test) {
         apiRequest(port, {
           action: 'waiver',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: project,
           beneficiary: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
@@ -94,7 +94,7 @@ tape('waiver for nonexistent project', function (test) {
         apiRequest(port, {
           action: 'waiver',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: uuid(),
           beneficiary: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
@@ -124,7 +124,7 @@ tape('waiver for retracted project', function (test) {
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
@@ -137,7 +137,7 @@ tape('waiver for retracted project', function (test) {
           action: 'retract',
           projectID: project,
           licensorID: LICENSOR.id,
-          password: LICENSOR.password
+          token: LICENSOR.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'retract: error false')
@@ -148,7 +148,7 @@ tape('waiver for retracted project', function (test) {
         apiRequest(port, {
           action: 'waiver',
           licensorID: LICENSOR.id,
-          password: LICENSOR.password,
+          token: LICENSOR.token,
           projectID: project,
           beneficiary: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',

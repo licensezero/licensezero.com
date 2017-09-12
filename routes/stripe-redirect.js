@@ -2,8 +2,8 @@ var accountsPath = require('../paths/accounts')
 var ed25519 = require('../ed25519')
 var footer = require('./partials/footer')
 var fs = require('fs')
-var generatePassword = require('../data/generate-password')
-var hashPassword = require('../data/hash-password')
+var generateToken = require('../data/generate-token')
+var hashToken = require('../data/hash-token')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
@@ -131,12 +131,12 @@ ${head('Registration')}
           var licensorID = uuid()
           var licensorFile = licensorPath(service, licensorID)
           var keypair = ed25519.keys()
-          var passphrase = generatePassword()
+          var passphrase = generateToken()
           var stripeID = stripeData.stripe_user_id
           runWaterfall([
             mkdirp.bind(null, path.dirname(licensorFile)),
             function (_, done) {
-              hashPassword(passphrase, done)
+              hashToken(passphrase, done)
             },
             function writeLicensorFile (hash, done) {
               fs.writeFile(
@@ -147,7 +147,7 @@ ${head('Registration')}
                   email: nonceData.email,
                   jurisdiction: nonceData.jurisdiction,
                   registered: new Date().toISOString(),
-                  password: hash,
+                  token: hash,
                   publicKey: keypair.publicKey,
                   privateKey: keypair.privateKey,
                   stripe: {

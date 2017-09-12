@@ -129,11 +129,11 @@ tape('GET /stripe-redirect w/ test state', function (test) {
           })
           .end()
       },
-      function useCredentials (id, password, done) {
+      function useCredentials (id, token, done) {
         apiRequest(port, {
           action: 'email',
           licensorID: id,
-          password: password,
+          token: token,
           email: 'another@example.com'
         }, function (error, response) {
           if (error) return done(error)
