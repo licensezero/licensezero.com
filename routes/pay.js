@@ -87,6 +87,7 @@ ${head('Buy Licenses')}
             <tr>
               <td>
                 <p><code>${escape(project.projectID)}</code></p>
+                <p>${escape(project.description)}</p>
                 <p>
                   <a
                     href="${escape(project.repository)}"
