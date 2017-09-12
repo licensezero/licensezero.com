@@ -6,6 +6,7 @@ module.exports = function () {
   <ul>
     <li><a href=/>Use</a></li>
     <li><a href=/manifesto>Manifesto</a></li>
+    <li><a href=/questions>Questions</a></li>
     <li><a href=/terms>Terms</a></li>
     <li><a href=/licenses>Licenses</a></li>
     <li><a href=/privacy>Privacy</a></li>
