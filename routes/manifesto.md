@@ -76,20 +76,6 @@ When generous waivers for specific users won't do it, adopting License Zero lice
 
 The site and tooling are launching now for npm packages, but the legal parts of the toolkit, and much of the agent code, work generically.  It won't take too much to extend the convenience to other language ecosystems with discreet package concepts and welcoming repositories.
 
-## Change
-
-License Zero is an experiment.  A cultural experiment.  A moral experiment.  What should developers charge for their work?  Coffee money?  Lunch money?  Conference ticket money?  What should the agent charge, as commission?  A flat fee?  Real-estate rate?  A good restaurant tip?  I don't know.  With luck, we'll find out.
-
-But whatever the details, the overarching, immediate, community purpose of License Zero is to register a few critical points:
-
-First, that community tools are for hacking.  [That includes licenses.](https://writing.kemitchell.com/2017/08/31/Null-Value.html)  When community runs aground on a systemic problem, we should roll up our sleeves, and debug skeptically.  We should assess what we value, and implement from there.  Preferably in software.
-
-Second, that not everyone wants to succeed at open software development on the same terms, or should.  Companies, especially large ones, foundations, and governments, have long made talent available in the form of paid Open Source time.  But there ought to be room for small and independent players, as well.
-
-Third, that all good software built openly, and _especially_ Open Source, has value, particularly when there's no price tag users can see.  Making costs invisible doesn't make projects free.  Community and industry alike should celebrate those who bear, and hide, significant costs for others, especially those willing to stand by while others reap commercial rewards gratis.  Those playing to win should recognize that all of you have a choice---in fact, many choices---about how to work and share your craft.
-
-Now you have one more.
-
 ## People
 
 You may wonder why all this matters to me, about who you're dealing with, and what I'm after.  [licensezero.com](https://licensezero.com) will be, as long as I can manage it, a very simple machine, an [artless device](https://artlessdevices.com) that pulls no punches.  But in your position, I'd wonder:  Who's making the choices around here?
@@ -103,3 +89,17 @@ From there to law school, still slinging software.  And to Silicon Valley, to wo
 I see my friends struggle to maintain their craft.  I see them burn out.  I see them go it alone, without guidance, without leverage, without structural support.  As we slurp jjamppong in [Temescal](https://localwiki.org/oakland/Temescal), or sip coffee South of Market, or wolf down trash bag pizza at [Sudo Room](http://sudoroom.org/), we can't help talking about software and where it's going.  How the community is changing.  About friends who've had to skip town to stay true.  About how long we'll last before we split, compromise, or fold.
 
 Not while I still type.  I'm here to help.
+
+## Change
+
+License Zero is an experiment.  A cultural experiment.  A moral experiment.  What should developers charge for their work?  Coffee money?  Lunch money?  Conference ticket money?  What should the agent charge, as commission?  A flat fee?  Real-estate rate?  A good restaurant tip?  I don't know.  With luck, we'll find out.
+
+But whatever the details, the overarching, immediate, community purpose of License Zero is to register a few critical points:
+
+First, that community tools are for hacking.  [That includes licenses.](https://writing.kemitchell.com/2017/08/31/Null-Value.html)  When community runs aground on a systemic problem, we should roll up our sleeves, and debug skeptically.  We should assess what we value, and implement from there.  Preferably in software.
+
+Second, that not everyone wants to succeed at open software development on the same terms, or should.  Companies, especially large ones, foundations, and governments, have long made talent available in the form of paid Open Source time.  But there ought to be room for small and independent players, as well.
+
+Third, that all good software built openly, and _especially_ Open Source, has value, particularly when there's no price tag users can see.  Making costs invisible doesn't make projects free.  Community and industry alike should celebrate those who bear, and hide, significant costs for others, especially those willing to stand by while others reap commercial rewards gratis.  Those playing to win should recognize that all of you have a choice---in fact, many choices---about how to work and share your craft.
+
+Now you have one more.
