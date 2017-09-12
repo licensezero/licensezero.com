@@ -12,6 +12,8 @@ var LICENSOR = [
   '# Creates an identity for offering private licenses',
   '# for Adam, a developer in Texas.',
   '# Provides a link to connect a Stripe account for payments.',
+  'l0-add-licensor $NEW_LICENSOR_UUID',
+  '# Enter access token from confirmation page.',
   'cd a-node-project',
   'l0-offer --solo 500 --team 1000 --company 10000 --enterprise 50000',
   '# Offer private licenses through licensezero.com at $5 for solo,',
