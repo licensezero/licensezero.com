@@ -78,7 +78,7 @@ ${head('Buy Licenses')}
         <thead>
           <tr>
             <th>License</th>
-            <th>Price (USD)</th>
+            <th class=price>Price (USD)</th>
           </tr>
         </thead>
         <tbody>
