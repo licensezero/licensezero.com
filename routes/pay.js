@@ -133,7 +133,10 @@ ${head('Buy Licenses')}
         ${errorsFor('token')}
       </section>
       <section id=email>
-        <input name=email type=email value="${postValue('name')}">
+        <label>
+          Your E-Mail Address:
+          <input name=email type=email value="${postValue('name')}">
+        </label>
         ${errorsFor('email')}
       </section>
       <section id=terms>
