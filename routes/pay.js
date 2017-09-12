@@ -91,7 +91,7 @@ ${head('Buy Licenses')}
                   <a
                     href="${escape(project.repository)}"
                     target=_blank
-                    >${escape(truncate(project.repository, 30))}</a>
+                    >${escape(project.repository)}</a>
                 </p>
                 <p>
                   ${escape(project.licensor.name)}
@@ -549,14 +549,6 @@ ${head('Invalid or Expired')}
 </body>
 </html>
   `)
-}
-
-function truncate (string, length) {
-  if (string.length <= length) {
-    return string
-  } else {
-    return string.slice(0, length - 3) + '…'
-  }
 }
 
 function priceColumn (amount) {
