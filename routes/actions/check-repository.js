@@ -3,6 +3,8 @@ var url = require('url')
 
 var TESTING = process.env.NODE_ENV === 'test'
 
+var ACCEPTABLE_STATUS = [200, 204, 301]
+
 module.exports = function (body, callback) {
   /* istanbul ignore else */
   if (
@@ -21,7 +23,7 @@ module.exports = function (body, callback) {
       })
       .once('response', function (response) {
         var statusCode = response.statusCode
-        if (statusCode === 200 || statusCode === 204) {
+        if (ACCEPTABLE_STATUS.includes(statusCode)) {
           callback()
         } else {
           var message = repository + ' responded ' + statusCode
