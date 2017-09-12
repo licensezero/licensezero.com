@@ -41,6 +41,10 @@ tape('waiver', function (test) {
             'error false'
           )
           test.assert(
+            response.hasOwnProperty('projectID'),
+            'project ID'
+          )
+          test.assert(
             response.hasOwnProperty('manifest'),
             'manifest'
           )
@@ -58,6 +62,15 @@ tape('waiver', function (test) {
           test.assert(
             /^[0-9a-f]{128}$/.test(signature),
             'ed25519 signature'
+          )
+          test.assert(
+            response.hasOwnProperty('publicKey'),
+            'public key'
+          )
+          var publicKey = response.publicKey
+          test.assert(
+            /^[0-9a-f]{64}$/.test(publicKey),
+            'public key'
           )
           apiRequest(port, {
             action: 'licensor',

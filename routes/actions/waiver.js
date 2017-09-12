@@ -83,9 +83,11 @@ exports.handler = function (body, service, end, fail, lock) {
                 fail('internal error')
               } else {
                 end({
+                  projectID: projectID,
                   manifest: manifest,
                   document: document,
-                  signature: signature
+                  signature: signature,
+                  publicKey: licensor.publicKey
                 })
               }
             }
