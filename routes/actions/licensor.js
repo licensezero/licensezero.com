@@ -1,5 +1,5 @@
 var licensorPath = require('../../paths/licensor')
-var listProduts = require('../../data/list-projects')
+var listProjects = require('../../data/list-projects')
 var readJSONFile = require('../../data/read-json-file')
 
 exports.properties = {
@@ -18,7 +18,7 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      listProduts(service, licensorID, function (error, projects) {
+      listProjects(service, licensorID, function (error, projects) {
         /* istanbul ignore if */
         if (error) {
           service.log.error(error)
