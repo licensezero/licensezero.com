@@ -104,9 +104,7 @@ ${head('Buy Licenses')}
                     order.tier === 'solo'
                       ? 'one user'
                       : TIERS[order.tier] + ' users'
-                  },
-                  perpetual,
-                  with upgrades
+                  }
                 </p>
               </td>
               <td class=price>
