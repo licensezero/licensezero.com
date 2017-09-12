@@ -1,7 +1,6 @@
 var fs = require('fs')
 var generatePassword = require('../data/generate-password')
 var hashPassword = require('../data/hash-password')
-var html = require('./html')
 var internalError = require('./internal-error')
 var licensorPath = require('../paths/licensor')
 var lock = require('./lock')
@@ -9,6 +8,13 @@ var mutateJSONFile = require('../data/mutate-json-file')
 var readJSONFile = require('../data/read-json-file')
 var resetTokenPath = require('../paths/reset-token')
 var runWaterfall = require('run-waterfall')
+
+var escape = require('./escape')
+var footer = require('./partials/footer')
+var head = require('./partials/head')
+var header = require('./partials/header')
+var html = require('./html')
+var nav = require('./partials/nav')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 
@@ -58,21 +64,16 @@ function get (request, response, service) {
           // TODO: new password CLI instructions
           response.end(html`
 <!doctype html>
-<html lang=en>
-<head>
-  <meta charset=UTF-8>
-  <title>License Zero | Password Reset</title>
-  <link rel=stylesheet href=/normalize.css>
-  <link rel=stylesheet href=/styles.css>
-</head>
+<html lang=EN>
+${head()}
 <body>
-  <header>
-    <h1>License Zero | Password Reset</h1>
-  </header>
+  ${nav()}
+  ${header()}
   <main>
-    <p>Your password has been reset.  Your new password is:</p>
+    <p>Your access token has been reset.  Your new access token is:</p>
     <pre><code class=token>${password}</code><pre>
   </main>
+  ${footer()}
 </body>
 </html>
           `)
