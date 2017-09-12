@@ -53,7 +53,7 @@ exports.handler = function (body, service, end, fail, lock) {
             var file = projectsListPath(service, licensorID)
             var content = stringifyProjects([
               {
-                project: projectID,
+                projectID: projectID,
                 offered: new Date().toISOString(),
                 retracted: null
               }
@@ -76,7 +76,7 @@ exports.handler = function (body, service, end, fail, lock) {
           fail('internal error')
         }
       } else {
-        end({project: projectID})
+        end({projectID: projectID})
       }
     }))
   })
