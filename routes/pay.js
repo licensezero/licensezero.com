@@ -99,7 +99,10 @@ ${head('Buy Licenses')}
                   [${escape(project.licensor.jurisdiction)}]
                 </p>
                 <p>
-                  ${escape(capitalize(order.tier))} License:
+                  <a
+                    href="/licenses/private#${order.tier}"
+                    target=_blank
+                  >${escape(capitalize(order.tier))} License</a>:
                   ${
                     order.tier === 'solo'
                       ? 'one user'
