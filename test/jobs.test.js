@@ -28,7 +28,7 @@ tape('sweep orders', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.project
+          projectID = response.projectID
           done()
         })
       },

@@ -9,7 +9,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('reprice', function (test) {
   server(function (port, service, close) {
-    var project
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -19,14 +19,14 @@ tape('reprice', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          project = response.project
+          projectID = response.projectID
           done()
         })
       },
       function reprice (done) {
         apiRequest(port, {
           action: 'reprice',
-          projectID: project,
+          projectID: projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {

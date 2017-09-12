@@ -31,7 +31,7 @@ exports.handler = function (body, service, end, fail, lock) {
             parseProjects(text)
               .map(function (element) {
                 if (
-                  element.project === projectID &&
+                  element.projectID === projectID &&
                   element.retracted === null
                 ) {
                   element.retracted = new Date().toISOString()

@@ -23,7 +23,7 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.project
+          firstProject = response.projectID
           done()
         })
       },
@@ -35,7 +35,7 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.project
+          secondProject = response.projectID
           done()
         })
       },
@@ -129,7 +129,7 @@ tape('order w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.project
+          projectID = response.projectID
           done()
         })
       },
@@ -182,7 +182,7 @@ tape('POST /buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.project
+          projectID = response.projectID
           done()
         })
       },

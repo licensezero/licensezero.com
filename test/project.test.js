@@ -20,7 +20,7 @@ tape('project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.project
+          projectID = response.projectID
           done()
         })
       },
@@ -91,7 +91,7 @@ tape('/project/{id}', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.project
+          projectID = response.projectID
           done()
         })
       },

@@ -22,7 +22,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.project
+          firstProject = response.projectID
           done()
         })
       },
@@ -34,7 +34,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.project
+          secondProject = response.projectID
           done()
         })
       },
@@ -90,14 +90,14 @@ tape('quote', function (test) {
 
 tape('quote w/ nonexistent', function (test) {
   server(function (port, service, close) {
-    var project = uuid()
+    var projectID = uuid()
     apiRequest(port, {
       action: 'quote',
-      projects: [project]
+      projects: [projectID]
     }, function (error, response) {
       test.error(error)
       test.equal(
-        response.error, 'no such project: ' + project,
+        response.error, 'no such project: ' + projectID,
         'no such project'
       )
       test.end()
@@ -118,7 +118,7 @@ tape('quote w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.project
+          projectID = response.projectID
           done()
         })
       },

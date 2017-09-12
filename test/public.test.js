@@ -12,7 +12,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('public', function (test) {
   server(function (port, service, close) {
-    var project
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -22,7 +22,7 @@ tape('public', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          project = response.project
+          projectID = response.projectID
           done()
         })
       },
@@ -31,7 +31,7 @@ tape('public', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: project
+          projectID: projectID
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -175,7 +175,7 @@ tape('public for nonexistent project', function (test) {
 
 tape('public for retracted project', function (test) {
   server(function (port, service, close) {
-    var project
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -185,14 +185,14 @@ tape('public for retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
-          project = response.project
+          projectID = response.projectID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID: project,
+          projectID: projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -206,7 +206,7 @@ tape('public for retracted project', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: project
+          projectID: projectID
         }, function (error, response) {
           if (error) return done(error)
           test.equal(

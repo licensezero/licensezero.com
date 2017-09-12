@@ -10,7 +10,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('retract', function (test) {
   server(function (port, service, close) {
-    var project
+    var projectID
     runSeries([
       writeTestLicensor.bind(null, service),
       function offer (done) {
@@ -20,14 +20,14 @@ tape('retract', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          project = response.project
+          projectID = response.projectID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID: project,
+          projectID: projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
