@@ -67,7 +67,11 @@ ${head('Buy Licenses')}
   ${header()}
   <main>
     <section>
-      <p>${escape(order.licensee)} [${escape(order.jurisdiction)}]</p>
+      <h2>Licensee</h2>
+      <dl>
+        <dt>Legal Name</dt><dd>${escape(order.licensee)}</dd>
+        <dt>Jurisdiction</dt><dd>[${escape(order.jurisdiction)}]</dd>
+      </dl>
     </section>
     <section>
       <table class=invoice>
