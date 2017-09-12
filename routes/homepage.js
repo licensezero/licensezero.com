@@ -37,9 +37,9 @@ var LICENSEE = [
   '# Lists License Zero dependencies in node_modules',
   '# and the costs of missing licenses.',
   'l0-buy someco',
-  '# Opens an online order page for a single credit card payment.',
+  '# Opens an online order page for all needed licenses.',
   'l0-purchased $ORDER_BUNDLE_URL',
-  '# Imports all purchased licenses from the order page.'
+  '# Imports a bundle of purchased licenses from the order page.'
 ]
 
 module.exports = function (request, response, service) {
