@@ -137,7 +137,7 @@ ${head('Buy Licenses')}
         <label>
           <input type=checkbox name=terms value=accepted required>
           Check this box to accept License Zero&rsquo;s
-          <a href=/terms target=_blank>terms of service</a>.
+          <a href=/terms/service target=_blank>terms of service</a>.
         </label>
         ${errorsFor('terms')}
       </section>
