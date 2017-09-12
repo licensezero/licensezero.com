@@ -195,7 +195,7 @@ tape('POST /buy', function (test) {
           .selectByIndex('#tier', 1)
           .click('button[type="submit"]')
           .waitForExist('iframe')
-          .getText('h2')
+          .getText('h2=Credit Card Payment')
           .then(function (text) {
             test.equal(text, 'Credit Card Payment', 'credit card')
             done()
