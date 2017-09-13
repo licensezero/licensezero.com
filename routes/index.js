@@ -52,6 +52,7 @@ staticFile('styles.css')
 staticFile('logo-100.png')
 staticFile('vending-machine.svg')
 staticFile('out-of-order.svg')
+staticFile('licensee.gif')
 
 function staticFile (file) {
   var filePath = path.join(__dirname, '..', 'static', file)
