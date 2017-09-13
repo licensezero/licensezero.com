@@ -15,6 +15,7 @@ ${head('Error')}
   ${nav()}
   ${header()}
   <main>
+    <img src=/out-of-order.svg alt="Out of Order">
     <h1>Server Error</h2>
     <p>
       The website ran into an unexpected technical error.

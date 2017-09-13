@@ -15,6 +15,7 @@ ${head('Not Found')}
 <body>
   ${header()}
   <main>
+    <img src=/vending-machine.svg alt="Vending Machine">
     <h2>Not Found</h2>
   </main>
   ${footer()}
