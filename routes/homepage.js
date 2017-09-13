@@ -77,6 +77,8 @@ ${head()}
     <pre class=terminal>${formatSession(LICENSOR)}</pre>
     <h2>Commercial Users</h2>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
+    <p>And in action&hellip;</p>
+    <img class=terminal src=/licensee.gif style="width:95%" alt="License Zero licensee terminal session">
   </main>
   ${footer()}
 </body>
