@@ -1,4 +1,5 @@
 var email = require('./email')
+var notFound = require('./routes/not-found')
 var pinoHTTP = require('pino-http')
 var routes = require('./routes')
 var stripe = require('stripe')
@@ -18,8 +19,7 @@ module.exports = function makeRequestHandler (service, log) {
       request.parameters = route.params
       route.handler(request, response, service)
     } else {
-      response.statusCode = 404
-      response.end()
+      notFound(service, response)
     }
   }
 }
