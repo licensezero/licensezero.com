@@ -6,6 +6,7 @@ var nav = require('./partials/nav')
 
 module.exports = function (service, response, error) {
   service.log.error(error)
+  response.statusCode = 404
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   response.end(html`
 <!doctype html>
