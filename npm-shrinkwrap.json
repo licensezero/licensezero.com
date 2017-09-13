@@ -3197,6 +3197,11 @@
       "integrity": "sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=",
       "dev": true
     },
+    "node-gyp-build": {
+      "version": "3.2.2",
+      "resolved": "https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-3.2.2.tgz",
+      "integrity": "sha512-t8W/0UqFGl1c+5ORA3NoT3npU+PxWBL9iPhY7ZySSTszodj3RWexmu8niayWBE0v+0DLARvOXsjaAvfmSEQOyQ=="
+    },
     "node-schedule": {
       "version": "1.2.4",
       "resolved": "https://registry.npmjs.org/node-schedule/-/node-schedule-1.2.4.tgz",
@@ -4177,12 +4182,13 @@
         "hoek": "2.16.3"
       }
     },
-    "sodium": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/sodium/-/sodium-2.0.1.tgz",
-      "integrity": "sha1-ZO//bXaZyPJvkbmsW2/DqlULJXk=",
+    "sodium-native": {
+      "version": "1.10.3",
+      "resolved": "https://registry.npmjs.org/sodium-native/-/sodium-native-1.10.3.tgz",
+      "integrity": "sha512-FIeYaG5cc0YZjsAaWP/BCXDNO2xusbtDJbCbEvXrf6/6+dRo/8XCiEG0kwlRcR0wr56sgsZ327BId3ifFe2WYw==",
       "requires": {
-        "nan": "2.6.2"
+        "nan": "2.6.2",
+        "node-gyp-build": "3.2.2"
       }
     },
     "sorted-array-functions": {
