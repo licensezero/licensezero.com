@@ -67,3 +67,8 @@ routes.set('/robots.txt', function (request, response) {
     'Disallow: /pay/'
   ].join('\n'))
 })
+
+var internalError = require('./internal-error')
+routes.set('/500', function (request, response) {
+  internalError(response, new Error('Error for test purposes.'))
+})

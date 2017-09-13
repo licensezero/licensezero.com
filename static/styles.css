@@ -24,6 +24,7 @@ footer {
   padding-top: 0.5rem;
   padding-bottom: 5rem;
   text-align: right;
+  clear: both; /* keeps vending machines from overflowing */
 }
 
 main {
@@ -201,4 +202,15 @@ ins {
 del {
   color: darkred;
   text-decoration: line-through;
+}
+
+.machine {
+  float: right;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+  width: 250px;
+}
+
+.centered {
+  text-align: center;
 }

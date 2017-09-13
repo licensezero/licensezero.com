@@ -1,6 +1,5 @@
 var footer = require('./partials/footer')
 var head = require('./partials/head')
-var header = require('./partials/header')
 var html = require('./html')
 var nav = require('./partials/nav')
 
@@ -13,12 +12,15 @@ module.exports = /* istanbul ignore next */ function (response, error) {
 ${head('Error')}
 <body>
   ${nav()}
-  ${header()}
   <main>
-    <img src=/out-of-order.svg alt="Out of Order">
+    <img class=machine src=/out-of-order.svg alt="Out of Order">
     <h1>Server Error</h2>
+    <p>The website ran into an unexpected technical error.</p>
+    <p>This is definitely <em>not</em> your fault.</p>
     <p>
-      The website ran into an unexpected technical error.
+      Please feel free to
+      <a href=mailto:support@artlessdevices.com>contact support</a>
+      if you need help, or think you might know what&rsquo;s gone wrong.
     </p>
   </main>
   ${footer()}

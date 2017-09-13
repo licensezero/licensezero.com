@@ -10,13 +10,14 @@ module.exports = function (service, response, error) {
   response.end(html`
 <!doctype html>
 <html>
-${nav()}
 ${head('Not Found')}
 <body>
+  ${nav()}
   ${header()}
   <main>
-    <img src=/vending-machine.svg alt="Vending Machine">
-    <h2>Not Found</h2>
+    <p class=centered>
+      The page you&rsquo;re looking for could not be found.
+    </p>
   </main>
   ${footer()}
 </body>
