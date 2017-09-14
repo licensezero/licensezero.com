@@ -50,6 +50,7 @@ routes.set('/pay.js', function (request, response, service) {
 staticFile('normalize.css')
 staticFile('styles.css')
 staticFile('logo-100.png')
+staticFile('logo.svg')
 staticFile('vending-machine.svg')
 staticFile('out-of-order.svg')
 staticFile('licensee.gif')

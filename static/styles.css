@@ -214,3 +214,7 @@ del {
 .centered {
   text-align: center;
 }
+
+.logo {
+  width: 100px;
+}
