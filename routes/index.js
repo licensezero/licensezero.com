@@ -66,7 +66,9 @@ routes.set('/robots.txt', function (request, response) {
   response.setHeader('Content-Type', 'text/plain')
   response.end([
     'User-Agent: *',
-    'Disallow: /pay/'
+    'Disallow: /pay/',
+    'Disallow: /reset/',
+    'Disallow: /purchases/'
   ].join('\n'))
 })
 
