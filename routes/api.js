@@ -89,7 +89,21 @@ module.exports = function api (request, response, service) {
         if (!action.validate(body)) {
           end({
             error: 'invalid body',
-            schema: action.schema
+            // Avoid sending every valid 3166-2 code across the wire
+            // in schemas that require one.
+            schema: (function () {
+              if (action.schema.properties.jurisdiction) {
+                return JSON.parse(
+                  JSON.stringify(action.schema, function (name, value) {
+                    return name === 'jurisdiction'
+                      ? {type: 'string', description: 'ISO 3166-2'}
+                      : value
+                  })
+                )
+              } else {
+                return action.schema
+              }
+            })()
           })
         } else {
           if (action.schema.required.includes('token')) {
