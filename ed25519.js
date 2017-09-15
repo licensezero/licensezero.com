@@ -6,8 +6,8 @@ module.exports = {
     var secretKey = Buffer.alloc(64)
     sodium.crypto_sign_keypair(publicKey, secretKey)
     return {
-      privateKey: secretKey,
-      publicKey: publicKey
+      privateKey: secretKey.toString('hex'),
+      publicKey: publicKey.toString('hex')
     }
   },
   sign: function (message, publicKey, privateKey) {
