@@ -4158,8 +4158,7 @@
     "simple-concat": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/simple-concat/-/simple-concat-1.0.0.tgz",
-      "integrity": "sha1-c0TLuLbib7J9ZrL8hvn21Zl1IcY=",
-      "dev": true
+      "integrity": "sha1-c0TLuLbib7J9ZrL8hvn21Zl1IcY="
     },
     "slash": {
       "version": "1.0.0",
