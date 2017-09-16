@@ -73,10 +73,10 @@ ${head()}
       <a href=/manifesto>Read more</a>
       about License Zero and what it means for software.
     </p>
-    <h2>Maintainers</h2>
-    <pre class=terminal>${formatSession(LICENSOR)}</pre>
     <h2>Customers</h2>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
+    <h2>Maintainers</h2>
+    <pre class=terminal>${formatSession(LICENSOR)}</pre>
   </main>
   ${footer()}
 </body>
