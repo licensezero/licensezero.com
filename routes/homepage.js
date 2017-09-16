@@ -75,7 +75,7 @@ ${head()}
     </p>
     <h2>Maintainers</h2>
     <pre class=terminal>${formatSession(LICENSOR)}</pre>
-    <h2>Commercial Users</h2>
+    <h2>Customers</h2>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
   </main>
   ${footer()}
