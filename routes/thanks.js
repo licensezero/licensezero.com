@@ -39,6 +39,10 @@ ${head()}
       }
     })}
     </ul>
+    <p>
+      These folks don&rsquo;t necessarily endorse License Zero.
+      License Zero endorses <em>them</em>.
+    </p>
   </main>
   ${footer()}
 </body>
