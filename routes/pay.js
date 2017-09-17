@@ -242,15 +242,15 @@ function post (request, response, service, order) {
     var stripeCustomerID
     var licenses = []
     var purchaseID = uuid()
-    // TODO: batch payments by licensor
+    var transactions = batchTransactions(projects)
     runSeries([
       // See https://stripe.com/docs/connect/shared-customers.
       //
       // 1.  Create a Customer object on License Zero's own Stripe
       //     account, using the token from Stripe.js.
       //
-      // 2.  For each project transaction, generate a payment token
-      //     from the Customer.
+      // 2.  Generate a payment token from the Customer for each
+      //     Licensor transaction.
       //
       // 3.  Use those tokens to create Charge objects on Licensors'
       //     Connect-ed Stripe accounts.
@@ -280,8 +280,15 @@ function post (request, response, service, order) {
             email: order.email,
             date: new Date().toISOString()
           })
-        ].concat(projects.map(function (project) {
-          var commission = applicationFee(project)
+        ].concat(Object.keys(transactions).map(function (licensorID) {
+          var projects = transactions[licensorID]
+          var stripeID = projects[0].licensor.stripe.id
+          var commission = projects.reduce(function (total, project) {
+            return total + applicationFee(project)
+          }, 0)
+          var amount = projects.reduce(function (total, project) {
+            return total + project.price
+          }, 0)
           var chargeID
           return function (done) {
             runSeries([
@@ -291,13 +298,13 @@ function post (request, response, service, order) {
                   service.stripe.api.tokens.create({
                     customer: stripeCustomerID
                   }, {
-                    stripe_account: project.licensor.stripe.id
+                    stripe_account: stripeID
                   }, done)
                 },
                 // Stripe Step 3:
                 function chargeSharedCustomer (token, done) {
                   service.stripe.api.charges.create({
-                    amount: project.price,
+                    amount: amount,
                     currency: 'usd',
                     source: token.id,
                     application_fee: commission,
@@ -307,7 +314,7 @@ function post (request, response, service, order) {
                     // Wait until the e-mail goes through.
                     capture: false
                   }, {
-                    stripe_account: project.licensor.stripe.id
+                    stripe_account: stripeID
                   }, function (error, charge) {
                     if (error) return done(error)
                     service.log.info(charge, 'charge')
@@ -317,118 +324,122 @@ function post (request, response, service, order) {
                 }
               ]),
               function (done) {
-                runWaterfall([
-                  function emaiLicense (done) {
-                    var parameters = {
-                      FORM: 'private license',
-                      VERSION: privateLicense.version,
-                      date: new Date().toISOString(),
-                      tier: order.tier,
-                      project: pick(project, [
-                        'projectID', 'repository', 'description'
-                      ]),
-                      licensee: {
-                        name: order.licensee,
-                        jurisdiction: order.jurisdiction
+                runParallel(projects.map(function (project) {
+                  return function (done) {
+                    runWaterfall([
+                      function emaiLicense (done) {
+                        var parameters = {
+                          FORM: 'private license',
+                          VERSION: privateLicense.version,
+                          date: new Date().toISOString(),
+                          tier: order.tier,
+                          project: pick(project, [
+                            'projectID', 'repository', 'description'
+                          ]),
+                          licensee: {
+                            name: order.licensee,
+                            jurisdiction: order.jurisdiction
+                          },
+                          licensor: pick(project.licensor, [
+                            'name', 'jurisdiction'
+                          ]),
+                          price: project.price
+                        }
+                        var manifest = stringify(parameters)
+                        privateLicense(parameters, function (error, document) {
+                          if (error) return done(error)
+                          var license = {
+                            projectID: project.projectID,
+                            manifest: manifest,
+                            document: document,
+                            publicKey: project.licensor.publicKey,
+                            signature: ed25519.sign(
+                              manifest + '\n\n' + document,
+                              project.licensor.publicKey,
+                              project.licensor.privateKey
+                            )
+                          }
+                          licenses.push(license)
+                          service.email({
+                            to: data.email,
+                            subject: 'License Zero Receipt and License File',
+                            text: []
+                              .concat([
+                                'Thank you for buying a license through ' +
+                                'licensezero.com.',
+                                'Order ID: ' + order.orderID,
+                                'Total: ' + priceColumn(project.price),
+                                'Attached is a License Zero license file for:'
+                              ])
+                              .concat([
+                                'Licensee:     ' + order.licensee,
+                                'Jurisdiction: ' + order.jurisdiction,
+                                'Project:      ' + project.projectID,
+                                'Description:  ' + project.description,
+                                'Repository:   ' + project.repository,
+                                'License Tier: ' + capitalize(order.tier)
+                              ].join('\n')),
+                            license: license
+                          }, function (error) {
+                            if (error) return done(error)
+                            done(null, license)
+                          })
+                        })
                       },
-                      licensor: pick(project.licensor, [
-                        'name', 'jurisdiction'
-                      ]),
-                      price: project.price
-                    }
-                    var manifest = stringify(parameters)
-                    privateLicense(parameters, function (error, document) {
-                      if (error) return done(error)
-                      var license = {
-                        projectID: project.projectID,
-                        manifest: manifest,
-                        document: document,
-                        publicKey: project.licensor.publicKey,
-                        signature: ed25519.sign(
-                          manifest + '\n\n' + document,
-                          project.licensor.publicKey,
-                          project.licensor.privateKey
+                      function (license, done) {
+                        recordSignature(
+                          service, license.publicKey, license.signature,
+                          function (error) {
+                            if (error) return done(error)
+                            done(null, license)
+                          }
                         )
+                      },
+                      function emailLicensorStatement (license, done) {
+                        service.email({
+                          to: project.licensor.email,
+                          subject: 'License Zero Statement',
+                          text: [
+                            [
+                              'License Zero sold a license',
+                              'on your behalf.'
+                            ].join('\n'),
+                            [
+                              'Order:        ' + order.orderID,
+                              'Project:      ' + project.projectID,
+                              'Description:  ' + project.description,
+                              'Repository:   ' + project.repository,
+                              'Tier:         ' + capitalize(order.tier)
+                            ].join('\n'),
+                            [
+                              'Price:      ' + priceColumn(project.price),
+                              'Commission: ' + priceColumn(commission),
+                              'Total:      ' + priceColumn(project.price - commission)
+                            ].join('\n'),
+                            [
+                              'The Ed25519 cryptographic signature to the ',
+                              'license is:'
+                            ].join('\n'),
+                            [
+                              license.signature.slice(0, 32),
+                              license.signature.slice(32, 64),
+                              license.signature.slice(64, 96),
+                              license.signature.slice(96)
+                            ].join('\n')
+                          ]
+                        }, done)
                       }
-                      licenses.push(license)
-                      service.email({
-                        to: data.email,
-                        subject: 'License Zero Receipt and License File',
-                        text: []
-                          .concat([
-                            'Thank you for buying a license through ' +
-                            'licensezero.com.',
-                            'Order ID: ' + order.orderID,
-                            'Total: ' + priceColumn(project.price),
-                            'Attached is a License Zero license file for:'
-                          ])
-                          .concat([
-                            'Licensee:     ' + order.licensee,
-                            'Jurisdiction: ' + order.jurisdiction,
-                            'Project:      ' + project.projectID,
-                            'Description:  ' + project.description,
-                            'Repository:   ' + project.repository,
-                            'License Tier: ' + capitalize(order.tier)
-                          ].join('\n')),
-                        license: license
-                      }, function (error) {
-                        if (error) return done(error)
-                        done(null, license)
-                      })
-                    })
-                  },
-                  function (license, done) {
-                    recordSignature(
-                      service, license.publicKey, license.signature,
-                      function (error) {
-                        if (error) return done(error)
-                        done(null, license)
-                      }
-                    )
-                  },
-                  function emailLicensorStatement (license, done) {
-                    service.email({
-                      to: project.licensor.email,
-                      subject: 'License Zero Statement',
-                      text: [
-                        [
-                          'License Zero sold a license',
-                          'on your behalf.'
-                        ].join('\n'),
-                        [
-                          'Order:        ' + order.orderID,
-                          'Project:      ' + project.projectID,
-                          'Description:  ' + project.description,
-                          'Repository:   ' + project.repository,
-                          'Tier:         ' + capitalize(order.tier)
-                        ].join('\n'),
-                        [
-                          'Price:      ' + priceColumn(project.price),
-                          'Commission: ' + priceColumn(commission),
-                          'Total:      ' + priceColumn(project.price - commission)
-                        ].join('\n'),
-                        [
-                          'The Ed25519 cryptographic signature to the',
-                          'license is:'
-                        ].join('\n'),
-                        [
-                          license.signature.slice(0, 32),
-                          license.signature.slice(32, 64),
-                          license.signature.slice(64, 96),
-                          license.signature.slice(96)
-                        ].join('\n')
-                      ]
-                    }, done)
+                    ], done)
                   }
-                ], done)
-              },
-              function captureCharge (done) {
-                // Stripe Step 4:
-                service.stripe.api.charges.capture(
-                  chargeID,
-                  {stripe_account: project.licensor.stripe.id},
-                  done
-                )
+                }), function (error) {
+                  if (error) return done(error)
+                  // Stripe Step 4:
+                  service.stripe.api.charges.capture(
+                    chargeID,
+                    {stripe_account: stripeID},
+                    done
+                  )
+                })
               }
             ], done)
           }
@@ -528,6 +539,19 @@ ${head('Thank you')}
 
 function expired (created) {
   return (new Date() - new Date(created)) > ONE_DAY
+}
+
+function batchTransactions (projects) {
+  var returned = {}
+  projects.forEach(function (project) {
+    var licensorID = project.licensor.licensorID
+    if (returned.hasOwnProperty(licensorID)) {
+      returned[licensorID].push(project)
+    } else {
+      returned[licensorID] = [project]
+    }
+  })
+  return returned
 }
 
 function notFound (response) {
