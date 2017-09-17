@@ -27,6 +27,10 @@ footer {
   clear: both; /* keeps vending machines from overflowing */
 }
 
+footer p {
+  margin-top: 0;
+}
+
 main {
   padding-bottom: 2rem;
   padding-top: 1rem;
@@ -217,4 +221,13 @@ del {
 
 .logo {
   width: 100px;
+}
+
+.thanks {
+  list-style-type: none;
+  padding: 0 1rem 0 1rem;
+}
+
+.thanks li {
+  padding: 0.5rem 0;
 }
