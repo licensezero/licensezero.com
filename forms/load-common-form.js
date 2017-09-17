@@ -7,7 +7,15 @@ module.exports = function (basename) {
   var withMarkup = withCached(
     path.join(__dirname, basename, basename + '.cform')
   )
-  return function (callback) {
+  return function (/* [overrides,] callback */) {
+    var overrides = {}
+    var callback
+    if (arguments.length === 1) {
+      callback = arguments[0]
+    } else {
+      overrides = arguments[0]
+      callback = arguments[1]
+    }
     withMarkup(function (error, markup) {
       if (error) return callback(error)
       try {
@@ -15,11 +23,12 @@ module.exports = function (basename) {
       } catch (error) {
         return callback(error)
       }
+      var values = Object.assign({}, BLANKS, overrides)
       callback(null, {
         commonform: parsed.form,
         directions: parsed.directions.map(function (direction) {
           return {
-            value: BLANKS[direction.identifier],
+            value: values[direction.identifier],
             blank: direction.path
           }
         }),

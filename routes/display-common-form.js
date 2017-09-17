@@ -6,9 +6,14 @@ var html = require('./html')
 var linkifyURLs = require('linkify-urls')
 var nav = require('./partials/nav')
 
-module.exports = function (form, title) {
+module.exports = function (form, title, mappings) {
+  mappings = mappings || {}
   return function (request, response, service) {
-    form(function (error, terms) {
+    var overrides = {}
+    Object.keys(mappings).forEach(function (key) {
+      overrides[key] = service[mappings[key]]
+    })
+    form(overrides, function (error, terms) {
       if (error) {
         service.log.error(error)
         response.statusCode = 500
