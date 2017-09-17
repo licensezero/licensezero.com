@@ -362,7 +362,6 @@ function post (request, response, service, order) {
                             'Total: ' + priceColumn(project.price),
                             'Attached is a License Zero license file for:'
                           ])
-                          // TODO: Add CLI license import instructions
                           .concat([
                             'Licensee:     ' + order.licensee,
                             'Jurisdiction: ' + order.jurisdiction,
