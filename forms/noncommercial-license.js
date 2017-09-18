@@ -1,7 +1,7 @@
 var mustache = require('mustache')
 var path = require('path')
 
-var VERSION = require('./noncommercial-license/version')
+var VERSION = require('./noncommercial-license/version.json')
 
 var withCached = require('./with-cached')(
   path.join(
