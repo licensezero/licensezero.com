@@ -29,6 +29,7 @@ routes.set('/licenses/noncommercial/diff', require('./noncommercial-license-diff
 routes.set('/licenses/reciprocal', require('./reciprocal-license'))
 routes.set('/licenses/reciprocal/diff', require('./reciprocal-license-diff'))
 routes.set('/licenses/waiver', require('./waiver'))
+routes.set('/licenses/relicense', require('./relicense'))
 
 function redirect303 (response, location) {
   response.statusCode = 303

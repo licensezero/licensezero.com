@@ -27,9 +27,14 @@ ${head('Licenses')}
       in a few variations.
     </p>
     <p>
-      Licensor may waive the non-commercial
+      Licensors may waive the non-commercial
       condition of the public license with a
       <a href=/licenses/waiver>standard waiver</a>.
+    </p>
+    <p>
+      Licensors may offer to relicense their projects
+      on the terms of the two-clause BSD license under a
+      <a href=/licenses/relicense>standard relicense agreement</a>.
     </p>
   </main>
   ${footer()}

@@ -22,3 +22,6 @@
 [submodule "forms/reciprocal-license"]
 	path = forms/reciprocal-license
 	url = git@github.com:licensezero/licensezero-reciprocal-public-license
+[submodule "forms/relicense-agreement"]
+	path = forms/relicense-agreement
+	url = git@github.com:licensezero/licensezero-relicense-agreement

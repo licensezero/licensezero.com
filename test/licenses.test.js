@@ -35,3 +35,22 @@ function testForm (form) {
     })
   })
 }
+
+tape.test('relicense', function (test) {
+  server(function (port, configuration, close) {
+    http.request({port: port, path: '/licenses/relicense'})
+      .once('error', function (error) {
+        test.error(error, 'no error')
+        finish()
+      })
+      .once('response', function (response) {
+        test.equal(response.statusCode, 200, '200')
+        finish()
+      })
+      .end()
+    function finish () {
+      test.end()
+      close()
+    }
+  })
+})
