@@ -92,6 +92,12 @@ ${
     `
   })
 }
+${
+  pricing.relicense && html`
+    <dt>Relicense</dt>
+    <dd>${formatPrice(pricing.relicense)}</dd>
+  `
+}
 </dl>
   `
 }
