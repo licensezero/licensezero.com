@@ -5,6 +5,7 @@ var tape = require('tape')
 
 testForm('waiver')
 testForm('noncommercial')
+testForm('reciprocal')
 testForm('private')
 
 function testForm (form) {

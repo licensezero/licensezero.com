@@ -31,7 +31,8 @@ tape('public', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID
+          projectID: projectID,
+          terms: 'noncommercial'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -155,7 +156,8 @@ tape('public for nonexistent project', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: uuid()
+          projectID: uuid(),
+          terms: 'noncommercial'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -206,7 +208,8 @@ tape('public for retracted project', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID
+          projectID: projectID,
+          terms: 'noncommercial'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(

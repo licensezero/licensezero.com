@@ -16,8 +16,10 @@ ${head('Licenses')}
   <main>
     <p>
       License Zero projects are licensed
-      to the public on the terms of a
-      <a href=/licenses/noncommercial>standard noncommerical public license</a>.
+      to the public on the terms of either
+      <a href=/licenses/noncommercial>a standard noncommercial public license</a>
+      or
+      <a href=/licenses/reciprocal>a standard reciprocal public license</a>.
     </p>
     <p>
       Private licenses sold through License Zero use

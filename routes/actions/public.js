@@ -1,12 +1,14 @@
 var ed25519 = require('../../ed25519')
 var noncommercialLicense = require('../../forms/noncommercial-license')
+var reciprocalLicense = require('../../forms/reciprocal-license')
 var readProject = require('../../data/read-project')
 var stringify = require('../../stringify')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: {type: 'string'},
-  projectID: require('./common/project-id')
+  projectID: require('./common/project-id'),
+  terms: {enum: ['noncommercial', 'reciprocal']}
 }
 
 exports.handler = function (body, service, end, fail, lock) {
@@ -24,14 +26,18 @@ exports.handler = function (body, service, end, fail, lock) {
       if (project.retracted) {
         fail('retracted project')
       } else {
+        var terms = body.terms === 'noncommercial'
+          ? noncommercialLicense
+          : reciprocalLicense
         var licenseData = {
           jurisdiction: project.licensor.jurisdiction,
           name: project.licensor.name,
           projectID: projectID,
           publicKey: project.licensor.publicKey,
-          version: noncommercialLicense.VERSION
+          terms: body.terms,
+          version: terms.VERSION
         }
-        noncommercialLicense(licenseData, function (error, document) {
+        terms(licenseData, function (error, document) {
           if (error) {
             service.log.error(error)
             return fail('internal error')

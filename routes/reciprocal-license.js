@@ -6,14 +6,14 @@ var html = require('./html')
 var internalError = require('./internal-error')
 var linkStandards = require('./link-standards')
 var nav = require('./partials/nav')
-var noncommercialLicense = require('../forms/noncommercial-license')
+var reciprocalLicense = require('../forms/reciprocal-license')
 
 var REPOSITORY = (
-  'https://github.com/licensezero/licensezero-noncommercial-license'
+  'https://github.com/licensezero/licensezero-reciprocal-license'
 )
 
 module.exports = function (request, response, service) {
-  noncommercialLicense({
+  reciprocalLicense({
     name: '{Licensor Name}',
     jurisdiction: '{Jurisdiction Code, e.g. "US-CA"}',
     publicKey: '_'.repeat(64),
@@ -27,38 +27,38 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html>
-  ${head('Noncommercial Public License')}
+  ${head('Reciprocal Public License')}
   <body>
     ${nav()}
     ${header()}
     <main>
-      <h1>Noncommercial Public License</h1>
+      <h1>Reciprocal Public License</h1>
       <p>
         License Zero projects are publicly licensed
-        on the terms of either the following noncommercial
+        on the terms of either the following reciprocal
         license, or an alternative
-        <a href=/licenses/reciprocal>reciprocal public license</a>.
+        <a href=/licenses/noncommercial>noncommercial public license</a>.
       </p>
       <p>
-        The noncommercial public license for projects
-        available through License Zero tiers is
-        <a href=/licenses/noncommercial/diff>based on the two-clause BSD</a>
+        The reciprocal public license is
+        <a href=/licenses/reciprocal/diff>based on the two-clause BSD</a>
         License, with significant changes.  You should
         consult your own lawyers about whether the
         terms meet your needs, and whether you need a <a
         href=/licenses/private>private license</a>.
         As a starting point, however, consider the
         following major differences from the two-clause
-        BSD License.  The License Zero Noncommercial Public License:
+        BSD License.  The License Zero Reciprocal Public License:
       </p>
       <ol>
         <li>
-          limits commercial use, other than work that
-          produces contributions back to the project, to a
-          grace period of a set number of calendar days
+          requires publication of source code and Open Source
+          licensing of computer pgrams executed or developed
+          with the License Zero software for more than 90
+          calendar days
         </li>
         <li>
-          drops the commercial use limit away if other
+          drops the time limit away if other
           licenses cease to be available, reducing the terms
           to the standard form two-clause BSD License
         </li>
@@ -69,7 +69,7 @@ module.exports = function (request, response, service) {
       </ol>
       <p>
         To review changes to, and submit feedback about,
-        the License Zero Noncommercial Public License, visit
+        the License Zero Reciprocal Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
       <pre class=license>${linkStandards(escape(document))}</pre>

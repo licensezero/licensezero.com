@@ -26,6 +26,8 @@ routes.set('/licenses/public/diff', function (request, response) {
 })
 routes.set('/licenses/noncommercial', require('./noncommercial-license'))
 routes.set('/licenses/noncommercial/diff', require('./noncommercial-license-diff'))
+routes.set('/licenses/reciprocal', require('./reciprocal-license'))
+routes.set('/licenses/reciprocal/diff', require('./reciprocal-license-diff'))
 routes.set('/licenses/waiver', require('./waiver'))
 
 function redirect303 (response, location) {
