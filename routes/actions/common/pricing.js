@@ -4,7 +4,7 @@ var TIER_NAMES = Object.keys(TIERS)
 var pricingSchema = module.exports = {
   description: 'private license pricing',
   type: 'object',
-  properties: {},
+  properties: {relicense: require('./price')},
   required: [],
   additionalProperties: false
 }

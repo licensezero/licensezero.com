@@ -34,3 +34,33 @@ tape('offer', function (test) {
     })
   })
 })
+
+tape('offer w/ relicense', function (test) {
+  server(function (port, service, close) {
+    writeTestLicensor(service, function (error) {
+      test.error(error)
+      var request = clone(OFFER)
+      request.pricing.relicense = 10000
+      apiRequest(port, Object.assign(request, {
+        licensorID: LICENSOR.id,
+        token: LICENSOR.token
+      }), function (error, response) {
+        test.error(error)
+        test.equal(
+          response.error, false,
+          'error false'
+        )
+        test.assert(
+          response.hasOwnProperty('projectID'),
+          'projectID'
+        )
+        test.assert(
+          new RegExp(UUIDV4).test(response.projectID),
+          'UUIDv4'
+        )
+        test.end()
+        close()
+      })
+    })
+  })
+})
