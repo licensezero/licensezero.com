@@ -1,5 +1,5 @@
 var ed25519 = require('../../ed25519')
-var publicLicense = require('../../forms/public-license')
+var noncommercialLicense = require('../../forms/noncommercial-license')
 var readProject = require('../../data/read-project')
 var stringify = require('../../stringify')
 
@@ -29,9 +29,9 @@ exports.handler = function (body, service, end, fail, lock) {
           name: project.licensor.name,
           projectID: projectID,
           publicKey: project.licensor.publicKey,
-          version: publicLicense.VERSION
+          version: noncommercialLicense.VERSION
         }
-        publicLicense(licenseData, function (error, document) {
+        noncommercialLicense(licenseData, function (error, document) {
           if (error) {
             service.log.error(error)
             return fail('internal error')

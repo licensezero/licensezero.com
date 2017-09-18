@@ -1,11 +1,11 @@
 var mustache = require('mustache')
 var path = require('path')
 
-var VERSION = require('./public-license/version')
+var VERSION = require('./noncommercial-license/version')
 
 var withCached = require('./with-cached')(
   path.join(
-    __dirname, 'public-license', 'LICENSE.mustache'
+    __dirname, 'noncommercial-license', 'LICENSE.mustache'
   )
 )
 

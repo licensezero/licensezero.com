@@ -4,7 +4,7 @@ var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
 testForm('waiver')
-testForm('public')
+testForm('noncommercial')
 testForm('private')
 
 function testForm (form) {

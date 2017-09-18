@@ -8,13 +8,13 @@ var html = require('./html')
 var internalError = require('./internal-error')
 var nav = require('./partials/nav')
 var path = require('path')
-var publicLicense = require('../forms/public-license')
+var noncommercialLicense = require('../forms/noncommercial-license')
 var runParallel = require('run-parallel')
 
 module.exports = function (request, response, service) {
   runParallel({
     zero: function (done) {
-      publicLicense({
+      noncommercialLicense({
         name: '{Licensor Name}',
         jurisdiction: '{Licensor Jurisdiction}',
         publicKey: '_'.repeat(64),
@@ -23,7 +23,7 @@ module.exports = function (request, response, service) {
     },
     bsd: function (done) {
       var file = path.join(
-        __dirname, '..', 'forms', 'public-license', 'BSD-2-Clause'
+        __dirname, '..', 'forms', 'noncommercial-license', 'BSD-2-Clause'
       )
       fs.readFile(file, 'utf8', done)
     }
@@ -37,12 +37,12 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html>
-  ${head('Public License')}
+  ${head('Noncommercial Public License')}
   <body>
     ${nav()}
     ${header()}
     <main>
-      <h1>BSD-2-Clause &rarr; License Zero Public License</h1>
+      <h1>BSD-2-Clause &rarr; License Zero Noncommercial Public License</h1>
       <pre class=license>${diffElements(patch)}</pre>
     ${footer()}
   </body>

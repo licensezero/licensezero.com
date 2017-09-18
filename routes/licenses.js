@@ -17,7 +17,7 @@ ${head('Licenses')}
     <p>
       License Zero projects are licensed
       to the public on the terms of a
-      <a href=/licenses/public>standard public license</a>.
+      <a href=/licenses/noncommercial>standard noncommerical public license</a>.
     </p>
     <p>
       Private licenses sold through License Zero use

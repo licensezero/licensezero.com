@@ -28,7 +28,7 @@ Try to make money, or just finance time to contribute where you see a need, and 
 
 [License Zero](https://licensezero.com) is a new set of tools at your disposal.  And it's a shot across the bow of software entitlement,  free-as-in-worthless, and maintainer disposability.  License Zero evolves the most promising Open Source business model, the one most protective of good software craft: dual licensing, or offering software under one set of public terms, with an option to purchase other terms if you need them.
 
-It starts with the [License Zero Public License](https://licensezero.com/licenses/public), a public license, the kind of thing you see in `LICENSE` files. License Zero is based on the [two-clause BSD License](https://spdx.org/licenses/BSD-2-Clause), a classic permissive Open Source license, with two key additions:
+It starts with the [License Zero Public License](https://licensezero.com/licenses/noncommercial), a public license, the kind of thing you see in `LICENSE` files. License Zero is based on the [two-clause BSD License](https://spdx.org/licenses/BSD-2-Clause), a classic permissive Open Source license, with two key additions:
 
 1.  Commercial use is limited to 90 days, as long as commercial users can readily acquire other licenses from a named source.  If other licenses aren't available for 90 days, this new language drops away, leaving exactly the same terms as those of the standard, Open Source two-clause BSD License.
 

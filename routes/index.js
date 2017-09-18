@@ -18,9 +18,21 @@ routes.set('/api/v0', require('./api'))
 routes.set('/licenses', require('./licenses'))
 routes.set('/licenses/private', require('./private-licenses'))
 routes.set('/licenses/private/diff', require('./private-licenses-diff'))
-routes.set('/licenses/public', require('./public-license'))
-routes.set('/licenses/public/diff', require('./public-license-diff'))
+routes.set('/licenses/public', function (request, response) {
+  redirect303(response, '/licenses/noncommercial')
+})
+routes.set('/licenses/public/diff', function (request, response) {
+  redirect303(response, '/licenses/noncommercial/diff')
+})
+routes.set('/licenses/noncommercial', require('./noncommercial-license'))
+routes.set('/licenses/noncommercial/diff', require('./noncommercial-license-diff'))
 routes.set('/licenses/waiver', require('./waiver'))
+
+function redirect303 (response, location) {
+  response.statusCode = 303
+  response.setHeader('Location', location)
+  response.end()
+}
 
 routes.set('/stripe-redirect', require('./stripe-redirect'))
 routes.set('/stripe-webhook', require('./stripe-webhook'))
