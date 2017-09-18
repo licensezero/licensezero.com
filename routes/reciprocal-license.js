@@ -17,7 +17,8 @@ module.exports = function (request, response, service) {
     name: '{Licensor Name}',
     jurisdiction: '{Jurisdiction Code, e.g. "US-CA"}',
     publicKey: '_'.repeat(64),
-    projectID: '{Project ID}'
+    projectID: '{Project ID}',
+    repository: '{https://example.com/project}'
   }, function (error, document) {
     if (error) {
       service.log.error(error)

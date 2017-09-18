@@ -18,7 +18,8 @@ module.exports = function (request, response, service) {
         name: '{Licensor Name}',
         jurisdiction: '{Licensor Jurisdiction}',
         publicKey: '_'.repeat(64),
-        projectID: '{Project ID}'
+        projectID: '{Project ID}',
+        repository: '{https://example.com/project}'
       }, done)
     },
     bsd: function (done) {
