@@ -53,7 +53,7 @@ module.exports = function (request, response, service) {
       <ol>
         <li>
           requires publication of source code and Open Source
-          licensing of computer pgrams executed or developed
+          licensing of computer programs executed or developed
           with the License Zero software for more than 90
           calendar days
         </li>
