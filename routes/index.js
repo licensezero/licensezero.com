@@ -12,6 +12,7 @@ routes.set('/manifesto', require('./manifesto'))
 routes.set('/questions', require('./questions'))
 routes.set('/projects/:projectID', require('./projects'))
 routes.set('/buy', require('./buy'))
+// TODO /relicense
 routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))
 
