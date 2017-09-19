@@ -18,5 +18,6 @@ module.exports = {
   reprice: require('./reprice'),
   reset: require('./reset'),
   version: require('./version'),
-  upgrade: require('./upgrade')
+  upgrade: require('./upgrade'),
+  relicense: require('./relicense')
 }
