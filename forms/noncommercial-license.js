@@ -22,7 +22,9 @@ module.exports = function (options, callback) {
         secondHalfOfKey: options.publicKey.slice(32),
         projectID: options.projectID,
         agentName: 'Artless Devices LLC',
-        agentWebsite: 'https://licensezero.com'
+        agentWebsite: 'https://licensezero.com',
+        gracePeriod: '30',
+        waiverPeriod: '90'
       }
     ))
   })

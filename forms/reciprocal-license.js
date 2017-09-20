@@ -23,7 +23,9 @@ module.exports = function (options, callback) {
         projectID: options.projectID,
         agentName: 'Artless Devices LLC',
         agentWebsite: 'https://licensezero.com',
-        repository: options.repository
+        repository: options.repository,
+        gracePeriod: '30',
+        waiverPeriod: '90'
       }
     ))
   })
