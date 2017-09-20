@@ -9,9 +9,8 @@ var uuid = require('uuid/v4')
 module.exports = function (service, data, callback) {
   assert.equal(typeof data.sponsor, 'string')
   assert.equal(typeof data.jurisdiction, 'string')
-  assert.equal(typeof data.projectID, 'string')
-  assert(Number.isInteger(data.price))
-  assert(data.price > 300)
+  assert.equal(typeof data.project, 'object')
+  assert.notEqual(data.project, null)
   var orderID = uuid()
   var file = orderPath(service, orderID)
   runSeries([
@@ -19,7 +18,7 @@ module.exports = function (service, data, callback) {
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'relicense',
       orderID: orderID,
-      projectID: data.projectID,
+      project: data.project,
       sponsor: data.sponsor,
       jurisdiction: data.jurisdiction
     }))

@@ -19,5 +19,5 @@ module.exports = {
   reset: require('./reset'),
   version: require('./version'),
   upgrade: require('./upgrade'),
-  relicense: require('./relicense')
+  sponsor: require('./sponsor')
 }

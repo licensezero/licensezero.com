@@ -7,7 +7,7 @@ var server = require('./server')
 var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('relicense', function (test) {
+tape('sponsor', function (test) {
   server(function (port, service, close) {
     var projectID
     runSeries([
@@ -24,15 +24,15 @@ tape('relicense', function (test) {
           done()
         })
       },
-      function relicenseProject (done) {
+      function sponsorProject (done) {
         apiRequest(port, {
-          action: 'relicense',
+          action: 'sponsor',
           projectID: projectID,
           sponsor: 'SomeCo, Inc.',
           jurisdiction: 'US-CA'
         }, function (error, response) {
           if (error) return done(error)
-          test.equal(response.error, false, 'relicense error false')
+          test.equal(response.error, false, 'sponsor error false')
           test.assert(response.location.includes('/pay/'), 'location')
           done()
         })

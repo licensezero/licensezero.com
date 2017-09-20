@@ -17,10 +17,9 @@ exports.handler = function (body, service, end, fail, lock) {
     if (project.relicensed) return fail('project already relicensed')
     if (!project.pricing.relicense) return fail('not available for relicense')
     writeRelicenseOrder(service, {
-      projectID: projectID,
+      project: project,
       sponsor: sponsor,
-      jurisdiction: jurisdiction,
-      price: project.pricing.relicense
+      jurisdiction: jurisdiction
     }, function (error, orderID) {
       if (error) return fail('internal error')
       else end({location: '/pay/' + orderID})

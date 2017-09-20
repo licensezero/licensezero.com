@@ -1,7 +1,8 @@
 var ed25519 = require('../../ed25519')
 var noncommercialLicense = require('../../forms/noncommercial-license')
-var reciprocalLicense = require('../../forms/reciprocal-license')
 var readProject = require('../../data/read-project')
+var reciprocalLicense = require('../../forms/reciprocal-license')
+var signatureLines = require('../../data/signature-lines')
 var stringify = require('../../stringify')
 
 exports.properties = {
@@ -85,13 +86,4 @@ exports.handler = function (body, service, end, fail, lock) {
       }
     }
   })
-}
-
-function signatureLines (signature) {
-  return [
-    signature.slice(0, 32),
-    signature.slice(32, 64),
-    signature.slice(64, 96),
-    signature.slice(96)
-  ].join('\n')
 }

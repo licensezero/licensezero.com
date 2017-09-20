@@ -52,6 +52,15 @@ exports.handler = function (body, service, end, fail, lock) {
             retracted.map(projectIDOf).join(', ')
           )
         }
+        var relicensed = projects.filter(function (project) {
+          return project.relicensed
+        })
+        if (relicensed.length !== 0) {
+          return fail(
+            'relicensed projects: ' +
+            relicensed.map(projectIDOf).join(', ')
+          )
+        }
         var noTier = projects.filter(function (project) {
           return !project.pricing.hasOwnProperty(tier)
         })

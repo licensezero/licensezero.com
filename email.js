@@ -30,6 +30,14 @@ module.exports = function email (service, serverLog) {
           knownLength: licenseBuffer.length
         })
       }
+      if (message.agreement) {
+        var agreementBuffer = Buffer.from(message.agreement)
+        form.append('attachment', agreementBuffer, {
+          filename: 'agreement.txt',
+          contentType: 'text/plain',
+          knownLength: agreementBuffer.length
+        })
+      }
       if (message.terms) {
         var termsBuffer = Buffer.from(message.terms)
         form.append('attachment', termsBuffer, {

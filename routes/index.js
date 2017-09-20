@@ -4,6 +4,8 @@ var pump = require('pump')
 var replacestream = require('replacestream')
 var send = require('send')
 
+// TODO: README images
+
 var routes = module.exports = require('http-hash')()
 
 routes.set('/', require('./homepage'))
@@ -12,7 +14,6 @@ routes.set('/manifesto', require('./manifesto'))
 routes.set('/questions', require('./questions'))
 routes.set('/projects/:projectID', require('./projects'))
 routes.set('/buy', require('./buy'))
-// TODO /relicense
 routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))
 
