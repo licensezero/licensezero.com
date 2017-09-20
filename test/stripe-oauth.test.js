@@ -99,10 +99,12 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               // E-Mail
               .setValue('input[name="email"]', 'customer@example.com')
               // Terms
+              .scroll('input[name="terms"]')
               .click('input[name="terms"]')
               // Submit
+              .scroll('input[type="submit"]')
               .click('input[type="submit"]')
-              .waitForExist('h1.thanks', 10000)
+              .waitForExist('h1.thanks', 30000)
               .getText('h1.thanks')
               .then(function (text) {
                 test.equal(text, 'Thank You')
@@ -251,7 +253,9 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               .setValue('input[name="postal"]', '12345')
               .frameParent()
               .setValue('input[name="email"]', SPONSOR_EMAIL)
+              .scroll('input[name="terms"]')
               .click('input[name="terms"]')
+              .scroll('input[type="submit"]')
               .click('input[type="submit"]')
               .waitForExist('h1.thanks', 30000)
               .getText('h1.thanks')
@@ -339,7 +343,7 @@ function withLicensor (port, service, test, callback) {
     function authorize (done) {
       var webdriver = require('./webdriver')
       webdriver.url(oauthLocation)
-        .waitForExist('=Skip this account form', 10000)
+        .waitForExist('=Skip this account form', 30000)
         .click('=Skip this account form')
         .getText('code.id')
         .then(function (text) {
