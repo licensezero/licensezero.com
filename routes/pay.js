@@ -671,9 +671,10 @@ ${head('Thank you')}
         'Developer Jurisdiction': licensor.jurisdiction,
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
+        'Project ID': project.projectID,
         'Repository': project.repository,
         'License Identifier': 'BSD-2-Clause',
-        'Relicense Price': formatPrice(price)
+        'Payment': formatPrice(price)
       }, function (error, form) {
         if (error) return done(error)
         agreement = (

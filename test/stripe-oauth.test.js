@@ -282,6 +282,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
           function checkAgreement (done) {
             var text = agreementMessage.agreement
             test.assert(text.includes('License Zero Relicense Agreement'), 'title')
+            test.assert(text.includes(projectID), 'project ID')
             test.assert(text.includes(formattedPrice), 'price')
             test.assert(text.includes(LICENSOR_NAME), 'licensor name')
             test.assert(text.includes(LICENSOR_JURISDICTION), 'licensor jurisdiction')
