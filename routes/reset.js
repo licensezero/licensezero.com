@@ -60,7 +60,6 @@ function get (request, response, service) {
             return internalError(response)
           }
           response.setHeader('Content-Type', 'text/html')
-          // TODO: new token CLI instructions
           response.end(html`
 <!doctype html>
 <html lang=EN>
