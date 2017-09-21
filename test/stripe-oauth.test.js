@@ -271,33 +271,33 @@ tape('Stripe OAuth connect, register, license', function (suite) {
           function checkAgreementEmail (done) {
             var message = agreementMessage
             var text = agreementMessage.text.join('\n\n')
-            test.assert(text.includes(formattedPrice), 'shows price')
-            test.equal(message.to, SPONSOR_EMAIL, 'to sponsor')
-            test.equal(message.cc, LICENSOR_EMAIL, 'cc licensor')
-            test.assert(text.includes(projectID), 'project ID')
-            test.assert(text.includes(repository), 'repository')
-            test.assert(text.includes(description), 'description')
+            test.assert(text.includes(formattedPrice), 'e-mail shows price')
+            test.equal(message.to, SPONSOR_EMAIL, 'e-mail to sponsor')
+            test.equal(message.cc, LICENSOR_EMAIL, 'e-mail cc licensor')
+            test.assert(text.includes(projectID), 'e-mail project ID')
+            test.assert(text.includes(repository), 'e-mail repository')
+            test.assert(text.includes(description), 'e-mail description')
             done()
           },
           function checkAgreement (done) {
             var text = agreementMessage.agreement
-            test.assert(text.includes('License Zero Relicense Agreement'), 'title')
-            test.assert(text.includes(projectID), 'project ID')
-            test.assert(text.includes(formattedPrice), 'price')
-            test.assert(text.includes(LICENSOR_NAME), 'licensor name')
-            test.assert(text.includes(LICENSOR_JURISDICTION), 'licensor jurisdiction')
-            test.assert(text.includes(SPONSOR_NAME), 'sponsor name')
-            test.assert(text.includes(SPONSOR_JURISDICTION), 'sponsor jurisdiction')
+            test.assert(text.includes('License Zero Relicense Agreement'), 'agreement title')
+            test.assert(text.includes(projectID), 'agreement project ID')
+            test.assert(text.includes(formattedPrice), 'agreement price')
+            test.assert(text.includes(LICENSOR_NAME), 'agreement licensor name')
+            test.assert(text.includes(LICENSOR_JURISDICTION), 'agreement licensor jurisdiction')
+            test.assert(text.includes(SPONSOR_NAME), 'agreement sponsor name')
+            test.assert(text.includes(SPONSOR_JURISDICTION), 'agreement sponsor jurisdiction')
             done()
           },
           function checkLicensorNotification (done) {
             var message = notificationMessage
             var text = notificationMessage.text.join('\n\n')
-            test.assert(text.includes(formattedPrice), 'price')
-            test.equal(message.to, LICENSOR_EMAIL, 'to licensor')
-            test.assert(text.includes(projectID), 'project ID')
-            test.assert(text.includes(repository), 'repository')
-            test.assert(text.includes(description), 'description')
+            test.assert(text.includes(formattedPrice), 'notification price')
+            test.equal(message.to, LICENSOR_EMAIL, 'notification to licensor')
+            test.assert(text.includes(projectID), 'notification project ID')
+            test.assert(text.includes(repository), 'notification repository')
+            test.assert(text.includes(description), 'notification description')
             done()
           }
         ], function (error) {
