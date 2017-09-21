@@ -80,17 +80,31 @@ ${head()}
       identify all the licenses they need for a Node.js project
       with a free tool, and buy them all through a single credit
       card checkout page.  License prices, less fees, go directly to
-      developers&rsquo; accounts.
+      maintainers&rsquo; accounts.
     </p>
     <p>
       <a href=/manifesto>Read more</a>
       about License Zero and what it means for software.
     </p>
     <h2>Customers</h2>
+    <p>
+      Customers can identify, quote, and buy licenses for License
+      Zero dependencies of their Node.js projects using a free
+      command-line tool:
+    </p>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
     <h2>Sponsors</h2>
+    <p>
+      Sponsors can accept maintainers&rsquo; offers to relicense
+      their License Zero projects on permissive, two-clause BSD
+      terms:
+    </p>
     <pre class=terminal>${formatSession(SPONSOR)}</pre>
     <h2>Maintainers</h2>
+    <p>
+      Software maintainers can create, offer, and license
+      projects with a few short commands:
+    </p>
     <pre class=terminal>${formatSession(LICENSOR)}</pre>
   </main>
   ${footer()}
