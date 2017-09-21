@@ -318,8 +318,9 @@ function post (request, response, service, order) {
 
   function buyLicenses () {
     var projects = order.projects
+    var orderID = order.orderID
     var stripeMetadata = {
-      orderID: order.orderID,
+      orderID: orderID,
       jurisdiction: order.jurisdiction,
       licensee: order.licensee
     }
@@ -417,6 +418,7 @@ function post (request, response, service, order) {
                           FORM: 'private license',
                           VERSION: privateLicense.version,
                           date: new Date().toISOString(),
+                          orderID: orderID,
                           tier: order.tier,
                           project: pick(project, [
                             'projectID', 'repository', 'description'
