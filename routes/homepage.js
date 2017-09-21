@@ -42,6 +42,17 @@ var LICENSEE = [
   '# Imports a bundle of purchased licenses from the order page.'
 ]
 
+var SPONSOR = [
+  'npm install -g licensezero',
+  '# Installs the License Zero command-line interface.',
+  'l0-create-licensee someco "SomeCo, Inc." US-CA team',
+  '# Creates an identity, "someco", for a corporation in',
+  '# California that needs team-tier licenses.',
+  'l0-sponsor someco $PROJECT_ID',
+  '# Opens an online order page for sponsoring relicense',
+  '# of a project onto BSD-2-Clause terms.'
+]
+
 module.exports = function (request, response, service) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   response.end(html`
@@ -77,6 +88,8 @@ ${head()}
     </p>
     <h2>Customers</h2>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
+    <h2>Sponsors</h2>
+    <pre class=terminal>${formatSession(SPONSOR)}</pre>
     <h2>Maintainers</h2>
     <pre class=terminal>${formatSession(LICENSOR)}</pre>
   </main>
