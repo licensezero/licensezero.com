@@ -80,6 +80,19 @@ function staticFile (file) {
   })
 }
 
+quoteTemplate('waiver')
+quoteTemplate('relicense')
+
+function quoteTemplate (type) {
+  var filePath = path.join(
+    __dirname, '..', 'forms',
+    'quotes', 'quote-for-' + type + '.odt'
+  )
+  routes.set('/licenses/quotes/' + type + '.odt', function (request, response) {
+    pump(send(request, filePath), response)
+  })
+}
+
 routes.set('/robots.txt', function (request, response) {
   response.setHeader('Content-Type', 'text/plain')
   response.end([

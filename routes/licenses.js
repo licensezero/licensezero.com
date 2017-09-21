@@ -36,6 +36,13 @@ ${head('Licenses')}
       on the terms of the two-clause BSD license under a
       <a href=/licenses/relicense>standard relicense agreement</a>.
     </p>
+    <p>
+      Licensors may sell waivers and relicensing agreements
+      directly to clients, through purchase orders, using
+      <a href=/licenses/quotes/waiver.odt>a form waiver quote</a>
+      and
+      <a href=/licenses/quotes/relicense.odt>a form relicense quote</a>.
+    </p>
   </main>
   ${footer()}
 </body>

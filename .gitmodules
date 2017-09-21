@@ -25,3 +25,6 @@
 [submodule "forms/relicense-agreement"]
 	path = forms/relicense-agreement
 	url = git@github.com:licensezero/licensezero-relicense-agreement
+[submodule "forms/quotes"]
+	path = forms/quotes
+	url = git@github.com:licensezero/licensezero-quotes
