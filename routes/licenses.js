@@ -27,8 +27,8 @@ ${head('Licenses')}
       in a few variations.
     </p>
     <p>
-      Licensors may waive the non-commercial
-      condition of the public license with a
+      Licensors may waive the non-commercial and reciprocal
+      conditions of the public licenses with a
       <a href=/licenses/waiver>standard waiver</a>.
     </p>
     <p>
