@@ -4,8 +4,6 @@ var pump = require('pump')
 var replacestream = require('replacestream')
 var send = require('send')
 
-// TODO: README images
-
 var routes = module.exports = require('http-hash')()
 
 routes.set('/', require('./homepage'))
