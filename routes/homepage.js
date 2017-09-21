@@ -58,8 +58,10 @@ ${head()}
       <a href=https://github.com/licensezero/>software tools</a>,
       and an Internet vending machine
       that software maintainers can use to offer
-      <a href=/licenses/private-licenses>paid commercial licenses</a>
-      for use of software developed in the open.
+      <a href=/licenses/private-licenses>paid commercial use licenses</a>
+      and
+      <a href=/licenses/relicense>sponsored permissive relicensing</a>
+      for software developed in the open.
     </p>
     <p>
       License Zero software is free to distribute, and free to use
