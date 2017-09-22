@@ -4,7 +4,7 @@ var path = require('path')
 
 var VERSION = require('./private-licenses/version')
 
-var withCached = require('./with-cached')(
+var withCached = require('../data/with-cached')(
   path.join(
     __dirname, 'private-licenses', 'LICENSE.mustache'
   )

@@ -1,6 +1,6 @@
 var parse = require('commonform-markup-parse')
 var path = require('path')
-var withCached = require('./with-cached')
+var withCached = require('../data/with-cached')
 
 module.exports = function (basename) {
   var BLANKS = require('./' + basename + '/blanks.json')

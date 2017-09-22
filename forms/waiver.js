@@ -3,7 +3,7 @@ var path = require('path')
 
 var VERSION = require('./waiver/version.json')
 
-var withCached = require('./with-cached')(
+var withCached = require('../data/with-cached')(
   path.join(__dirname, 'waiver', 'WAIVER.mustache')
 )
 
