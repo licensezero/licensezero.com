@@ -28,7 +28,7 @@
     "mustache": "^2.3.0",
     "node-schedule": "^1.2.5",
     "outline-numbering": "^1.0.2",
-    "pino": "^4.7.1",
+    "pino": "^4.7.2",
     "pino-http": "^2.6.2",
     "pump": "^1.0.2",
     "replacestream": "^4.0.3",
