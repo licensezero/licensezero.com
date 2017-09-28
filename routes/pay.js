@@ -523,6 +523,7 @@ function post (request, response, service, order) {
                   // Stripe Step 4:
                   service.stripe.api.charges.capture(
                     chargeID,
+                    {},
                     {stripe_account: stripeID},
                     done
                   )
@@ -742,6 +743,7 @@ ${head('Thank you')}
     function captureCharge (done) {
       service.stripe.api.charges.capture(
         chargeID,
+        {},
         {stripe_account: stripeID},
         function (error) {
           if (error) return done(error)
