@@ -3204,9 +3204,9 @@
       "integrity": "sha512-t8W/0UqFGl1c+5ORA3NoT3npU+PxWBL9iPhY7ZySSTszodj3RWexmu8niayWBE0v+0DLARvOXsjaAvfmSEQOyQ=="
     },
     "node-schedule": {
-      "version": "1.2.4",
-      "resolved": "https://registry.npmjs.org/node-schedule/-/node-schedule-1.2.4.tgz",
-      "integrity": "sha1-x3Zbyy8Y2Iz3N+q14QmCI6PeerY=",
+      "version": "1.2.5",
+      "resolved": "https://registry.npmjs.org/node-schedule/-/node-schedule-1.2.5.tgz",
+      "integrity": "sha512-15EhURVgJz1kIms3H6rKcOOcZGSaHGCwB6mTRUBWZnpv4OPbX6e01OTPeSzx0W+f5Hx7iWafmk17+PyhD9fejg==",
       "requires": {
         "cron-parser": "2.4.1",
         "long-timeout": "0.1.1",

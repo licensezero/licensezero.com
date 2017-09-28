@@ -26,7 +26,7 @@
     "lock": "^0.1.4",
     "mkdirp": "^0.5.1",
     "mustache": "^2.3.0",
-    "node-schedule": "^1.2.4",
+    "node-schedule": "^1.2.5",
     "outline-numbering": "^1.0.2",
     "pino": "^4.7.1",
     "pino-http": "^2.6.2",
