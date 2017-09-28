@@ -535,9 +535,9 @@
       }
     },
     "chromedriver": {
-      "version": "2.31.0",
-      "resolved": "https://registry.npmjs.org/chromedriver/-/chromedriver-2.31.0.tgz",
-      "integrity": "sha1-gsdY7kAVqogPRQCLujRkM8+dsUo=",
+      "version": "2.32.3",
+      "resolved": "https://registry.npmjs.org/chromedriver/-/chromedriver-2.32.3.tgz",
+      "integrity": "sha1-zoTwVb7ny/5W8xGCsnbzMlaxK/E=",
       "dev": true,
       "requires": {
         "extract-zip": "1.6.5",
