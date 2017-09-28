@@ -34,9 +34,9 @@
       }
     },
     "ajv": {
-      "version": "5.2.2",
-      "resolved": "https://registry.npmjs.org/ajv/-/ajv-5.2.2.tgz",
-      "integrity": "sha1-R8aNaehvXZUxA7AHSpQw3GPaXjk=",
+      "version": "5.2.3",
+      "resolved": "https://registry.npmjs.org/ajv/-/ajv-5.2.3.tgz",
+      "integrity": "sha1-wG9Zh3jETGsWGrr+NGa4GtGBTtI=",
       "requires": {
         "co": "4.6.0",
         "fast-deep-equal": "1.0.0",
