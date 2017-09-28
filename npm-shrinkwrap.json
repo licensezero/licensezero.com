@@ -3862,9 +3862,9 @@
       }
     },
     "replacestream": {
-      "version": "4.0.2",
-      "resolved": "https://registry.npmjs.org/replacestream/-/replacestream-4.0.2.tgz",
-      "integrity": "sha1-DEFAcH5PAyP1DeBEhRcIz1i8N70=",
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/replacestream/-/replacestream-4.0.3.tgz",
+      "integrity": "sha512-AC0FiLS352pBBiZhd4VXB1Ab/lh0lEgpP+GGvZqbQh8a5cmXVoTe5EX/YeTFArnp4SRGTHh1qCHu9lGs1qG8sA==",
       "requires": {
         "escape-string-regexp": "1.0.5",
         "object-assign": "4.1.1",

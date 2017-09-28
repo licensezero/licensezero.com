@@ -31,7 +31,7 @@
     "pino": "^4.7.1",
     "pino-http": "^2.6.2",
     "pump": "^1.0.2",
-    "replacestream": "^4.0.2",
+    "replacestream": "^4.0.3",
     "run-parallel": "^1.1.6",
     "run-parallel-limit": "^1.0.3",
     "run-series": "^1.1.4",
