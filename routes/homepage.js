@@ -20,7 +20,7 @@ var LICENSOR = [
   'l0-offer --solo 500 --team 1000 --company 10000 --enterprise 50000',
   '# Offer private licenses through licensezero.com at $5 for solo,',
   '# $10 for team, $100 for company, and $500 for enterprise.',
-  'l0-license $NEW_PROJECT_UUID',
+  'l0-license --noncommercial $NEW_PROJECT_UUID',
   '# Writes LICENSE and package.json metadata for l0-quote to read.',
   'git add LICENSE package.json',
   'git commit -m "License Zero"'
@@ -53,8 +53,6 @@ var SPONSOR = [
   '# of a project onto BSD-2-Clause terms.'
 ]
 
-// TODO redo intro paragraph per RL feedback
-
 module.exports = function (request, response, service) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   response.end(html`
@@ -65,47 +63,65 @@ ${head()}
   ${nav()}
   ${header()}
   <main>
-    <p>
-      License Zero is
-      <a href=/licenses>license forms</a>,
-      <a href=https://github.com/licensezero/>software tools</a>,
-      and an Internet vending machine
-      that software maintainers can use to offer
-      <a href=/licenses/private-licenses>paid commercial use licenses</a>
-      and
-      <a href=/licenses/relicense>sponsored permissive relicensing</a>
-      for software developed in the open.
+    <p class=lead>
+      License Zero is a shot across the bow of Open Source software
+      entitlement, free-as-in-worthless, and maintainer disposability.
     </p>
     <p>
-      License Zero software is free to distribute, and free to use
-      and modify for non-commercial purposes.  Business users can
-      identify all the licenses they need for a Node.js project
-      with a free tool, and buy them all through a single credit
-      card checkout page.  License prices, less fees, go directly to
-      maintainers&rsquo; accounts.
+      Feel overwhelmed by business-driven demand for open software,
+      maintenance, and support?  License Zero offers
+      all the
+      <a href=https://github.com/licensezero/licensezero-cli>tools</a>
+      <a href=/licenses>you<a/>
+      <a href=/terms>need</a>
+      to go in business yourself,
+      and start receiving compensation for your contributions.
     </p>
     <p>
-      <a href=/manifesto>Read more</a>
-      about License Zero and what it means for software.
+      Tired of seeing your open code end up in closed systems, with no
+      contribution or support flowing back?
+      License Zero
+      <a href=/licenses/reciprocal>puts the teeth back in copyleft</a>,
+      requiring community members to give back to Open Source or support
+      those who do.
     </p>
-    <h2>Customers</h2>
     <p>
-      Customers can identify, quote, and buy licenses for License
-      Zero dependencies of their Node.js projects using a free
-      command-line tool:
+      Want a simple, low-friction way to support maintainers of open
+      code you use and rely on, when you can&rsquo;t give back in kind?
+      License Zero makes it easy,
+      <a href=#users>right from the command line</a>.
+    </p>
+    <h2 id=users>Users</h2>
+    <p>
+      Noncommercial users of <a href=/licenses/noncommercial>L0-NC</a> projects,
+      and Open Source users of <a href=/licenses/reciprocal>L0-R</a> projects,
+      don&rsquo;t need any special permission to use License Zero
+      software. For them, License Zero code works like Open Source under
+      two-clause BSD, MIT, or a similarly permissive license.
+    </p>
+    <p>
+      Customers who want permission for commercial or non-Open Source
+      uses can identify, price, and buy licenses for all License
+      Zero dependencies of their Node.js projects, in one checkout
+      transaction, using a free command-line tool:
     </p>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
     <h2>Sponsors</h2>
     <p>
-      Sponsors can accept maintainers&rsquo; offers to relicense
-      their License Zero projects on permissive, two-clause BSD
-      terms:
+      In a perfect world, making software wouldn&rsquo;t cost anything,
+      and neither would using it, no strings attached.
+    </p>
+    <p>
+      License Zero maintainers can offer to bring their software closer
+      to that perfect world, by relicensing, for a fee, on permissive,
+      two-clause BSD terms. Sponsors can accept those offers just like
+      they can buy licenses:
     </p>
     <pre class=terminal>${formatSession(SPONSOR)}</pre>
     <h2>Maintainers</h2>
     <p>
-      Software maintainers can create, offer, and license
-      projects with a few short commands:
+      On the maintainer side, it&rsquo;s quick and easy to create,
+      license, and price projects, with just a few short commands:
     </p>
     <pre class=terminal>${formatSession(LICENSOR)}</pre>
   </main>

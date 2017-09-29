@@ -231,3 +231,9 @@ del {
 .thanks li {
   padding: 0.5rem 0;
 }
+
+.lead {
+  color: #666;
+  font-size: 130%;
+  margin-top: 0;
+}
