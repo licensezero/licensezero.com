@@ -53,6 +53,8 @@ var SPONSOR = [
   '# of a project onto BSD-2-Clause terms.'
 ]
 
+// TODO redo intro paragraph per RL feedback
+
 module.exports = function (request, response, service) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   response.end(html`
