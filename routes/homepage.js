@@ -93,8 +93,8 @@ ${head()}
     </p>
     <h2 id=users>Users</h2>
     <p>
-      Noncommercial users of <a href=/licenses/noncommercial>L0-NC</a> projects,
-      and Open Source users of <a href=/licenses/reciprocal>L0-R</a> projects,
+      Noncommercial users of <a href=/licenses/noncommercial>noncommercial</a> projects,
+      and Open Source users of <a href=/licenses/reciprocal>reciprocal</a> projects,
       don&rsquo;t need any special permission to use License Zero
       software. For them, License Zero code works like Open Source under
       two-clause BSD, MIT, or a similarly permissive license.
