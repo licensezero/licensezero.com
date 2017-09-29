@@ -1,3 +1,3 @@
-var Lock = require('lock')
+var Lock = require('lock').Lock
 
 module.exports = new Lock()
