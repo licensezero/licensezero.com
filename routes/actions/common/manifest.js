@@ -6,7 +6,12 @@ var projectProperties = {
 
 var properties = {
   FORM: {const: 'private license'},
-  VERSION: {enum: ['1.0.0']},
+  VERSION: {
+    enum: [
+      '1.0.0',
+      '1.1.0'
+    ]
+  },
   orderID: require('./order-id'),
   date: {
     type: 'string',
