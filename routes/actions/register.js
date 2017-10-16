@@ -1,4 +1,4 @@
-var JURISDICTIONS = require('../../data/jurisdictions')
+var JURISDICTIONS = require('licensezero-jurisdictions')
 var fs = require('fs')
 var recordAcceptance = require('../../data/record-acceptance')
 var mkdirp = require('mkdirp')

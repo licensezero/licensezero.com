@@ -1,4 +1,4 @@
-var JURISDICTIONS = require('../data/jurisdictions')
+var JURISDICTIONS = require('licensezero-jurisdictions')
 var TIERS = require('../data/private-license-tiers')
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var capitalize = require('./capitalize')

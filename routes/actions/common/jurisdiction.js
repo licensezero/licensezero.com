@@ -1,4 +1,4 @@
-var JURISDICTIONS = require('../../../data/jurisdictions')
+var JURISDICTIONS = require('licensezero-jurisdictions')
 
 module.exports = {
   description: 'legal jurisdiction where you reside',
