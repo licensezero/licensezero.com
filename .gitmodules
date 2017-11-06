@@ -28,3 +28,6 @@
 [submodule "forms/quotes"]
 	path = forms/quotes
 	url = git@github.com:licensezero/licensezero-quotes
+[submodule "forms/permissive-license"]
+	path = forms/permissive-license
+	url = git@github.com:licensezero/licensezero-permissive-public-license

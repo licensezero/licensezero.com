@@ -33,7 +33,9 @@ ${head('Licenses')}
     </p>
     <p>
       Licensors may offer to relicense their projects
-      on the terms of the two-clause BSD license under a
+      on the terms of the
+      <a href=/licenses/permissive>License Zero Permissive Public License</a>
+      under a
       <a href=/licenses/relicense>standard relicense agreement</a>.
     </p>
     <p>
