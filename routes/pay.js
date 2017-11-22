@@ -389,17 +389,20 @@ function post (request, response, service, order) {
                 },
                 // Stripe Step 3:
                 function chargeSharedCustomer (token, done) {
-                  service.stripe.api.charges.create({
+                  var options = {
                     amount: amount,
                     currency: 'usd',
                     source: token.id,
-                    application_fee: commission,
                     statement_descriptor: 'License Zero License',
                     metadata: stripeMetadata,
                     // Do not capture yet.
                     // Wait until the e-mail goes through.
                     capture: false
-                  }, {
+                  }
+                  if (commission > 0) {
+                    options.application_fee = commission
+                  }
+                  service.stripe.api.charges.create(options, {
                     stripe_account: stripeID
                   }, function (error, charge) {
                     if (error) return done(error)
@@ -711,16 +714,19 @@ ${head('Thank you')}
     }
 
     function chargeCustomer (done) {
-      service.stripe.api.charges.create({
+      var options = {
         amount: price,
-        application_fee: commission,
         currency: 'usd',
         // Important: Authorize, but don't capture/charge yet.
         capture: false,
         source: data.token,
         statement_descriptor: 'License Zero Relicense',
         metadata: stripeMetadata
-      }, {
+      }
+      if (commission > 0) {
+        options.application_fee = commission
+      }
+      service.stripe.api.charges.create(options, {
         stripe_account: stripeID
       }, function (error, charge) {
         if (error) return done(error)
