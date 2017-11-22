@@ -50,7 +50,7 @@ var SPONSOR = [
   '# California that needs team-tier licenses.',
   'l0-sponsor someco $PROJECT_ID',
   '# Opens an online order page for sponsoring relicense',
-  '# of a project onto BSD-2-Clause terms.'
+  '# of a project onto License Zero Permissive terms.'
 ]
 
 module.exports = function (request, response, service) {
@@ -113,8 +113,8 @@ ${head()}
     </p>
     <p>
       License Zero maintainers can offer to bring their software closer
-      to that perfect world, by relicensing, for a fee, on permissive,
-      two-clause BSD terms. Sponsors can accept those offers just like
+      to that perfect world, by relicensing, for a fee, on permissive
+      terms. Sponsors can accept those offers just like
       they can buy licenses:
     </p>
     <pre class=terminal>${formatSession(SPONSOR)}</pre>

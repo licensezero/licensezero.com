@@ -17,14 +17,8 @@ module.exports = function (options, callback) {
       {
         version: VERSION,
         name: options.name,
-        jurisdiction: options.jurisdiction,
-        firstHalfOfKey: options.publicKey.slice(0, 32),
-        secondHalfOfKey: options.publicKey.slice(32),
-        projectID: options.projectID,
-        agentName: 'Artless Devices LLC',
-        agentWebsite: 'https://licensezero.com',
-        gracePeriod: '30',
-        waiverPeriod: '90'
+        source: options.repository,
+        gracePeriod: '30'
       }
     ))
   })
