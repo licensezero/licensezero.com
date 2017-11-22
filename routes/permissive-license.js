@@ -57,11 +57,6 @@ module.exports = function (request, response, service) {
           L0-P includes a strong patent termination provision.
         </li>
         <li>
-          L0-P reads fine coming from multiple contributors.
-          It can also be used in projects combining L0-P-licensed
-          work and software under other terms.
-        </li>
-        <li>
           In addition to a copyright notice, L0-P has a line
           showing where others can find source code.
         </li>
