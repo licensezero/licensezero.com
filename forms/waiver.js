@@ -28,7 +28,9 @@ module.exports = function (options, callback) {
         description: project.description,
         repository: project.repository,
         date: options.date,
-        term: options.term === 'Forever' ? false : options.term
+        term: options.term.toLowerCase() === 'forever'
+          ? false
+          : options.term
       }
     ))
   })

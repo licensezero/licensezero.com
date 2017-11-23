@@ -28,7 +28,7 @@ module.exports = function (request, response, service) {
       repository: '{Project Repository URL}'
     },
     date: '{Date}',
-    term: 'forever'
+    term: 'Forever'
   }
   runParallel({
     forever: waiver.bind(null, xtend(common, {term: 'forever'})),
@@ -49,11 +49,10 @@ module.exports = function (request, response, service) {
     <main>
       <h1>Waiver</h1>
       <p>
-        License Zero permits licensors to waive the
-        condition of the
-        <a href=/licenses/public>License Zero Public License</a>
-        limiting commercial use for specific beneficiaries,
-        using a standard form waiver.
+        License Zero permits licensors to waive the share-back
+        and limited commercial use conditions of their public
+        licenses for specific beneficiaries, using a standard
+        form waiver.
       </p>
       <p>
         To review changes to, and submit feedback about,
