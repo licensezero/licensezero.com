@@ -18,7 +18,7 @@ module.exports = function (options, callback) {
         version: VERSION,
         name: options.name,
         source: options.repository,
-        gracePeriod: '30'
+        gracePeriod: '7'
       }
     ))
   })
