@@ -805,7 +805,7 @@ ${head('Thank you')}
             'You will be copied on a message attaching',
             'the signed relicense agreement shortly.',
             'Your next steps are set out in the',
-            '"Open Source Release" section of the agreement.'
+            '"Relicensing" section of the agreement.'
           ].join('\n')
         ]
       }, done)
