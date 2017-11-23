@@ -48,19 +48,6 @@ module.exports = function (request, response, service) {
         <a href=https://spdx.org/licenses/BSD-2-Clause>BSD</a>,
         with a few critical improvements:
       </p>
-      <ul>
-        <li>
-          L0-P grants clear permission under both copyrights
-          and patent claims.
-        </li>
-        <li>
-          L0-P includes a strong patent termination provision.
-        </li>
-        <li>
-          In addition to a copyright notice, L0-P has a line
-          showing where others can find source code.
-        </li>
-      </ul>
       <p>
         To review changes to, and submit feedback about,
         the License Zero Permissive Public License, visit
