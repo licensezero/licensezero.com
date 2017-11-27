@@ -598,7 +598,7 @@ ${head('Thank you')}
       Zero command line interface, run the following
       command anytime in the next twenty four hours:
     </p>
-    <pre><code class=install>l0-purchased ${purchaseURL}</code></pre>
+    <pre><code class=install>l0 purchased ${purchaseURL}</code></pre>
   </main>
   ${footer()}
 </body>

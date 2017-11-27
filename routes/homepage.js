@@ -8,20 +8,20 @@ var nav = require('./partials/nav')
 var LICENSOR = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface',
-  'l0-register-licensor adam@licensezero.com "Adam Maintainer" US-TX',
+  'licensezero register-licensor adam@licensezero.com "Adam Maintainer" US-TX',
   '# Creates an identity for offering private licenses',
   '# for Adam, a developer in Texas.',
   '# Provides a link to connect a Stripe account for payments, and',
   '# an access token once the Stripe account is connected.',
-  'l0-add-licensor $NEW_LICENSOR_UUID',
+  'licensezero add-licensor $NEW_LICENSOR_UUID',
   '# Prompts for the new new licensor\'s access token, to save for use',
   '# offering projects for license.',
   'cd a-node-project',
-  'l0-offer --solo 500 --team 1000 --company 10000 --enterprise 50000',
+  'licensezero offer --solo 500 --team 1000 --company 10000 --enterprise 50000',
   '# Offer private licenses through licensezero.com at $5 for solo,',
   '# $10 for team, $100 for company, and $500 for enterprise.',
-  'l0-license --noncommercial $NEW_PROJECT_UUID',
-  '# Writes LICENSE and package.json metadata for l0-quote to read.',
+  'licensezero license --noncommercial $NEW_PROJECT_UUID',
+  '# Writes LICENSE and package.json metadata for licensezero quote to read.',
   'git add LICENSE package.json',
   'git commit -m "License Zero"'
 ]
@@ -29,26 +29,26 @@ var LICENSOR = [
 var LICENSEE = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface.',
-  'l0-create-licensee someco "SomeCo, Inc." US-CA team',
+  'licensezero create-licensee someco "SomeCo, Inc." US-CA team',
   '# Creates an identity, "someco", for a corporation in',
   '# California that needs team-tier licenses.',
   'cd a-node-project',
-  'l0-quote someco',
+  'licensezero quote someco',
   '# Lists License Zero dependencies in node_modules',
   '# and the costs of missing licenses.',
-  'l0-buy someco',
+  'licensezero buy someco',
   '# Opens an online order page for all needed licenses.',
-  'l0-purchased $ORDER_BUNDLE_URL',
+  'licensezero purchased $ORDER_BUNDLE_URL',
   '# Imports a bundle of purchased licenses from the order page.'
 ]
 
 var SPONSOR = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface.',
-  'l0-create-licensee someco "SomeCo, Inc." US-CA team',
+  'licensezero create-licensee someco "SomeCo, Inc." US-CA team',
   '# Creates an identity, "someco", for a corporation in',
   '# California that needs team-tier licenses.',
-  'l0-sponsor someco $PROJECT_ID',
+  'licensezero sponsor someco $PROJECT_ID',
   '# Opens an online order page for sponsoring relicense',
   '# of a project onto License Zero Permissive terms.'
 ]
