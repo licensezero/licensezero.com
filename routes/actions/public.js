@@ -67,6 +67,7 @@ exports.handler = function (body, service, end, fail, lock) {
             service.privateKey
           )
           end({
+            version: '1.0.0',
             license: {
               document: document,
               licensorSignature: licensorLicenseSignature,
