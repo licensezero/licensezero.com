@@ -42,13 +42,6 @@ module.exports = function (request, response, service) {
         projects that do not use License Zero, too.
       </p>
       <p>
-        L0-P is short and to the point, like
-        <a href=https://spdx.org/licenses/MIT>MIT</a>
-        or
-        <a href=https://spdx.org/licenses/BSD-2-Clause>BSD</a>,
-        with a few critical improvements:
-      </p>
-      <p>
         To review changes to, and submit feedback about,
         the License Zero Permissive Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
