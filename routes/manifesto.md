@@ -1,5 +1,7 @@
 # The License Zero Manifesto
 
+_License Zero has evolved considerably since this manifesto was published.  It's preserved here as originally written, to give a sense of where License Zero came from, and its motivation.  Maintainers interested in how License Zero words today should see [the maintainer's guide](https://guide.licensezero.com)._
+
 ## Brokenness
 
 Open Source is [a shopping spree](https://www.npmjs.com/search?q=anything).  Open Source is [code with friends on the Web](https://github.com).  Open Source is [a list of magic licenses](https://opensource.org/licenses).
