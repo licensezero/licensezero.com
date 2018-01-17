@@ -35,7 +35,7 @@ ${head('Licenses')}
       </dd>
       <dt><a href=/licenses/noncommercial>Noncommercial License</a></dt>
       <dd>
-        limits commercial use of your software to a 30-day
+        limits commercial use of your software to a 7-day
         trial period
       </dd>
     </dl>
