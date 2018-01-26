@@ -9,7 +9,8 @@ var properties = {
   VERSION: {
     enum: [
       '1.0.0',
-      '1.1.0'
+      '1.1.0',
+      '1.2.0'
     ]
   },
   orderID: require('./order-id'),
