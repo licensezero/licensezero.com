@@ -139,13 +139,13 @@ function orderForm (project) {
   </p>
   <p>
     <label>
-      ${escape(PERSON)}
       <input
         type=checkbox
         name=person
         id=person
         value="${PERSON}"
         required>
+      ${escape(PERSON)}
     </label>
   </p>
   <button type=submit>Order</button>
