@@ -8,49 +8,44 @@ var nav = require('./partials/nav')
 var LICENSOR = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface',
-  'licensezero register-licensor adam@licensezero.com "Adam Maintainer" US-TX',
-  '# Creates an identity for offering private licenses',
-  '# for Adam, a developer in Texas.',
-  '# Provides a link to connect a Stripe account for payments, and',
+  'licensezero identify adam@licensezero.com "Adam Maintainer" US-TX',
+  '# Configures the CLI for for Adam, a developer in Texas.',
+  'licensezero register',
+  '# Provides a link to connect a Stripe account receive payments, and',
   '# an access token once the Stripe account is connected.',
-  'licensezero add-licensor $NEW_LICENSOR_UUID',
+  'licensezero set-licensor-id $NEW_LICENSOR_UUID',
   '# Prompts for the new new licensor\'s access token, to save for use',
   '# offering projects for license.',
   'cd a-node-project',
-  'licensezero offer --solo 500 --team 1000 --company 10000 --enterprise 50000',
-  '# Offer private licenses through licensezero.com at $5 for solo,',
-  '# $10 for team, $100 for company, and $500 for enterprise.',
+  'licensezero offer 500',
+  '# Offer private licenses through licensezero.com at $5 US.',
   'licensezero license --noncommercial $NEW_PROJECT_UUID',
   '# Writes LICENSE and package.json metadata for licensezero quote to read.',
   'git add LICENSE package.json',
   'git commit -m "License Zero"'
 ]
 
-// TODO: Update CLI usage for peer licensing.
-
 var LICENSEE = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface.',
-  'licensezero create-licensee someco "SomeCo, Inc." US-CA team',
-  '# Creates an identity, "someco", for a corporation in',
-  '# California that needs team-tier licenses.',
+  'licensezero identify "Larry Licensor" US-CA larry@example.com',
+  '# Configures the CLI for Larry, a developer in California.',
   'cd a-node-project',
-  'licensezero quote someco',
+  'licensezero quote',
   '# Lists License Zero dependencies in node_modules',
   '# and the costs of missing licenses.',
-  'licensezero buy someco',
+  'licensezero buy',
   '# Opens an online order page for all needed licenses.',
-  'licensezero purchased $ORDER_BUNDLE_URL',
-  '# Imports a bundle of purchased licenses from the order page.'
+  'licensezero bought $ORDER_BUNDLE_URL',
+  '# Imports a bundle of licenses from the order page.'
 ]
 
 var SPONSOR = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface.',
-  'licensezero create-licensee someco "SomeCo, Inc." US-CA team',
-  '# Creates an identity, "someco", for a corporation in',
-  '# California that needs team-tier licenses.',
-  'licensezero sponsor someco $PROJECT_ID',
+  'licensezero identify "Sam Sponsor" US-NY sam@example.com',
+  '# Configures the CLI for Sam, a developer in New York.',
+  'licensezero sponsor $PROJECT_ID',
   '# Opens an online order page for sponsoring relicense',
   '# of a project onto License Zero Permissive terms.'
 ]
