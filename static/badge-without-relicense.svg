@@ -41,7 +41,7 @@
      showgrid="false"
      inkscape:zoom="1"
      inkscape:cx="104.07266"
-     inkscape:cy="40.192694"
+     inkscape:cy="58.097656"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
@@ -77,20 +77,27 @@
            style="color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       </g>
     </g>
-    <g
-       id="g3074"
-       transform="translate(-37.529175,17.16583)">
-      <text
-         xml:space="preserve"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="278.36902"
-         y="1016.7784"
-         id="text3356"
-         sodipodi:linespacing="125%"><tspan
-           id="tspan3358"
-           x="278.36902"
-           y="1016.7784"
-           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;font-family:Arial;-inkscape-font-specification:Arial">{private}</tspan></text>
-    </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3356"
+       y="1033.788"
+       x="88.574219"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial"
+         y="1033.788"
+         x="88.574219"
+         id="tspan3358">{private}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="76.640625"
+       y="1032.7137"
+       id="text3062-3"
+       sodipodi:linespacing="125%"><tspan
+         id="tspan3064-6"
+         x="76.640625"
+         y="1032.7137"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;font-family:Arial;-inkscape-font-specification:Arial">|</tspan></text>
   </g>
 </svg>
