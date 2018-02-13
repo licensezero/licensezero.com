@@ -1,6 +1,6 @@
 var projectProperties = {
   projectID: require('./project-id'),
-  repository: require('./repository'),
+  homepage: require('./homepage'),
   description: require('./description')
 }
 

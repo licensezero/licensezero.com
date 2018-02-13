@@ -26,7 +26,7 @@ Licensor
   Verb:     offer
   Input:    {
               name: String,
-              repository: URI,
+              homepage: URI,
               license: Version,
               terms: {
                 grace: Integer,

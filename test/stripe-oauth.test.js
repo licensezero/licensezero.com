@@ -38,7 +38,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               action: 'offer',
               licensorID: licensorID,
               token: token,
-              repository: 'http://example.com',
+              homepage: 'http://example.com',
               pricing: {
                 private: 500
               },
@@ -146,7 +146,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
         var agreementMessage
         var relicensePrice = 100000
         var formattedPrice = '$1000.00'
-        var repository = 'http://example.com/repo'
+        var homepage = 'http://example.com/repo'
         var description = 'some project to relicense'
         runSeries([
           function offer (done) {
@@ -154,7 +154,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               action: 'offer',
               licensorID: licensorID,
               token: token,
-              repository: repository,
+              homepage: homepage,
               pricing: {
                 private: 500,
                 relicense: relicensePrice
@@ -249,7 +249,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
             test.equal(message.to, SPONSOR_EMAIL, 'e-mail to sponsor')
             test.equal(message.cc, LICENSOR_EMAIL, 'e-mail cc licensor')
             test.assert(text.includes(projectID), 'e-mail project ID')
-            test.assert(text.includes(repository), 'e-mail repository')
+            test.assert(text.includes(homepage), 'e-mail homepage')
             test.assert(text.includes(description), 'e-mail description')
             done()
           },
@@ -270,7 +270,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
             test.assert(text.includes(formattedPrice), 'notification price')
             test.equal(message.to, LICENSOR_EMAIL, 'notification to licensor')
             test.assert(text.includes(projectID), 'notification project ID')
-            test.assert(text.includes(repository), 'notification repository')
+            test.assert(text.includes(homepage), 'notification homepage')
             test.assert(text.includes(description), 'notification description')
             done()
           }

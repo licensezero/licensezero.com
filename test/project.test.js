@@ -37,7 +37,7 @@ tape('project', function (test) {
           test.deepEqual(
             response, {
               projectID: projectID,
-              repository: OFFER.repository,
+              homepage: OFFER.homepage,
               pricing: OFFER.pricing,
               licensor: {
                 licensorID: LICENSOR.id,

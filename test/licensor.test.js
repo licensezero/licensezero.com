@@ -168,7 +168,7 @@ tape('licensor w/ retracted project', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          repository: 'http://example.com/first'
+          homepage: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
@@ -180,7 +180,7 @@ tape('licensor w/ retracted project', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          repository: 'http://example.com/second'
+          homepage: 'http://example.com/second'
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')

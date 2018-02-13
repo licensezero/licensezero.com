@@ -9,16 +9,16 @@ module.exports = function (body, callback) {
   /* istanbul ignore else */
   if (
     TESTING &&
-    body.repository.indexOf('http://example.com/') === 0
+    body.homepage.indexOf('http://example.com/') === 0
   ) {
     return callback()
   } else {
-    var repository = body.repository
-    var options = url.parse(repository)
+    var homepage = body.homepage
+    var options = url.parse(homepage)
     options.method = 'HEAD'
     http.request(options)
       .once('error', function (error) {
-        error.userMessage = 'could not HEAD repository'
+        error.userMessage = 'could not HEAD homepage'
         callback(error)
       })
       .once('response', function (response) {
@@ -26,7 +26,7 @@ module.exports = function (body, callback) {
         if (ACCEPTABLE_STATUS.includes(statusCode)) {
           callback()
         } else {
-          var message = repository + ' responded ' + statusCode
+          var message = homepage + ' responded ' + statusCode
           var error = new Error(message)
           error.userMessage = message
           callback(error)

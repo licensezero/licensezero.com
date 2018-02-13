@@ -15,7 +15,7 @@ var REPOSITORY = (
 module.exports = function (request, response, service) {
   reciprocalLicense({
     name: '{Licensor Name}',
-    repository: '{https://example.com/project}'
+    homepage: '{https://example.com/project}'
   }, function (error, document) {
     if (error) {
       service.log.error(error)

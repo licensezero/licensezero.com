@@ -25,7 +25,7 @@ module.exports = function (options, callback) {
       licenseeEmail: options.licensee.email,
       projectID: options.projectID,
       description: options.description,
-      repository: options.repository
+      homepage: options.homepage
     }
     callback(null, mustache.render(template, view))
   })

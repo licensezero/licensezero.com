@@ -20,7 +20,7 @@ tape.skip('buy', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          repository: 'http://example.com/first'
+          homepage: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -32,7 +32,7 @@ tape.skip('buy', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          repository: 'http://example.com/first'
+          homepage: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')

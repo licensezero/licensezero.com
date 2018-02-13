@@ -15,7 +15,7 @@ var REPOSITORY = (
 module.exports = function (request, response, service) {
   permissiveLicense({
     name: '{Licensor Name}',
-    repository: '{https://example.com/project}'
+    source: '{https://example.com/project}'
   }, function (error, document) {
     if (error) {
       service.log.error(error)

@@ -37,10 +37,10 @@ module.exports = function (request, response, service) {
         <dl>
           <dt>Description</dt>
           <dd class=description>${escape(project.description)}</dd>
-          <dt>Repository</dt>
-          <dd class=repository>
-            <a href="${escape(project.repository)}" target=_blank>
-              ${escape(project.repository)}
+          <dt>Homepage</dt>
+          <dd class=homepage>
+            <a href="${escape(project.homepage)}" target=_blank>
+              ${escape(project.homepage)}
             </a>
           </dd>
         </dl>

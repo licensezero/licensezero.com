@@ -17,7 +17,7 @@ module.exports = function (options, callback) {
       {
         version: VERSION,
         name: options.name,
-        source: options.repository
+        source: options.homepage
       }
     ))
   })

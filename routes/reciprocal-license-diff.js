@@ -15,13 +15,13 @@ module.exports = function (request, response, service) {
     reciprocal: function (done) {
       reciprocalLicense({
         name: '{Licensor Name}',
-        repository: '{https://example.com/project}'
+        homepage: '{https://example.com/project}'
       }, done)
     },
     permissive: function (done) {
       permissiveLicense({
         name: '{Licensor Name}',
-        repository: '{https://example.com/project}'
+        source: '{https://example.com/project}'
       }, done)
     }
   }, function (error, results) {

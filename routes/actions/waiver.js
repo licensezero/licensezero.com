@@ -59,7 +59,7 @@ exports.handler = function (body, service, end, fail, lock) {
           project: {
             projectID: projectID,
             description: project.description,
-            repository: project.repository
+            homepage: project.homepage
           },
           date: new Date().toISOString(),
           term: body.term.toString()

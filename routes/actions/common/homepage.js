@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'source code repository',
+  description: 'project homepage',
   type: 'string',
   format: 'uri',
   pattern: '^(https|http)://'

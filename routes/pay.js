@@ -132,9 +132,9 @@ ${head(action)}
             <p>${escape(project.description)}</p>
             <p>
               <a
-                href="${escape(project.repository)}"
+                href="${escape(project.homepage)}"
                 target=_blank
-                >${escape(project.repository)}</a>
+                >${escape(project.homepage)}</a>
             </p>
             <p>
               ${escape(project.licensor.name)}
@@ -192,9 +192,9 @@ ${head(action)}
           <p>${escape(project.description)}</p>
           <p>
             <a
-              href="${escape(project.repository)}"
+              href="${escape(project.homepage)}"
               target=_blank
-              >${escape(project.repository)}</a>
+              >${escape(project.homepage)}</a>
           </p>
           <p>
             ${escape(project.licensor.name)}
@@ -397,7 +397,7 @@ function post (request, response, service, order) {
                           date: new Date().toISOString(),
                           orderID: orderID,
                           project: pick(project, [
-                            'projectID', 'repository', 'description'
+                            'projectID', 'homepage', 'description'
                           ]),
                           licensee: {
                             name: order.licensee,
@@ -441,7 +441,7 @@ function post (request, response, service, order) {
                                 'E-Mail:       ' + order.email,
                                 'Project:      ' + project.projectID,
                                 'Description:  ' + project.description,
-                                'Repository:   ' + project.repository
+                                'Homepage:   ' + project.homepage
                               ].join('\n')),
                             license: license
                           }, function (error) {
@@ -472,7 +472,7 @@ function post (request, response, service, order) {
                               'Order:        ' + order.orderID,
                               'Project:      ' + project.projectID,
                               'Description:  ' + project.description,
-                              'Repository:   ' + project.repository
+                              'Homepage:   ' + project.homepage
                             ].join('\n'),
                             [
                               'Licensee:     ' + order.licensee,
@@ -656,10 +656,9 @@ ${head('Thank you')}
         'Developer Jurisdiction': licensor.jurisdiction,
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
-        'Sponsor E-Mail': order.email,
         'Project ID': project.projectID,
-        'Repository': project.repository,
-        'License Identifier': 'BSD-2-Clause',
+        'Homepage': project.homepage,
+        'Descriptions': project.description,
         'Payment': formatPrice(price)
       }, function (error, form) {
         if (error) return done(error)
@@ -755,7 +754,7 @@ ${head('Thank you')}
           .concat([
             'Project:      ' + project.projectID,
             'Description:  ' + project.description,
-            'Repository:   ' + project.repository
+            'Homepage:   ' + project.homepage
           ].join('\n')),
         agreement: agreement
       }, done)
@@ -774,7 +773,7 @@ ${head('Thank you')}
             'Order:        ' + order.orderID,
             'Project:      ' + project.projectID,
             'Description:  ' + project.description,
-            'Repository:   ' + project.repository
+            'Homepage:   ' + project.homepage
           ].join('\n'),
           [
             'Price:      ' + priceColumn(price),

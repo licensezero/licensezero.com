@@ -27,7 +27,7 @@ module.exports = function (request, response, service) {
     },
     projectID: '{Project ID}',
     description: '{Project Description}',
-    repository: '{Project Repository URL}'
+    homepage: '{Project Homepage URL}'
   }, function (error, result) {
     if (error) {
       service.log.error(error)

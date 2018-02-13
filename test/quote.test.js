@@ -18,7 +18,7 @@ tape('quote', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          repository: 'http://example.com/first'
+          homepage: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -30,7 +30,7 @@ tape('quote', function (test) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          repository: 'http://example.com/second'
+          homepage: 'http://example.com/second'
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -52,7 +52,7 @@ tape('quote', function (test) {
                 projectID: firstProject,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
-                repository: 'http://example.com/first',
+                homepage: 'http://example.com/first',
                 licensor: {
                   licensorID: LICENSOR.id,
                   name: 'Test User',
@@ -65,7 +65,7 @@ tape('quote', function (test) {
                 projectID: secondProject,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
-                repository: 'http://example.com/second',
+                homepage: 'http://example.com/second',
                 licensor: {
                   licensorID: LICENSOR.id,
                   name: 'Test User',

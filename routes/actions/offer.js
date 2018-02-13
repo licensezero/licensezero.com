@@ -1,4 +1,4 @@
-var checkRepository = require('./check-repository')
+var checkHomepage = require('./check-homepage')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -13,7 +13,7 @@ var uuid = require('uuid/v4')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: {type: 'string'},
-  repository: require('./common/repository'),
+  homepage: require('./common/homepage'),
   pricing: require('./common/pricing'),
   description: require('./common/description'),
   terms: require('./common/agency-terms')
@@ -26,7 +26,7 @@ exports.handler = function (body, service, end, fail, lock) {
     runSeries([
       function (done) {
         runParallel([
-          checkRepository.bind(null, body),
+          checkHomepage.bind(null, body),
           recordAcceptance.bind(null, service, {
             licensor: licensorID,
             date: new Date().toISOString()
@@ -43,7 +43,7 @@ exports.handler = function (body, service, end, fail, lock) {
                 projectID: projectID,
                 licensor: licensorID,
                 pricing: body.pricing,
-                repository: body.repository,
+                homepage: body.homepage,
                 description: body.description,
                 commission: service.commission
               }))

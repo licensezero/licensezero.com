@@ -1,6 +1,6 @@
 {
   "action": "offer",
-  "repository": "http://example.com/",
+  "homepage": "http://example.com/",
   "pricing": {
     "private": 200
   },

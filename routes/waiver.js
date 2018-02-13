@@ -25,7 +25,7 @@ module.exports = function (request, response, service) {
     project: {
       projectID: '{Project ID}',
       description: '{Project Description}',
-      repository: '{Project Repository URL}'
+      homepage: '{Project Homepage URL}'
     },
     date: '{Date}',
     term: 'Forever'
