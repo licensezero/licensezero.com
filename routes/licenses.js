@@ -39,11 +39,15 @@ ${head('Licenses')}
       </dd>
     </dl>
     <h2>Private Licenses</h2>
+    <p>
+      License Zero's main function is to sell private licenses on
+      developers' behalf, as their licensing agent.
+    </p>
     <dl>
       <dt><a href=/licenses/private>Private License</a></dt>
       <dd>
-        gives permission to use commercially and in closed source,
-        with limited rights to sublicense others
+        gives a specific person permission to use commercially and
+        build closed source, with limited rights to sublicense others
       </dd>
     </dl>
     <h2>Waivers</h2>
@@ -57,7 +61,7 @@ ${head('Licenses')}
     <dl>
       <dt><a href=/licenses/waiver>Waiver</a></dt>
       <dd>
-        gives a specific person or company permission to ignore the
+        gives a specific person permission to ignore the
         conditions of your private license requiring sharing back
         or limiting commercial use
       </dd>
