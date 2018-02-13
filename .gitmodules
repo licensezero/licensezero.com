@@ -10,9 +10,6 @@
 [submodule "forms/waiver"]
 	path = forms/waiver
 	url = git@github.com:licensezero/licensezero-waiver
-[submodule "routes/questions"]
-	path = routes/questions
-	url = git@github.com:licensezero/licensezero-questions
 [submodule "forms/noncommercial-license"]
 	path = forms/noncommercial-license
 	url = git@github.com:licensezero/licensezero-noncommercial-public-license
