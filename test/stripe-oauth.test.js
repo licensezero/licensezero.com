@@ -12,7 +12,7 @@ var LICENSOR_NAME = 'Test Licensor'
 
 var SPONSOR_EMAIL = 'sponsor@example.com'
 var SPONSOR_JURISDICTION = 'US-MD'
-var SPONSOR_NAME = 'SomeCo, Inc.'
+var SPONSOR_NAME = 'Larry Licensee'
 
 tape('Stripe OAuth connect, register, license', function (suite) {
   server(8080, function (port, service, close) {
@@ -59,7 +59,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
             apiRequest(port, {
               action: 'order',
               projects: [projectID],
-              licensee: 'SomeCo, Inc.',
+              licensee: 'Larry Licensee',
               jurisdiction: 'US-CA',
               email: 'licensee@example.com'
             }, function (error, response) {

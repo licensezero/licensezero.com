@@ -28,7 +28,7 @@ tape('sponsor', function (test) {
         apiRequest(port, {
           action: 'sponsor',
           projectID: projectID,
-          sponsor: 'SomeCo, Inc.',
+          sponsor: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@example.com'
         }, function (error, response) {

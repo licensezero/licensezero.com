@@ -43,7 +43,7 @@ tape.skip('buy', function (test) {
         apiRequest(port, {
           action: 'order',
           projects: [firstProject, secondProject],
-          licensee: 'SomeCo, Inc.',
+          licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@test.com'
         }, function (error, response) {
@@ -102,7 +102,7 @@ tape('order w/ nonexistent', function (test) {
     apiRequest(port, {
       action: 'order',
       projects: [project],
-      licensee: 'SomeCo, Inc.',
+      licensee: 'Larry Licensee',
       jurisdiction: 'US-CA',
       email: 'licensee@test.com'
     }, function (error, response) {
@@ -149,7 +149,7 @@ tape('order w/ retracted', function (test) {
         apiRequest(port, {
           action: 'order',
           projects: [projectID],
-          licensee: 'SomeCo, Inc.',
+          licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@test.com'
         }, function (error, response) {
@@ -190,7 +190,7 @@ tape('POST /buy', function (test) {
         require('./webdriver')
           .url('http://localhost:' + port + '/projects/' + projectID)
           .waitForExist('h2')
-          .setValue('#licensee', 'SomeCo, Inc.')
+          .setValue('#licensee', 'Larry Licensee')
           .selectByIndex('#jurisdiction', 0)
           .setValue('#email', 'licensee@test.com')
           .click('button[type="submit"]')

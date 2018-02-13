@@ -31,7 +31,7 @@ tape('waiver', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: projectID,
-          beneficiary: 'SomeCo, Inc.',
+          beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
@@ -109,7 +109,7 @@ tape('waiver for nonexistent project', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: uuid(),
-          beneficiary: 'SomeCo, Inc.',
+          beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
@@ -163,7 +163,7 @@ tape('waiver for retracted project', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: projectID,
-          beneficiary: 'SomeCo, Inc.',
+          beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
