@@ -78,52 +78,15 @@
       </g>
     </g>
     <text
-       sodipodi:linespacing="125%"
-       id="text3356"
-       y="1033.788"
-       x="88.574219"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial"
-         y="1033.788"
-         x="88.574219"
-         id="tspan3358">{private}</tspan></text>
-    <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="256.64062"
-       y="1032.7137"
-       id="text3062"
-       sodipodi:linespacing="125%"><tspan
-         id="tspan3064"
-         x="256.64062"
-         y="1032.7137"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;font-family:Arial;-inkscape-font-specification:Arial">|</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="76.640625"
+       x="56.328125"
        y="1032.7137"
        id="text3062-3"
        sodipodi:linespacing="125%"><tspan
          id="tspan3064-6"
-         x="76.640625"
+         x="56.328125"
          y="1032.7137"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;font-family:Arial;-inkscape-font-specification:Arial">|</tspan></text>
-    <g
-       transform="translate(208.2052,17.00958)"
-       id="g3043">
-      <text
-         sodipodi:linespacing="125%"
-         id="text3045"
-         y="1016.7784"
-         x="60.369019"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"><tspan
-           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial"
-           y="1016.7784"
-           x="60.369019"
-           id="tspan3047">{relicense}</tspan></text>
-    </g>
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">| {private} | {relicense}</tspan></text>
   </g>
 </svg>
