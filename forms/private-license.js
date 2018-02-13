@@ -1,12 +1,11 @@
-var TIERS = require('../data/private-license-tiers')
 var mustache = require('mustache')
 var path = require('path')
 
-var VERSION = require('./private-licenses/version')
+var VERSION = require('./private-license/version')
 
 var withCached = require('../data/with-cached')(
   path.join(
-    __dirname, 'private-licenses', 'LICENSE.mustache'
+    __dirname, 'private-license', 'LICENSE.mustache'
   )
 )
 
@@ -23,13 +22,10 @@ module.exports = function (options, callback) {
       agentWebsite: 'https://licensezero.com',
       licenseeName: options.licensee.name,
       licenseeJurisdiction: options.licensee.jurisdiction,
+      licenseeEmail: options.licensee.email,
       projectID: options.projectID,
       description: options.description,
       repository: options.repository
-    }
-    view[options.tier] = true
-    if (Number.isInteger(TIERS[options.tier])) {
-      view.limit = TIERS[options.tier]
     }
     callback(null, mustache.render(template, view))
   })

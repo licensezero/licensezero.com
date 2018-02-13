@@ -45,7 +45,7 @@ tape.skip('buy', function (test) {
           projects: [firstProject, secondProject],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
-          tier: 'team'
+          email: 'licensee@test.com'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'order error false')
@@ -104,7 +104,7 @@ tape('order w/ nonexistent', function (test) {
       projects: [project],
       licensee: 'SomeCo, Inc.',
       jurisdiction: 'US-CA',
-      tier: 'solo'
+      email: 'licensee@test.com'
     }, function (error, response) {
       test.error(error)
       test.equal(
@@ -151,7 +151,7 @@ tape('order w/ retracted', function (test) {
           projects: [projectID],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
-          tier: 'solo'
+          email: 'licensee@test.com'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -192,7 +192,7 @@ tape('POST /buy', function (test) {
           .waitForExist('h2')
           .setValue('#licensee', 'SomeCo, Inc.')
           .selectByIndex('#jurisdiction', 0)
-          .selectByIndex('#tier', 1)
+          .setValue('#email', 'licensee@test.com')
           .click('button[type="submit"]')
           .waitForExist('iframe')
           .getText('h2=Credit Card Payment')

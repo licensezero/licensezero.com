@@ -29,7 +29,8 @@ tape('sponsor', function (test) {
           action: 'sponsor',
           projectID: projectID,
           sponsor: 'SomeCo, Inc.',
-          jurisdiction: 'US-CA'
+          jurisdiction: 'US-CA',
+          email: 'licensee@example.com'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'sponsor error false')

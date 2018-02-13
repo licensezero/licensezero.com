@@ -1,4 +1,3 @@
-var TIERS = require('../data/private-license-tiers')
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var formatPrice = require('./format-price')
 var path = require('path')
@@ -33,9 +32,7 @@ module.exports = function (request, response, service) {
         return response.end()
       }
       var svg = template
-      Object.keys(TIERS).forEach(function (tier) {
-        svg = svg.replace('{' + tier + '}', formatPrice(pricing[tier]))
-      })
+      svg = svg.replace('{private}', formatPrice(pricing.private))
       if (hasRelicense) {
         svg = svg.replace('{relicense}', formatPrice(pricing.relicense))
       }

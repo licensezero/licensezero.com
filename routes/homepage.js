@@ -26,6 +26,8 @@ var LICENSOR = [
   'git commit -m "License Zero"'
 ]
 
+// TODO: Update CLI usage for peer licensing.
+
 var LICENSEE = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface.',

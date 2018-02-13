@@ -8,7 +8,7 @@ var uuid = require('uuid/v4')
 // TODO refactor to take a data object, like write-relicense-order
 
 module.exports = function (
-  service, pricedProjects, tier, licensee, jurisdiction, callback
+  service, pricedProjects, licensee, jurisdiction, email, callback
 ) {
   var orderID = uuid()
   var file = orderPath(service, orderID)
@@ -20,7 +20,7 @@ module.exports = function (
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'licenses',
       orderID: orderID,
-      tier: tier,
+      email: email,
       jurisdiction: jurisdiction,
       licensee: licensee,
       projects: pricedProjects,

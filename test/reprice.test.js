@@ -30,10 +30,7 @@ tape('reprice', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {
-            solo: 1000,
-            team: 1000,
-            company: 1000,
-            enterprise: 1000
+            private: 1000
           }
         }, function (error, response) {
           if (error) return done(error)

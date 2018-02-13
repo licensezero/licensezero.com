@@ -38,7 +38,7 @@ tape('sweep orders', function (test) {
           projects: [projectID],
           licensee: 'SomeCo, Inc.',
           jurisdiction: 'US-CA',
-          tier: 'team'
+          email: 'licensee@test.com'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'order error false')

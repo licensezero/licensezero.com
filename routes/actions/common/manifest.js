@@ -18,7 +18,6 @@ var properties = {
     type: 'string',
     format: 'date-time'
   },
-  tier: require('./tier'),
   project: {
     type: 'object',
     properties: projectProperties,

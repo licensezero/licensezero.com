@@ -5,19 +5,18 @@ var writeOrder = require('../../data/write-order')
 exports.properties = {
   licensee: require('./common/name'),
   jurisdiction: require('./common/jurisdiction'),
+  email: require('./common/email'),
   projects: {
     type: 'array',
     minItems: 1,
     // TODO: Revisit buy projects limit
     maxItems: 100,
     items: require('./common/project-id')
-  },
-  tier: require('./common/tier')
+  }
 }
 
 exports.handler = function (body, service, end, fail, lock) {
   var projects = body.projects
-  var tier = body.tier
   runParallel(
     projects.map(function (projectID, index) {
       return function (done) {
@@ -61,23 +60,14 @@ exports.handler = function (body, service, end, fail, lock) {
             relicensed.map(projectIDOf).join(', ')
           )
         }
-        var noTier = projects.filter(function (project) {
-          return !project.pricing.hasOwnProperty(tier)
-        })
-        if (noTier.length !== 0) {
-          return fail(
-            'not available for tier: ' +
-            noTier.map(projectIDOf).join(', ')
-          )
-        }
         var pricedProjects = projects.map(function (project) {
-          project.price = project.pricing[tier]
+          project.price = project.pricing.private
           delete project.pricing
           return project
         })
         writeOrder(
-          service, pricedProjects, tier,
-          body.licensee, body.jurisdiction,
+          service, pricedProjects,
+          body.licensee, body.jurisdiction, body.email,
           function (error, orderID) {
             if (error) return fail('internal error')
             else end({location: '/pay/' + orderID})

@@ -4,13 +4,15 @@ var writeRelicenseOrder = require('../../data/write-relicense-order')
 exports.properties = {
   projectID: require('./common/project-id'),
   sponsor: require('./common/name'),
-  jurisdiction: require('./common/jurisdiction')
+  jurisdiction: require('./common/jurisdiction'),
+  email: require('./common/email')
 }
 
 exports.handler = function (body, service, end, fail, lock) {
   var projectID = body.projectID
   var sponsor = body.sponsor
   var jurisdiction = body.jurisdiction
+  var email = body.email
   readProject(service, projectID, function (error, project) {
     if (error) return fail('no such project')
     if (project.retracted) return fail('project retracted')
@@ -19,7 +21,8 @@ exports.handler = function (body, service, end, fail, lock) {
     writeRelicenseOrder(service, {
       project: project,
       sponsor: sponsor,
-      jurisdiction: jurisdiction
+      jurisdiction: jurisdiction,
+      email: email
     }, function (error, orderID) {
       if (error) return fail('internal error')
       else end({location: '/pay/' + orderID})

@@ -1,7 +1,5 @@
 var JURISDICTIONS = require('licensezero-jurisdictions')
-var TIERS = require('../data/private-license-tiers')
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
-var capitalize = require('./capitalize')
 var escape = require('./escape')
 var footer = require('./partials/footer')
 var formatPrice = require('./format-price')
@@ -84,14 +82,8 @@ function retracted () {
 function priceList (pricing) {
   return html`
 <dl>
-${
-  Object.keys(TIERS).map(function (tier) {
-    return html`
-      <dt>${capitalize(tier)}</dt>
-      <dd>${formatPrice(pricing[tier])}</dd>
-    `
-  })
-}
+  <dt>Private License</dt>
+  <dd>${formatPrice(pricing.private)}</dd>
 ${
   pricing.relicense && html`
     <dt>Relicense</dt>
@@ -136,16 +128,12 @@ function orderForm (project) {
   </p>
   <p>
     <label>
-      License Tier
-      <select name=tier id=tier>
-        ${Object.keys(TIERS).map(function (tier) {
-          return html`
-            <option value="${escape(tier)}">
-              ${escape(capitalize(tier))}
-            </option>
-          `
-        })}
-      </select>
+      Licensee E-Mail
+      <input
+        type=email
+        name=email
+        id=email
+        required>
     </label>
   </p>
   <button type=submit>Order</button>

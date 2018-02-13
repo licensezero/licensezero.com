@@ -2,10 +2,7 @@
   "action": "offer",
   "repository": "http://example.com/",
   "pricing": {
-    "solo": 200,
-    "team": 500,
-    "company": 1000,
-    "enterprise": 10000
+    "private": 200
   },
   "description": "a test project",
   "terms": "I agree to the agency terms at https://licensezero.com/terms/agency."

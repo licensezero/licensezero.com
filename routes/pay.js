@@ -1,10 +1,8 @@
 var AJV = require('ajv')
 var Busboy = require('busboy')
-var TIERS = require('../data/private-license-tiers')
 var UUIDV4 = require('../data/uuidv4-pattern')
 var annotateENOENT = require('../data/annotate-enoent')
 var applicationFee = require('../stripe/application-fee')
-var capitalize = require('./capitalize')
 var ed25519 = require('../ed25519')
 var escape = require('./escape')
 var footer = require('./partials/footer')
@@ -89,13 +87,6 @@ ${head(action)}
         <div id=card-errors></div>
         ${errorsFor('token')}
       </section>
-      <section id=email>
-        <label>
-          Your E-Mail Address:
-          <input name=email type=email value="${postValue('name')}">
-        </label>
-        ${errorsFor('email')}
-      </section>
       <section id=terms>
         <label>
           <input type=checkbox name=terms value=accepted required>
@@ -121,6 +112,7 @@ ${head(action)}
   <dl>
     <dt>Legal Name</dt><dd>${escape(order.licensee)}</dd>
     <dt>Jurisdiction</dt><dd>[${escape(order.jurisdiction)}]</dd>
+    <dt>E-Mail</dt><dd>[${escape(order.email)}]</dd>
   </dl>
 </section>
 <section>
@@ -151,14 +143,9 @@ ${head(action)}
             <p>
               Terms:
               <a
-                href="/licenses/private#${order.tier}"
+                href="/licenses/private"
                 target=_blank
-              >${escape(capitalize(order.tier))} License</a>
-              (${
-                order.tier === 'solo'
-                  ? 'one user'
-                  : TIERS[order.tier] + ' users'
-              })
+              >Private License</a>
             </p>
           </td>
           <td class=price>
@@ -187,6 +174,7 @@ ${head(action)}
   <dl>
     <dt>Legal Name</dt><dd>${escape(order.sponsor)}</dd>
     <dt>Jurisdiction</dt><dd>[${escape(order.jurisdiction)}]</dd>
+    <dt>E-Mail</dt><dd>[${escape(order.email)}]</dd>
   </dl>
 </section>
 <section>
@@ -247,21 +235,11 @@ ${head(action)}
       })}
     `
   }
-
-  function postValue (name) {
-    if (!postData) return undefined
-    if (!postData[name]) return undefined
-    return escape(postData[name])
-  }
 }
 
 var postSchema = {
   type: 'object',
   properties: {
-    email: {
-      type: 'string',
-      format: 'email'
-    },
     terms: {
       const: 'accepted'
     },
@@ -270,7 +248,7 @@ var postSchema = {
       pattern: '^tok_'
     }
   },
-  required: ['email', 'terms', 'token'],
+  required: ['terms', 'token'],
   additionalProperties: false
 }
 
@@ -290,12 +268,7 @@ function post (request, response, service, order) {
         if (!validatePost(data)) {
           data.errors = validatePost.errors.map(function (error) {
             var dataPath = error.dataPath
-            if (dataPath === '.email') {
-              return {
-                name: 'email',
-                message: 'You must provide a valid e-mail address.'
-              }
-            } else if (dataPath === '.terms') {
+            if (dataPath === '.terms') {
               return {
                 name: 'terms',
                 message: 'You must accept the terms to continue.'
@@ -322,7 +295,8 @@ function post (request, response, service, order) {
     var stripeMetadata = {
       orderID: orderID,
       jurisdiction: order.jurisdiction,
-      licensee: order.licensee
+      licensee: order.licensee,
+      email: order.email
     }
     var stripeCustomerID
     var licenses = []
@@ -422,13 +396,13 @@ function post (request, response, service, order) {
                           VERSION: privateLicense.version,
                           date: new Date().toISOString(),
                           orderID: orderID,
-                          tier: order.tier,
                           project: pick(project, [
                             'projectID', 'repository', 'description'
                           ]),
                           licensee: {
                             name: order.licensee,
-                            jurisdiction: order.jurisdiction
+                            jurisdiction: order.jurisdiction,
+                            email: order.email
                           },
                           licensor: pick(project.licensor, [
                             'name', 'jurisdiction'
@@ -451,7 +425,7 @@ function post (request, response, service, order) {
                           }
                           licenses.push(license)
                           service.email({
-                            to: data.email,
+                            to: order.email,
                             subject: 'License Zero Receipt and License File',
                             text: []
                               .concat([
@@ -464,10 +438,10 @@ function post (request, response, service, order) {
                               .concat([
                                 'Licensee:     ' + order.licensee,
                                 'Jurisdiction: ' + order.jurisdiction,
+                                'E-Mail:       ' + order.email,
                                 'Project:      ' + project.projectID,
                                 'Description:  ' + project.description,
-                                'Repository:   ' + project.repository,
-                                'License Tier: ' + capitalize(order.tier)
+                                'Repository:   ' + project.repository
                               ].join('\n')),
                             license: license
                           }, function (error) {
@@ -498,8 +472,12 @@ function post (request, response, service, order) {
                               'Order:        ' + order.orderID,
                               'Project:      ' + project.projectID,
                               'Description:  ' + project.description,
-                              'Repository:   ' + project.repository,
-                              'Tier:         ' + capitalize(order.tier)
+                              'Repository:   ' + project.repository
+                            ].join('\n'),
+                            [
+                              'Licensee:     ' + order.licensee,
+                              'Jurisdiction: ' + order.jurisdiction,
+                              'E-Mail:       ' + order.email
                             ].join('\n'),
                             [
                               'Price:      ' + priceColumn(project.price),
@@ -620,6 +598,7 @@ ${head('Thank you')}
       type: 'relicense',
       orderID: order.orderID,
       jurisdiction: order.jurisdiction,
+      email: order.email,
       sponsor: order.sponsor
     }
     var date = new Date().toISOString()
@@ -638,7 +617,7 @@ ${head('Thank you')}
           task('emailed agreement', emailAgreement),
           task('notified licensor', emailLicensor),
           task('recorded agent signature', recordAgentSignature),
-          task('recordded licensor signature', recordLicensorSignature)
+          task('recorded licensor signature', recordLicensorSignature)
         ]),
         task('deleted order file', deleteOrderFile),
         task('updated project', updateProject)
@@ -677,6 +656,7 @@ ${head('Thank you')}
         'Developer Jurisdiction': licensor.jurisdiction,
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
+        'Sponsor E-Mail': order.email,
         'Project ID': project.projectID,
         'Repository': project.repository,
         'License Identifier': 'BSD-2-Clause',
@@ -761,7 +741,7 @@ ${head('Thank you')}
 
     function emailAgreement (done) {
       service.email({
-        to: data.email,
+        to: order.email,
         cc: licensor.email,
         subject: 'License Zero Relicense Agreement',
         text: []

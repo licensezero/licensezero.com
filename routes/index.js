@@ -17,8 +17,7 @@ routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))
 
 routes.set('/licenses', require('./licenses'))
-routes.set('/licenses/private', require('./private-licenses'))
-routes.set('/licenses/private/diff', require('./private-licenses-diff'))
+routes.set('/licenses/private', require('./private-license'))
 routes.set('/licenses/public', function (request, response) {
   redirect303(response, '/licenses/noncommercial')
 })

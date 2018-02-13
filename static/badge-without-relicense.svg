@@ -8,11 +8,11 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="250"
-   height="100"
+   height="60"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="badge-no-relicense.svg">
+   sodipodi:docname="badge-without-relicense.svg">
   <metadata
      id="metadata3108">
     <rdf:RDF>
@@ -39,18 +39,18 @@
      inkscape:window-height="881"
      id="namedview3104"
      showgrid="false"
-     inkscape:zoom="4.0785919"
+     inkscape:zoom="1"
      inkscape:cx="104.07266"
      inkscape:cy="40.192694"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g3128" />
+     inkscape:current-layer="layer1" />
   <g
      id="layer1"
-     transform="translate(0,-952.36218)">
+     transform="translate(0,-992.36218)">
     <g
-       transform="matrix(0.06856793,0,0,0.06856793,10.716035,964.48785)"
+       transform="matrix(0.03428397,0,0,0.03428397,12.858018,1003.425)"
        id="layer1-3">
       <g
          transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,537.02565,-191.77025)"
@@ -59,7 +59,8 @@
            style="color:#000000;fill:none;stroke:#000000;stroke-width:157.05126953;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
            id="path2985"
            d="m 819.99998,137.14285 c 0,369.2418 -299.32961,668.57141 -668.57141,668.57141 -369.24179,0 -668.57141,-299.32961 -668.57141,-668.57141 0,-369.24179 299.32962,-668.57141 668.57141,-668.57141 369.2418,0 668.57141,299.32962 668.57141,668.57141 z"
-           transform="matrix(0.63673473,0,0,0.63673473,403.58017,465.03857)" />
+           transform="matrix(0.63673473,0,0,0.63673473,403.58017,465.03857)"
+           inkscape:connector-curvature="0" />
         <rect
            style="color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
            id="rect3755"
@@ -78,111 +79,18 @@
     </g>
     <g
        id="g3074"
-       transform="translate(0,-2.6171874e-6)">
-      <text
-         id="text3328"
-         y="970.83289"
-         x="188.92285"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"
-         sodipodi:linespacing="125%"><tspan
-           style="font-size:14px;text-align:end;text-anchor:end"
-           y="970.83289"
-           x="160.71777"
-           id="tspan3330">Solo</tspan></text>
+       transform="translate(-37.529175,17.16583)">
       <text
          xml:space="preserve"
          style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="245.60156"
-         y="970.83289"
+         x="278.36902"
+         y="1016.7784"
          id="text3356"
          sodipodi:linespacing="125%"><tspan
            id="tspan3358"
-           x="245.60156"
-           y="970.83289"
-           style="font-size:14px;text-align:end;text-anchor:end">{solo}</tspan></text>
-    </g>
-    <g
-       id="g3080"
-       transform="translate(0,6.3602955)">
-      <text
-         sodipodi:linespacing="125%"
-         xml:space="preserve"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="197.02344"
-         y="988.802"
-         id="text3332"><tspan
-           id="tspan3334"
-           x="161.15527"
-           y="988.802"
-           style="font-size:14px;text-align:end;text-anchor:end">Team</tspan></text>
-      <text
-         id="text3360"
-         y="988.802"
-         x="246.56543"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"
-         sodipodi:linespacing="125%"><tspan
-           style="font-size:14px;text-align:end;text-anchor:end"
-           y="988.802"
-           x="246.56543"
-           id="tspan3362">{team}</tspan></text>
-    </g>
-    <g
-       id="g3086"
-       transform="translate(0,12.720536)">
-      <text
-         sodipodi:linespacing="125%"
-         id="text3336"
-         y="1006.7712"
-         x="225.80957"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"><tspan
-           id="tspan3340"
-           style="font-size:14px;text-align:end;text-anchor:end"
-           y="1006.7712"
-           x="160.37598">Company</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="245.73828"
-         y="1006.7712"
-         id="text3364"
-         sodipodi:linespacing="125%"><tspan
-           x="245.73828"
-           y="1006.7712"
-           style="font-size:14px;text-align:end;text-anchor:end"
-           id="tspan3366">{company}</tspan></text>
-    </g>
-    <g
-       id="g3092"
-       transform="translate(0,19.080808)">
-      <g
-         transform="translate(0,-12.598054)"
-         id="g3128">
-        <text
-           id="text3344"
-           y="1037.9673"
-           x="88.625977"
-           style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           xml:space="preserve"
-           sodipodi:linespacing="125%"><tspan
-             id="tspan3346"
-             style="font-size:14px"
-             y="1037.9673"
-             x="88.625977">Enterprise</tspan></text>
-        <text
-           sodipodi:linespacing="125%"
-           xml:space="preserve"
-           style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           x="245.15039"
-           y="1037.9673"
-           id="text3368"><tspan
-             x="245.15039"
-             y="1037.9673"
-             style="font-size:14px;text-align:end;text-anchor:end"
-             id="tspan3370">{enterprise}</tspan></text>
-      </g>
+           x="278.36902"
+           y="1016.7784"
+           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;font-family:Arial;-inkscape-font-specification:Arial">{private}</tspan></text>
     </g>
   </g>
 </svg>

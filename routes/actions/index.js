@@ -15,6 +15,5 @@ module.exports = {
   reprice: require('./reprice'),
   reset: require('./reset'),
   version: require('./version'),
-  upgrade: require('./upgrade'),
   sponsor: require('./sponsor')
 }

@@ -1,4 +1,3 @@
-var TIERS = require('../data/private-license-tiers')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
@@ -41,22 +40,10 @@ ${head('Licenses')}
     </dl>
     <h2>Private Licenses</h2>
     <p>
-      Users who can&rsquo;t meet the conditions of your public
-      license can buy a private license through License Zero.
-      These are proprietary softare licenses,
-      based on <a href=https://www.apache.org/licenses/LICENSE-2.0.html>The Apache License, Version 2.0</a>
-      for ease of review:
+      Developers who can&rsquo;t meet the conditions of your public
+      license can buy <a href=/licenses/private>private licenses</a>
+      through License Zero.
     </p>
-    <dl>
-      <dt><a href=/licenses/private#solo>Solo License</a></dt>
-      <dd>for a single user</dd>
-      <dt><a href=/licenses/private#team>Team License</a></dt>
-      <dd>for up to ${escape(TIERS.team)} users</dd>
-      <dt><a href=/licenses/private#company>Company License</a></dt>
-      <dd>for up to ${escape(TIERS.company)} Musers</dd>
-      <dt><a href=/licenses/private#enterprise>Enterprise License</a></dt>
-      <dd>for an unlimited number of users</dd>
-    </dl>
     <h2>Waivers</h2>
     <p>
       License Zero developers can give away quick, freebie

@@ -31,7 +31,6 @@ tape('Stripe OAuth connect, register, license', function (suite) {
       suite.test('license', function (test) {
         var projectID
         var paymentLocation
-        var license
         var importPurchaseCommand
         runSeries([
           function offer (done) {
@@ -41,10 +40,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               token: token,
               repository: 'http://example.com',
               pricing: {
-                solo: 500,
-                team: 1000,
-                company: 5000,
-                enterprise: 10000
+                private: 500
               },
               description: 'a test project',
               terms: (
@@ -65,7 +61,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               projects: [projectID],
               licensee: 'SomeCo, Inc.',
               jurisdiction: 'US-CA',
-              tier: 'team'
+              email: 'licensee@test.com'
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'order error false')
@@ -78,9 +74,6 @@ tape('Stripe OAuth connect, register, license', function (suite) {
             })
           },
           function pay (done) {
-            service.email.events.once('message', function (message) {
-              license = message.license
-            })
             var webdriver = require('./webdriver')
             webdriver
               .url('http://localhost:' + port + paymentLocation)
@@ -96,8 +89,6 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               .waitForExist('input[name="postal"]')
               .setValue('input[name="postal"]', '12345')
               .frameParent()
-              // E-Mail
-              .setValue('input[name="email"]', 'customer@example.com')
               // Terms
               .scroll('input[name="terms"]')
               .click('input[name="terms"]')
@@ -139,21 +130,6 @@ tape('Stripe OAuth connect, register, license', function (suite) {
                 })
               })
               .end()
-          },
-          function upgrade (done) {
-            apiRequest(port, {
-              action: 'upgrade',
-              license: license,
-              tier: 'company'
-            }, function (error, response) {
-              test.error(error, 'no upgrade error')
-              test.equal(response.error, false, 'upgrade error false')
-              test.assert(
-                response.location.includes('/pay/'),
-                'upgrade payment location'
-              )
-              done()
-            })
           }
         ], function (error) {
           test.error(error, 'no error')
@@ -179,10 +155,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               token: token,
               repository: repository,
               pricing: {
-                solo: 500,
-                team: 1000,
-                company: 5000,
-                enterprise: 10000,
+                private: 500,
                 relicense: relicensePrice
               },
               description: description,
@@ -203,7 +176,8 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               action: 'sponsor',
               projectID: projectID,
               sponsor: SPONSOR_NAME,
-              jurisdiction: SPONSOR_JURISDICTION
+              jurisdiction: SPONSOR_JURISDICTION,
+              email: SPONSOR_EMAIL
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'relicense error false')
@@ -252,7 +226,6 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               .waitForExist('input[name="postal"]')
               .setValue('input[name="postal"]', '12345')
               .frameParent()
-              .setValue('input[name="email"]', SPONSOR_EMAIL)
               .scroll('input[name="terms"]')
               .click('input[name="terms"]')
               .scroll('input[type="submit"]')

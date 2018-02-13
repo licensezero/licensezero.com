@@ -87,6 +87,10 @@ module.exports = function api (request, response, service) {
         fail('invalid action')
       } else {
         if (!action.validate(body)) {
+          if (process.env.LOG_API_VALIDATION_ERRORS) {
+            console.error(body)
+            console.error(action.validate.errors)
+          }
           end({
             error: 'invalid body',
             // Avoid sending every valid 3166-2 code across the wire

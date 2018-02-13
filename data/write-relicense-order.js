@@ -9,6 +9,7 @@ var uuid = require('uuid/v4')
 module.exports = function (service, data, callback) {
   assert.equal(typeof data.sponsor, 'string')
   assert.equal(typeof data.jurisdiction, 'string')
+  assert.equal(typeof data.email, 'string')
   assert.equal(typeof data.project, 'object')
   assert.notEqual(data.project, null)
   var orderID = uuid()
@@ -20,7 +21,8 @@ module.exports = function (service, data, callback) {
       orderID: orderID,
       project: data.project,
       sponsor: data.sponsor,
-      jurisdiction: data.jurisdiction
+      jurisdiction: data.jurisdiction,
+      email: data.email
     }))
   ], function (error) {
     if (error) return callback(error)
