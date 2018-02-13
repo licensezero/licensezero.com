@@ -1,5 +1,6 @@
 var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
+var PERSON = 'I am a person, not a legal entity.'
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var fs = require('fs')
@@ -38,7 +39,8 @@ tape('sweep orders', function (test) {
           projects: [projectID],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
-          email: 'licensee@test.com'
+          email: 'licensee@test.com',
+          person: PERSON
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'order error false')

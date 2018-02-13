@@ -61,7 +61,8 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               projects: [projectID],
               licensee: 'Larry Licensee',
               jurisdiction: 'US-CA',
-              email: 'licensee@example.com'
+              email: 'licensee@example.com',
+              person: 'I am a person, not a legal entity.'
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'order error false')

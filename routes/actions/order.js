@@ -6,6 +6,7 @@ exports.properties = {
   licensee: require('./common/name'),
   jurisdiction: require('./common/jurisdiction'),
   email: require('./common/email'),
+  person: require('./common/person'),
   projects: {
     type: 'array',
     minItems: 1,

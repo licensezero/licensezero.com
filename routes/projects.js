@@ -1,4 +1,5 @@
 var JURISDICTIONS = require('licensezero-jurisdictions')
+var PERSON = require('./actions/common/person').const
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var escape = require('./escape')
 var footer = require('./partials/footer')
@@ -133,6 +134,17 @@ function orderForm (project) {
         type=email
         name=email
         id=email
+        required>
+    </label>
+  </p>
+  <p>
+    <label>
+      ${escape(PERSON)}
+      <input
+        type=checkbox
+        name=person
+        id=person
+        value="${PERSON}"
         required>
     </label>
   </p>

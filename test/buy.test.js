@@ -1,5 +1,6 @@
 var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
+var PERSON = 'I am a person, not a legal entity.'
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var runSeries = require('run-series')
@@ -45,7 +46,8 @@ tape.skip('buy', function (test) {
           projects: [firstProject, secondProject],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
-          email: 'licensee@test.com'
+          email: 'licensee@test.com',
+          person: PERSON
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'order error false')
@@ -75,6 +77,8 @@ tape.skip('buy', function (test) {
           .frameParent()
           // E-Mail
           .setValue('input[name="email"]', 'customer@example.com')
+          // Person
+          .click('input[name="person"]')
           // Terms
           .click('input[name="terms"]')
           // Submit
@@ -104,7 +108,8 @@ tape('order w/ nonexistent', function (test) {
       projects: [project],
       licensee: 'Larry Licensee',
       jurisdiction: 'US-CA',
-      email: 'licensee@test.com'
+      email: 'licensee@test.com',
+      person: PERSON
     }, function (error, response) {
       test.error(error)
       test.equal(
@@ -151,7 +156,8 @@ tape('order w/ retracted', function (test) {
           projects: [projectID],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
-          email: 'licensee@test.com'
+          email: 'licensee@test.com',
+          person: PERSON
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -193,6 +199,7 @@ tape('POST /buy', function (test) {
           .setValue('#licensee', 'Larry Licensee')
           .selectByIndex('#jurisdiction', 0)
           .setValue('#email', 'licensee@test.com')
+          .click('#person')
           .click('button[type="submit"]')
           .waitForExist('iframe')
           .getText('h2=Credit Card Payment')
