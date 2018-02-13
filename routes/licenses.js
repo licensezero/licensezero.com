@@ -39,11 +39,13 @@ ${head('Licenses')}
       </dd>
     </dl>
     <h2>Private Licenses</h2>
-    <p>
-      Developers who can&rsquo;t meet the conditions of your public
-      license can buy <a href=/licenses/private>private licenses</a>
-      through License Zero.
-    </p>
+    <dl>
+      <dt><a href=/licenses/private>Private License</a></dt>
+      <dd>
+        gives permission to use commercially and in closed source,
+        with limited rights to sublicense others
+      </dd>
+    </dl>
     <h2>Waivers</h2>
     <p>
       License Zero developers can give away quick, freebie
