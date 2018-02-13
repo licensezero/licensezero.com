@@ -8,8 +8,8 @@ var nav = require('./partials/nav')
 var LICENSOR = [
   'npm install -g licensezero',
   '# Installs the License Zero command-line interface',
-  'licensezero identify adam@licensezero.com "Adam Maintainer" US-TX',
-  '# Configures the CLI for for Adam, a developer in Texas.',
+  'licensezero identify "Anna Maintainer" US-TX anna@example.com',
+  '# Configures the CLI for for Anna, a developer in Texas.',
   'licensezero register',
   '# Provides a link to connect a Stripe account receive payments, and',
   '# an access token once the Stripe account is connected.',
