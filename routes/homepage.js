@@ -36,7 +36,7 @@ var LICENSEE = [
   '# and the costs of missing licenses.',
   'licensezero buy',
   '# Opens an online order page for all needed licenses.',
-  'licensezero bought $ORDER_BUNDLE_URL',
+  'licensezero import-bundle $ORDER_BUNDLE_URL',
   '# Imports a bundle of licenses from the order page.'
 ]
 
