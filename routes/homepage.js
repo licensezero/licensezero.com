@@ -92,8 +92,7 @@ ${head()}
       and neither would using it, no strings attached.
       License Zero maintainers can offer to bring their software closer
       to that perfect world, by relicensing, for a fee, on permissive
-      terms. Sponsors can accept those offers just like
-      they can buy licenses:
+      terms. Sponsors can accept those offers:
     </p>
     <pre class=terminal>${formatSession(SPONSOR)}</pre>
     <h2>Developers</h2>
