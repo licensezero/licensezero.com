@@ -9,7 +9,7 @@ var nav = require('./partials/nav')
 var noncommercialLicense = require('../forms/noncommercial-license')
 
 var REPOSITORY = (
-  'https://github.com/licensezero/licensezero-noncommercial-license'
+  'https://github.com/licensezero/licensezero-noncommercial-public-license'
 )
 
 module.exports = function (request, response, service) {
