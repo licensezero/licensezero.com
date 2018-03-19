@@ -16,19 +16,19 @@ exports.handler = function (body, service, end, fail, lock) {
   lock([body.licensorID, body.projectID], function (release) {
     var file = projectPath(service, body.projectID)
     readJSONFile(file, function (error, project) {
-      if (error) return fail('no such project')
-      if (project.retracted) return fail('retracted project')
-      if (project.relicensed) return fail('relicensed project')
+      if (error) return die('no such project')
+      if (project.retracted) return die('retracted project')
+      if (project.relicensed) return die('relicensed project')
       // Unlock Date Validation
       var proposedUnlock = new Date(body.unlock)
       var minimumUnlock = minimumUnlockDate()
-      if (proposedUnlock < minimumUnlock) return fail('invalid unlock')
+      if (proposedUnlock < minimumUnlock) return die('invalid unlock')
       // If the project is already locked, ensure the
       // proposed lock date is after the current unlock date.
       if (project.lock) {
         var currentUnlock = new Date(project.lock.unlock)
         if (currentUnlock >= proposedUnlock) {
-          return fail('already locked')
+          return die('already locked')
         }
       }
       mutateJSONFile(file, function (data) {
@@ -46,6 +46,11 @@ exports.handler = function (body, service, end, fail, lock) {
         }
       }))
     })
+    function die (message) {
+      release(function () {
+        fail(message)
+      })()
+    }
   })
 }
 

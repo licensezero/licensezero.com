@@ -20,13 +20,13 @@ exports.handler = function (body, service, end, fail, lock) {
   lock([licensorID, projectID], function (release) {
     var file = projectPath(service, body.projectID)
     readJSONFile(file, function (error, project) {
-      if (error) return fail('no such project')
-      if (project.retracted) return fail('retracted project')
-      if (project.relicensed) return fail('relicensed project')
+      if (error) return die('no such project')
+      if (project.retracted) return die('retracted project')
+      if (project.relicensed) return die('relicensed project')
       if (project.lock) {
         var unlockDate = new Date(project.lock.unlock)
         var now = new Date()
-        if (unlockDate > now) return fail('locked project')
+        if (unlockDate > now) return die('locked project')
       }
       runSeries([
         function markRetracted (done) {
@@ -66,5 +66,10 @@ exports.handler = function (body, service, end, fail, lock) {
         }
       }))
     })
+    function die (message) {
+      release(function () {
+        fail(message)
+      })()
+    }
   })
 }
