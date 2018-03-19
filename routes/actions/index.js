@@ -1,19 +1,19 @@
 module.exports = {
-  register: require('./register'),
-  licensor: require('./licensor'),
-  jurisdiction: require('./jurisdiction'),
   email: require('./email'),
+  jurisdiction: require('./jurisdiction'),
+  key: require('./key'),
+  licensor: require('./licensor'),
   name: require('./name'),
   offer: require('./offer'),
-  retract: require('./retract'),
-  key: require('./key'),
+  order: require('./order'),
   project: require('./project'),
-  waiver: require('./waiver'),
   public: require('./public'),
   quote: require('./quote'),
-  order: require('./order'),
+  register: require('./register'),
   reprice: require('./reprice'),
   reset: require('./reset'),
+  retract: require('./retract'),
+  sponsor: require('./sponsor'),
   version: require('./version'),
-  sponsor: require('./sponsor')
+  waiver: require('./waiver')
 }
