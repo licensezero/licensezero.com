@@ -23,6 +23,8 @@ exports.handler = function (body, service, end, fail, lock) {
       var proposedUnlock = new Date(body.unlock)
       var minimumUnlock = minimumUnlockDate()
       if (proposedUnlock < minimumUnlock) return die('invalid unlock')
+      var maximumUnlock = maximumUnlockDate()
+      if (proposedUnlock > maximumUnlock) return die('invalid unlock')
       // If the project is already locked, ensure the
       // proposed lock date is after the current unlock date.
       if (project.lock) {
@@ -59,5 +61,13 @@ var MINIMUM_LOCK_DAYS = 7
 function minimumUnlockDate () {
   var returned = new Date()
   returned.setDate(returned.getDate() + MINIMUM_LOCK_DAYS)
+  return returned
+}
+
+var MAXIMUM_LOCK_DAYS = 365 * 5
+
+function maximumUnlockDate () {
+  var returned = new Date()
+  returned.setDate(returned.getDate() + MAXIMUM_LOCK_DAYS)
   return returned
 }
