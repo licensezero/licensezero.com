@@ -6,7 +6,10 @@ exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: {type: 'string'},
   projectID: require('./common/project-id'),
-  pricing: require('./common/pricing')
+  unlock: {
+    type: 'string',
+    format: 'date-time'
+  }
 }
 
 exports.handler = function (body, service, end, fail, lock) {
@@ -16,19 +19,24 @@ exports.handler = function (body, service, end, fail, lock) {
       if (error) return fail('no such project')
       if (project.retracted) return fail('retracted project')
       if (project.relicensed) return fail('relicensed project')
+      // Unlock Date Validation
+      var proposedUnlock = new Date(body.unlock)
+      var minimumUnlock = minimumUnlockDate()
+      if (proposedUnlock < minimumUnlock) return fail('invalid unlock')
+      // If the project is already locked, ensure the
+      // proposed lock date is after the current unlock date.
       if (project.lock) {
-        var unlockDate = new Date(project.lock.unlock)
-        var now = new Date()
-        if (unlockDate > now) {
-          var lockedPrivateLicensePrice = project.lock.price
-          var newPrivateLicensePrice = body.pricing.private
-          if (newPrivateLicensePrice > lockedPrivateLicensePrice) {
-            return fail('above locked price')
-          }
+        var currentUnlock = new Date(project.lock.unlock)
+        if (currentUnlock >= proposedUnlock) {
+          return fail('already locked')
         }
       }
       mutateJSONFile(file, function (data) {
-        data.pricing = body.pricing
+        data.lock = {
+          locked: new Date().toISOString(),
+          unlock: proposedUnlock.toISOString(),
+          price: project.pricing.private
+        }
       }, release(function (error) {
         if (error) {
           service.log.error(error)
@@ -39,4 +47,12 @@ exports.handler = function (body, service, end, fail, lock) {
       }))
     })
   })
+}
+
+var MINIMUM_LOCK_DAYS = 7
+
+function minimumUnlockDate () {
+  var returned = new Date()
+  returned.setDate(returned.getDate() + MINIMUM_LOCK_DAYS)
+  return returned
 }
