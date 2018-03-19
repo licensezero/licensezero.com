@@ -63,7 +63,7 @@ module.exports = function (request, response, service) {
       ${
         project.retracted
           ? retracted()
-          : priceList(project.pricing)
+          : priceList(project)
       }
       ${orderForm(project)}
     </main>
@@ -80,11 +80,16 @@ function retracted () {
   `
 }
 
-function priceList (pricing) {
+function priceList (project) {
+  var pricing = project.pricing
+  var lock = project.lock
   return html`
 <dl>
   <dt>Private License</dt>
-  <dd>${formatPrice(pricing.private)}</dd>
+  <dd>
+    ${formatPrice(pricing.private)}
+    ${currentlyLocked() && lockInformation(lock)}
+  </dd>
 ${
   pricing.relicense && html`
     <dt>Relicense</dt>
@@ -93,6 +98,38 @@ ${
 }
 </dl>
   `
+  function currentlyLocked () {
+    if (!lock) return false
+    var unlock = new Date(lock.unlock)
+    var now = new Date()
+    return unlock > now
+  }
+}
+
+function lockInformation (lock) {
+  return html`
+<p>
+  Private license pricing for this project
+  was locked at
+  ${formatPrice(lock.price)} or less
+  until ${formatDate(lock.unlock)}
+  on ${formatDate(lock.locked)}.
+</p>
+  `
+}
+
+function formatDate (dateString) {
+  return new Date(dateString)
+    .toLocaleString({
+      timeZone: 'UTC',
+      timeZoneName: 'short',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    })
 }
 
 function orderForm (project) {
