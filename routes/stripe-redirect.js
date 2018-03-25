@@ -257,12 +257,8 @@ ${head('Registration')}
         ><code>licensezero</code> command line interface</a>
       and import your licensor credentials:
     </p>
-    <dl>
-      <dt>Licensor ID</dt>
-      <dd><code class=id>${licensorID}</code></dd>
-      <dt>Access Token</dt>
-      <dd><code class=token>${passphrase}</code></dd>
-    </dl>
+    <pre class=terminal>licensezero set-licensor-id ${licensorID}</pre>
+    <p>Then enter your access token: <code class=token>${passphrase}</code></p>
   </main>
   ${footer()}
 </body>
