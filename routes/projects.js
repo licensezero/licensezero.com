@@ -7,6 +7,7 @@ var formatPrice = require('./format-price')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
+var iso31662 = require('iso-3166-2')
 var nav = require('./partials/nav')
 var notFound = require('./not-found')
 var readProject = require('../data/read-project')
@@ -23,6 +24,7 @@ module.exports = function (request, response, service) {
     if (error) return notFound(service, response, error)
     sanitizeProject(project)
     var licensor = project.licensor
+    var jurisdiction = iso31662.subdivision(licensor.jurisdiction)
     response.setHeader('Content-Type', 'text/html; charset=UTf-8')
     response.end(html`
 <!doctype html>
@@ -56,7 +58,10 @@ module.exports = function (request, response, service) {
           <dt>Name</dt>
           <dd>${escape(licensor.name)}</dd>
           <dt>Jurisdiction</dt>
-          <dd>${escape(licensor.jurisdiction)}</dd>
+          <dd>
+            ${escape(jurisdiction.name)},
+            ${escape(jurisdiction.countryName)}
+          </dd>
           <dt>Public Signing Key</dt>
           <dd>
             <pre><code>${
