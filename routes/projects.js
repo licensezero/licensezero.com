@@ -1,4 +1,3 @@
-var JURISDICTIONS = require('licensezero-jurisdictions')
 var PERSON = require('./actions/common/person').const
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var escape = require('./escape')
@@ -8,6 +7,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var iso31662 = require('iso-3166-2')
+var jurisdictionOptions = require('./partials/jurisdiction-options')
 var nav = require('./partials/nav')
 var notFound = require('./not-found')
 var readProject = require('../data/read-project')
@@ -190,13 +190,7 @@ npx licensezero buy</code></pre>
     <label>
       Licensee Jurisdiction
       <select name=jurisdiction id=jurisdiction>
-        ${JURISDICTIONS.map(function (code) {
-          return html`
-            <option value="${escape(code)}">
-              ${escape(code)}
-            </option>
-          `
-        })}
+        ${jurisdictionOptions()}
       </select>
     </label>
   </p>
