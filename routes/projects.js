@@ -32,7 +32,7 @@ module.exports = function (request, response, service) {
     ${nav()}
     ${header()}
     <main>
-      <h2>Project ${escape(projectID)}</h2>
+      <h2>Project</h2>
       <section>
         <dl>
           <dt>Description</dt>
@@ -43,6 +43,8 @@ module.exports = function (request, response, service) {
               ${escape(project.homepage)}
             </a>
           </dd>
+          <dt>Project ID</dt>
+          <dd><code>${escape(projectID)}</code></dd>
         </dl>
       </section>
       <section>
