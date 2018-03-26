@@ -164,7 +164,7 @@ function orderForm (project) {
   </a>:
 </p>
 <pre class=terminal><code>npx licensezero identify "Sara Developer" "US-CA" "sara@example.com"
-npx buy</code></pre>
+npx licensezero buy</code></pre>
 <p>
   You can also buy a license for just this project right here:
 </p>
