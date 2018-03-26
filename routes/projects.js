@@ -156,7 +156,7 @@ function formatDate (dateString) {
 
 function orderForm (project) {
   return html`
-<h3>Order a License</h3>
+<h3>Buy a License</h3>
 <p>
   You can order licenses for all the projects you need at one time with the
   <a href=https://www.npmjs.com/package/licensezero>
@@ -218,7 +218,7 @@ npx buy</code></pre>
       ${escape(PERSON)}
     </label>
   </p>
-  <button type=submit>Order</button>
+  <button type=submit>Buy</button>
 </form>
   `
 }
