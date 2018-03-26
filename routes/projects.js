@@ -163,7 +163,7 @@ function orderForm (project) {
     License Zero command-line tool
   </a>:
 </p>
-<pre><code>npx licensezero identify "Sara Developer" "US-CA" "sara@example.com"
+<pre class=terminal><code>npx licensezero identify "Sara Developer" "US-CA" "sara@example.com"
 npx buy</code></pre>
 <p>
   You can also buy a license for just this project right here:
