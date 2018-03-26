@@ -163,11 +163,11 @@ function orderForm (project) {
     License Zero command-line tool
   </a>:
 </p>
-<pre class=terminal><code>cd your-project
-# If you haven't already:
+<pre class=terminal>cd your-project
+<span class=comment># If you haven't already:</span>
 npx licensezero identify "Sara Smart" "US-CA" "sara@example.com"
-# Open a checkout page for all missing licenses:
-npx licensezero buy</code></pre>
+<span class=comment># Open a checkout page for all missing licenses:</span>
+npx licensezero buy</pre>
 <p>
   You can also buy a license for just this project right here:
 </p>
