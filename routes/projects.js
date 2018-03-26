@@ -44,7 +44,10 @@ module.exports = function (request, response, service) {
             </a>
           </dd>
           <dt>Project ID</dt>
-          <dd><code>${escape(projectID)}</code></dd>
+          <dd>
+            <code>${escape(projectID)}</code>
+            <button class=clipboard data-clipboard-text="${escape(projectID)}">Copy to Clipboard</button>
+          </dd>
         </dl>
       </section>
       <section>
@@ -55,10 +58,13 @@ module.exports = function (request, response, service) {
           <dt>Jurisdiction</dt>
           <dd>${escape(licensor.jurisdiction)}</dd>
           <dt>Public Signing Key</dt>
-          <dd><pre><code>${
-            licensor.publicKey.slice(0, 32) + '\n' +
-            licensor.publicKey.slice(32)
-          }</code></pre></dd>
+          <dd>
+            <pre><code>${
+              licensor.publicKey.slice(0, 32) + '\n' +
+              licensor.publicKey.slice(32)
+            }</code></pre>
+            <button class=clipboard data-clipboard-text="${escape(licensor.publicKey)}">Copy to Clipboard</button>
+          </dd>
         </dl>
       </section>
       <h3>Pricing</h3>
@@ -70,6 +76,8 @@ module.exports = function (request, response, service) {
       ${orderForm(project)}
     </main>
     ${footer()}
+    <script src=/clipboard.min.js></script>
+    <script>new ClipboardJS('.clipboard')</script>
   </body>
 </html>
     `)

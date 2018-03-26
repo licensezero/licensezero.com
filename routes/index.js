@@ -63,6 +63,16 @@ routes.set('/pay.js', function (request, response, service) {
   )
 })
 
+routes.set('/clipboard.min.js', function (request, response, service) {
+  response.setHeader('Content-Type', 'application/javascript')
+  pump(
+    fs.createReadStream(
+      path.join(__dirname, '..', 'static', 'clipboard.min.js')
+    ),
+    response
+  )
+})
+
 staticFile('normalize.css')
 staticFile('styles.css')
 staticFile('logo-100.png')
