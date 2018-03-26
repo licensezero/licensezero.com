@@ -157,6 +157,17 @@ function formatDate (dateString) {
 function orderForm (project) {
   return html`
 <h3>Order a License</h3>
+<p>
+  You can order licenses for all the projects you need at one time with the
+  <a href=https://www.npmjs.com/package/licensezero>
+    License Zero command-line tool
+  </a>:
+</p>
+<pre><code>npx licensezero identify "Sara Developer" "US-CA" "sara@example.com"
+npx buy</code></pre>
+<p>
+  You can also buy a license for just this project right here:
+</p>
 <form method=POST action=/buy>
   <input
       type=hidden
