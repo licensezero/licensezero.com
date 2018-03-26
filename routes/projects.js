@@ -100,14 +100,21 @@ function priceList (project) {
   var lock = project.lock
   return html`
 <dl>
-  <dt>Private License</dt>
+  <dt>
+    <a href=/licenses/private>Private License</a>
+    for a single commercial user or proprietary developer
+  </dt>
   <dd>
     ${formatPrice(pricing.private)}
     ${currentlyLocked() && lockInformation(lock)}
   </dd>
 ${
   pricing.relicense && html`
-    <dt>Relicense</dt>
+    <dt>
+      <a href=/licenses/relicense>Relicense</a>
+      onto
+      <a href=/licenses/permissive>permissive public terms</a>
+    </dt>
     <dd>${formatPrice(pricing.relicense)}</dd>
   `
 }
