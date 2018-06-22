@@ -6,6 +6,7 @@ var tape = require('tape')
 testForm('waiver')
 testForm('noncommercial')
 testForm('reciprocal')
+testForm('parity')
 testForm('private')
 
 function testForm (form) {

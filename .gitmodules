@@ -28,3 +28,6 @@
 [submodule "forms/private-license"]
 	path = forms/private-license
 	url = git@github.com:licensezero/licensezero-private-license
+[submodule "forms/parity-license"]
+	path = forms/parity-license
+	url = git@github.com:licensezero/parity-public-license

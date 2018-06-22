@@ -27,6 +27,11 @@ ${head('Licenses')}
       License Zero supports two public licenses:
     </p>
     <dl>
+      <dt><a href=/licenses/parity>The Parity Public License</a></dt>
+      <dd>
+        requires others to share the software they build with your
+        work back to the community, as open source
+      </dd>
       <dt><a href=/licenses/reciprocal>Reciprocal License</a></dt>
       <dd>
         requires others to share the software they build with your
