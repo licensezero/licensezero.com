@@ -83,7 +83,7 @@ ${head('Licenses')}
         a form contract between a License Zero and a developer
         for sponsored relicensing of a project onto permissive terms
       </dd>
-      <dt><a href=/licenses/permissive>Permissive License</a></dt>
+      <dt><a href=/licenses/charity>The Charity Public License</a></dt>
       <dd>
         a short, modern, permissive open source license without
         conditions to share back or limit commercial use

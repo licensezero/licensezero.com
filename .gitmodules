@@ -31,3 +31,6 @@
 [submodule "forms/parity-license"]
 	path = forms/parity-license
 	url = git@github.com:licensezero/parity-public-license
+[submodule "forms/charity-license"]
+	path = forms/charity-license
+	url = git@github.com:licensezero/charity-public-license

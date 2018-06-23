@@ -28,6 +28,7 @@ routes.set('/licenses/noncommercial/diff', require('./noncommercial-license-diff
 routes.set('/licenses/reciprocal', require('./reciprocal-license'))
 routes.set('/licenses/reciprocal/diff', require('./reciprocal-license-diff'))
 routes.set('/licenses/parity', require('./parity-license'))
+routes.set('/licenses/charity', require('./charity-license'))
 routes.set('/licenses/permissive', require('./permissive-license'))
 routes.set('/licenses/waiver', require('./waiver'))
 routes.set('/licenses/relicense', require('./relicense'))
