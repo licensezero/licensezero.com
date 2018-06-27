@@ -1,7 +1,7 @@
 var ed25519 = require('../../ed25519')
-var noncommercialLicense = require('../../forms/noncommercial-license')
+var prosperityLicense = require('../../forms/prosperity-license')
 var readProject = require('../../data/read-project')
-var reciprocalLicense = require('../../forms/reciprocal-license')
+var parityLicense = require('../../forms/parity-license')
 var signatureLines = require('../../data/signature-lines')
 var stringify = require('../../stringify')
 
@@ -9,7 +9,7 @@ exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: {type: 'string'},
   projectID: require('./common/project-id'),
-  terms: {enum: ['noncommercial', 'reciprocal']}
+  terms: {enum: ['parity', 'prosperity']}
 }
 
 exports.handler = function (body, service, end, fail, lock) {
@@ -27,9 +27,9 @@ exports.handler = function (body, service, end, fail, lock) {
       if (project.retracted) {
         fail('retracted project')
       } else {
-        var terms = body.terms === 'noncommercial'
-          ? noncommercialLicense
-          : reciprocalLicense
+        var terms = body.terms === 'prosperity'
+          ? prosperityLicense
+          : parityLicense
         var licenseData = {
           jurisdiction: project.licensor.jurisdiction,
           name: project.licensor.name,

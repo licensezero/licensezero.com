@@ -27,24 +27,13 @@ ${head('Licenses')}
       License Zero supports two public licenses:
     </p>
     <dl>
-      <dt><a href=/licenses/parity>The Parity Public License</a></dt>
+      <dt><a href=/licenses/parity>Parity Public License</a></dt>
       <dd>
-        requires others to share the software they build with your
-        work back to the community, as open source
+        requires others to release software they build with your work
       </dd>
-      <dt><a href=/licenses/prosperity>The Prosperity Public License</a></dt>
+      <dt><a href=/licenses/prosperity>Prosperity Public License</a></dt>
       <dd>
         limits commercial use of your software to a trial period
-      </dd>
-      <dt><a href=/licenses/reciprocal>Reciprocal License</a></dt>
-      <dd>
-        requires others to share the software they build with your
-        work back to the community, as open source
-      </dd>
-      <dt><a href=/licenses/noncommercial>Noncommercial License</a></dt>
-      <dd>
-        limits commercial use of your software to a 32-day
-        trial period
       </dd>
     </dl>
     <h2>Private Licenses</h2>
@@ -63,23 +52,21 @@ ${head('Licenses')}
     <p>
       License Zero developers can give away quick, freebie
       exceptions to the share-back or noncommercial conditions
-      using a standard forms:
-      Licensors may waive the non-commercial and reciprocal
-      conditions of the public licenses with a
+      using a standard form:
     </p>
     <dl>
       <dt><a href=/licenses/waiver>Waiver</a></dt>
       <dd>
         gives a specific person permission to ignore the
-        conditions of your private license requiring sharing back
-        or limiting commercial use
+        conditions of your private license requiring source code
+        release or a time limit on commercial use
       </dd>
     </dl>
     <h2>Relicensing</h2>
     <p>
       License Zero developers can optionally offer to relicense
-      their projects onto permissive open source terms for a
-      one-time fee:
+      a project onto permissive open source terms, and stop
+      selling private licenses for it, for a one-time fee:
     </p>
     <dl>
       <dt><a href=/licenses/relicense>Relicense Agreement</a></dt>
@@ -87,7 +74,7 @@ ${head('Licenses')}
         a form contract between a License Zero and a developer
         for sponsored relicensing of a project onto permissive terms
       </dd>
-      <dt><a href=/licenses/charity>The Charity Public License</a></dt>
+      <dt><a href=/licenses/charity>Charity Public License</a></dt>
       <dd>
         a short, modern, permissive open source license without
         conditions to share back or limit commercial use
@@ -97,7 +84,8 @@ ${head('Licenses')}
     <p>
       Sometimes License Zero developers will find it easier to
       sell exceptions to their public license, or close a
-      relicensing deal, by sending the company a quote:
+      relicensing deal, by sending the company a quote and taking
+      payment by check or bank transfer:
     </p>
     <dl>
       <dt><a href=/licenses/quotes/waiver.odt>Waiver Quote</a></dt>
@@ -108,6 +96,25 @@ ${head('Licenses')}
       <dd>
         quote a price for relicensing your project on
         permissive terms
+      </dd>
+    </dl>
+    <h2>Legacy Licenses</h2>
+    <p>
+      These old licenses are no longer approved for new License
+      Zero projects:
+    </p>
+    <dl>
+      <dt><a href=/licenses/reciprocal>Reciprocal License</a></dt>
+      <dd>
+        superseded by <a href=/licenses/charity>Parity</a>
+      </dd>
+      <dt><a href=/licenses/noncommercial>Noncommercial License</a></dt>
+      <dd>
+        superseded by <a href=/licenses/charity>Prosperity</a>
+      </dd>
+      <dt><a href=/licenses/permissive>Permissive License</a></dt>
+      <dd>
+        superseded by <a href=/licenses/charity>Charity</a>
       </dd>
     </dl>
   </main>

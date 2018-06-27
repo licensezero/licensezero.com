@@ -7,6 +7,8 @@ testForm('waiver')
 testForm('noncommercial')
 testForm('reciprocal')
 testForm('parity')
+testForm('charity')
+testForm('prosperity')
 testForm('private')
 
 function testForm (form) {

@@ -10,7 +10,7 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('public noncommercial', function (test) {
+tape('public prosperity', function (test) {
   server(function (port, service, close) {
     var projectID
     runSeries([
@@ -32,7 +32,7 @@ tape('public noncommercial', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: projectID,
-          terms: 'noncommercial'
+          terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -91,8 +91,8 @@ tape('public noncommercial', function (test) {
             'licensezero.license.terms'
           )
           test.equal(
-            licensezero.license.terms, 'noncommercial',
-            'noncommercial terms'
+            licensezero.license.terms, 'prosperity',
+            'prosperity terms'
           )
           test.equal(
             metadata.license, 'SEE LICENSE IN LICENSE',
@@ -159,7 +159,7 @@ tape('public noncommercial', function (test) {
   })
 })
 
-tape('public reciprocal', function (test) {
+tape('public parity', function (test) {
   server(function (port, service, close) {
     var projectID
     runSeries([
@@ -181,7 +181,7 @@ tape('public reciprocal', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: projectID,
-          terms: 'reciprocal'
+          terms: 'parity'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -240,8 +240,8 @@ tape('public reciprocal', function (test) {
             'licensezero.license.terms'
           )
           test.equal(
-            licensezero.license.terms, 'reciprocal',
-            'reciprocal terms'
+            licensezero.license.terms, 'parity',
+            'parity terms'
           )
           test.equal(
             metadata.license, 'SEE LICENSE IN LICENSE',
@@ -318,7 +318,7 @@ tape('public for nonexistent project', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: uuid(),
-          terms: 'noncommercial'
+          terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -370,7 +370,7 @@ tape('public for retracted project', function (test) {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID: projectID,
-          terms: 'noncommercial'
+          terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
