@@ -64,10 +64,10 @@ module.exports = function (request, response, service) {
           </dd>
           <dt>Public Signing Key</dt>
           <dd>
-            <pre><code>${
+            <pre class=terminal>${
               licensor.publicKey.slice(0, 32) + '\n' +
               licensor.publicKey.slice(32)
-            }</code></pre>
+            }</pre>
             <button class=clipboard data-clipboard-text="${escape(licensor.publicKey)}">Copy to Clipboard</button>
           </dd>
         </dl>
