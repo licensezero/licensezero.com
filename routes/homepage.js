@@ -7,7 +7,7 @@ var nav = require('./partials/nav')
 
 var LICENSOR = [
   '# Set up for Anna, a developer in Texas.',
-  'licensezero identify --name "Anna Maintainer"\\',
+  'licensezero identify --name "Anna Maintainer" \\',
   '  --jurisdiction US-TX --email anna@example.com',
   '# Open a page to connect a Stripe account to receive payments',
   '# and receive an access token.',
@@ -16,7 +16,7 @@ var LICENSOR = [
   'licensezero token --licensor $ANNAS_NEW_LICENSOR_ID',
   '# Offer private licenses through licensezero.com at $5 US.',
   'cd an-npm-package',
-  'licensezero offer --price 500 --relicense 500000\\',
+  'licensezero offer --price 500 --relicense 500000 \\',
   '  --homepage http://example.com --description "an example project"',
   '# Write The Prosperity License to LICENSE and metadata for',
   '# `licensezero quote` to read to `package.json`.',
