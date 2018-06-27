@@ -188,6 +188,7 @@ pre {
 }
 
 .terminal {
+  white-space: pre;
   background: black;
   border-radius: 0.2rem;
   color: white;
