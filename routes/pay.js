@@ -576,7 +576,7 @@ ${head('Thank you')}
       Zero command line interface, run the following
       command anytime in the next twenty four hours:
     </p>
-    <pre><code class=install>licensezero purchased --bundle "${purchaseURL}"</code></pre>
+    <pre class=terminal>licensezero purchased --bundle "${purchaseURL}"</pre>
   </main>
   ${footer()}
 </body>
