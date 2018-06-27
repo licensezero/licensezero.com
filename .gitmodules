@@ -34,3 +34,6 @@
 [submodule "forms/charity-license"]
 	path = forms/charity-license
 	url = git@github.com:licensezero/charity-public-license
+[submodule "forms/prosperity-license"]
+	path = forms/prosperity-license
+	url = git@github.com:licensezero/prosperity-public-license

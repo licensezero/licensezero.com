@@ -32,6 +32,10 @@ ${head('Licenses')}
         requires others to share the software they build with your
         work back to the community, as open source
       </dd>
+      <dt><a href=/licenses/prosperity>The Prosperity Public License</a></dt>
+      <dd>
+        limits commercial use of your software to a trial period
+      </dd>
       <dt><a href=/licenses/reciprocal>Reciprocal License</a></dt>
       <dd>
         requires others to share the software they build with your
@@ -39,7 +43,7 @@ ${head('Licenses')}
       </dd>
       <dt><a href=/licenses/noncommercial>Noncommercial License</a></dt>
       <dd>
-        limits commercial use of your software to a 7-day
+        limits commercial use of your software to a 32-day
         trial period
       </dd>
     </dl>
