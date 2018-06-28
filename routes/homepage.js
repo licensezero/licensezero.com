@@ -39,7 +39,7 @@ var LICENSEE = [
   '# Proceeds go straight to developers\' Stripe accounts.',
   'licensezero buy',
   '# Import a bundle with all licenses purchased.',
-  'licensezero purchased --bundle $ORDER_BUNDLE_URL',
+  'licensezero import --bundle $ORDER_BUNDLE_URL',
   '# Show there are no more missing licenses.',
   'licensezero quote'
 ]
