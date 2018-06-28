@@ -165,7 +165,10 @@ function orderForm (project) {
 </p>
 <pre class=terminal>cd your-project
 <span class=comment># If you haven't already:</span>
-licensezero identify --name "Sara Smart" --jurisdiction "US-CA" --email "sara@example.com"
+licensezero identify \
+  --name "Sara Smart" \
+  --jurisdiction "US-CA" \
+  --email "sara@example.com"
 <span class=comment># Open a checkout page for all missing licenses:</span>
 licensezero buy</pre>
 <p>
