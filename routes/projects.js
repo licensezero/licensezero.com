@@ -64,10 +64,10 @@ module.exports = function (request, response, service) {
           </dd>
           <dt>Public Signing Key</dt>
           <dd>
-            <pre class=terminal>${
+            <pre><code>${
               licensor.publicKey.slice(0, 32) + '\n' +
               licensor.publicKey.slice(32)
-            }</pre>
+            }</code></pre>
             <button class=clipboard data-clipboard-text="${escape(licensor.publicKey)}">Copy to Clipboard</button>
           </dd>
         </dl>
@@ -163,11 +163,11 @@ function orderForm (project) {
     License Zero command-line tool
   </a>:
 </p>
-<code class=terminal>cd your-project
+<pre class=terminal>cd your-project
 <span class=comment># If you haven't already:</span>
 licensezero identify --name "Sara Smart" --jurisdiction "US-CA" --email "sara@example.com"
 <span class=comment># Open a checkout page for all missing licenses:</span>
-licensezero buy</code>
+licensezero buy</pre>
 <p>
   You can also buy a license for just this project right here:
 </p>
