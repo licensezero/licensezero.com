@@ -34,6 +34,8 @@ routes.set('/licenses/permissive', require('./permissive-license'))
 routes.set('/licenses/waiver', require('./waiver'))
 routes.set('/licenses/relicense', require('./relicense'))
 
+routes.set('/install.sh', require('./install'))
+
 function redirect303 (response, location) {
   response.statusCode = 303
   response.setHeader('Location', location)

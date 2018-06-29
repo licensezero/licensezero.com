@@ -73,6 +73,12 @@ ${head()}
       closed source.  Everything happens through a simple, dev-friendly
       interface.
     </p>
+    <h2 id=install>Install</h2>
+    <a class=download href=https://github.com/licensezero/cli/releases/latest target=_blank>Download the <code>licensezero</code> command</a>
+    <p>or install on the command line:</p>
+    <pre class=terminal>curl -sL https://licensezero.com/install.sh | sh</pre>
+    <p>You can <a href=https://github.com/licensezero/cli/blob/master/install.sh>review the short script</a> before running it.</p>
+
     <h2 id=users>Users</h2>
     <p>
       Noncommercial users of <a href=/licenses/prosperity>Prosperity</a>-licensed projects,
