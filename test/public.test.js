@@ -387,3 +387,111 @@ tape('public for retracted project', function (test) {
     })
   })
 })
+
+tape('public charity', function (test) {
+  server(function (port, service, close) {
+    var projectID
+    runSeries([
+      writeTestLicensor.bind(null, service),
+      function offer (done) {
+        apiRequest(port, Object.assign(clone(OFFER), {
+          licensorID: LICENSOR.id,
+          token: LICENSOR.token
+        }), function (error, response) {
+          if (error) return done(error)
+          test.equal(response.error, false, 'error false')
+          projectID = response.projectID
+          done()
+        })
+      },
+      function publicLicense (done) {
+        apiRequest(port, {
+          action: 'public',
+          licensorID: LICENSOR.id,
+          token: LICENSOR.token,
+          projectID: projectID,
+          terms: 'charity'
+        }, function (error, response) {
+          if (error) return done(error)
+          test.equal(
+            response.error, false,
+            'error false'
+          )
+          test.assert(
+            response.hasOwnProperty('license'),
+            'document'
+          )
+          var license = response.license
+          test.assert(
+            license.hasOwnProperty('document'),
+            'license.document'
+          )
+          test.assert(
+            license.hasOwnProperty('licensorSignature'),
+            'license.licensorSignature'
+          )
+          test.assert(
+            /^[0-9a-f]{128}$/.test(license.licensorSignature),
+            'licensor ed25519 signature'
+          )
+          test.assert(
+            license.hasOwnProperty('agentSignature'),
+            'license.agentSignature'
+          )
+          test.assert(
+            /^[0-9a-f]{128}$/.test(license.agentSignature),
+            'agent ed25519 signature'
+          )
+          test.assert(
+            response.hasOwnProperty('metadata'),
+            'metadata'
+          )
+          var metadata = response.metadata
+          test.assert(
+            !metadata.hasOwnProperty('licensezero'),
+            'no licensezero'
+          )
+          test.equal(
+            metadata.license, 'SEE LICENSE IN LICENSE',
+            'metadata.license'
+          )
+          apiRequest(port, {
+            action: 'key'
+          }, function (error, response) {
+            if (error) return done(error)
+            var agentPublicKey = response.key
+            // Validate license signatures.
+            test.assert(
+              ed25519.verify(
+                license.document,
+                license.licensorSignature,
+                LICENSOR.publicKey
+              ),
+              'valid document licensor signature'
+            )
+            test.assert(
+              ed25519.verify(
+                license.document +
+                '---\nLicensor:\n' +
+                [
+                  license.licensorSignature.slice(0, 32),
+                  license.licensorSignature.slice(32, 64),
+                  license.licensorSignature.slice(64, 96),
+                  license.licensorSignature.slice(96)
+                ].join('\n') + '\n',
+                license.agentSignature,
+                agentPublicKey
+              ),
+              'valid document agent signature'
+            )
+            done()
+          })
+        })
+      }
+    ], function (error) {
+      test.error(error, 'no error')
+      test.end()
+      close()
+    })
+  })
+})
