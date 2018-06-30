@@ -47,7 +47,7 @@ module.exports = function (request, response, service) {
           </dd>
           <dt>Project ID</dt>
           <dd>
-            <code>${escape(projectID)}</code>
+            <code class=projectID>${escape(projectID)}</code>
             <button class=clipboard data-clipboard-text="${escape(projectID)}">Copy to Clipboard</button>
           </dd>
         </dl>

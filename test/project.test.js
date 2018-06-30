@@ -99,11 +99,11 @@ tape('/project/{id}', function (test) {
         require('./webdriver')
           .url('http://localhost:' + port + '/projects/' + projectID)
           .waitForExist('h2')
-          .getText('h2')
+          .getText('.projectID')
           .then(function (text) {
             test.equal(
-              text, 'Project ' + projectID,
-              'project header'
+              text, projectID,
+              'project ID'
             )
             done()
           })
