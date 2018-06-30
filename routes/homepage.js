@@ -15,14 +15,14 @@ var LICENSOR = [
   '# Save the access token for use sending commands.',
   'licensezero token --licensor $ANNAS_NEW_LICENSOR_ID',
   '# Offer private licenses through licensezero.com at $5 US.',
-  'cd an-npm-package',
+  'cd a-package',
   'licensezero offer --price 500 --relicense 500000 \\',
   '  --homepage http://example.com --description "an example project"',
   '# Write The Prosperity License to LICENSE and metadata for',
-  '# `licensezero quote` to read to `package.json`.',
+  '# `licensezero quote` to read to `licensezero.json`.',
   'licensezero license --prosperity $ANNAS_NEW_PROJECT_ID',
   '# Commit and push the changes.',
-  'git add LICENSE package.json',
+  'git add LICENSE licensezero.json',
   'git commit -m "License Zero"',
   'git push'
 ]
