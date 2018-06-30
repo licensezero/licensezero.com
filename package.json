@@ -39,6 +39,7 @@
     "run-waterfall": "^1.1.6",
     "send": "^0.16.2",
     "simple-concat": "^1.0.0",
+    "simple-get": "^3.0.2",
     "sodium-native": "^1.10.3",
     "split2": "^2.2.0",
     "string.prototype.padstart": "^3.0.0",
