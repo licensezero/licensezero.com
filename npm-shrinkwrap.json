@@ -4357,9 +4357,9 @@
       "integrity": "sha512-NsY+oDngvrvMxKB3G8ijBzIema6aYbQMD2bHOamvN52BysbIGTnEY2xsNyfrcr9GhY995/t/0nQN3R3oZvaDlg=="
     },
     "run-series": {
-      "version": "1.1.4",
-      "resolved": "https://registry.npmjs.org/run-series/-/run-series-1.1.4.tgz",
-      "integrity": "sha1-iac93F51ye+KtjIMChYA1qQRebk="
+      "version": "1.1.8",
+      "resolved": "https://registry.npmjs.org/run-series/-/run-series-1.1.8.tgz",
+      "integrity": "sha512-+GztYEPRpIsQoCSraWHDBs9WVy4eVME16zhOtDB4H9J4xN0XRhknnmLOl+4gRgZtu8dpp9N/utSPjKH/xmDzXg=="
     },
     "run-waterfall": {
       "version": "1.1.3",
