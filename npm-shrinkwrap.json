@@ -2062,9 +2062,9 @@
       "integrity": "sha1-W0UbCMvUji6sVKK74L9GFlqhS+M="
     },
     "flush-write-stream": {
-      "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/flush-write-stream/-/flush-write-stream-1.0.2.tgz",
-      "integrity": "sha1-yBuQ2HRnZvGmCaRoCZRsRd2K5Bc=",
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/flush-write-stream/-/flush-write-stream-1.0.3.tgz",
+      "integrity": "sha512-calZMC10u0FMUqoiunI2AiGIIUtUIvifNwkHhNupZH4cbNnW1Itkoh/Nf5HFYmDrwWPjrUxpkZT0KhuCq0jmGw==",
       "requires": {
         "inherits": "^2.0.1",
         "readable-stream": "^2.0.4"
