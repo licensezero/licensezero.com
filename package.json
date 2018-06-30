@@ -15,7 +15,7 @@
     "diff": "^3.5.0",
     "do-not-cache": "^1.0.1",
     "flush-write-stream": "^1.0.3",
-    "form-data": "^2.3.1",
+    "form-data": "^2.3.2",
     "html-entities": "^1.2.1",
     "http-hash": "^2.0.0",
     "http-https": "^1.0.0",
