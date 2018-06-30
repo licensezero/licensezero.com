@@ -40,7 +40,7 @@
     "send": "^0.16.2",
     "simple-concat": "^1.0.0",
     "simple-get": "^3.0.2",
-    "sodium-native": "^1.10.3",
+    "sodium-native": "^2.1.6",
     "split2": "^2.2.0",
     "string.prototype.padstart": "^3.0.0",
     "strip-ansi": "^4.0.0",
