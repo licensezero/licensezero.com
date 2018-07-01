@@ -62,5 +62,10 @@
     "to": "Emil Bay",
     "href": "https://bayes.dk/",
     "for": "basic lessons in software hospitality"
+  },
+  {
+    "to": "André Arko",
+    "href": "https://arko.net/",
+    "for": "a warm and detailed welcome back to RubyLand"
   }
 ]
