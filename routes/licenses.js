@@ -19,7 +19,7 @@ ${head('Licenses')}
       and license-related agreements, all of which are written to
       be as short and easy to read as possible.
     </p>
-    <h2>Public Licenses</h2>
+    <h2 id=public-licenses>Public Licenses</h2>
     <p>
       The kind of thing you see in <code>LICENSE</code> files.
       Public licenses give everyone permission to use your software,
@@ -36,7 +36,7 @@ ${head('Licenses')}
         limits commercial use of your software to a trial period
       </dd>
     </dl>
-    <h2>Private Licenses</h2>
+    <h2 id=private-licenses>Private Licenses</h2>
     <p>
       License Zero's main function is to sell private licenses on
       developers' behalf, as their licensing agent.
@@ -48,7 +48,7 @@ ${head('Licenses')}
         build closed source, with limited rights to sublicense others
       </dd>
     </dl>
-    <h2>Waivers</h2>
+    <h2 id=waivers>Waivers</h2>
     <p>
       License Zero developers can give away quick, freebie
       exceptions to the share-back or noncommercial conditions
@@ -62,7 +62,7 @@ ${head('Licenses')}
         release or a time limit on commercial use
       </dd>
     </dl>
-    <h2>Relicensing</h2>
+    <h2 id=relicensing>Relicensing</h2>
     <p>
       License Zero developers can optionally offer to relicense
       a project onto permissive open source terms, and stop
@@ -80,7 +80,7 @@ ${head('Licenses')}
         conditions to share back or limit commercial use
       </dd>
     </dl>
-    <h2>Quotes</h2>
+    <h2 id=quotes>Quotes</h2>
     <p>
       Sometimes License Zero developers will find it easier to
       sell exceptions to their public license, or close a
@@ -98,7 +98,7 @@ ${head('Licenses')}
         permissive terms
       </dd>
     </dl>
-    <h2>Legacy Licenses</h2>
+    <h2 id=legacy>Legacy Licenses</h2>
     <p>
       These old licenses are no longer approved for new License
       Zero projects:
