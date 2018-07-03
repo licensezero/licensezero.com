@@ -32,12 +32,6 @@ module.exports = function (request, response, service) {
     <main>
       <h1>Noncommercial Public License</h1>
       <p>
-        License Zero projects are publicly licensed
-        on the terms of either the following noncommercial
-        license, or an alternative
-        <a href=/licenses/reciprocal>reciprocal public license</a>.
-      </p>
-      <p>
         To review changes to, and submit feedback about,
         the License Zero Noncommercial Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
