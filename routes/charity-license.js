@@ -36,6 +36,11 @@ module.exports = function (request, response, service) {
         the Charity Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
+      <p>
+        For more information, see
+        <a href=https://guide.licensezero.com/#charity
+          >the License Zero Developer’s Guide</a>.
+      </p>
       <pre class=license>${linkStandards(escape(document))}</pre>
     </main>
     ${footer()}

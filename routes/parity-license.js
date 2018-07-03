@@ -36,6 +36,11 @@ module.exports = function (request, response, service) {
         the Parity Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
+      <p>
+        For more information, see
+        <a href=https://guide.licensezero.com/#parity
+          >the License Zero Developer’s Guide</a>.
+      </p>
       <pre class=license>${linkStandards(escape(document))}</pre>
     </main>
     ${footer()}

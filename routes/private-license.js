@@ -48,6 +48,11 @@ module.exports = function (request, response, service) {
         the License Zero private license, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
+      <p>
+        For more information, see
+        <a href=https://guide.licensezero.com/#private-licenses
+          >the License Zero Developer’s Guide</a>.
+      </p>
       <pre class=license>${linkStandards(escape(result))}</pre>
     </main>
     ${footer()}
