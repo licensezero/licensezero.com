@@ -20,7 +20,7 @@ var LICENSOR = [
   '  --homepage http://example.com --description "an example project"',
   '# Write The Prosperity License to LICENSE and metadata for',
   '# `licensezero quote` to read to `licensezero.json`.',
-  'licensezero license --prosperity $ANNAS_NEW_PROJECT_ID',
+  'licensezero license --id -$ANNAS_NEW_ID -prosperity ',
   '# Commit and push the changes.',
   'git add LICENSE licensezero.json',
   'git commit -m "License Zero"',
@@ -50,7 +50,7 @@ var SPONSOR = [
   '  --jurisdiction US-NY --email sam@example.com',
   '# Open an order page for sponsorship',
   '# of a project, relicensing is on permissive terms.',
-  'licensezero sponsor --project $PROJECT_ID'
+  'licensezero sponsor --id $ID'
 ]
 
 module.exports = function (request, response, service) {
