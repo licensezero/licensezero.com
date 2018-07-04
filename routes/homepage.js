@@ -67,7 +67,7 @@ ${head()}
       License Zero is a new way to support open software developers.
     </p>
     <p>
-      Developers can choose from two new licenses that make their work
+      Contributors can choose from two new licenses that make their work
       free for noncommercial or open-source users, then sell private
       licenses to other devs who want to use commercially or in
       closed source.  Everything happens through a simple, dev-friendly
@@ -106,9 +106,9 @@ ${head()}
       terms. Sponsors can accept those offers:
     </p>
     <pre class=terminal>${formatSession(SPONSOR)}</pre>
-    <h2>Developers</h2>
+    <h2>Contributors</h2>
     <p>
-      On the developer side, it&rsquo;s quick and easy to create,
+      On the contributor side, it&rsquo;s quick and easy to create,
       license, and price projects:
     </p>
     <pre class=terminal>${formatSession(LICENSOR)}</pre>
