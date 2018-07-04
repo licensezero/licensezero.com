@@ -90,8 +90,10 @@ ${head()}
     <p>
       Users who want permission for commercial or closed, proprietary
       uses can identify, price, and buy licenses for all License
-      Zero dependencies of their software projects, in one checkout
-      transaction, using
+      Zero dependencies of software projects in
+      <a href=https://github.com/licensezero/cli/blob/master/LANGUAGES.md
+        >variety of languages</a>,
+      in one checkout transaction, using
       <a href=https://github.com/licensezero/cli>a free command-line tool</a>:
     </p>
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
