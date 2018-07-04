@@ -11,7 +11,7 @@ routes.set('/thanks', require('./thanks'))
 routes.set('/manifesto', require('./manifesto'))
 routes.set('/projects/:projectID', function (request, response) {
   response.statusCode = 301
-  response.SetHeader(
+  response.setHeader(
     'Location',
     '/ids/' + request.parameters.projectID
   )
@@ -19,7 +19,7 @@ routes.set('/projects/:projectID', function (request, response) {
 })
 routes.set('/projects/:projectID/badge.svg', function (request, response) {
   response.statusCode = 301
-  response.SetHeader(
+  response.setHeader(
     'Location',
     '/ids/' + request.parameters.projectID + '/badge.svg'
   )
