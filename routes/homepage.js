@@ -15,7 +15,7 @@ var LICENSOR = [
   '# Save the access token for use sending commands.',
   'licensezero token --licensor $ANNAS_NEW_LICENSOR_ID',
   '# Offer private licenses through licensezero.com at $5 US.',
-  'cd a-package',
+  'cd a-software-package',
   'licensezero offer --price 500 --relicense 500000 \\',
   '  --homepage http://example.com --description "an example project"',
   '# Write The Prosperity License to LICENSE and metadata for',
@@ -31,9 +31,9 @@ var LICENSEE = [
   '# Set up for Larry, a developer in California.',
   'licensezero identify --name "Larry Licensor" \\',
   '  --jurisdiction US-CA --email larry@example.com',
-  '# List License Zero dependencies in node_modules',
-  '# and the cost of all missing licenses.',
-  'cd a-node-project',
+  '# List License Zero dependencies and the cost of',
+  '# all missing licenses.',
+  'cd a-software-project',
   'licensezero quote',
   '# Open an order page for all needed licenses.',
   '# Proceeds go straight to developers\' Stripe accounts.',
@@ -90,7 +90,7 @@ ${head()}
     <p>
       Users who want permission for commercial or closed, proprietary
       uses can identify, price, and buy licenses for all License
-      Zero dependencies of their Node.js projects, in one checkout
+      Zero dependencies of their software projects, in one checkout
       transaction, using
       <a href=https://github.com/licensezero/cli>a free command-line tool</a>:
     </p>
