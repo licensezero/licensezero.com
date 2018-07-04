@@ -49,8 +49,7 @@ var SPONSOR = [
   '# Set up for Sam, a developer in New York.',
   'licensezero identify --name "Sam Sponsor" \\',
   '  --jurisdiction US-NY --email sam@example.com',
-  '# Open an order page for sponsorship',
-  '# of a project, relicensing is on permissive terms.',
+  '# Open an order page for sponsorship.',
   'licensezero sponsor --id $ID'
 ]
 
