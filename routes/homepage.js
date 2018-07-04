@@ -21,7 +21,7 @@ var LICENSOR = [
   '  --homepage http://example.com --description "an example project"',
   '# Write The Prosperity License to LICENSE and metadata for',
   '# `licensezero quote` to read to `licensezero.json`.',
-  'licensezero license --id -$ANNAS_NEW_ID -prosperity ',
+  'licensezero license --id -$ANNAS_NEW_ID --prosperity ',
   '# Commit and push the changes.',
   'git add LICENSE licensezero.json',
   'git commit -m "License Zero"',
