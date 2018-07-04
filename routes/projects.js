@@ -159,7 +159,7 @@ function orderForm (project) {
 <h3>Buy a License</h3>
 <p>
   You can order licenses for all the projects you need at one time with the
-  <a href=https://www.npmjs.com/package/licensezero>
+  <a href=https://github.com/licensezero/cli>
     License Zero command-line tool
   </a>:
 </p>

@@ -253,7 +253,7 @@ ${head('Registration')}
     <p>You've connected your Stripe account to LicenseZero.</p>
     <p>
       To offer licenses, install the
-      <a href=https://www.npmjs.com/package/licensezero-cli
+      <a href=https://github.com/licensezero/cli
         ><code>licensezero</code> command line interface</a>
       and import your licensor credentials:
     </p>
