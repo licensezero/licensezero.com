@@ -9,8 +9,24 @@ var routes = module.exports = require('http-hash')()
 routes.set('/', require('./homepage'))
 routes.set('/thanks', require('./thanks'))
 routes.set('/manifesto', require('./manifesto'))
-routes.set('/projects/:projectID', require('./projects'))
-routes.set('/projects/:projectID/badge.svg', require('./badge'))
+routes.set('/projects/:projectID', function (request, response) {
+  response.statusCode = 301
+  response.SetHeader(
+    'Location',
+    '/ids/' + request.parameters.projectID
+  )
+  response.end()
+})
+routes.set('/projects/:projectID/badge.svg', function (request, response) {
+  response.statusCode = 301
+  response.SetHeader(
+    'Location',
+    '/ids/' + request.parameters.projectID + '/badge.svg'
+  )
+  response.end()
+})
+routes.set('/ids/:projectID', require('./projects'))
+routes.set('/ids/:projectID/badge.svg', require('./badge'))
 routes.set('/buy', require('./buy'))
 routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))

@@ -97,7 +97,7 @@ tape('/project/{id}', function (test) {
       },
       function browse (done) {
         require('./webdriver')
-          .url('http://localhost:' + port + '/projects/' + projectID)
+          .url('http://localhost:' + port + '/ids/' + projectID)
           .waitForExist('h2')
           .getText('.projectID')
           .then(function (text) {
