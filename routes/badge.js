@@ -1,4 +1,5 @@
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
+var doNotCache = require('do-not-cache')
 var formatPrice = require('./format-price')
 var path = require('path')
 var readProject = require('../data/read-project')
@@ -14,6 +15,7 @@ var withoutRelicense = withCached(
 
 module.exports = function (request, response, service) {
   var projectID = request.parameters.projectID
+  doNotCache(response)
   if (!UUID.test(projectID)) {
     response.statusCode = 404
     return response.end()
