@@ -558,6 +558,7 @@ function post (request, response, service, order) {
         var purchaseURL = (
           'https://licensezero.com/purchases/' + purchaseID
         )
+        var importCommand = `licensezero import --bundle "${purchaseURL}"`
         response.end(html`
 <!doctype html>
 <html lang=en>
@@ -576,7 +577,8 @@ ${head('Thank you')}
       Zero command line interface, run the following
       command anytime in the next twenty four hours:
     </p>
-    <pre class=terminal>licensezero import --bundle "${purchaseURL}"</pre>
+    <pre class=terminal>${escape(importCommand)}</pre>
+    <button class=clipboard data-clipboard-text="${escape(importCommand)}">Copy to Clipboard</button>
   </main>
   ${footer()}
 </body>
