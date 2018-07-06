@@ -106,11 +106,11 @@ ${head('Licenses')}
     <dl>
       <dt><a href=/licenses/reciprocal>Reciprocal License</a></dt>
       <dd>
-        superseded by <a href=/licenses/charity>Parity</a>
+        superseded by <a href=/licenses/Parity>Parity</a>
       </dd>
       <dt><a href=/licenses/noncommercial>Noncommercial License</a></dt>
       <dd>
-        superseded by <a href=/licenses/charity>Prosperity</a>
+        superseded by <a href=/licenses/prosperity>Prosperity</a>
       </dd>
       <dt><a href=/licenses/permissive>Permissive License</a></dt>
       <dd>
