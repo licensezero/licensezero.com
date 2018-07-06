@@ -5193,9 +5193,9 @@
       "dev": true
     },
     "rgb2hex": {
-      "version": "0.1.4",
-      "resolved": "https://registry.npmjs.org/rgb2hex/-/rgb2hex-0.1.4.tgz",
-      "integrity": "sha512-CZAhfcGLXI4DRn+rFsY8zFY5vLJ7oZLYnYeRJjpPFg3eInvFR9El0Ev4/VXzTE0FiQxoyaa9Zl3EnoqXoC5eDw==",
+      "version": "0.1.8",
+      "resolved": "https://registry.npmjs.org/rgb2hex/-/rgb2hex-0.1.8.tgz",
+      "integrity": "sha512-kPH3Zm3UrBIfJv17AtJJGLRxak+Hvvz6SnsTBIajqB2Zbh+A4EEjkMWKkmGhms0cJlzOOjZcu1LX5K3vnON7ug==",
       "dev": true
     },
     "right-align": {
