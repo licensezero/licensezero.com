@@ -25,7 +25,7 @@ routes.set('/projects/:projectID/badge.svg', function (request, response) {
   )
   response.end()
 })
-routes.set('/ids/:projectID', require('./projects'))
+routes.set('/ids/:projectID', require('./id'))
 routes.set('/ids/:projectID/badge.svg', require('./badge'))
 routes.set('/buy', require('./buy'))
 routes.set('/purchases/:purchaseID', require('./purchases'))
