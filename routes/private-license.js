@@ -37,7 +37,10 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html>
-  ${head('Private Licenses')}
+  ${head('Private Licenses', {
+    title: 'Private Licenses',
+    description: 'private licenses sold through licensezero.com'
+  })}
   <body>
     ${nav()}
     ${header()}

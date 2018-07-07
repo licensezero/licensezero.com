@@ -9,7 +9,10 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html lang=EN>
-  ${head('Terms')}
+  ${head('Terms', {
+    title: 'licensezero.com Terms',
+    description: 'terms of use for licensezero.com'
+  })}
   <body>
     ${nav()}
     ${header()}

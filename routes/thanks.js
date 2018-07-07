@@ -12,7 +12,10 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html lang=EN>
-${head()}
+${head('Thanks', {
+  title: 'Thanks',
+  description: 'folks who’ve helped License Zero along the way'
+})}
 <body>
   ${nav()}
   ${header()}

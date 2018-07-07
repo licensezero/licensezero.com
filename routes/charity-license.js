@@ -25,7 +25,10 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html>
-  ${head('The Charity Public License')}
+  ${head('The Charity Public License', {
+    title: 'The Charity Public License',
+    description: 'a short, modern, permissive open source license'
+  })}
   <body>
     ${nav()}
     ${header()}

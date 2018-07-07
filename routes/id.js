@@ -29,7 +29,7 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html lang=EN>
-  ${head('Project ' + projectID, {
+  ${head(projectID, {
     title: licensor.name + '’s Project',
     description: project.description
   })}

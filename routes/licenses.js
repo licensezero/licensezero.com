@@ -9,7 +9,10 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html lang=EN>
-${head('Licenses')}
+${head('Licenses', {
+  title: 'License Zero Licenses',
+  description: 'public and private licenses for open software'
+})}
 <body>
   ${nav()}
   ${header()}

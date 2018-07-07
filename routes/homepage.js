@@ -58,7 +58,10 @@ module.exports = function (request, response, service) {
   response.end(html`
 <!doctype html>
 <html lang=EN>
-${head()}
+${head(false, {
+  title: 'License Zero',
+  description: 'gainful software in the open'
+})}
 <body>
   ${nav()}
   ${header()}

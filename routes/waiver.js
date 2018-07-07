@@ -42,7 +42,10 @@ module.exports = function (request, response, service) {
     response.end(html`
 <!doctype html>
 <html>
-  ${head()}
+  ${head('Waiver', {
+    title: 'Waiver',
+    description: 'form waiver for software licensed through licensezero.com'
+  })}
   <body>
     ${nav()}
     ${header()}
