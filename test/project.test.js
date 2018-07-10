@@ -9,10 +9,10 @@ var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -46,7 +46,7 @@ tape('project', function (test) {
                 publicKey: LICENSOR.publicKey
               },
               description: OFFER.description,
-              commission: service.commission,
+              commission: parseInt(process.env.COMMISSION),
               error: false
             },
             'response'
@@ -63,7 +63,7 @@ tape('project', function (test) {
 })
 
 tape('nonexistent project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     apiRequest(port, {
       action: 'project',
       projectID: uuid()
@@ -80,10 +80,10 @@ tape('nonexistent project', function (test) {
 })
 
 tape('/project/{id}', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,

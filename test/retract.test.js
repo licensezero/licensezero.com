@@ -9,10 +9,10 @@ var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('retract', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -45,9 +45,9 @@ tape('retract', function (test) {
 })
 
 tape('retract nonexistent', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function retract (done) {
         apiRequest(port, {
           action: 'retract',

@@ -4,8 +4,8 @@ var fs = require('fs')
 var pump = require('pump')
 var split2 = require('split2')
 
-module.exports = function (service, stripeID, callback) {
-  var readStream = fs.createReadStream(accountsPath(service))
+module.exports = function (stripeID, callback) {
+  var readStream = fs.createReadStream(accountsPath())
   var destroyed
   pump(
     readStream,

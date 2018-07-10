@@ -1,3 +1,4 @@
+var email = require('../../email')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -12,10 +13,10 @@ exports.properties = {
   email: require('./common/email')
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
   runWaterfall([
-    readLicensor.bind(null, service, licensorID),
+    readLicensor.bind(null, licensorID),
     function (licensor, done) {
       if (licensor.email !== body.email) {
         return done('invalid body')
@@ -23,7 +24,7 @@ exports.handler = function (body, service, end, fail, lock) {
       var token = randomNonce()
       runSeries([
         function writeTokenFile (done) {
-          var file = resetTokenPath(service, token)
+          var file = resetTokenPath(token)
           var content = {
             licensorID: licensorID,
             date: new Date().toISOString()
@@ -34,7 +35,7 @@ exports.handler = function (body, service, end, fail, lock) {
           ], done)
         },
         function emailLink (done) {
-          service.email({
+          email(log, {
             to: licensor.email,
             subject: 'License Zero Token Reset Link',
             text: [
@@ -53,7 +54,7 @@ exports.handler = function (body, service, end, fail, lock) {
   ], function (error) {
     /* istanbul ignore if */
     if (error) {
-      service.log.error(error)
+      log.error(error)
       /* istanbul ignore else */
       if (error.userMessage) {
         fail(error.userMessage)

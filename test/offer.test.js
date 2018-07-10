@@ -8,8 +8,8 @@ var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('offer', function (test) {
-  server(function (port, service, close) {
-    writeTestLicensor(service, function (error) {
+  server(function (port, close) {
+    writeTestLicensor(function (error) {
       test.error(error)
       apiRequest(port, Object.assign(clone(OFFER), {
         licensorID: LICENSOR.id,
@@ -36,8 +36,8 @@ tape('offer', function (test) {
 })
 
 tape('offer w/ relicense', function (test) {
-  server(function (port, service, close) {
-    writeTestLicensor(service, function (error) {
+  server(function (port, close) {
+    writeTestLicensor(function (error) {
       test.error(error)
       var request = clone(OFFER)
       request.pricing.relicense = 10000

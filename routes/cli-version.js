@@ -1,6 +1,6 @@
 var simpleGet = require('simple-get')
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   simpleGet.concat({
     url: 'https://github.com/licensezero/cli/releases/latest',
     json: true

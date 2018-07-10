@@ -6,10 +6,10 @@ var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('name', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var newName = 'Someone Else'
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       apiRequest.bind(null, port, {
         action: 'name',
         licensorID: LICENSOR.id,

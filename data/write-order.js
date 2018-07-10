@@ -8,10 +8,10 @@ var uuid = require('uuid/v4')
 // TODO refactor to take a data object, like write-relicense-order
 
 module.exports = function (
-  service, pricedProjects, licensee, jurisdiction, email, callback
+  pricedProjects, licensee, jurisdiction, email, callback
 ) {
   var orderID = uuid()
-  var file = orderPath(service, orderID)
+  var file = orderPath(orderID)
   var total = pricedProjects.reduce(function (total, project) {
     return total + project.price
   }, 0)

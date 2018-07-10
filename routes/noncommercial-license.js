@@ -12,13 +12,13 @@ var REPOSITORY = (
   'https://github.com/licensezero/licensezero-noncommercial-public-license'
 )
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   noncommercialLicense({
     name: '{Licensor Name}',
     source: '{https://example.com/project}'
   }, function (error, document) {
     if (error) {
-      service.log.error(error)
+      request.log.error(error)
       return internalError(response, error)
     }
     response.setHeader('Content-Type', 'text/html')

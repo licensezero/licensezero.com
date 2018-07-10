@@ -4,7 +4,7 @@ var invokeAction = require('./invoke-action')
 var orderAction = require('./actions/order')
 var orderProperties = require('./actions/order').properties
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   var method = request.method
   if (method === 'POST') {
     post.apply(null, arguments)
@@ -14,7 +14,7 @@ module.exports = function (request, response, service) {
   }
 }
 
-function post (request, response, service) {
+function post (request, response) {
   var data = {}
   var parser = new Busboy({headers: request.headers})
   parser.on('field', function (name, value) {
@@ -41,9 +41,10 @@ function post (request, response, service) {
   })
   data.action = 'order'
   parser.once('finish', function () {
-    invokeAction(service, orderAction, data, function (error, result) {
+    request.log.info('finished parsing body')
+    invokeAction(request.log, orderAction, data, function (error, result) {
       if (error) {
-        service.log.error(error)
+        request.log.error(error)
         return internalError(response, error)
       }
       response.statusCode = 303

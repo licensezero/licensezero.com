@@ -4,7 +4,7 @@ var server = require('./server')
 var tape = require('tape')
 
 tape('non-object API payload', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     apiRequest(port, null, function (error, response) {
       test.error(error, 'no HTTP error')
       test.equal(
@@ -18,7 +18,7 @@ tape('non-object API payload', function (test) {
 })
 
 tape('payload without action', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     apiRequest(port, {}, function (error, response) {
       test.error(error, 'no HTTP error')
       test.equal(
@@ -32,7 +32,7 @@ tape('payload without action', function (test) {
 })
 
 tape('payload with invalid action', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     apiRequest(port, {action: 'invalid'}, function (error, response) {
       test.error(error, 'no HTTP error')
       test.equal(
@@ -46,7 +46,7 @@ tape('payload with invalid action', function (test) {
 })
 
 tape('oversize payload', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     http.request({
       method: 'POST',
       port: port,

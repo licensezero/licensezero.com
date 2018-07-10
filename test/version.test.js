@@ -5,7 +5,7 @@ var server = require('./server')
 var tape = require('tape')
 
 tape('version', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     apiRequest(port, {
       action: 'version'
     }, function (error, response) {

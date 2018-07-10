@@ -13,15 +13,15 @@ exports.properties = {
   terms: {enum: ['parity', 'prosperity', 'charity']}
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var projectID = body.projectID
-  readProject(service, projectID, function (error, project) {
+  readProject(projectID, function (error, project) {
     if (error) {
       /* istanbul ignore else */
       if (error.userMessage) {
         fail(error.userMessage)
       } else {
-        service.log.error(error)
+        log.error(error)
         fail('internal error')
       }
     } else {
@@ -43,17 +43,19 @@ exports.handler = function (body, service, end, fail, lock) {
         }
         terms(licenseData, function (error, document) {
           if (error) {
-            service.log.error(error)
+            log.error(error)
             return fail('internal error')
           }
           var licensorLicenseSignature = ed25519.sign(
             document, body.licensor.publicKey, project.licensor.privateKey
           )
+          var publicKey = Buffer.from(process.env.PUBLIC_KEY, 'hex')
+          var privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex')
           var agentLicenseSignature = ed25519.sign(
             document + '---\nLicensor:\n' +
             signatureLines(licensorLicenseSignature) + '\n',
-            service.publicKey,
-            service.privateKey
+            publicKey,
+            privateKey
           )
           var metadata = {
             // See: https://docs.npmjs.com/files/package.json#license
@@ -71,8 +73,8 @@ exports.handler = function (body, service, end, fail, lock) {
                 license: licenseData,
                 licensorSignature: licensorMetadataSignature
               }),
-              service.publicKey,
-              service.privateKey
+              publicKey,
+              privateKey
             )
             metadata.licensezero = {
               license: licenseData,

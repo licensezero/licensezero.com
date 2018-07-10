@@ -1,7 +1,6 @@
 var fs = require('fs')
 var path = require('path')
 var pump = require('pump')
-var replacestream = require('replacestream')
 var send = require('send')
 
 var routes = module.exports = require('http-hash')()
@@ -72,21 +71,19 @@ routes.set('/terms/agency', require('./agency-terms'))
 
 routes.set('/privacy', require('./privacy'))
 
-routes.set('/pay.js', function (request, response, service) {
+routes.set('/pay.js', function (request, response) {
   response.setHeader('Content-Type', 'application/javascript')
+  var value = JSON.stringify(process.env.STRIPE_PUBLISHABLE_KEY)
+  response.write(`window.STRIPE_PUBLISHABLE_KEY = ${value};\n`)
   pump(
     fs.createReadStream(
       path.join(__dirname, '..', 'static', 'pay.js')
-    ),
-    replacestream(
-      'STRIPE_PUBLIC_KEY',
-      JSON.stringify(service.stripe.public)
     ),
     response
   )
 })
 
-routes.set('/clipboard.min.js', function (request, response, service) {
+routes.set('/clipboard.min.js', function (request, response) {
   response.setHeader('Content-Type', 'application/javascript')
   pump(
     fs.createReadStream(

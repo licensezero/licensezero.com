@@ -8,10 +8,10 @@ var writeTestLicensor = require('./write-test-licensor')
 // TODO: Test a notification after e-mail change
 
 tape('email', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var newAddress = 'another@example.com'
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function (done) {
         apiRequest(port, {
           action: 'email',
@@ -33,10 +33,10 @@ tape('email', function (test) {
 })
 
 tape('email w/ bad authorization', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var newAddress = 'another@example.com'
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function (done) {
         apiRequest(port, {
           action: 'email',

@@ -11,9 +11,9 @@ module.exports = function (key) {
   properties[key] = require('./register').properties[key]
   return {
     properties: properties,
-    handler: function (body, service, end, fail, lock) {
+    handler: function (log, body, end, fail, lock) {
       var licensorID = body.licensorID
-      var file = licensorPath(service, licensorID)
+      var file = licensorPath(licensorID)
       lock(licensorID, function (release) {
         runWaterfall([
           fs.readFile.bind(fs, file),

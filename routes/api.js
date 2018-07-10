@@ -41,7 +41,7 @@ Object.keys(actions).forEach(function (key) {
   action.validate = ajv.compile(action.schema)
 })
 
-module.exports = function api (request, response, service) {
+module.exports = function api (request, response) {
   parseBodyAndRespond()
 
   function parseBodyAndRespond () {
@@ -112,7 +112,7 @@ module.exports = function api (request, response, service) {
         } else {
           if (action.schema.required.includes('token')) {
             checkAuthentication(
-              request, body, service, function (error, licensor) {
+              request, body, function (error, licensor) {
                 /* istanbul ignore if */
                 if (error) {
                   fail('internal error')
@@ -132,7 +132,7 @@ module.exports = function api (request, response, service) {
     }
 
     function route () {
-      action.handler(body, service, end, fail, lock)
+      action.handler(request.log, body, end, fail, lock)
     }
   }
 
@@ -151,10 +151,10 @@ module.exports = function api (request, response, service) {
   }
 }
 
-function checkAuthentication (request, body, service, callback) {
+function checkAuthentication (request, body, callback) {
   var licensorID = body.licensorID
   var token = body.token
-  readLicensor(service, licensorID, function (error, licensor) {
+  readLicensor(licensorID, function (error, licensor) {
     if (error) return callback(error)
     argon2.verify(licensor.token, token)
       .then(function (match) {

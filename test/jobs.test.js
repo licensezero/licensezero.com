@@ -3,11 +3,13 @@ var OFFER = require('./offer')
 var PERSON = 'I am a person, not a legal entity.'
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
+var email = require('../email')
 var fs = require('fs')
 var http = require('http')
 var mutateJSONFile = require('../data/mutate-json-file')
 var ordersPath = require('../paths/orders')
 var path = require('path')
+var pino = require('pino')
 var resetTokensPath = require('../paths/reset-tokens')
 var runSeries = require('run-series')
 var server = require('./server')
@@ -17,11 +19,11 @@ var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('sweep orders', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     var location
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -53,7 +55,7 @@ tape('sweep orders', function (test) {
         })
       },
       function backdateOrder (done) {
-        var directory = ordersPath(service)
+        var directory = ordersPath()
         fs.readdir(directory, function (error, entries) {
           if (error) return done(error)
           var file = path.join(directory, entries[0])
@@ -74,7 +76,8 @@ tape('sweep orders', function (test) {
         )
       },
       function sweep (done) {
-        sweepOrders(service, done)
+        var log = pino({}, fs.createWriteStream('/dev/null'))
+        sweepOrders(log, done)
       },
       function tryToPayAfterSweep (done) {
         http.get(
@@ -94,9 +97,9 @@ tape('sweep orders', function (test) {
 })
 
 tape('sweep reset tokens', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var resetToken
-    service.email.events.once('message', function (message) {
+    email.events.once('message', function (message) {
       test.equal(message.to, LICENSOR.email, 'email to licensor')
       message.text.forEach(function (paragraph) {
         var match = /https:\/\/licensezero.com\/reset\/([0-9a-f]{64})/
@@ -104,7 +107,7 @@ tape('sweep reset tokens', function (test) {
         if (match) resetToken = match[1]
       })
     })
-    writeTestLicensor(service, function (error) {
+    writeTestLicensor(function (error) {
       test.error(error, 'no error')
       runSeries([
         function resetAction (done) {
@@ -119,7 +122,7 @@ tape('sweep reset tokens', function (test) {
           })
         },
         function backdateResetToken (done) {
-          var directory = resetTokensPath(service)
+          var directory = resetTokensPath()
           fs.readdir(directory, function (error, entries) {
             if (error) return done(error)
             var file = path.join(directory, entries[0])
@@ -131,7 +134,8 @@ tape('sweep reset tokens', function (test) {
           })
         },
         function sweep (done) {
-          sweepResetTokens(service, done)
+          var log = pino({}, fs.createWriteStream('/dev/null'))
+          sweepResetTokens(log, done)
         },
         function visitResetPage (done) {
           http.request({

@@ -1,5 +1,6 @@
 var accountsPath = require('../paths/accounts')
 var ed25519 = require('../ed25519')
+var email = require('../email')
 var footer = require('./partials/footer')
 var fs = require('fs')
 var generateToken = require('../data/generate-token')
@@ -21,7 +22,7 @@ var terms = require('../forms/terms-of-service')
 var toANSI = require('commonform-terminal')
 var uuid = require('uuid/v4')
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   if (request.method !== 'GET') {
     response.statusCode = 405
     response.end()
@@ -55,7 +56,7 @@ ${head('Registration')}
       query.scope === 'read_write' && query.code && query.state
     ) {
       var nonce = query.state
-      var nonceFile = stripeNoncePath(service, nonce)
+      var nonceFile = stripeNoncePath(nonce)
       runWaterfall([
         function readNonceFile (done) {
           fs.readFile(nonceFile, function (error, read) {
@@ -98,7 +99,7 @@ ${head('Registration')}
         },
         function (nonceData, done) {
           requestStripeCredentials(
-            service, query.code,
+            query.code,
             function (error, results) {
               /* istanbul ignore if */
               if (error) {
@@ -129,7 +130,7 @@ ${head('Registration')}
         },
         function writeLicensorFile (stripeData, nonceData, done) {
           var licensorID = uuid()
-          var licensorFile = licensorPath(service, licensorID)
+          var licensorFile = licensorPath(licensorID)
           var keypair = ed25519.keys()
           var passphrase = generateToken()
           var stripeID = stripeData.stripe_user_id
@@ -160,7 +161,7 @@ ${head('Registration')}
             }
           ], function (error) {
             if (error) return done(error)
-            service.email({
+            email(request.log, {
               to: 'registrations@licensezero.com',
               subject: 'Licensor Registration',
               text: [
@@ -172,7 +173,7 @@ ${head('Registration')}
                 ].join('\n')
               ]
             }, function (error) {
-              if (error) service.log.error(error)
+              if (error) request.log.error(error)
             })
             done(
               null, nonceData.email, licensorID, stripeID,
@@ -181,13 +182,13 @@ ${head('Registration')}
           })
         },
         function emailLicensor (
-          email, licensorID, stripeID, publicKey, passphrase, done
+          address, licensorID, stripeID, publicKey, passphrase, done
         ) {
           runWaterfall([
             terms,
             function (terms, done) {
-              service.email({
-                to: email,
+              email(request.log, {
+                to: address,
                 subject: 'Licensor Registration',
                 text: [
                   [
@@ -228,7 +229,7 @@ ${head('Registration')}
         function appendToAccounts (
           licensorID, stripeID, passphrase, done
         ) {
-          var file = accountsPath(service)
+          var file = accountsPath()
           var line = stripeID + '\t' + licensorID + '\n'
           fs.appendFile(file, line, function (error) {
             if (error) return done(error)
@@ -257,7 +258,7 @@ ${head('Registration')}
         ><code>licensezero</code> command line interface</a>
       and import your licensor credentials:
     </p>
-    <code class=terminal>licensezero token --licensor ${licensorID}</code>
+    <code class=terminal>licensezero token --licensor <span class=id>${licensorID}</span></code>
     <p>Then enter your access token: <code class=token>${passphrase}</code></p>
   </main>
   ${footer()}

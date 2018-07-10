@@ -3,9 +3,9 @@ var fs = require('fs')
 var parseJSON = require('json-parse-errback')
 var runWaterfall = require('run-waterfall')
 
-module.exports = function (service, licensorID, callback) {
+module.exports = function (licensorID, callback) {
   runWaterfall([
-    fs.readFile.bind(fs, licensorPath(service, licensorID)),
+    fs.readFile.bind(fs, licensorPath(licensorID)),
     parseJSON
   ], callback)
 }

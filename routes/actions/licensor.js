@@ -6,9 +6,9 @@ exports.properties = {
   licensorID: require('./common/licensor-id')
 }
 
-exports.handler = function (body, service, end, fail) {
+exports.handler = function (log, body, end, fail) {
   var licensorID = body.licensorID
-  var file = licensorPath(service, licensorID)
+  var file = licensorPath(licensorID)
   readJSONFile(file, function (error, licensor) {
     if (error) {
       /* istanbul ignore else */
@@ -18,10 +18,10 @@ exports.handler = function (body, service, end, fail) {
         fail('internal error')
       }
     } else {
-      listProjects(service, licensorID, function (error, projects) {
+      listProjects(licensorID, function (error, projects) {
         /* istanbul ignore if */
         if (error) {
-          service.log.error(error)
+          log.error(error)
           fail('internal error')
         } else {
           end({

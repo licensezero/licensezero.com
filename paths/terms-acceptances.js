@@ -1,5 +1,5 @@
 var path = require('path')
 
-module.exports = function (service) {
-  return path.join(service.directory, 'terms.ndjson')
+module.exports = function () {
+  return path.join(process.env.DIRECTORY, 'terms.ndjson')
 }

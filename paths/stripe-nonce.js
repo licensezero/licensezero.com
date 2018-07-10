@@ -1,5 +1,5 @@
 var path = require('path')
 
-module.exports = function (service, nonce) {
-  return path.join(service.directory, 'stripe-nonces', nonce + '.json')
+module.exports = function (nonce) {
+  return path.join(process.env.DIRECTORY, 'stripe-nonces', nonce + '.json')
 }

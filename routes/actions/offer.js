@@ -19,7 +19,7 @@ exports.properties = {
   terms: require('./common/agency-terms')
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
   var projectID = uuid()
   lock([licensorID], function (release) {
@@ -27,7 +27,7 @@ exports.handler = function (body, service, end, fail, lock) {
       function (done) {
         runParallel([
           checkHomepage.bind(null, body),
-          recordAcceptance.bind(null, service, {
+          recordAcceptance.bind(null, {
             licensor: licensorID,
             date: new Date().toISOString()
           })
@@ -36,7 +36,7 @@ exports.handler = function (body, service, end, fail, lock) {
       function writeFile (done) {
         runParallel([
           function writeProjectFile (done) {
-            var file = projectPath(service, projectID)
+            var file = projectPath(projectID)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify({
@@ -45,12 +45,12 @@ exports.handler = function (body, service, end, fail, lock) {
                 pricing: body.pricing,
                 homepage: body.homepage,
                 description: body.description,
-                commission: service.commission
+                commission: parseInt(process.env.COMMISSION)
               }))
             ], done)
           },
           function appendToLicensorProjectsList (done) {
-            var file = projectsListPath(service, licensorID)
+            var file = projectsListPath(licensorID)
             var content = stringifyProjects([
               {
                 projectID: projectID,
@@ -68,7 +68,7 @@ exports.handler = function (body, service, end, fail, lock) {
     ], release(function (error) {
       /* istanbul ignore if */
       if (error) {
-        service.log.error(error)
+        log.error(error)
         /* istanbul ignore else */
         if (error.userMessage) {
           fail(error.userMessage)

@@ -6,26 +6,16 @@ var sweepOrders = require('./jobs/delete-expired-orders')
 var sweepPurchases = require('./jobs/delete-expired-purchases')
 var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
-var DIRECTORY = process.env.DIRECTORY || 'licensezero'
+var DIRECTORY = require('./paths/directory')
 var PORT = process.env.PORT || 8080
-var service = {
-  directory: DIRECTORY,
-  port: PORT,
-  publicKey: Buffer.from(process.env.PUBLIC_KEY, 'hex'),
-  privateKey: Buffer.from(process.env.PRIVATE_KEY, 'hex'),
-  stripe: require('./environment/stripe'),
-  mailgun: require('./environment/mailgun'),
-  commission: require('./environment/commission')
-}
 
 var NAME = require('./package.json').name
 var VERSION = require('./package.json').version
 var log = pino({name: NAME + '@' + VERSION})
-service.log = log
 
 log.info({event: 'data', directory: DIRECTORY})
 
-var requestHandler = makeHandler(service, log)
+var requestHandler = makeHandler(log)
 var server = http.createServer(requestHandler)
 
 process
@@ -44,9 +34,9 @@ server.listen(PORT, function onListening () {
 
 var jobs = [sweepOrders, sweepResetTokens, sweepPurchases]
 jobs.forEach(function (job) {
-  job(service, function () { })
+  job(log, function () { })
   schedule.scheduleJob('0 * * * *', function () {
-    job(service, function () { /* pass */ })
+    job(log, function () { /* pass */ })
   })
 })
 

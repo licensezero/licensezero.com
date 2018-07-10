@@ -6,14 +6,14 @@ var path = require('path')
 var runSeries = require('run-series')
 var uuid = require('uuid/v4')
 
-module.exports = function (service, data, callback) {
+module.exports = function (data, callback) {
   assert.equal(typeof data.sponsor, 'string')
   assert.equal(typeof data.jurisdiction, 'string')
   assert.equal(typeof data.email, 'string')
   assert.equal(typeof data.project, 'object')
   assert.notEqual(data.project, null)
   var orderID = uuid()
-  var file = orderPath(service, orderID)
+  var file = orderPath(orderID)
   runSeries([
     mkdirp.bind(null, path.dirname(file)),
     fs.writeFile.bind(fs, file, JSON.stringify({

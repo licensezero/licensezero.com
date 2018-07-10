@@ -1,4 +1,5 @@
 var apiRequest = require('./api-request')
+var email = require('../email')
 var http = require('http')
 var querystring = require('querystring')
 var runWaterfall = require('run-waterfall')
@@ -7,7 +8,7 @@ var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
 tape('GET /stripe-redirect', function (test) {
-  server(function (port, configuration, close) {
+  server(function (port, close) {
     http.request({
       port: port,
       path: '/stripe-redirect'
@@ -29,7 +30,7 @@ tape('GET /stripe-redirect', function (test) {
 })
 
 tape('GET /stripe-redirect?error=&error_description=', function (test) {
-  server(function (port, configuration, close) {
+  server(function (port, close) {
     http.request({
       port: port,
       path: '/stripe-redirect?' + querystring.stringify({
@@ -54,7 +55,7 @@ tape('GET /stripe-redirect?error=&error_description=', function (test) {
 })
 
 tape('GET /stripe-redirect w/ bad state', function (test) {
-  server(function (port, configuration, close) {
+  server(function (port, close) {
     http.request({
       port: port,
       path: '/stripe-redirect?' + querystring.stringify({
@@ -80,17 +81,17 @@ tape('GET /stripe-redirect w/ bad state', function (test) {
 })
 
 tape('GET /stripe-redirect w/ test state', function (test) {
-  server(function (port, service, close) {
-    var email = 'text@example.com'
+  server(function (port, close) {
+    var address = 'text@example.com'
     runWaterfall([
       function (done) {
         var re = /https:\/\/connect.stripe.com\/oauth\/authorize\?(.+)/
-        service.email.events.once('message', function (message) {
+        email.events.once('message', function (message) {
           done(null, re.exec(message.text.join('\n\n'))[1])
         })
         apiRequest(port, {
           action: 'register',
-          email: email,
+          email: address,
           name: 'Test Licensor',
           jurisdiction: 'US-CA',
           terms: (
@@ -120,7 +121,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
             test.equal(response.statusCode, 200, '200')
             simpleConcat(response, function (error, buffer) {
               if (error) return done(error)
-              var id = /<code class=id>([^<]+)<\/code>/
+              var id = /<span class=id>([^<]+)<\/span>/
                 .exec(buffer.toString())[1]
               var token = /<code class=token>([^<]+)<\/code>/
                 .exec(buffer.toString())[1]
@@ -161,7 +162,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
 })
 
 tape('PUT /stripe-redirect', function (test) {
-  server(function (port, configuration, close) {
+  server(function (port, close) {
     http.request({
       method: 'PUT',
       port: port,

@@ -1,3 +1,3 @@
-exports.handler = function (body, service, end, fail, lock) {
-  end({key: service.publicKey.toString('hex')})
+exports.handler = function (log, body, end, fail, lock) {
+  end({key: process.env.PUBLIC_KEY})
 }

@@ -9,7 +9,7 @@ testQuote('relicense')
 function testQuote (type) {
   var path = '/licenses/quotes/' + type + '.odt'
   tape('GET ' + path, function (test) {
-    server(function (port, configuration, close) {
+    server(function (port, close) {
       http.request({port: port, path: path})
         .once('error', function (error) {
           test.error(error, 'no error')

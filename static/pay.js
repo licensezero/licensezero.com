@@ -1,7 +1,6 @@
-/* global STRIPE_PUBLIC_KEY */
 document.addEventListener('DOMContentLoaded', function () {
   var form = document.forms[0]
-  var stripe = window.Stripe(STRIPE_PUBLIC_KEY)
+  var stripe = window.Stripe(window.STRIPE_PUBLISHABLE_KEY)
   var elements = stripe.elements()
   var card = elements.create('card')
   card.mount('#card')

@@ -1,4 +1,5 @@
 var apiRequest = require('./api-request')
+var email = require('../email')
 var http = require('http')
 var parseJSON = require('json-parse-errback')
 var runSeries = require('run-series')
@@ -15,8 +16,8 @@ var SPONSOR_JURISDICTION = 'US-MD'
 var SPONSOR_NAME = 'Larry Licensee'
 
 tape('Stripe OAuth connect, register, license', function (suite) {
-  server(8080, function (port, service, close) {
-    withLicensor(port, service, suite, function (error, licensorID, token) {
+  server(8080, function (port, close) {
+    withLicensor(port, suite, function (error, licensorID, token) {
       if (error) {
         suite.error(error)
         suite.end()
@@ -196,14 +197,14 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               if (++called === 2) done()
             }
 
-            service.email.events.on('message', function (message) {
+            email.events.on('message', function (message) {
               if (message.subject === 'License Zero Relicense Agreement') {
                 agreementMessage = message
               } else if (message.subject === 'License Zero Relicense') {
                 notificationMessage = message
               }
               if (agreementMessage && notificationMessage) {
-                service.email.events.removeAllListeners('message')
+                email.events.removeAllListeners('message')
                 twoPhaseDone()
               }
             })
@@ -284,13 +285,13 @@ tape('Stripe OAuth connect, register, license', function (suite) {
   })
 })
 
-function withLicensor (port, service, test, callback) {
+function withLicensor (port, test, callback) {
   var oauthLocation
   var licensorID
   var token
   runSeries([
     function register (done) {
-      service.email.events.once('message', function (message) {
+      email.events.once('message', function (message) {
         message.text.forEach(function (line) {
           if (line.indexOf('https://connect.stripe.com') === 0) {
             oauthLocation = line
@@ -320,7 +321,7 @@ function withLicensor (port, service, test, callback) {
       webdriver.url(oauthLocation)
         .waitForExist('=Skip this account form', 30000)
         .click('=Skip this account form')
-        .getText('code.id')
+        .getText('span.id')
         .then(function (text) {
           licensorID = text
         })

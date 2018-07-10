@@ -3,10 +3,8 @@ var https = require('https')
 var parseJSON = require('json-parse-errback')
 var simpleConcat = require('simple-concat')
 
-var TESTING = process.env.NODE_ENV === 'test'
-
-module.exports = function (service, code, callback) {
-  if (TESTING && code === 'TEST_STRIPE_CODE') {
+module.exports = function (code, callback) {
+  if (process.env.NODE_ENV === 'test' && code === 'TEST_STRIPE_CODE') {
     return callback(null, {
       stripe_user_id: 'FAKE_STRIPE_ID',
       refresh_token: 'FAKE_REFRESH_TOKEN'
@@ -15,7 +13,7 @@ module.exports = function (service, code, callback) {
   var form = new FormData()
   form.append('grant_type', 'authorization_code')
   form.append('code', code)
-  form.append('client_secret', service.stripe.private)
+  form.append('client_secret', process.env.STRIPE_SECRET_KEY)
   form.pipe(
     https.request({
       method: 'POST',

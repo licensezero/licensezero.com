@@ -53,7 +53,7 @@ var SPONSOR = [
   'licensezero sponsor --id $ID'
 ]
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   response.end(html`
 <!doctype html>

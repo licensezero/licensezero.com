@@ -7,9 +7,9 @@ var runParallelLimit = require('run-parallel-limit')
 var LIMIT = 3
 
 module.exports = function (pathFunction) {
-  return function (service, callback) {
-    var directory = pathFunction(service)
-    var log = service.log.child({
+  return function (serverLog, callback) {
+    var directory = pathFunction()
+    var log = serverLog.child({
       subsystem: 'sweep',
       directory: directory
     })
@@ -29,18 +29,20 @@ module.exports = function (pathFunction) {
               log.error(error)
               return done()
             }
-            if (expired(order.date)) {
-              var dataToLog = {order: order.orderID, file: file}
-              log.info(dataToLog, 'expired')
-              fs.unlink(file, function (error) {
-                if (error) log.error(error)
-                else log.info(dataToLog, 'deleted')
-                done()
-              })
-            }
+            if (!expired(order.date)) return done()
+            var dataToLog = {order: order.orderID, file: file}
+            log.info(dataToLog, 'expired')
+            fs.unlink(file, function (error) {
+              if (error) log.error(error)
+              else log.info(dataToLog, 'deleted')
+              done()
+            })
           })
         }
-      }), LIMIT, callback)
+      }), LIMIT, function (error) {
+        log.info('done')
+        callback(error)
+      })
     })
   }
 }

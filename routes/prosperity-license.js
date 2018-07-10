@@ -13,13 +13,13 @@ var REPOSITORY = (
   'https://github.com/licensezero/prosperity-public-license'
 )
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   prosperityLicense({
     name: '{Licensor Name}',
     homepage: '{https://example.com/project}'
   }, function (error, document) {
     if (error) {
-      service.log.error(error)
+      request.log.error(error)
       return internalError(response, error)
     }
     response.setHeader('Content-Type', 'text/html')

@@ -10,10 +10,10 @@ var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('waiver', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -100,9 +100,9 @@ tape('waiver', function (test) {
 })
 
 tape('waiver for nonexistent project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function issueWaiver (done) {
         apiRequest(port, {
           action: 'waiver',
@@ -130,10 +130,10 @@ tape('waiver for nonexistent project', function (test) {
 })
 
 tape('waiver for retracted project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,

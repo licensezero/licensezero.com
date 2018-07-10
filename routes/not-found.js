@@ -4,8 +4,8 @@ var header = require('./partials/header')
 var html = require('./html')
 var nav = require('./partials/nav')
 
-module.exports = function (service, response, error) {
-  service.log.error(error)
+module.exports = function (request, response, error) {
+  if (error) request.log.error(error)
   response.statusCode = 404
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   response.end(html`

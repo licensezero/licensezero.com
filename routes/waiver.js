@@ -12,7 +12,7 @@ var xtend = require('xtend')
 
 var REPOSITORY = 'https://github.com/licensezero/licensezero-waiver'
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   var common = {
     licensor: {
       name: '{Licensor Name}',
@@ -35,7 +35,7 @@ module.exports = function (request, response, service) {
     term: waiver.bind(null, xtend(common, {term: '10'}))
   }, function (error, results) {
     if (error) {
-      service.log.error(error)
+      request.log.error(error)
       return internalError(response, error)
     }
     response.setHeader('Content-Type', 'text/html')

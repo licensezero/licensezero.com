@@ -11,10 +11,10 @@ var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('public prosperity', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -160,10 +160,10 @@ tape('public prosperity', function (test) {
 })
 
 tape('public parity', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -309,9 +309,9 @@ tape('public parity', function (test) {
 })
 
 tape('public for nonexistent project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function (done) {
         apiRequest(port, {
           action: 'public',
@@ -337,10 +337,10 @@ tape('public for nonexistent project', function (test) {
 })
 
 tape('public for retracted project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -389,10 +389,10 @@ tape('public for retracted project', function (test) {
 })
 
 tape('public charity', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,

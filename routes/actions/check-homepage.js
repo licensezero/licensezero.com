@@ -1,14 +1,12 @@
 var http = require('http-https')
 var url = require('url')
 
-var TESTING = process.env.NODE_ENV === 'test'
-
 var ACCEPTABLE_STATUS = [200, 204, 301]
 
 module.exports = function (body, callback) {
   /* istanbul ignore else */
   if (
-    TESTING &&
+    process.env.NODE_ENV === 'test' &&
     body.homepage.indexOf('http://example.com/') === 0
   ) {
     return callback()

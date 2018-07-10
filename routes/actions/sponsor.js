@@ -8,17 +8,17 @@ exports.properties = {
   email: require('./common/email')
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var projectID = body.projectID
   var sponsor = body.sponsor
   var jurisdiction = body.jurisdiction
   var email = body.email
-  readProject(service, projectID, function (error, project) {
+  readProject(projectID, function (error, project) {
     if (error) return fail('no such project')
     if (project.retracted) return fail('project retracted')
     if (project.relicensed) return fail('project already relicensed')
     if (!project.pricing.relicense) return fail('not available for relicense')
-    writeRelicenseOrder(service, {
+    writeRelicenseOrder({
       project: project,
       sponsor: sponsor,
       jurisdiction: jurisdiction,

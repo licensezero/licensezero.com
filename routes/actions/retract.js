@@ -14,11 +14,11 @@ exports.properties = {
   projectID: require('./common/project-id')
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
   var projectID = body.projectID
   lock([licensorID, projectID], function (release) {
-    var file = projectPath(service, body.projectID)
+    var file = projectPath(body.projectID)
     readJSONFile(file, function (error, project) {
       if (error) return die('no such project')
       if (project.retracted) return die('retracted project')
@@ -30,13 +30,13 @@ exports.handler = function (body, service, end, fail, lock) {
       }
       runSeries([
         function markRetracted (done) {
-          var file = projectPath(service, projectID)
+          var file = projectPath(projectID)
           mutateJSONFile(file, function (data) {
             data.retracted = true
           }, annotateENOENT('no such project', done))
         },
         function removeFromProjectsList (done) {
-          var file = projectsListPath(service, licensorID)
+          var file = projectsListPath(licensorID)
           mutateTextFile(file, function (text) {
             return stringifyProjects(
               parseProjects(text)
@@ -54,7 +54,7 @@ exports.handler = function (body, service, end, fail, lock) {
         }
       ], release(function (error) {
         if (error) {
-          service.log.error(error)
+          log.error(error)
           /* istanbul ignore else */
           if (error.userMessage) {
             fail(error.userMessage)

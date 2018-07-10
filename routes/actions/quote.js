@@ -12,13 +12,13 @@ exports.properties = {
   }
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var projects = body.projects
   var results = new Array(projects.length)
   runParallel(
     projects.map(function (projectID, index) {
       return function (done) {
-        readProject(service, projectID, function (error, project) {
+        readProject(projectID, function (error, project) {
           if (error) {
             if (error.userMessage) {
               error.userMessage += ': ' + projectID

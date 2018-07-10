@@ -10,7 +10,7 @@ var permissiveLicense = require('../forms/permissive-license')
 var reciprocalLicense = require('../forms/reciprocal-license')
 var runParallel = require('run-parallel')
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   runParallel({
     reciprocal: function (done) {
       reciprocalLicense({
@@ -26,7 +26,7 @@ module.exports = function (request, response, service) {
     }
   }, function (error, results) {
     if (error) {
-      service.log.error(error)
+      request.log.error(error)
       return internalError(response, error)
     }
     var patch = diff.diffLines(results.permissive, results.reciprocal)

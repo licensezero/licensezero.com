@@ -6,8 +6,8 @@ var mkdirp = require('mkdirp')
 var path = require('path')
 var runSeries = require('run-series')
 
-module.exports = function (service, callback) {
-  var file = licensorPath(service, LICENSOR.id)
+module.exports = function (callback) {
+  var file = licensorPath(LICENSOR.id)
   runSeries([
     mkdirp.bind(null, path.dirname(file)),
     function (done) {

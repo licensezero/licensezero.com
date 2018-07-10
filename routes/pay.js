@@ -4,6 +4,7 @@ var UUIDV4 = require('../data/uuidv4-pattern')
 var annotateENOENT = require('../data/annotate-enoent')
 var applicationFee = require('../stripe/application-fee')
 var ed25519 = require('../ed25519')
+var email = require('../email')
 var escape = require('./escape')
 var footer = require('./partials/footer')
 var formatPrice = require('./format-price')
@@ -38,27 +39,31 @@ var signatureLines = require('../data/signature-lines')
 var stringify = require('../stringify')
 var stringifyProjects = require('../data/stringify-projects')
 var stripANSI = require('strip-ansi')
+var stripe = require('../stripe')
 var toANSI = require('commonform-terminal')
 var uuid = require('uuid/v4')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   var method = request.method
   if (method === 'GET' || method === 'POST') {
     var orderID = request.parameters.order
     if (!UUID_RE.test(orderID)) return notFound(response)
-    var file = orderPath(service, orderID)
+    var file = orderPath(orderID)
     readJSONFile(file, function (error, order) {
       if (error) {
         if (error.code === 'ENOENT') return notFound(response)
-        service.log.error(error)
-        internalError(response)
-      } else if (expired(order.date)) {
+        request.log.error(error)
+        return internalError(response)
+      }
+      request.log.info(order)
+      if (expired(order.date)) {
+        request.log.info('expired')
         return notFound(response)
       }
-      (method === 'GET' ? get : post)(request, response, service, order)
+      (method === 'GET' ? get : post)(request, response, order)
     })
   } else {
     response.statusCode = 405
@@ -66,7 +71,7 @@ module.exports = function (request, response, service) {
   }
 }
 
-function get (request, response, service, order, postData) {
+function get (request, response, order, postData) {
   response.statusCode = postData ? 400 : 200
   response.setHeader('Content-Type', 'text/html')
   var relicensing = order.type === 'relicense'
@@ -255,7 +260,7 @@ var postSchema = {
 var ajv = new AJV({allErrors: true})
 var validatePost = ajv.compile(postSchema)
 
-function post (request, response, service, order) {
+function post (request, response, order) {
   var data = {}
   request.pipe(
     new Busboy({headers: request.headers})
@@ -279,13 +284,18 @@ function post (request, response, service, order) {
                 message: 'You must provide payment to continue.'
               }
             } else {
-              service.log.info(error, 'unexpected schema error')
+              request.log.info(error, 'unexpected schema error')
               return null
             }
           })
-          return get(request, response, service, order, data)
+          return get(request, response, order, data)
         }
-        (order.type === 'relicense' ? buyRelicense : buyLicenses)()
+        try {
+          (order.type === 'relicense' ? buyRelicense : buyLicenses)()
+        } catch (error) {
+          request.log.error(error, 'ERROR')
+          response.end()
+        }
       })
   )
 
@@ -322,7 +332,7 @@ function post (request, response, service, order) {
       //
       // Stripe Step 1:
       function createSharedCustomer (done) {
-        service.stripe.api.customers.create({
+        stripe.customers.create({
           metadata: stripeMetadata,
           source: data.token
         }, function (error, customer) {
@@ -333,7 +343,7 @@ function post (request, response, service, order) {
       },
       runParallel.bind(null,
         [
-          recordAcceptance.bind(null, service, {
+          recordAcceptance.bind(null, {
             type: 'license',
             licensee: order.licensee,
             jurisdiction: order.jurisdiction,
@@ -355,7 +365,7 @@ function post (request, response, service, order) {
               runWaterfall.bind(null, [
                 // Stripe Step 2:
                 function createSharedCustomerToken (done) {
-                  service.stripe.api.tokens.create({
+                  stripe.tokens.create({
                     customer: stripeCustomerID
                   }, {
                     stripe_account: stripeID
@@ -376,11 +386,11 @@ function post (request, response, service, order) {
                   if (commission > 0) {
                     options.application_fee = commission
                   }
-                  service.stripe.api.charges.create(options, {
+                  stripe.charges.create(options, {
                     stripe_account: stripeID
                   }, function (error, charge) {
                     if (error) return done(error)
-                    service.log.info(charge, 'charge')
+                    request.log.info(charge, 'charge')
                     chargeID = charge.id
                     done()
                   })
@@ -424,7 +434,7 @@ function post (request, response, service, order) {
                             )
                           }
                           licenses.push(license)
-                          service.email({
+                          email(request.log, {
                             to: order.email,
                             subject: 'License Zero Receipt and License File',
                             text: []
@@ -452,7 +462,7 @@ function post (request, response, service, order) {
                       },
                       function (license, done) {
                         recordSignature(
-                          service, license.publicKey, license.signature,
+                          license.publicKey, license.signature,
                           function (error) {
                             if (error) return done(error)
                             done(null, license)
@@ -460,7 +470,7 @@ function post (request, response, service, order) {
                         )
                       },
                       function emailLicensorStatement (license, done) {
-                        service.email({
+                        email(request.log, {
                           to: project.licensor.email,
                           subject: 'License Zero Statement',
                           text: [
@@ -502,7 +512,7 @@ function post (request, response, service, order) {
                 }), function (error) {
                   if (error) return done(error)
                   // Stripe Step 4:
-                  service.stripe.api.charges.capture(
+                  stripe.charges.capture(
                     chargeID,
                     {},
                     {stripe_account: stripeID},
@@ -517,12 +527,12 @@ function post (request, response, service, order) {
       function (done) {
         runParallel([
           function deleteOrderFile (done) {
-            var file = orderPath(service, order.orderID)
+            var file = orderPath(order.orderID)
             fs.unlink(file, done)
           },
           // Stripe Step 5:
           function deleteCustomer (done) {
-            service.stripe.api.customers.del(
+            stripe.customers.del(
               stripeCustomerID, done
             )
           },
@@ -533,7 +543,7 @@ function post (request, response, service, order) {
           // CLI at once, without pulling them out of
           // e-mail.
           function writePurchase (done) {
-            var file = purchasePath(service, purchaseID)
+            var file = purchasePath(purchaseID)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(null, file, JSON.stringify({
@@ -546,7 +556,7 @@ function post (request, response, service, order) {
       }
     ], function (error) {
       if (error) {
-        technicalError(service, response, error, [
+        technicalError(request, response, error, [
           'One or more of your license purchases ' +
           'failed to go through, due to a technical error.',
           'Please check your e-mail for any purchases ' +
@@ -625,7 +635,7 @@ ${head('Thank you')}
         task('updated project', updateProject)
       ], release(function (error) {
         if (error) {
-          technicalError(service, response, error, [
+          technicalError(request, response, error, [
             'Part of the relicense process failed to go through, ' +
             'due to a technical error.',
             'Please check your e-mail.'
@@ -645,7 +655,7 @@ ${head('Thank you')}
       return function (done) {
         task(function (error) {
           if (error) return done(error)
-          service.log.info(message)
+          request.log.info(message)
           done()
         })
       }
@@ -685,8 +695,8 @@ ${head('Thank you')}
         agreement += signatureLines(licensorSignature)
         agentSignature = ed25519.sign(
           agreement,
-          service.publicKey,
-          service.privateKey
+          Buffer.from(process.env.PUBLIC_KEY, 'hex'),
+          Buffer.from(process.env.PRIVATE_KEY, 'hex')
         )
         agreement += '\n\nAgent Ed25519 Signature:\n\n'
         agreement += signatureLines(agentSignature)
@@ -707,18 +717,18 @@ ${head('Thank you')}
       if (commission > 0) {
         options.application_fee = commission
       }
-      service.stripe.api.charges.create(options, {
+      stripe.charges.create(options, {
         stripe_account: stripeID
       }, function (error, charge) {
         if (error) return done(error)
         chargeID = charge.id
-        service.log.info(charge, 'charge')
+        request.log.info(charge, 'charge')
         done()
       })
     }
 
     function recordSponsorTermsAcceptance (done) {
-      recordAcceptance(service, {
+      recordAcceptance({
         type: 'relicense',
         sponsor: order.sponsor,
         jurisdiction: order.jurisdiction,
@@ -728,20 +738,20 @@ ${head('Thank you')}
     }
 
     function captureCharge (done) {
-      service.stripe.api.charges.capture(
+      stripe.charges.capture(
         chargeID,
         {},
         {stripe_account: stripeID},
         function (error) {
           if (error) return done(error)
-          service.log.info({chargeID: chargeID}, 'captured')
+          request.log.info({chargeID: chargeID}, 'captured')
           done()
         }
       )
     }
 
     function emailAgreement (done) {
-      service.email({
+      email(request.log, {
         to: order.email,
         cc: licensor.email,
         subject: 'License Zero Relicense Agreement',
@@ -763,7 +773,7 @@ ${head('Thank you')}
     }
 
     function emailLicensor (done) {
-      service.email({
+      email(request.log, {
         to: licensor.email,
         subject: 'License Zero Relicense',
         text: [
@@ -793,23 +803,18 @@ ${head('Thank you')}
     }
 
     function recordAgentSignature (done) {
-      recordSignature(
-        service,
-        service.publicKey, agentSignature,
-        done
-      )
+      recordSignature(process.env.PUBLIC_KEY, agentSignature, done)
     }
 
     function recordLicensorSignature (done) {
       recordSignature(
-        service,
         project.licensor.publicKey, licensorSignature,
         done
       )
     }
 
     function deleteOrderFile (done) {
-      var file = orderPath(service, order.orderID)
+      var file = orderPath(order.orderID)
       fs.unlink(file, done)
     }
 
@@ -821,14 +826,14 @@ ${head('Thank you')}
     }
 
     function markRelicensed (done) {
-      var file = projectPath(service, projectID)
+      var file = projectPath(projectID)
       mutateJSONFile(file, function (data) {
         data.relicensed = true
       }, annotateENOENT('no such project', done))
     }
 
     function removeFromProjectsList (done) {
-      var file = projectsListPath(service, licensorID)
+      var file = projectsListPath(licensorID)
       mutateTextFile(file, function (text) {
         return stringifyProjects(
           parseProjects(text).map(function (element) {
@@ -910,8 +915,8 @@ ${head('Thank you')}
   `)
 }
 
-function technicalError (service, response, error, paragraphs) {
-  service.log.error(error)
+function technicalError (request, response, error, paragraphs) {
+  request.log.error(error)
   response.statusCode = 500
   response.setHeader('Content-Type', 'text/html')
   response.end(html`

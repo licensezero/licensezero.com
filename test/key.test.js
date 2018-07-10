@@ -3,7 +3,7 @@ var server = require('./server')
 var tape = require('tape')
 
 tape('register w/ invalid body', function (test) {
-  server(function (port, configuration, close) {
+  server(function (port, close) {
     apiRequest(port, {
       action: 'key'
     }, function (error, response) {

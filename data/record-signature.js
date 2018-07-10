@@ -1,9 +1,9 @@
 var fs = require('fs')
 var signaturesPath = require('../paths/signatures')
 
-module.exports = function (service, publicKey, signature, callback) {
+module.exports = function (publicKey, signature, callback) {
   fs.appendFile(
-    signaturesPath(service),
+    signaturesPath(),
     publicKey + ' ' + signature + '\n',
     callback
   )

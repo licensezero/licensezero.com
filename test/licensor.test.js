@@ -8,8 +8,8 @@ var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('licensor', function (test) {
-  server(function (port, service, close) {
-    writeTestLicensor(service, function (error) {
+  server(function (port, close) {
+    writeTestLicensor(function (error) {
       test.error(error)
       apiRequest(port, {
         action: 'licensor',
@@ -47,7 +47,7 @@ tape('licensor', function (test) {
 })
 
 tape('licensor w/ invalid id', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     apiRequest(port, {
       action: 'licensor',
       licensorID: LICENSOR.id
@@ -67,10 +67,10 @@ tape('licensor w/ invalid id', function (test) {
 })
 
 tape('licensor w/ project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offerProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -107,10 +107,10 @@ tape('licensor w/ project', function (test) {
 })
 
 tape('licensor w/ retracted project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offerProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -159,11 +159,11 @@ tape('licensor w/ retracted project', function (test) {
 })
 
 tape('licensor w/ retracted project', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var firstProject
     var secondProject
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offerFirstProject (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,

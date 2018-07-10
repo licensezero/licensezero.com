@@ -3,7 +3,7 @@ var server = require('./server')
 var tape = require('tape')
 
 tape('GET /nonexistent', function (test) {
-  server(function (port, configuration, close) {
+  server(function (port, close) {
     http.request({
       port: port,
       path: '/nonexistent'

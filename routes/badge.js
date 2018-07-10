@@ -13,14 +13,14 @@ var withoutRelicense = withCached(
   path.join(__dirname, '..', 'static', 'badge-without-relicense.svg')
 )
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   var projectID = request.parameters.projectID
   doNotCache(response)
   if (!UUID.test(projectID)) {
     response.statusCode = 404
     return response.end()
   }
-  readProject(service, projectID, function (error, project) {
+  readProject(projectID, function (error, project) {
     if (error) {
       response.statusCode = 404
       return response.end()

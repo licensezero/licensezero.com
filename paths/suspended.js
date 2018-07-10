@@ -1,5 +1,5 @@
 var path = require('path')
 
-module.exports = function (service) {
-  return path.join(service.directory, 'suspended.json')
+module.exports = function () {
+  return path.join(process.env.DIRECTORY, 'suspended.json')
 }

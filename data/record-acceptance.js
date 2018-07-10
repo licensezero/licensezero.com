@@ -1,9 +1,9 @@
 var fs = require('fs')
 var termsAcceptancesPath = require('../paths/terms-acceptances')
 
-module.exports = function (service, record, callback) {
+module.exports = function (record, callback) {
   fs.appendFile(
-    termsAcceptancesPath(service),
+    termsAcceptancesPath(),
     JSON.stringify(record),
     callback
   )

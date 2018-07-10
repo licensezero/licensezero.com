@@ -9,7 +9,7 @@ sanityCheck('privacy', 'Privacy Notice')
 
 function sanityCheck (path, header) {
   tape('GET /' + path, function (test) {
-    server(function (port, configuration, close) {
+    server(function (port, close) {
       http.request({port: port, path: '/' + path})
         .once('response', function (response) {
           test.equal(response.statusCode, 200)

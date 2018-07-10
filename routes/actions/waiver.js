@@ -31,9 +31,9 @@ exports.properties = {
   }
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   var projectID = body.projectID
-  readProject(service, projectID, function (error, project) {
+  readProject(projectID, function (error, project) {
     if (error) {
       if (error.userMessage) {
         fail(error.userMessage)
@@ -67,7 +67,7 @@ exports.handler = function (body, service, end, fail, lock) {
         var manifest = stringify(parameters)
         waiver(parameters, function (error, document) {
           if (error) {
-            service.log.error(error)
+            log.error(error)
             return fail('internal error')
           }
           var signature = ed25519.sign(
@@ -76,10 +76,10 @@ exports.handler = function (body, service, end, fail, lock) {
             licensor.privateKey
           )
           recordSignature(
-            service, licensor.publicKey, signature,
+            licensor.publicKey, signature,
             function (error, done) {
               if (error) {
-                service.log.error(error)
+                log.error(error)
                 fail('internal error')
               } else {
                 end({

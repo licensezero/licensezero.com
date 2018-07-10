@@ -1,13 +1,14 @@
 var LICENSOR = require('./licensor')
 var apiRequest = require('./api-request')
+var email = require('../email')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('reset action', function (test) {
-  server(function (port, service, close) {
-    service.email.events.once('message', function (message) {
+  server(function (port, close) {
+    email.events.once('message', function (message) {
       test.equal(message.to, LICENSOR.email, 'email to licensor')
       test.assert(message.text.some(function (paragraph) {
         return paragraph.includes('https://licensezero.com/reset/')
@@ -15,7 +16,7 @@ tape('reset action', function (test) {
       test.end()
       close()
     })
-    writeTestLicensor(service, function (error) {
+    writeTestLicensor(function (error) {
       test.error(error, 'no error')
       apiRequest(port, {
         action: 'reset',
@@ -30,8 +31,8 @@ tape('reset action', function (test) {
 })
 
 tape('reset w/ bad email', function (test) {
-  server(function (port, service, close) {
-    writeTestLicensor(service, function (error) {
+  server(function (port, close) {
+    writeTestLicensor(function (error) {
       test.error(error, 'no error')
       apiRequest(port, {
         action: 'reset',
@@ -48,10 +49,10 @@ tape('reset w/ bad email', function (test) {
 })
 
 tape('reset link', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var resetToken
     var newToken
-    service.email.events.once('message', function (message) {
+    email.events.once('message', function (message) {
       test.equal(message.to, LICENSOR.email, 'email to licensor')
       message.text.forEach(function (paragraph) {
         var match = /https:\/\/licensezero.com\/reset\/([0-9a-f]{64})/
@@ -60,7 +61,7 @@ tape('reset link', function (test) {
       })
     })
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function resetAction (done) {
         apiRequest(port, {
           action: 'reset',

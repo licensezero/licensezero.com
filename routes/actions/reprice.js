@@ -9,9 +9,9 @@ exports.properties = {
   pricing: require('./common/pricing')
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
   lock([body.licensorID, body.projectID], function (release) {
-    var file = projectPath(service, body.projectID)
+    var file = projectPath(body.projectID)
     readJSONFile(file, function (error, project) {
       if (error) return die('no such project')
       if (project.retracted) return die('retracted project')
@@ -31,7 +31,7 @@ exports.handler = function (body, service, end, fail, lock) {
         data.pricing = body.pricing
       }, release(function (error) {
         if (error) {
-          service.log.error(error)
+          log.error(error)
           return fail('internal error')
         } else {
           end()

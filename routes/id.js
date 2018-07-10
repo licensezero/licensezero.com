@@ -13,15 +13,15 @@ var notFound = require('./not-found')
 var readProject = require('../data/read-project')
 var sanitizeProject = require('../data/sanitize-project')
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   var projectID = request.parameters.projectID
   if (!UUID.test(projectID)) {
     var error = new Error()
     error.userMessage = 'invalid project identifier'
-    return notFound(service, response, error)
+    return notFound(request, response, error)
   }
-  readProject(service, projectID, function (error, project) {
-    if (error) return notFound(service, response, error)
+  readProject(projectID, function (error, project) {
+    if (error) return notFound(response, error)
     sanitizeProject(project)
     var licensor = project.licensor
     var jurisdiction = iso31662.subdivision(licensor.jurisdiction)

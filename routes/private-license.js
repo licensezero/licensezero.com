@@ -14,7 +14,7 @@ var REPOSITORY = (
 
 // TODO: Explain the private license.
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   privateLicense({
     date: '{Date}',
     licensee: {
@@ -30,7 +30,7 @@ module.exports = function (request, response, service) {
     homepage: '{Project Homepage URL}'
   }, function (error, result) {
     if (error) {
-      service.log.error(error)
+      request.log.error(error)
       return internalError(response, error)
     }
     response.setHeader('Content-Type', 'text/html')

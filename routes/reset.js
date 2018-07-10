@@ -17,30 +17,30 @@ var nav = require('./partials/nav')
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   var method = request.method
   if (method === 'GET') {
-    get(request, response, service)
+    get(request, response)
   } else {
     response.statusCode = 405
     response.end()
   }
 }
 
-function get (request, response, service) {
+function get (request, response) {
   var token = request.parameters.token
-  var resetTokenFile = resetTokenPath(service, token)
+  var resetTokenFile = resetTokenPath(token)
   readJSONFile(resetTokenFile, function (error, tokenData) {
     if (error) {
       if (error.code === 'ENOENT') return notFound(response)
-      service.log.error(error)
+      request.log.error(error)
       return internalError(response)
     } else if (expired(tokenData.date)) {
       return notFound(response)
     }
     fs.unlink(resetTokenFile, function (error) {
       if (error) {
-        service.log.error(error)
+        request.log.error(error)
         return internalError(response)
       }
       var token = generateToken()
@@ -49,14 +49,14 @@ function get (request, response, service) {
         runWaterfall([
           hashToken.bind(null, token),
           function writeLicensorFile (hash, done) {
-            var licensorFile = licensorPath(service, licensorID)
+            var licensorFile = licensorPath(licensorID)
             mutateJSONFile(licensorFile, function (data) {
               data.token = hash
             }, done)
           }
         ], release(function (error) {
           if (error) {
-            service.log.error(error)
+            request.log.error(error)
             return internalError(response)
           }
           response.setHeader('Content-Type', 'text/html')

@@ -1,10 +1,11 @@
 var JURISDICTIONS = require('licensezero-jurisdictions')
+var email = require('../../email')
 var fs = require('fs')
-var recordAcceptance = require('../../data/record-acceptance')
 var mkdirp = require('mkdirp')
 var path = require('path')
 var querystring = require('querystring')
 var randomNonce = require('../../data/random-nonce')
+var recordAcceptance = require('../../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stripeNoncePath = require('../../paths/stripe-nonce')
@@ -24,12 +25,12 @@ exports.properties = {
   terms: require('./common/terms')
 }
 
-exports.handler = function (body, service, end, fail) {
+exports.handler = function (log, body, end, fail) {
   var nonce = randomNonce()
-  var file = stripeNoncePath(service, nonce)
+  var file = stripeNoncePath(nonce)
   var timestamp = new Date().toISOString()
   runParallel([
-    recordAcceptance.bind(null, service, {
+    recordAcceptance.bind(null, {
       email: body.email,
       name: body.name,
       jurisdiction: body.jurisdiction,
@@ -43,7 +44,7 @@ exports.handler = function (body, service, end, fail) {
         email: body.email,
         jurisdiction: body.jurisdiction
       })),
-      service.email.bind(null, {
+      email.bind(null, log, {
         to: body.email,
         subject: 'Register as a licensezero.com Licensor',
         text: [
@@ -55,7 +56,7 @@ exports.handler = function (body, service, end, fail) {
           'https://connect.stripe.com/oauth/authorize?' +
           querystring.stringify({
             response_type: 'code',
-            client_id: service.stripe.application,
+            client_id: process.env.STRIPE_CLIENT_ID,
             scope: 'read_write',
             state: nonce
           })

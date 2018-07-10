@@ -4,7 +4,7 @@ var server = require('./server')
 var tape = require('tape')
 
 tape('suspended', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     runSeries([
       function publicLicense (done) {
         apiRequest(port, {

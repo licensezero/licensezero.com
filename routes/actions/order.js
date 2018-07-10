@@ -1,3 +1,4 @@
+var assert = require('assert')
 var readProject = require('../../data/read-project')
 var runParallel = require('run-parallel')
 var writeOrder = require('../../data/write-order')
@@ -16,12 +17,16 @@ exports.properties = {
   }
 }
 
-exports.handler = function (body, service, end, fail, lock) {
+exports.handler = function (log, body, end, fail, lock) {
+  assert.equal(typeof body, 'object')
+  assert.equal(typeof end, 'function')
+  assert.equal(typeof fail, 'function')
+  assert.equal(typeof lock, 'function')
   var projects = body.projects
   runParallel(
     projects.map(function (projectID, index) {
       return function (done) {
-        readProject(service, projectID, function (error, project) {
+        readProject(projectID, function (error, project) {
           if (error) {
             if (error.userMessage) {
               error.userMessage += ': ' + projectID
@@ -39,7 +44,7 @@ exports.handler = function (body, service, end, fail, lock) {
         if (error.userMessage) {
           fail(error.userMessage)
         } else {
-          service.log.error(error)
+          log.error(error)
           fail('internal error')
         }
       } else {
@@ -67,7 +72,7 @@ exports.handler = function (body, service, end, fail, lock) {
           return project
         })
         writeOrder(
-          service, pricedProjects,
+          pricedProjects,
           body.licensee, body.jurisdiction, body.email,
           function (error, orderID) {
             if (error) return fail('internal error')

@@ -6,7 +6,7 @@ var stripe = require('stripe')
 
 var REQUEST_BODY_LIMIT = 1024
 
-module.exports = function (request, response, service) {
+module.exports = function (request, response) {
   parseBodyAndRespond()
 
   function parseBodyAndRespond () {
@@ -36,10 +36,11 @@ module.exports = function (request, response, service) {
     // current timestamp.
     try {
       var event = stripe.webhooks.constructEvent(
-        body, request.headers['stripe-signature'], service.stripe.secret
+        body, request.headers['stripe-signature'],
+        process.env.STRIPE_WEBHOOK_SECRET
       )
     } catch (error) {
-      service.log.error(error)
+      request.log.error(error)
       return
     }
     // If we're running in project, we may still receive testing-mode
@@ -49,20 +50,20 @@ module.exports = function (request, response, service) {
     }
     if (event.type === 'account.application.deauthorized') {
       idForStripeAccount(
-        service, event.account,
+        event.account,
         function (error, licensorID) {
           if (error) {
-            service.log.error(error)
+            request.log.error(error)
             response.statusCode = 500
             response.end()
           } else {
             if (licensorID) {
-              var file = licensorPath(service, licensorID)
+              var file = licensorPath(licensorID)
               mutateJSONFile(file, function (data) {
                 data.deauthorized = true
               }, function (error) {
                 if (error) {
-                  service.log.error(error)
+                  request.log.error(error)
                   response.statusCode = 500
                   response.end()
                 } else {
@@ -71,7 +72,7 @@ module.exports = function (request, response, service) {
                 }
               })
             } else {
-              service.log.error({
+              request.log.error({
                 stripe: event.account
               }, 'could not find licensor ID')
               response.statusCode = 500

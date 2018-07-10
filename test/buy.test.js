@@ -10,12 +10,12 @@ var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape.skip('buy', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var firstProject
     var secondProject
     var location
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -75,14 +75,9 @@ tape.skip('buy', function (test) {
           .waitForExist('input[name="postal"]')
           .setValue('input[name="postal"]', '12345')
           .frameParent()
-          // E-Mail
-          .setValue('input[name="email"]', 'customer@example.com')
-          // Person
-          .click('input[name="person"]')
-          // Terms
+          // Accept terms.
           .click('input[name="terms"]')
-          // Submit
-          // .saveScreenshot('screen.png')
+          // Submit.
           .click('input[type="submit"]')
           .waitForExist('h1')
           .getText('h1.thanks')
@@ -101,7 +96,7 @@ tape.skip('buy', function (test) {
 })
 
 tape('order w/ nonexistent', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var project = uuid()
     apiRequest(port, {
       action: 'order',
@@ -123,10 +118,10 @@ tape('order w/ nonexistent', function (test) {
 })
 
 tape('order w/ retracted', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
@@ -177,10 +172,10 @@ tape('order w/ retracted', function (test) {
 })
 
 tape('POST /buy', function (test) {
-  server(function (port, service, close) {
+  server(function (port, close) {
     var projectID
     runSeries([
-      writeTestLicensor.bind(null, service),
+      writeTestLicensor.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
