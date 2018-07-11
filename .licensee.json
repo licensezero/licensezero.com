@@ -28,13 +28,15 @@
     "progress": "1.1.8",
     "querystring": "0.2.0",
     "rechoir": "0.6.2",
-    "rx-lite": "3.1.2",
+    "rx-lite": "3.1.2 || 4.0.8",
     "sntp": "1.0.9",
     "source-map":"0.1.43 || 0.2.0",
     "streamsearch": "0.1.2",
     "string.prototype.repeat": "0.2.0",
     "wgxpath": "1.0.0",
     "window-size": "0.1.0",
-    "wordwrap": "0.0.2"
+    "wordwrap": "0.0.2",
+    "repeat-element": "1.1.2",
+    "rx-lite-aggregates": "4.0.8"
   }
 }
