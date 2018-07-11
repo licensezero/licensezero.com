@@ -102,7 +102,7 @@ tape('Stripe OAuth connect, register, license', function (suite) {
               .then(function (text) {
                 test.equal(text, 'Thank You')
               })
-              .getText('code.install')
+              .getText('.import')
               .then(function (text) {
                 importPurchaseCommand = text
                 done()

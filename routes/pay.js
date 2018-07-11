@@ -587,7 +587,7 @@ ${head('Thank you')}
       Zero command line interface, run the following
       command anytime in the next twenty four hours:
     </p>
-    <pre class=terminal>${escape(importCommand)}</pre>
+    <pre class="terminal import">${escape(importCommand)}</pre>
     <button class=clipboard data-clipboard-text="${escape(importCommand)}">Copy to Clipboard</button>
   </main>
   ${footer()}
