@@ -135,9 +135,8 @@ function formatSession (lines) {
     .map(function (line) {
       if (line.startsWith('#')) {
         return '<span class=comment>' + escape(line) + '</span>'
-      } else {
-        return escape(line)
       }
+      return escape(line)
     })
     .join('\n')
 }

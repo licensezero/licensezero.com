@@ -55,30 +55,27 @@ module.exports = function (request, response) {
           if (error) {
             request.log.error(error)
             response.statusCode = 500
-            response.end()
-          } else {
-            if (licensorID) {
-              var file = licensorPath(licensorID)
-              mutateJSONFile(file, function (data) {
-                data.deauthorized = true
-              }, function (error) {
-                if (error) {
-                  request.log.error(error)
-                  response.statusCode = 500
-                  response.end()
-                } else {
-                  response.statusCode = 204
-                  response.end()
-                }
-              })
-            } else {
-              request.log.error({
-                stripe: event.account
-              }, 'could not find licensor ID')
-              response.statusCode = 500
-              response.end()
-            }
+            return response.end()
           }
+          if (licensorID) {
+            var file = licensorPath(licensorID)
+            mutateJSONFile(file, function (data) {
+              data.deauthorized = true
+            }, function (error) {
+              if (error) {
+                request.log.error(error)
+                response.statusCode = 500
+                return response.end()
+              }
+              response.statusCode = 204
+              return response.end()
+            })
+          }
+          request.log.error({
+            stripe: event.account
+          }, 'could not find licensor ID')
+          response.statusCode = 500
+          response.end()
         }
       )
     }

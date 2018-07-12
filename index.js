@@ -15,10 +15,9 @@ module.exports = function makeRequestHandler (log) {
       var route = routes.get(parsed.pathname)
       if (route.handler) {
         request.parameters = route.params
-        route.handler(request, response)
-      } else {
-        notFound(request, response)
+        return route.handler(request, response)
       }
+      notFound(request, response)
     } catch (error) {
       internalError(response, error)
     }

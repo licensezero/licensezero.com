@@ -33,9 +33,8 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error) {
           log.error(error)
           return fail('internal error')
-        } else {
-          end()
         }
+        end()
       }))
     })
     function die (message) {

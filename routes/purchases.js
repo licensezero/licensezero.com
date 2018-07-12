@@ -13,11 +13,10 @@ module.exports = function (request, response) {
     .once('error', function (error) {
       if (error.code === 'ENOENT') {
         response.statusCode = 404
-        response.end()
-      } else {
-        response.statusCode = 500
-        response.end()
+        return response.end()
       }
+      response.statusCode = 500
+      return response.end()
     })
     .pipe(response)
 }

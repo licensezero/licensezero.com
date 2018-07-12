@@ -7,12 +7,12 @@ module.exports = function (file) {
       setImmediate(function () {
         callback(null, cached)
       })
-    } else {
-      fs.readFile(file, 'utf8', function (error, template) {
-        if (error) return callback(error)
-        cached = template
-        callback(null, template)
-      })
+      return
     }
+    fs.readFile(file, 'utf8', function (error, template) {
+      if (error) return callback(error)
+      cached = template
+      callback(null, template)
+    })
   }
 }

@@ -27,13 +27,14 @@ function toString (value) {
   /* istanbul ignore else */
   if (value === false || value === undefined || value === null) {
     return ''
-  } else if (Array.isArray(value)) {
-    return value.join('')
-  } else if (typeof value === 'string') {
-    return value
-  } else {
-    throw new Error(
-      'Invalid template value ' + typeof value + JSON.stringify(value)
-    )
   }
+  if (Array.isArray(value)) {
+    return value.join('')
+  }
+  if (typeof value === 'string') {
+    return value
+  }
+  throw new Error(
+    'Invalid template value ' + typeof value + JSON.stringify(value)
+  )
 }

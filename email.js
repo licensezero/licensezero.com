@@ -64,19 +64,15 @@ if (process.env.NODE_ENV === 'test') {
           var status = response.statusCode
           if (status === 200) {
             log.info({event: 'sent'})
-            callback()
-          } else {
-            simpleConcat(response, function (error, body) {
-              if (error) {
-                log.error(error)
-              } else {
-                log.error({
-                  status: status,
-                  body: body.toString()
-                })
-              }
-            })
+            return callback()
           }
+          simpleConcat(response, function (error, body) {
+            if (error) return log.error(error)
+            log.error({
+              status: status,
+              body: body.toString()
+            })
+          })
         })
     )
   }

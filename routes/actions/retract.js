@@ -56,14 +56,10 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error) {
           log.error(error)
           /* istanbul ignore else */
-          if (error.userMessage) {
-            fail(error.userMessage)
-          } else {
-            fail('internal error')
-          }
-        } else {
-          end()
+          if (error.userMessage) return fail(error.userMessage)
+          return fail('internal error')
         }
+        end()
       }))
     })
     function die (message) {

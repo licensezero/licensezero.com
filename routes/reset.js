@@ -19,12 +19,9 @@ var ONE_DAY = 24 * 60 * 60 * 1000
 
 module.exports = function (request, response) {
   var method = request.method
-  if (method === 'GET') {
-    get(request, response)
-  } else {
-    response.statusCode = 405
-    response.end()
-  }
+  if (method === 'GET') return get(request, response)
+  response.statusCode = 405
+  response.end()
 }
 
 function get (request, response) {
@@ -35,9 +32,8 @@ function get (request, response) {
       if (error.code === 'ENOENT') return notFound(response)
       request.log.error(error)
       return internalError(response)
-    } else if (expired(tokenData.date)) {
-      return notFound(response)
     }
+    if (expired(tokenData.date)) return notFound(response)
     fs.unlink(resetTokenFile, function (error) {
       if (error) {
         request.log.error(error)

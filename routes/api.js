@@ -67,69 +67,58 @@ module.exports = function api (request, response) {
         var buffer = Buffer.concat(chunks)
         parseJSON(buffer, function (error, body) {
           /* istanbul ignore if */
-          if (error) {
-            fail('invalid JSON')
-          } else {
-            respond(body)
-          }
+          if (error) return fail('invalid JSON')
+          respond(body)
         })
       })
   }
 
   function respond (body) {
     if (typeof body !== 'object' || body === null) {
-      fail('request not an object')
-    } else if (!body.hasOwnProperty('action')) {
-      fail('missing action property')
-    } else {
-      var action = actions[body.action]
-      if (!action) {
-        fail('invalid action')
-      } else {
-        if (!action.validate(body)) {
-          if (process.env.LOG_API_VALIDATION_ERRORS) {
-            console.error(body)
-            console.error(action.validate.errors)
-          }
-          end({
-            error: 'invalid body',
-            // Avoid sending every valid 3166-2 code across the wire
-            // in schemas that require one.
-            schema: (function () {
-              if (action.schema.properties.jurisdiction) {
-                return JSON.parse(
-                  JSON.stringify(action.schema, function (name, value) {
-                    return name === 'jurisdiction'
-                      ? {type: 'string', description: 'ISO 3166-2'}
-                      : value
-                  })
-                )
-              } else {
-                return action.schema
-              }
-            })()
-          })
-        } else {
-          if (action.schema.required.includes('token')) {
-            checkAuthentication(
-              request, body, function (error, licensor) {
-                /* istanbul ignore if */
-                if (error) {
-                  fail('internal error')
-                } else if (!licensor) {
-                  fail('access denied')
-                } else {
-                  body.licensor = licensor
-                  route()
-                }
-              }
-            )
-          } else {
-            route()
-          }
-        }
-      }
+      return fail('request not an object')
     }
+    if (!body.hasOwnProperty('action')) {
+      return fail('missing action property')
+    }
+    var action = actions[body.action]
+    if (!action) {
+      fail('invalid action')
+    }
+    if (!action.validate(body)) {
+      if (process.env.LOG_API_VALIDATION_ERRORS) {
+        console.error(body)
+        console.error(action.validate.errors)
+      }
+      return end({
+        error: 'invalid body',
+        // Avoid sending every valid 3166-2 code across the wire
+        // in schemas that require one.
+        schema: (function () {
+          if (action.schema.properties.jurisdiction) {
+            return JSON.parse(
+              JSON.stringify(action.schema, function (name, value) {
+                return name === 'jurisdiction'
+                  ? {type: 'string', description: 'ISO 3166-2'}
+                  : value
+              })
+            )
+          }
+          return action.schema
+        })()
+      })
+    }
+    if (action.schema.required.includes('token')) {
+      return checkAuthentication(
+        request, body, function (error, licensor) {
+          /* istanbul ignore if */
+          if (error) return fail('internal error')
+          if (!licensor) return fail('access denied')
+          body.licensor = licensor
+          route()
+        }
+      )
+    }
+    route()
 
     function route () {
       action.handler(request.log, body, end, fail, lock)

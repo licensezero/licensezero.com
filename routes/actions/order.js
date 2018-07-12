@@ -31,7 +31,7 @@ exports.handler = function (log, body, end, fail, lock) {
             if (error.userMessage) {
               error.userMessage += ': ' + projectID
             }
-            done(error)
+            return done(error)
           }
           projects[index] = project
           done()
@@ -41,45 +41,41 @@ exports.handler = function (log, body, end, fail, lock) {
     function (error) {
       if (error) {
         /* istanbul ignore else */
-        if (error.userMessage) {
-          fail(error.userMessage)
-        } else {
-          log.error(error)
-          fail('internal error')
-        }
-      } else {
-        var retracted = projects.filter(function (project) {
-          return project.retracted
-        })
-        if (retracted.length !== 0) {
-          return fail(
-            'retracted projects: ' +
-            retracted.map(projectIDOf).join(', ')
-          )
-        }
-        var relicensed = projects.filter(function (project) {
-          return project.relicensed
-        })
-        if (relicensed.length !== 0) {
-          return fail(
-            'relicensed projects: ' +
-            relicensed.map(projectIDOf).join(', ')
-          )
-        }
-        var pricedProjects = projects.map(function (project) {
-          project.price = project.pricing.private
-          delete project.pricing
-          return project
-        })
-        writeOrder(
-          pricedProjects,
-          body.licensee, body.jurisdiction, body.email,
-          function (error, orderID) {
-            if (error) return fail('internal error')
-            else end({location: '/pay/' + orderID})
-          }
+        if (error.userMessage) return fail(error.userMessage)
+        log.error(error)
+        return fail('internal error')
+      }
+      var retracted = projects.filter(function (project) {
+        return project.retracted
+      })
+      if (retracted.length !== 0) {
+        return fail(
+          'retracted projects: ' +
+          retracted.map(projectIDOf).join(', ')
         )
       }
+      var relicensed = projects.filter(function (project) {
+        return project.relicensed
+      })
+      if (relicensed.length !== 0) {
+        return fail(
+          'relicensed projects: ' +
+          relicensed.map(projectIDOf).join(', ')
+        )
+      }
+      var pricedProjects = projects.map(function (project) {
+        project.price = project.pricing.private
+        delete project.pricing
+        return project
+      })
+      writeOrder(
+        pricedProjects,
+        body.licensee, body.jurisdiction, body.email,
+        function (error, orderID) {
+          if (error) return fail('internal error')
+          end({location: '/pay/' + orderID})
+        }
+      )
     }
   )
 }

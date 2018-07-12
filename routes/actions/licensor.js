@@ -12,26 +12,21 @@ exports.handler = function (log, body, end, fail) {
   readJSONFile(file, function (error, licensor) {
     if (error) {
       /* istanbul ignore else */
-      if (error.code === 'ENOENT') {
-        fail('no such licensor')
-      } else {
-        fail('internal error')
-      }
-    } else {
-      listProjects(licensorID, function (error, projects) {
-        /* istanbul ignore if */
-        if (error) {
-          log.error(error)
-          fail('internal error')
-        } else {
-          end({
-            name: licensor.name,
-            jurisdiction: licensor.jurisdiction,
-            publicKey: licensor.publicKey,
-            projects: projects
-          })
-        }
-      })
+      if (error.code === 'ENOENT') return fail('no such licensor')
+      return fail('internal error')
     }
+    listProjects(licensorID, function (error, projects) {
+      /* istanbul ignore if */
+      if (error) {
+        log.error(error)
+        return fail('internal error')
+      }
+      end({
+        name: licensor.name,
+        jurisdiction: licensor.jurisdiction,
+        publicKey: licensor.publicKey,
+        projects: projects
+      })
+    })
   })
 }

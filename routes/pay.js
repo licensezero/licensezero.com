@@ -52,7 +52,7 @@ module.exports = function (request, response) {
     var orderID = request.parameters.order
     if (!UUID_RE.test(orderID)) return notFound(response)
     var file = orderPath(orderID)
-    readJSONFile(file, function (error, order) {
+    return readJSONFile(file, function (error, order) {
       if (error) {
         if (error.code === 'ENOENT') return notFound(response)
         request.log.error(error)
@@ -65,10 +65,9 @@ module.exports = function (request, response) {
       }
       (method === 'GET' ? get : post)(request, response, order)
     })
-  } else {
-    response.statusCode = 405
-    response.end()
   }
+  response.statusCode = 405
+  response.end()
 }
 
 function get (request, response, order, postData) {
@@ -278,15 +277,15 @@ function post (request, response, order) {
                 name: 'terms',
                 message: 'You must accept the terms to continue.'
               }
-            } else if (dataPath === '.token') {
+            }
+            if (dataPath === '.token') {
               return {
                 name: 'token',
                 message: 'You must provide payment to continue.'
               }
-            } else {
-              request.log.info(error, 'unexpected schema error')
-              return null
             }
+            request.log.info(error, 'unexpected schema error')
+            return null
           })
           return get(request, response, order, data)
         }
@@ -635,19 +634,18 @@ ${head('Thank you')}
         task('updated project', updateProject)
       ], release(function (error) {
         if (error) {
-          technicalError(request, response, error, [
+          return technicalError(request, response, error, [
             'Part of the relicense process failed to go through, ' +
             'due to a technical error.',
             'Please check your e-mail.'
           ])
-        } else {
-          thanks(response, [
-            'Your relicense transaction processed successfully. ' +
-            'You will receive a receipt and a signed agreement ' +
-            'by e-mail shortly.',
-            'The project licensor will receive an e-mail notification.'
-          ])
         }
+        return thanks(response, [
+          'Your relicense transaction processed successfully. ' +
+          'You will receive a receipt and a signed agreement ' +
+          'by e-mail shortly.',
+          'The project licensor will receive an e-mail notification.'
+        ])
       }))
     })
 

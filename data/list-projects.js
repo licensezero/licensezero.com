@@ -7,13 +7,9 @@ module.exports = function (id, callback) {
   fs.readFile(file, function (error, buffer) {
     if (error) {
       /* istanbul ignore else */
-      if (error.code === 'ENOENT') {
-        callback(null, [])
-      } else {
-        callback(error)
-      }
-    } else {
-      callback(null, parseProjects(buffer))
+      if (error.code === 'ENOENT') return callback(null, [])
+      return callback(error)
     }
+    callback(null, parseProjects(buffer))
   })
 }

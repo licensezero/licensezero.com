@@ -32,14 +32,13 @@ ${head('Thanks', {
             for ${escape(element.for)}.
           </li>
         `
-      } else {
-        return html`
-          <li>
-            ${escape(element.to)},
-            for ${escape(element.for)}.
-          </li>
-        `
       }
+      return html`
+        <li>
+          ${escape(element.to)},
+          for ${escape(element.for)}.
+        </li>
+      `
     })}
     </ul>
     <p>

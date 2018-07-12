@@ -9,7 +9,7 @@ module.exports = function (request, response) {
     if (error) {
       request.log.error(error)
       response.statusCode = 502
-      response.end()
+      return response.end()
     }
     response.setHeader('Content-Type', 'text/plain')
     response.end(data.tag_name)

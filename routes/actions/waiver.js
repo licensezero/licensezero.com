@@ -35,65 +35,57 @@ exports.handler = function (log, body, end, fail, lock) {
   var projectID = body.projectID
   readProject(projectID, function (error, project) {
     if (error) {
-      if (error.userMessage) {
-        fail(error.userMessage)
-      } else {
-        fail(error)
+      if (error.userMessage) return fail(error.userMessage)
+      return fail(error)
+    }
+    if (project.retracted) return fail('retracted project')
+    var licensor = project.licensor
+    var parameters = {
+      FORM: 'waiver',
+      VERSION: waiver.version,
+      beneficiary: {
+        name: body.beneficiary,
+        jurisdiction: body.jurisdiction
+      },
+      licensor: {
+        name: licensor.name,
+        jurisdiction: licensor.jurisdiction
+      },
+      project: {
+        projectID: projectID,
+        description: project.description,
+        homepage: project.homepage
+      },
+      date: new Date().toISOString(),
+      term: body.term.toString()
+    }
+    var manifest = stringify(parameters)
+    waiver(parameters, function (error, document) {
+      if (error) {
+        log.error(error)
+        return fail('internal error')
       }
-    } else {
-      if (project.retracted) {
-        fail('retracted project')
-      } else {
-        var licensor = project.licensor
-        var parameters = {
-          FORM: 'waiver',
-          VERSION: waiver.version,
-          beneficiary: {
-            name: body.beneficiary,
-            jurisdiction: body.jurisdiction
-          },
-          licensor: {
-            name: licensor.name,
-            jurisdiction: licensor.jurisdiction
-          },
-          project: {
-            projectID: projectID,
-            description: project.description,
-            homepage: project.homepage
-          },
-          date: new Date().toISOString(),
-          term: body.term.toString()
-        }
-        var manifest = stringify(parameters)
-        waiver(parameters, function (error, document) {
+      var signature = ed25519.sign(
+        manifest + '\n\n' + document,
+        licensor.publicKey,
+        licensor.privateKey
+      )
+      recordSignature(
+        licensor.publicKey, signature,
+        function (error, done) {
           if (error) {
             log.error(error)
             return fail('internal error')
           }
-          var signature = ed25519.sign(
-            manifest + '\n\n' + document,
-            licensor.publicKey,
-            licensor.privateKey
-          )
-          recordSignature(
-            licensor.publicKey, signature,
-            function (error, done) {
-              if (error) {
-                log.error(error)
-                fail('internal error')
-              } else {
-                end({
-                  projectID: projectID,
-                  manifest: manifest,
-                  document: document,
-                  signature: signature,
-                  publicKey: licensor.publicKey
-                })
-              }
-            }
-          )
-        })
-      }
-    }
+          end({
+            projectID: projectID,
+            manifest: manifest,
+            document: document,
+            signature: signature,
+            publicKey: licensor.publicKey
+          })
+        }
+      )
+    })
   })
 }

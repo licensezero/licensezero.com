@@ -23,26 +23,21 @@ exports.handler = function (log, body, end, fail, lock) {
             if (error.userMessage) {
               error.userMessage += ': ' + projectID
             }
-            done(error)
-          } else {
-            sanitizeProject(project)
-            results[index] = project
-            done()
+            return done(error)
           }
+          sanitizeProject(project)
+          results[index] = project
+          done()
         })
       }
     }),
     function (error) {
       if (error) {
         /* istanbul ignore else */
-        if (error.userMessage) {
-          fail(error.userMessage)
-        } else {
-          fail('internal error')
-        }
-      } else {
-        end({projects: results})
+        if (error.userMessage) return fail(error.userMessage)
+        return fail('internal error')
       }
+      end({projects: results})
     }
   )
 }
