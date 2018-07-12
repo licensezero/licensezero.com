@@ -10,7 +10,7 @@ module.exports = function (request, response) {
       response.statusCode = 502
       response.end()
     }
-    response.setHeader('Content-Type', 'application/json')
+    response.setHeader('Content-Type', 'text/plain')
     response.end(data.tag_name)
   })
 }
