@@ -29,6 +29,7 @@ module.exports = function (request, response) {
     var hasRelicense = pricing.relicense
     var withTemplate = hasRelicense ? withRelicense : withoutRelicense
     withTemplate(function (error, template) {
+      /* istanbul ignore if */
       if (error) {
         response.statusCode = 500
         return response.end()
