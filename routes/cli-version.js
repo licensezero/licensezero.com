@@ -5,6 +5,7 @@ module.exports = function (request, response) {
     url: 'https://github.com/licensezero/cli/releases/latest',
     json: true
   }, function (error, _, data) {
+    /* istanbul ignore if */
     if (error) {
       request.log.error(error)
       response.statusCode = 502

@@ -3,6 +3,7 @@ var assert = require('assert')
 var https = require('https')
 var simpleConcat = require('simple-concat')
 
+/* istanbul ignore else */
 if (process.env.NODE_ENV === 'test') {
   var EventEmitter = require('events').EventEmitter
   var events = new EventEmitter()

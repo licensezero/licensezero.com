@@ -15,6 +15,7 @@ module.exports = function (pathFunction) {
     })
     // List order files.
     fs.readdir(directory, function (error, entries) {
+      /* istanbul ignore if */
       if (error) {
         log.error(error)
         return callback(error)
@@ -25,6 +26,7 @@ module.exports = function (pathFunction) {
           // Read file content.
           var file = path.join(directory, entry)
           readJSONFile(file, function (error, order) {
+            /* istanbul ignore if */
             if (error) {
               log.error(error)
               return done()
@@ -33,8 +35,9 @@ module.exports = function (pathFunction) {
             var dataToLog = {order: order.orderID, file: file}
             log.info(dataToLog, 'expired')
             fs.unlink(file, function (error) {
+              /* istanbul ignore if */
               if (error) log.error(error)
-              else log.info(dataToLog, 'deleted')
+              log.info(dataToLog, 'deleted')
               done()
             })
           })
