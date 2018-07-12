@@ -17,6 +17,7 @@ ${head('Licenses', {
   ${nav()}
   ${header()}
   <main>
+    <h1>Licenses</h1>
     <p>
       License Zero publishes and stewards a few kinds of licenses
       and license-related agreements, all of which are written to

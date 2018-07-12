@@ -17,6 +17,7 @@ module.exports = function (request, response) {
     ${nav()}
     ${header()}
     <main>
+      <h1>Terms</h1>
       <p>
         All users of License Zero must agree to
         <a href=/terms/service>terms of service</a>.
