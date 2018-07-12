@@ -1,39 +1,39 @@
 [submodule "forms/privacy"]
 	path = forms/privacy
-	url = git@github.com:licensezero/licensezero-privacy
+	url = https://github.com/licensezero/licensezero-privacy
 [submodule "forms/agency"]
 	path = forms/agency
-	url = git@github.com:licensezero/licensezero-agency-terms
+	url = https://github.com/licensezero/licensezero-agency-terms
 [submodule "forms/service"]
 	path = forms/service
-	url = git@github.com:licensezero/licensezero-terms-of-service
+	url = https://github.com/licensezero/licensezero-terms-of-service
 [submodule "forms/waiver"]
 	path = forms/waiver
-	url = git@github.com:licensezero/licensezero-waiver
+	url = https://github.com/licensezero/licensezero-waiver
 [submodule "forms/noncommercial-license"]
 	path = forms/noncommercial-license
-	url = git@github.com:licensezero/licensezero-noncommercial-public-license
+	url = https://github.com/licensezero/licensezero-noncommercial-public-license
 [submodule "forms/reciprocal-license"]
 	path = forms/reciprocal-license
-	url = git@github.com:licensezero/licensezero-reciprocal-public-license
+	url = https://github.com/licensezero/licensezero-reciprocal-public-license
 [submodule "forms/relicense-agreement"]
 	path = forms/relicense-agreement
-	url = git@github.com:licensezero/licensezero-relicense-agreement
+	url = https://github.com/licensezero/licensezero-relicense-agreement
 [submodule "forms/quotes"]
 	path = forms/quotes
-	url = git@github.com:licensezero/licensezero-quotes
+	url = https://github.com/licensezero/licensezero-quotes
 [submodule "forms/permissive-license"]
 	path = forms/permissive-license
-	url = git@github.com:licensezero/licensezero-permissive-public-license
+	url = https://github.com/licensezero/licensezero-permissive-public-license
 [submodule "forms/private-license"]
 	path = forms/private-license
-	url = git@github.com:licensezero/licensezero-private-license
+	url = https://github.com/licensezero/licensezero-private-license
 [submodule "forms/parity-license"]
 	path = forms/parity-license
-	url = git@github.com:licensezero/parity-public-license
+	url = https://github.com/licensezero/parity-public-license
 [submodule "forms/charity-license"]
 	path = forms/charity-license
-	url = git@github.com:licensezero/charity-public-license
+	url = https://github.com/licensezero/charity-public-license
 [submodule "forms/prosperity-license"]
 	path = forms/prosperity-license
-	url = git@github.com:licensezero/prosperity-public-license
+	url = https://github.com/licensezero/prosperity-public-license
