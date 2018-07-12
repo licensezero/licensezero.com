@@ -159,7 +159,7 @@ function formatDate (dateString) {
 
 function orderForm (project) {
   return html`
-<h3>Buy a License</h3>
+<h3 id=buy>Buy a License</h3>
 <p>
   You can order licenses for all the projects you need at one time with the
   <a href=https://github.com/licensezero/cli>

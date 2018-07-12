@@ -33,7 +33,6 @@ footer p {
 
 main {
   padding-bottom: 2rem;
-  padding-top: 1rem;
 }
 
 table {
@@ -236,26 +235,39 @@ del {
 .lead {
   color: #666;
   font-size: 130%;
-  margin-top: 0;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .download {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.download a {
   background: darkgreen;
   border: none;
   border-radius: 1rem;
   color: white;
   cursor: pointer;
-  display: inline-block;
   padding: 1rem;
   text-align: center;
   text-decoration: none;
 }
 
-.download:hover {
+.download a:hover {
   color: white;
 }
 
 p {
   margin-top: 1rem;
   margin-bottom: 1em;
+}
+
+.explainer {
+  display: block;
+  margin: 1rem auto;
+  text-align: center;
+  width: 80%;
 }

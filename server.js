@@ -6,7 +6,7 @@ var sweepOrders = require('./jobs/delete-expired-orders')
 var sweepPurchases = require('./jobs/delete-expired-purchases')
 var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
-var DIRECTORY = require('./paths/directory')
+var DIRECTORY = process.env.DIRECTORY
 var PORT = process.env.PORT || 8080
 
 var NAME = require('./package.json').name
