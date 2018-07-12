@@ -81,9 +81,7 @@ module.exports = function api (request, response) {
       return fail('missing action property')
     }
     var action = actions[body.action]
-    if (!action) {
-      fail('invalid action')
-    }
+    if (!action) return fail('invalid action')
     if (!action.validate(body)) {
       if (process.env.LOG_API_VALIDATION_ERRORS) {
         console.error(body)
