@@ -9,7 +9,6 @@ module.exports = function () {
     <li><a href=https://guide.licensezero.com>Guide</a></li>
     <li><a href=/terms>Terms</a></li>
     <li><a href=/licenses>Licenses</a></li>
-    <li><a href=/privacy>Privacy</a></li>
   </ul>
 </nav>
   `

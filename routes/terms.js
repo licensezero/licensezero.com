@@ -23,6 +23,11 @@ module.exports = function (request, response) {
         <a href=/terms/service>terms of service</a>.
       </p>
       <p>
+        License Zero’s
+        <a href=/privacy>privacy policy</a>
+        covers licensezero.com.
+      </p>
+      <p>
         To offer private licenses through License Zero,
         licensors must agree to
         <a href=/terms/agency>agency terms</a>.
