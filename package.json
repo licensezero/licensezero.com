@@ -1,9 +1,5 @@
 {
-  "name": "licensezero-server",
-  "version": "0.0.0",
-  "description": "License Zero paid license portal",
   "private": true,
-  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
     "ajv": "^6.5.2",
     "argon2": "^0.19.3",
