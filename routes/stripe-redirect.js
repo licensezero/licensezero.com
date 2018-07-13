@@ -57,7 +57,7 @@ ${head('Registration')}
   ) {
     var nonce = query.state
     var nonceFile = stripeNoncePath(nonce)
-    runWaterfall([
+    return runWaterfall([
       function readNonceFile (done) {
         fs.readFile(nonceFile, function (error, read) {
           if (error) {
