@@ -11,7 +11,6 @@
     "commonform-html": "^2.0.0",
     "commonform-markup-parse": "^0.4.2",
     "commonform-terminal": "^1.0.1",
-    "diff": "^3.5.0",
     "do-not-cache": "^1.0.1",
     "flush-write-stream": "^1.0.3",
     "form-data": "^2.3.2",

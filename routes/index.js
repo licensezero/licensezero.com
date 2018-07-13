@@ -35,13 +35,8 @@ routes.set('/licenses/private', require('./private-license'))
 routes.set('/licenses/public', function (request, response) {
   redirect303(response, '/licenses/noncommercial')
 })
-routes.set('/licenses/public/diff', function (request, response) {
-  redirect303(response, '/licenses/noncommercial/diff')
-})
 routes.set('/licenses/noncommercial', require('./noncommercial-license'))
-routes.set('/licenses/noncommercial/diff', require('./noncommercial-license-diff'))
 routes.set('/licenses/reciprocal', require('./reciprocal-license'))
-routes.set('/licenses/reciprocal/diff', require('./reciprocal-license-diff'))
 routes.set('/licenses/parity', require('./parity-license'))
 routes.set('/licenses/charity', require('./charity-license'))
 routes.set('/licenses/prosperity', require('./prosperity-license'))
