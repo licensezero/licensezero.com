@@ -230,11 +230,13 @@ ${head('Registration')}
         var line = stripeID + '\t' + licensorID + '\n'
         fs.appendFile(file, line, function (error) {
           if (error) return done(error)
+          request.log.info('appended to accounts')
           done(null, licensorID, passphrase)
         })
       }
     ], function (error, licensorID, passphrase) {
       if (error) {
+        request.log.error(error)
         response.statusCode = error.statusCode || 500
         return response.end()
       }
