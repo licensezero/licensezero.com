@@ -90,21 +90,18 @@ ${head('Registration')}
               return isNonEmptyString(nonceData[key])
             })
         ) {
-          done(null, nonceData)
-        } else {
-          var error = new Error('invalid nonce file')
-          error.statusCode = 500
-          done(error)
+          return done(null, nonceData)
         }
+        var error = new Error('invalid nonce file')
+        error.statusCode = 500
+        done(error)
       },
       function (nonceData, done) {
         requestStripeCredentials(
           query.code,
           function (error, results) {
             /* istanbul ignore if */
-            if (error) {
-              error.statusCode = 500
-            }
+            if (error) error.statusCode = 500
             done(error, results, nonceData)
           }
         )
@@ -113,8 +110,9 @@ ${head('Registration')}
         if (body.error) {
           request.log.error(body, 'stripe error')
           body.error.statusCode = 500
-          done(body.error)
-        } else if (
+          return done(body.error)
+        }
+        if (
           !['stripe_user_id', 'refresh_token']
             .every(function (key) {
               return isNonEmptyString(body[key])
@@ -123,10 +121,9 @@ ${head('Registration')}
           request.log.error(body, 'invalid stripe body')
           var error = new Error('invalid stripe body')
           error.statusCode = 500
-          done(error)
-        } else {
-          done(null, body, nonceData)
+          return done(error)
         }
+        done(null, body, nonceData)
       },
       function writeLicensorFile (stripeData, nonceData, done) {
         var licensorID = uuid()
