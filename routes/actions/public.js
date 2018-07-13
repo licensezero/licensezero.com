@@ -4,7 +4,7 @@ var prosperityLicense = require('../../forms/prosperity-license')
 var readProject = require('../../data/read-project')
 var parityLicense = require('../../forms/parity-license')
 var signatureLines = require('../../data/signature-lines')
-var stringify = require('../../stringify')
+var stringify = require('json-stable-stringify')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),

@@ -19,9 +19,7 @@ module.exports = function (stripeID, callback) {
       done()
     }),
     function (error) {
-      if (!destroyed && error) {
-        callback(error)
-      }
+      if (!destroyed && error) callback(error)
     }
   )
 }

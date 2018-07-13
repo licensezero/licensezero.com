@@ -1,5 +1,5 @@
 var ed25519 = require('../../ed25519')
-var stringify = require('../../stringify')
+var stringify = require('json-stable-stringify')
 var readProject = require('../../data/read-project')
 var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')

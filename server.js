@@ -6,18 +6,16 @@ var sweepOrders = require('./jobs/delete-expired-orders')
 var sweepPurchases = require('./jobs/delete-expired-purchases')
 var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
-var DIRECTORY = process.env.DIRECTORY
-var PORT = process.env.PORT || 8080
+// Create a Pino logger instance.
+var log = pino({name: process.env.NAME + '@' + process.env.VERSION})
 
-var NAME = require('./package.json').name
-var VERSION = require('./package.json').version
-var log = pino({name: NAME + '@' + VERSION})
+log.info({event: 'data', directory: process.env.DIRECTORY})
 
-log.info({event: 'data', directory: DIRECTORY})
-
+// Create the HTTP server.
 var requestHandler = makeHandler(log)
 var server = http.createServer(requestHandler)
 
+// Trap signals.
 process
   .on('SIGTERM', logSignalAndShutDown)
   .on('SIGQUIT', logSignalAndShutDown)
@@ -27,11 +25,13 @@ process
     shutDown()
   })
 
-server.listen(PORT, function onListening () {
+// Start the HTTP server.
+server.listen(process.env.PORT, function onListening () {
   var boundPort = this.address().port
   log.info({event: 'listening', port: boundPort})
 })
 
+// Run a number of jobs in the background, cron-style.
 var jobs = [sweepOrders, sweepResetTokens, sweepPurchases]
 jobs.forEach(function (job) {
   job(log, function () { })
@@ -39,6 +39,8 @@ jobs.forEach(function (job) {
     job(log, function () { /* pass */ })
   })
 })
+
+// Helper Functions
 
 function logSignalAndShutDown () {
   log.info({event: 'signal'})

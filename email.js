@@ -3,6 +3,8 @@ var assert = require('assert')
 var https = require('https')
 var simpleConcat = require('simple-concat')
 
+// When testing, export a function that emits events instead
+// of sending e-mail.  Test subscribe to the event emitter.
 /* istanbul ignore else */
 if (process.env.NODE_ENV === 'test') {
   var EventEmitter = require('events').EventEmitter
