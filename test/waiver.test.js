@@ -78,7 +78,6 @@ tape('waiver', function (test) {
           }, function (error, response) {
             if (error) return done(error)
             var publicKey = response.publicKey
-            // TODO Publish license verification code as open source
             test.assert(
               ed25519.verify(
                 manifest + '\n\n' + document,

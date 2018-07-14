@@ -11,7 +11,6 @@ exports.properties = {
   projects: {
     type: 'array',
     minItems: 1,
-    // TODO: Revisit buy projects limit
     maxItems: 100,
     items: require('./common/project-id')
   }

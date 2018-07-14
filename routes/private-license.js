@@ -12,8 +12,6 @@ var REPOSITORY = (
   'https://github.com/licensezero/licensezero-private-license'
 )
 
-// TODO: Explain the private license.
-
 module.exports = function (request, response) {
   privateLicense({
     date: '{Date}',

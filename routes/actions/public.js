@@ -54,7 +54,6 @@ exports.handler = function (log, body, end, fail, lock) {
       )
       var metadata = {
         // See: https://docs.npmjs.com/files/package.json#license
-        // TODO: Replace w/ SPDX identifier.
         license: 'SEE LICENSE IN LICENSE'
       }
       if (body.terms !== 'charity') {

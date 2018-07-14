@@ -5,8 +5,6 @@ var server = require('./server')
 var tape = require('tape')
 var writeTestLicensor = require('./write-test-licensor')
 
-// TODO: Test a notification after e-mail change
-
 tape('email', function (test) {
   server(function (port, close) {
     var newAddress = 'another@example.com'

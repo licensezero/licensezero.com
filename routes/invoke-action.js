@@ -1,7 +1,5 @@
 var lock = require('./lock')
 
-// TODO: improve user error reporting from invoked actions
-
 module.exports = function (log, action, payload, callback) {
   if (!action.validate(payload)) {
     var error = new Error('invalid body')
