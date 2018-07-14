@@ -67,14 +67,15 @@ exports.handler = function (log, body, end, fail, lock) {
         delete project.pricing
         return project
       })
-      writeOrder(
-        pricedProjects,
-        body.licensee, body.jurisdiction, body.email,
-        function (error, orderID) {
-          if (error) return fail('internal error')
-          end({location: '/pay/' + orderID})
-        }
-      )
+      writeOrder({
+        projects: pricedProjects,
+        licensee: body.licensee,
+        jurisdiction: body.jurisdiction,
+        email: body.email
+      }, function (error, orderID) {
+        if (error) return fail('internal error')
+        end({location: '/pay/' + orderID})
+      })
     }
   )
 }

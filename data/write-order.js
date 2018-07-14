@@ -1,3 +1,4 @@
+var assert = require('assert')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var orderPath = require('../paths/order')
@@ -5,14 +6,16 @@ var path = require('path')
 var runSeries = require('run-series')
 var uuid = require('uuid/v4')
 
-// TODO refactor to take a data object, like write-relicense-order
-
-module.exports = function (
-  pricedProjects, licensee, jurisdiction, email, callback
-) {
+module.exports = function (data, callback) {
+  assert.equal(typeof data, 'object')
+  assert(Array.isArray(data.projects))
+  assert.equal(typeof data.licensee, 'object')
+  assert.equal(typeof data.jurisdiction, 'string')
+  assert.equal(typeof data.email, 'string')
+  assert.equal(typeof callback, 'function')
   var orderID = uuid()
   var file = orderPath(orderID)
-  var total = pricedProjects.reduce(function (total, project) {
+  var total = data.projects.reduce(function (total, project) {
     return total + project.price
   }, 0)
   runSeries([
@@ -20,10 +23,10 @@ module.exports = function (
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'licenses',
       orderID: orderID,
-      email: email,
-      jurisdiction: jurisdiction,
-      licensee: licensee,
-      projects: pricedProjects,
+      email: data.email,
+      jurisdiction: data.jurisdiction,
+      licensee: data.licensee,
+      projects: data.projects,
       total: total
     }))
   ], function (error) {
