@@ -68,6 +68,14 @@
     "licenses": "licensee --errors-only"
   },
   "lint-staged": {
-    "*.js": "standard"
+    "linters": {
+      "*.js": [
+        "standard --fix",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "*.min.js"
+    ]
   }
 }
