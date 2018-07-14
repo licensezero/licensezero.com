@@ -1,4 +1,4 @@
-var INSTALL = require('../one-line-install.json')
+var INSTALL = require('../content/one-line-install.json')
 var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')

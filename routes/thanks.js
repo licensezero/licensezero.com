@@ -1,4 +1,4 @@
-var THANKS = require('./thanks.json')
+var THANKS = require('../content/thanks.json')
 
 var escape = require('./escape')
 var footer = require('./partials/footer')
