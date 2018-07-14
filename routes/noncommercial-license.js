@@ -4,7 +4,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
-var linkStandards = require('./link-standards')
+var linkStandards = require('../util/link-standards')
 var nav = require('./partials/nav')
 var noncommercialLicense = require('../forms/noncommercial-license')
 

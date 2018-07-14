@@ -1,6 +1,6 @@
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var doNotCache = require('do-not-cache')
-var formatPrice = require('./format-price')
+var formatPrice = require('../util/format-price')
 var path = require('path')
 var readProject = require('../data/read-project')
 var withCached = require('../data/with-cached')
