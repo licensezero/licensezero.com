@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+// Create an Ed25519 keypair and output a shell script
+// to export it to the environment.
+//
+// See the `testserver` npm script in package.json.
 var ed25519 = require('./ed25519')
 var crypto = require('crypto')
 
