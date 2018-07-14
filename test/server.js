@@ -1,4 +1,4 @@
-var ed25519 = require('../ed25519')
+var ed25519 = require('../util/ed25519')
 var fs = require('fs')
 var http = require('http')
 var makeHandler = require('../')

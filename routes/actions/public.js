@@ -1,5 +1,5 @@
 var charityLicense = require('../../forms/charity-license')
-var ed25519 = require('../../ed25519')
+var ed25519 = require('../../util/ed25519')
 var prosperityLicense = require('../../forms/prosperity-license')
 var readProject = require('../../data/read-project')
 var parityLicense = require('../../forms/parity-license')

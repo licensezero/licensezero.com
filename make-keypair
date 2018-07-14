@@ -3,7 +3,7 @@
 // to export it to the environment.
 //
 // See the `testserver` npm script in package.json.
-var ed25519 = require('./ed25519')
+var ed25519 = require('./util/ed25519')
 var crypto = require('crypto')
 
 var keypair = ed25519.keys()

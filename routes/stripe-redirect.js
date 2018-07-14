@@ -1,5 +1,5 @@
 var accountsPath = require('../paths/accounts')
-var ed25519 = require('../ed25519')
+var ed25519 = require('../util/ed25519')
 var email = require('../email')
 var footer = require('./partials/footer')
 var fs = require('fs')

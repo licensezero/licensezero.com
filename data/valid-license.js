@@ -1,4 +1,4 @@
-var ed25519 = require('../ed25519')
+var ed25519 = require('../util/ed25519')
 
 var REQUIRED = [
   'projectID', 'manifest', 'document', 'publicKey', 'signature'
