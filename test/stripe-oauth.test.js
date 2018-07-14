@@ -15,7 +15,15 @@ var SPONSOR_EMAIL = 'sponsor@example.com'
 var SPONSOR_JURISDICTION = 'US-MD'
 var SPONSOR_NAME = 'Larry Licensee'
 
-tape('Stripe OAuth connect, register, license', function (suite) {
+var options = {
+  skip: (
+    !process.env.hasOwnProperty('STRIPE_SECRET_KEY') ||
+    !process.env.hasOwnProperty('STRIPE_SHAREABLE_KEY') ||
+    !process.env.hasOwnProperty('STRIPE_CLIENT_ID')
+  )
+}
+
+tape('Stripe OAuth connect, register, license', options, function (suite) {
   server(8080, function (port, close) {
     withLicensor(port, suite, function (error, licensorID, token) {
       if (error) {
