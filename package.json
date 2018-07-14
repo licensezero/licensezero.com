@@ -59,7 +59,7 @@
   },
   "scripts": {
     "coverage": "NODE_ENV=test istanbul cover -- tape test/*.test.js",
-    "depcheck": "depcheck --ignores husky,chromedriver,lint-staged",
+    "depcheck": "depcheck --ignores husky,chromedriver,lint-staged,standard,licensee",
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
     "test": "NODE_ENV=test tape test/*.test.js",
     "testserver": "TMP=$(mktemp) ; ./make-keypair > $TMP ; . $TMP ; DIRECTORY=example-directory node server.js ; rm $TMP",
