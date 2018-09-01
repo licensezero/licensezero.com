@@ -18,7 +18,7 @@ module.exports = function (subtitle, twitterData) {
 function twitterCard (data) {
   var returned = ''
   returned += '<meta name="twitter:card" content="summary">'
-  returned += '<meta name="twitter:image" content="https://licensezero.com/logo-100.png">'
+  returned += '<meta name="twitter:image" content="https://licensezero.com/logo-on-white-100.png">'
   returned += '<meta name="twitter:site" content="@licensezero">'
   if (data.title) {
     returned += `<meta name ="twitter:title" content="${escape(data.title)}">`
