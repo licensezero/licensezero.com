@@ -7,7 +7,7 @@ var sweepPurchases = require('./jobs/delete-expired-purchases')
 var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
 // Create a Pino logger instance.
-var log = pino({name: process.env.NAME + '@' + process.env.VERSION})
+var log = pino({name: 'licensezero.com'})
 
 log.info({event: 'data', directory: process.env.DIRECTORY})
 
