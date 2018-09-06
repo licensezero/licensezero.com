@@ -69,11 +69,16 @@ if (process.env.NODE_ENV === 'test') {
             return callback()
           }
           simpleConcat(response, function (error, body) {
-            if (error) return log.error(error)
+            if (error) {
+              log.error(error)
+              return callback(error)
+            }
+            var message = body.toString()
             log.error({
               status: status,
-              body: body.toString()
+              body: message
             })
+            return callback(message)
           })
         })
     )
