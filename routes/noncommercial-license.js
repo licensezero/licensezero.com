@@ -32,6 +32,12 @@ module.exports = function (request, response) {
     <main>
       <h1>Noncommercial Public License</h1>
       <p>
+        Note:
+        This noncommercial license has been replaced by
+        <a href=/licenses/prosperity>The Prosperity Public License</a>
+        for License Zero projects going forward.
+      </p>
+      <p>
         To review changes to, and submit feedback about,
         the License Zero Noncommercial Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.

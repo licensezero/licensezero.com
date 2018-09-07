@@ -32,6 +32,12 @@ module.exports = function (request, response) {
     <main>
       <h1>Reciprocal Public License</h1>
       <p>
+        Note:
+        This reciprocal license has been replaced by
+        <a href=/licenses/parity>The Parity Public License</a>
+        for License Zero projects going forward.
+      </p>
+      <p>
         To review changes to, and submit feedback about,
         the License Zero Reciprocal Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
