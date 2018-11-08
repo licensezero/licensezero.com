@@ -38,6 +38,16 @@ routes.set('/licenses/public', function (request, response) {
 routes.set('/licenses/noncommercial', require('./noncommercial-license'))
 routes.set('/licenses/reciprocal', require('./reciprocal-license'))
 routes.set('/licenses/parity', require('./parity-license'))
+routes.set('/licenses/parity/:version', function (request, response) {
+  var version = request.parameters.version
+  if (!/^\d+\.\d+\.\d+$/.test(version)) {
+    response.statusCode = 400
+    response.end()
+    return
+  }
+  var filePath = path.join(__dirname, '..', 'static', `parity-${version}.txt`)
+  pump(send(request, filePath), response)
+})
 routes.set('/licenses/charity', require('./charity-license'))
 routes.set('/licenses/prosperity', require('./prosperity-license'))
 routes.set('/licenses/permissive', require('./permissive-license'))
