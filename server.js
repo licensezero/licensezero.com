@@ -14,11 +14,7 @@ log.info({event: 'data', directory: process.env.DIRECTORY})
 // Check required environment variables.
 var requiredEnvironmentVariables = [
   'NODE_ENV',
-  'MAILGUN_KEY',
-  'MAILGUN_DOMAIN',
-  'MAILGUN_FROM',
   'STRIPE_PUBLISHABLE_KEY',
-  'STRIPE_PRIVATE_KEY',
   'STRIPE_SECRET_KEY',
   'STRIPE_WEBHOOK_SECRET',
   'STRIPE_APPLICATION',
@@ -29,8 +25,16 @@ var requiredEnvironmentVariables = [
   'PRIVATE_KEY',
   'COMMISSION'
 ]
+if (process.env.NODE_ENV !== 'test') {
+  requiredEnvironmentVariables.push(
+    'MAILGUN_KEY',
+    'MAILGUN_DOMAIN',
+    'MAILGUN_FROM'
+  )
+}
 requiredEnvironmentVariables.forEach(function (key) {
   if (!process.env[key]) {
+    console.error(key)
     log.error({key: key}, 'missing environment variable')
     process.exit(1)
   }
