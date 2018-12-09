@@ -10,6 +10,7 @@ module.exports = function (subtitle, twitterData) {
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
   ${twitterData && twitterCard(twitterData)}
+  ${twitterData && openGraphMetadata(twitterData)}
   <meta name="epigram" content="veritas non auctoritas facit aequitatem">
 </head>
   `
@@ -25,6 +26,20 @@ function twitterCard (data) {
   }
   if (data.description) {
     returned += `<meta name ="twitter:description" content="${escape(data.description)}">`
+  }
+  return returned
+}
+
+function openGraphMetadata (data) {
+  var returned = ''
+  returned += '<meta name="og:type" content="website">'
+  returned += '<meta name="og:image" content="https://licensezero.com/logo-on-white-100.png">'
+  returned += '<meta name="og:site_name" content="License Zero">'
+  if (data.title) {
+    returned += `<meta name ="og:title" content="${escape(data.title)}">`
+  }
+  if (data.description) {
+    returned += `<meta name ="og:description" content="${escape(data.description)}">`
   }
   return returned
 }
