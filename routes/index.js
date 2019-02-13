@@ -138,6 +138,36 @@ routes.set('/robots.txt', function (request, response) {
   ].join('\n'))
 })
 
+routes.set('/.well-known/security.txt', function (request, response) {
+  response.setHeader('Content-Type', 'text/plain')
+  response.end([
+    'Contact: mailto:security@artlessdevices.com',
+    'Encryption: https://licensezero.com/security-pgp-key.txt',
+    'Acknowledgments: https://licensezero.com/thanks',
+    'Preferred-Languages: en',
+    'Canonical: https://licensezero.com/.well-known/security.txt'
+  ].join('\n'))
+})
+
+routes.set('/security-pgp-key.txt', function (request, response) {
+  response.setHeader('Content-Type', 'text/plain')
+  response.end([
+    '-----BEGIN PGP PUBLIC KEY BLOCK-----',
+    '',
+    'mDMEXGRQIxYJKwYBBAHaRw8BAQdANVewWyxTxdu1nS6eFfujeuZSUxMpqzu4TBQ4',
+    'PumZAxu0MUFydGxlc3MgRGV2aWNlcyBMTEMgPHNlY3VyaXR5QGFydGxlc3NkZXZp',
+    'Y2VzLmNvbT6IkAQTFggAOBYhBHbWQt0ULsRlbvPV/GPoU0xsyIQ/BQJcZFAjAhsD',
+    'BQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEGPoU0xsyIQ/7qMA/jaJ9ld3kmr2',
+    'tq9ULrtX9eEOeH9FNO3Wo72v05LA1LgJAP0QgICtgRgxHPEVVyQIbrrbfPKn/RaH',
+    '3hASRhlZ87KuDrg4BFxkUCMSCisGAQQBl1UBBQEBB0B1FinTm4TN6IPsu0oLWRgo',
+    '924qAijNuygtFgVsKuz+DAMBCAeIeAQYFggAIBYhBHbWQt0ULsRlbvPV/GPoU0xs',
+    'yIQ/BQJcZFAjAhsMAAoJEGPoU0xsyIQ/Ct0A/in5UeF8036pKZO9rfwiIC9gPHQ9',
+    'D4vRHmnBR4todrhfAQCWhBpJ978bZReFEn9ODdSDYX4xZ8FVNKohDH3KCOxWDA==',
+    '=3xMP',
+    '-----END PGP PUBLIC KEY BLOCK-----'
+  ].join('\n'))
+})
+
 var internalError = require('./internal-error')
 routes.set('/500', function (request, response) {
   internalError(response, new Error('Error for test purposes.'))
