@@ -4533,18 +4533,18 @@
       }
     },
     "pino-http": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/pino-http/-/pino-http-4.0.0.tgz",
-      "integrity": "sha512-jVzg5koSci0u5o9239TisQwjfP/XiWMvTTGii7sy1vBTVQWre3BLV6XVWdaHEJ6fwBSm8oUiU/Yx1ZyfvO3Uhg==",
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/pino-http/-/pino-http-4.1.0.tgz",
+      "integrity": "sha512-IRmQMLFK2M/N05T+yitm7IL1duTjs5YlsfVCV6Pm5akFl6mIbr/fx9K2F4JZtEiwRFfyGb1A9MRJ/YhKd+3TUw==",
       "requires": {
         "pino": "^5.0.0",
         "pino-std-serializers": "^2.1.0"
       }
     },
     "pino-std-serializers": {
-      "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/pino-std-serializers/-/pino-std-serializers-2.2.1.tgz",
-      "integrity": "sha512-QqL7kkF7eMCpFG4hpZD8UPQga/kxkkh3E62HzMzTIL4OQyijyisAnBL8msBEAml8xcb/ioGhH7UUzGxuHqczhQ=="
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/pino-std-serializers/-/pino-std-serializers-2.3.0.tgz",
+      "integrity": "sha512-klfGoOsP6sJH7ON796G4xoUSx2fkpFgKHO4YVVO2zmz31jR+etzc/QzGJILaOIiCD6HTCFgkPx+XN8nk+ruqPw=="
     },
     "pkg-conf": {
       "version": "2.0.0",
