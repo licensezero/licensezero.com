@@ -2379,11 +2379,6 @@
       "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz",
       "integrity": "sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk="
     },
-    "fast-json-parse": {
-      "version": "1.0.3",
-      "resolved": "https://registry.npmjs.org/fast-json-parse/-/fast-json-parse-1.0.3.tgz",
-      "integrity": "sha512-FRWsaZRWEJ1ESVNbDWmsAlqDk96gPQezzLghafp5J4GUKjbCz3OkAHuZs5TuPEtkbVQERysLp9xv6c24fBm8Aw=="
-    },
     "fast-json-stable-stringify": {
       "version": "2.0.0",
       "resolved": "https://registry.npmjs.org/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz",
@@ -2396,9 +2391,9 @@
       "dev": true
     },
     "fast-redact": {
-      "version": "1.2.0",
-      "resolved": "https://registry.npmjs.org/fast-redact/-/fast-redact-1.2.0.tgz",
-      "integrity": "sha512-k/uSk9PtFmvYx0m7bRk5B2gZChQk4euWhrn7Mf3vYSmwZBLh7cGNuMuc/vhH1MKMPyVJMMtl9oMwPnwlKqs7CQ=="
+      "version": "1.4.4",
+      "resolved": "https://registry.npmjs.org/fast-redact/-/fast-redact-1.4.4.tgz",
+      "integrity": "sha512-QOQZ8sDDQPZMJ6x6zlm6hLZ2cjPDqfN3R/AYnAbM+yy8VNPvOnVXdUF/E/xbMv7g44c1krhWuzgjH2u0V5Vhsg=="
     },
     "fast-safe-stringify": {
       "version": "2.0.6",
@@ -2492,9 +2487,9 @@
       }
     },
     "flatstr": {
-      "version": "1.0.8",
-      "resolved": "https://registry.npmjs.org/flatstr/-/flatstr-1.0.8.tgz",
-      "integrity": "sha512-YXblbv/vc1zuVVUtnKl1hPqqk7TalZCppnKE7Pr8FI/Rp48vzckS/4SJ4Y9O9RNiI82Vcw/FydmtqdQOg1Dpqw=="
+      "version": "1.0.9",
+      "resolved": "https://registry.npmjs.org/flatstr/-/flatstr-1.0.9.tgz",
+      "integrity": "sha512-qFlJnOBWDfIaunF54/lBqNKmXOI0HqNhu+mHkLmbaBXlS71PUd9OjFOdyevHt/aHoHB1+eW7eKHgRKOG5aHSpw=="
     },
     "flush-write-stream": {
       "version": "1.0.3",
@@ -4518,18 +4513,23 @@
       }
     },
     "pino": {
-      "version": "5.4.1",
-      "resolved": "https://registry.npmjs.org/pino/-/pino-5.4.1.tgz",
-      "integrity": "sha512-CevmEuLU4MZRkI/P0ulcZaz5vDbruNJdI+m83zdHcwfhU2J+30uxeKaLLPl5D3jXBoH+QcnjMUKtd59DLxJB2g==",
+      "version": "5.11.1",
+      "resolved": "https://registry.npmjs.org/pino/-/pino-5.11.1.tgz",
+      "integrity": "sha512-NIua0mGb9Adknq35ONvQmvh93LCUVUjp2+1q1EcvIkJmpJnSd3E5rHVKlKNjzMXFl/z3fI+QA0xXCjPEKNiLvQ==",
       "requires": {
-        "fast-json-parse": "^1.0.3",
-        "fast-redact": "^1.1.14",
-        "fast-safe-stringify": "^2.0.4",
-        "flatstr": "^1.0.5",
-        "pino-std-serializers": "^2.2.0",
-        "pump": "^3.0.0",
+        "fast-redact": "^1.4.2",
+        "fast-safe-stringify": "^2.0.6",
+        "flatstr": "^1.0.9",
+        "pino-std-serializers": "^2.3.0",
         "quick-format-unescaped": "^3.0.0",
-        "sonic-boom": "^0.6.0"
+        "sonic-boom": "^0.7.1"
+      },
+      "dependencies": {
+        "pino-std-serializers": {
+          "version": "2.3.0",
+          "resolved": "https://registry.npmjs.org/pino-std-serializers/-/pino-std-serializers-2.3.0.tgz",
+          "integrity": "sha512-klfGoOsP6sJH7ON796G4xoUSx2fkpFgKHO4YVVO2zmz31jR+etzc/QzGJILaOIiCD6HTCFgkPx+XN8nk+ruqPw=="
+        }
       }
     },
     "pino-http": {
@@ -4697,9 +4697,9 @@
       "dev": true
     },
     "quick-format-unescaped": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/quick-format-unescaped/-/quick-format-unescaped-3.0.0.tgz",
-      "integrity": "sha512-XmIOc07VM2kPm6m3j/U6jgxyUgDm2Rgh2c1PPy0JUHoQRdoh86hOym0bHyF6G1T6sn+N5lildhvl/T59H5KVyA=="
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/quick-format-unescaped/-/quick-format-unescaped-3.0.2.tgz",
+      "integrity": "sha512-FXTaCkwvpIlkdKeGDNgcq07SXWS383noQUuZjvdE1QcTt+eLuqof6/BDiEPqB59FWLie/l91+HtlJSw7iCViSA=="
     },
     "range-parser": {
       "version": "1.2.0",
@@ -5328,11 +5328,11 @@
       }
     },
     "sonic-boom": {
-      "version": "0.6.1",
-      "resolved": "https://registry.npmjs.org/sonic-boom/-/sonic-boom-0.6.1.tgz",
-      "integrity": "sha512-3qx6XXDeG+hPNa+jla1H6BMBLcjLl8L8NRERLVeIf/EuPqoqmq4K8owG29Xu7OypT/7/YT/0uKW6YitsKA+nLQ==",
+      "version": "0.7.3",
+      "resolved": "https://registry.npmjs.org/sonic-boom/-/sonic-boom-0.7.3.tgz",
+      "integrity": "sha512-A9EyoIeLD+g9vMLYQKjNCatJtAKdBQMW03+L8ZWWX/A6hq+srRCwdqHrBD1R8oSMLXov3oHN13dljtZf12q2Ow==",
       "requires": {
-        "flatstr": "^1.0.5"
+        "flatstr": "^1.0.9"
       }
     },
     "sorted-array-functions": {
