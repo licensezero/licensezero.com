@@ -59,7 +59,13 @@ exports.handler = function (log, body, end, fail) {
             client_id: process.env.STRIPE_CLIENT_ID,
             scope: 'read_write',
             state: nonce
-          })
+          }),
+          [
+            'To prevent License Zero messages',
+            'from going to your junk mail folder,',
+            'add ' + process.env.MAILGUN_FRONT,
+            'to your address book.'
+          ]
         ]
       })
     ])
