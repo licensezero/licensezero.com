@@ -7,7 +7,7 @@
   "dependencies": {
     "ajv": "^6.9.1",
     "argon2": "^0.19.3",
-    "busboy": "^0.2.14",
+    "busboy": "^0.3.0",
     "commonform-html": "^2.0.0",
     "commonform-markup-parse": "^0.4.2",
     "commonform-terminal": "^1.0.1",
