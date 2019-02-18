@@ -8,9 +8,9 @@ var stringify = require('json-stable-stringify')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
-  token: {type: 'string'},
+  token: { type: 'string' },
   projectID: require('./common/project-id'),
-  terms: {enum: ['parity', 'prosperity', 'charity']}
+  terms: { enum: ['parity', 'prosperity', 'charity'] }
 }
 
 exports.handler = function (log, body, end, fail, lock) {

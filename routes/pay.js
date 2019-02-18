@@ -129,7 +129,7 @@ ${head(action)}
     </thead>
     <tbody>
     ${order.projects.map(function (project) {
-      return html`
+    return html`
         <tr>
           <td>
             <p><code>${escape(project.projectID)}</code></p>
@@ -157,7 +157,7 @@ ${head(action)}
           </td>
         </tr>
       `
-    })}
+  })}
     </tbody>
     <tfoot class=total>
       <tr>
@@ -235,8 +235,8 @@ ${head(action)}
     })
     return html`
       ${errors.map(function (error) {
-        return html`<p class=error>${escape(error.message)}</p>`
-      })}
+    return html`<p class=error>${escape(error.message)}</p>`
+  })}
     `
   }
 }
@@ -256,13 +256,13 @@ var postSchema = {
   additionalProperties: false
 }
 
-var ajv = new AJV({allErrors: true})
+var ajv = new AJV({ allErrors: true })
 var validatePost = ajv.compile(postSchema)
 
 function post (request, response, order) {
   var data = {}
   request.pipe(
-    new Busboy({headers: request.headers})
+    new Busboy({ headers: request.headers })
       .on('field', function (name, value) {
         if (Object.keys(postSchema.properties).includes(name)) {
           data[name] = value
@@ -514,7 +514,7 @@ function post (request, response, order) {
                   stripe.charges.capture(
                     chargeID,
                     {},
-                    {stripe_account: stripeID},
+                    { stripe_account: stripeID },
                     done
                   )
                 })
@@ -678,7 +678,7 @@ ${head('Thank you')}
             toANSI(
               form.commonform,
               form.directions,
-              {numbering: outline}
+              { numbering: outline }
             )
           )
             .replace(/^ {4}/, '')
@@ -739,10 +739,10 @@ ${head('Thank you')}
       stripe.charges.capture(
         chargeID,
         {},
-        {stripe_account: stripeID},
+        { stripe_account: stripeID },
         function (error) {
           if (error) return done(error)
-          request.log.info({chargeID: chargeID}, 'captured')
+          request.log.info({ chargeID: chargeID }, 'captured')
           done()
         }
       )
@@ -904,8 +904,8 @@ ${head('Thank you')}
   <main>
     <h1 class=thanks>Thank You</h1>
     ${paragraphs.map(function (paragraph) {
-      return html`<p>${escape(paragraph)}</p>`
-    })}
+    return html`<p>${escape(paragraph)}</p>`
+  })}
   </main>
   ${footer()}
 </body>

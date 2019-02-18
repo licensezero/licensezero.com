@@ -26,24 +26,24 @@ ${head()}
   <main>
       <article class=commonform>
         ${
-          linkifyURLs(
-            commonformToHTML(
-              terms.commonform,
-              terms.directions,
-              {
-                title: 'License Zero ' + title,
-                html5: true,
-                lists: true
-              }
-            ),
-            {
-              type: 'string',
-              attributes: {
-                target: '_blank'
-              }
-            }
-          )
-        }
+  linkifyURLs(
+    commonformToHTML(
+      terms.commonform,
+      terms.directions,
+      {
+        title: 'License Zero ' + title,
+        html5: true,
+        lists: true
+      }
+    ),
+    {
+      type: 'string',
+      attributes: {
+        target: '_blank'
+      }
+    }
+  )
+}
       </article>
   </main>
   ${footer()}

@@ -68,19 +68,19 @@ module.exports = function (request, response) {
           <dt>Public Signing Key</dt>
           <dd>
             <pre><code>${
-              licensor.publicKey.slice(0, 32) + '\n' +
+  licensor.publicKey.slice(0, 32) + '\n' +
               licensor.publicKey.slice(32)
-            }</code></pre>
+}</code></pre>
             <button class=clipboard data-clipboard-text="${escape(licensor.publicKey)}">Copy to Clipboard</button>
           </dd>
         </dl>
       </section>
       <h3>Pricing</h3>
       ${
-        project.retracted
-          ? retracted()
-          : priceList(project)
-      }
+  project.retracted
+    ? retracted()
+    : priceList(project)
+}
       ${orderForm(project)}
     </main>
     ${footer()}

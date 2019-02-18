@@ -6,7 +6,7 @@ var runWaterfall = require('run-waterfall')
 module.exports = function (key) {
   var properties = {
     licensorID: require('./common/licensor-id'),
-    token: {type: 'string'}
+    token: { type: 'string' }
   }
   properties[key] = require('./register').properties[key]
   return {

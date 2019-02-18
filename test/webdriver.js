@@ -19,7 +19,7 @@ var webdriver = module.exports = require('webdriverio')
       browserName: 'chrome',
       chromeOptions: process.env.DISABLE_HEADLESS
         ? {}
-        : {args: ['headless', '--disable-gpu', '--window-size=850,1000']}
+        : { args: ['headless', '--disable-gpu', '--window-size=850,1000'] }
     }
   })
   .init()

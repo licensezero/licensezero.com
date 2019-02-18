@@ -36,7 +36,7 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error.userMessage) return fail(error.userMessage)
         return fail('internal error')
       }
-      end({projects: results})
+      end({ projects: results })
     }
   )
 }

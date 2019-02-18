@@ -12,7 +12,7 @@ var uuid = require('uuid/v4')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
-  token: {type: 'string'},
+  token: { type: 'string' },
   homepage: require('./common/homepage'),
   pricing: require('./common/pricing'),
   description: require('./common/description'),
@@ -73,7 +73,7 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error.userMessage) return fail(error.userMessage)
         return fail('internal error')
       }
-      end({projectID: projectID})
+      end({ projectID: projectID })
     }))
   })
 }

@@ -16,7 +16,7 @@ module.exports = function (request, response) {
 
 function post (request, response) {
   var data = {}
-  var parser = new Busboy({headers: request.headers})
+  var parser = new Busboy({ headers: request.headers })
   parser.on('field', function (name, value) {
     var keys = Object.keys(orderProperties)
     var arrayKeys = []

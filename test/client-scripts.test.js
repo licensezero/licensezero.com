@@ -4,7 +4,7 @@ var tape = require('tape')
 
 tape('GET /pay.js', function (test) {
   server(function (port, close) {
-    http.request({port: port, path: '/pay.js'})
+    http.request({ port: port, path: '/pay.js' })
       .once('response', function (response) {
         test.equal(response.statusCode, 200)
         test.equal(

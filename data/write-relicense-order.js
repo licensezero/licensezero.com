@@ -7,11 +7,11 @@ var runSeries = require('run-series')
 var uuid = require('uuid/v4')
 
 module.exports = function (data, callback) {
-  assert.equal(typeof data.sponsor, 'string')
-  assert.equal(typeof data.jurisdiction, 'string')
-  assert.equal(typeof data.email, 'string')
-  assert.equal(typeof data.project, 'object')
-  assert.notEqual(data.project, null)
+  assert.strict.equal(typeof data.sponsor, 'string')
+  assert.strict.equal(typeof data.jurisdiction, 'string')
+  assert.strict.equal(typeof data.email, 'string')
+  assert.strict.equal(typeof data.project, 'object')
+  assert.strict.notEqual(data.project, null)
   var orderID = uuid()
   var file = orderPath(orderID)
   runSeries([

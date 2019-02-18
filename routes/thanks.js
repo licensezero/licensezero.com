@@ -13,9 +13,9 @@ module.exports = function (request, response) {
 <!doctype html>
 <html lang=EN>
 ${head('Thanks', {
-  title: 'Thanks',
-  description: 'folks who’ve helped License Zero along the way'
-})}
+    title: 'Thanks',
+    description: 'folks who’ve helped License Zero along the way'
+  })}
 <body>
   ${nav()}
   ${header()}
@@ -24,22 +24,22 @@ ${head('Thanks', {
     <p>Special thanks to&hellip;</p>
     <ul class=thanks>
     ${THANKS.map(function (element) {
-      if (element.href) {
-        return html`
+    if (element.href) {
+      return html`
           <li>
             <a href="${escape(element.href)}"
               >${escape(element.to)}</a>,
             for ${escape(element.for)}.
           </li>
         `
-      }
-      return html`
+    }
+    return html`
         <li>
           ${escape(element.to)},
           for ${escape(element.for)}.
         </li>
       `
-    })}
+  })}
     </ul>
     <p>
       These folks don&rsquo;t necessarily endorse License Zero.

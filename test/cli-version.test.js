@@ -5,7 +5,7 @@ var tape = require('tape')
 
 tape('GET /cli-version', function (test) {
   server(function (port, close) {
-    http.request({port: port, path: '/cli-version'})
+    http.request({ port: port, path: '/cli-version' })
       .once('error', function (error) {
         test.error(error, 'no error')
         finish()

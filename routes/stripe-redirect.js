@@ -212,7 +212,7 @@ ${head('Registration')}
                   toANSI(
                     terms.commonform,
                     terms.directions,
-                    {numbering: outline}
+                    { numbering: outline }
                   )
                 ).replace(/^ {4}/, '')
               )

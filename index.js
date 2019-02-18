@@ -7,7 +7,7 @@ var url = require('url')
 // Given a Pino log instance, return an argument suitable
 // for `http.createSerever(handler)`.
 module.exports = function makeRequestHandler (log) {
-  var pino = pinoHTTP({logger: log})
+  var pino = pinoHTTP({ logger: log })
   return function requestHandler (request, response) {
     pino(request, response)
     var parsed = url.parse(request.url, true)

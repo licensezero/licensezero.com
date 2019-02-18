@@ -54,12 +54,12 @@ module.exports = function api (request, response) {
         if (bytesReceived > REQUEST_BODY_LIMIT) {
           destroyed = true
           request.destroy()
-          end({error: 'request body too large'})
+          end({ error: 'request body too large' })
         }
       })
       .once('error', /* istanbul ignore next */ function (error) {
         request.log.error(error)
-        end({error: 'error reading request body'})
+        end({ error: 'error reading request body' })
       })
       .once('end', function () {
         if (destroyed) return
@@ -95,7 +95,7 @@ module.exports = function api (request, response) {
             return JSON.parse(
               JSON.stringify(action.schema, function (name, value) {
                 return name === 'jurisdiction'
-                  ? {type: 'string', description: 'ISO 3166-2'}
+                  ? { type: 'string', description: 'ISO 3166-2' }
                   : value
               })
             )
@@ -123,7 +123,7 @@ module.exports = function api (request, response) {
   }
 
   function fail (string) {
-    end({error: string})
+    end({ error: string })
   }
 
   function end (object) {

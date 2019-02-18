@@ -32,7 +32,7 @@ module.exports = function (pathFunction) {
               return done()
             }
             if (!expired(order.date)) return done()
-            var dataToLog = {order: order.orderID, file: file}
+            var dataToLog = { order: order.orderID, file: file }
             log.info(dataToLog, 'expired')
             fs.unlink(file, function (error) {
               /* istanbul ignore if */

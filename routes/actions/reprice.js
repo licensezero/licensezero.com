@@ -4,7 +4,7 @@ var readJSONFile = require('../../data/read-json-file')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
-  token: {type: 'string'},
+  token: { type: 'string' },
   projectID: require('./common/project-id'),
   pricing: require('./common/pricing')
 }

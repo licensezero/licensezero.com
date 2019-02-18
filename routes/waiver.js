@@ -31,8 +31,8 @@ module.exports = function (request, response) {
     term: 'Forever'
   }
   runParallel({
-    forever: waiver.bind(null, xtend(common, {term: 'forever'})),
-    term: waiver.bind(null, xtend(common, {term: '10'}))
+    forever: waiver.bind(null, xtend(common, { term: 'forever' })),
+    term: waiver.bind(null, xtend(common, { term: '10' }))
   }, function (error, results) {
     if (error) {
       request.log.error(error)

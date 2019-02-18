@@ -7,9 +7,9 @@ var sweepPurchases = require('./jobs/delete-expired-purchases')
 var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
 // Create a Pino logger instance.
-var log = pino({name: 'licensezero.com'})
+var log = pino({ name: 'licensezero.com' })
 
-log.info({event: 'data', directory: process.env.DIRECTORY})
+log.info({ event: 'data', directory: process.env.DIRECTORY })
 
 // Check required environment variables.
 var requiredEnvironmentVariables = [
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV !== 'test') {
 requiredEnvironmentVariables.forEach(function (key) {
   if (!process.env[key]) {
     console.error(key)
-    log.error({key: key}, 'missing environment variable')
+    log.error({ key: key }, 'missing environment variable')
     process.exit(1)
   }
 })
@@ -57,7 +57,7 @@ process
 // Start the HTTP server.
 server.listen(process.env.PORT, function onListening () {
   var boundPort = this.address().port
-  log.info({event: 'listening', port: boundPort})
+  log.info({ event: 'listening', port: boundPort })
 })
 
 // Run a number of jobs in the background, cron-style.
@@ -72,13 +72,13 @@ jobs.forEach(function (job) {
 // Helper Functions
 
 function logSignalAndShutDown () {
-  log.info({event: 'signal'})
+  log.info({ event: 'signal' })
   shutDown()
 }
 
 function shutDown () {
   server.close(function onClosed () {
-    log.info({event: 'closed server'})
+    log.info({ event: 'closed server' })
     process.exit()
   })
 }

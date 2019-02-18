@@ -25,7 +25,7 @@ exports.handler = function (log, body, end, fail, lock) {
       email: email
     }, function (error, orderID) {
       if (error) return fail('internal error')
-      end({location: '/pay/' + orderID})
+      end({ location: '/pay/' + orderID })
     })
   })
 }

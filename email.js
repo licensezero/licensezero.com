@@ -10,14 +10,14 @@ if (process.env.NODE_ENV === 'test') {
   var EventEmitter = require('events').EventEmitter
   var events = new EventEmitter()
   module.exports = function (requestLog, message, callback) {
-    assert.equal(typeof message, 'object')
+    assert.strict.equal(typeof message, 'object')
     events.emit('message', message)
     callback()
   }
   module.exports.events = events
 } else {
   module.exports = function (requestLog, message, callback) {
-    var log = requestLog.child({log: 'email'})
+    var log = requestLog.child({ log: 'email' })
     var form = new FormData()
     form.append('from', process.env.MAILGUN_FROM)
     form.append('to', message.to)
@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === 'test') {
         .once('response', function (response) {
           var status = response.statusCode
           if (status === 200) {
-            log.info({event: 'sent'})
+            log.info({ event: 'sent' })
             return callback()
           }
           simpleConcat(response, function (error, body) {

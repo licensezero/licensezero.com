@@ -5,7 +5,7 @@ var tape = require('tape')
 
 tape('GET /.well-known/security.txt', function (test) {
   server(function (port, close) {
-    http.request({port: port, path: '/.well-known/security.txt'})
+    http.request({ port: port, path: '/.well-known/security.txt' })
       .once('response', function (response) {
         test.equal(response.statusCode, 200)
         test.equal(response.headers['content-type'], 'text/plain')
@@ -29,7 +29,7 @@ tape('GET /.well-known/security.txt', function (test) {
 
 tape('GET /security-pgp-key.txt', function (test) {
   server(function (port, close) {
-    http.request({port: port, path: '/security-pgp-key.txt'})
+    http.request({ port: port, path: '/security-pgp-key.txt' })
       .once('response', function (response) {
         test.equal(response.statusCode, 200)
         test.equal(response.headers['content-type'], 'text/plain')

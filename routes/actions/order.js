@@ -17,10 +17,10 @@ exports.properties = {
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  assert.equal(typeof body, 'object')
-  assert.equal(typeof end, 'function')
-  assert.equal(typeof fail, 'function')
-  assert.equal(typeof lock, 'function')
+  assert.strict.equal(typeof body, 'object')
+  assert.strict.equal(typeof end, 'function')
+  assert.strict.equal(typeof fail, 'function')
+  assert.strict.equal(typeof lock, 'function')
   var projects = body.projects
   runParallel(
     projects.map(function (projectID, index) {
@@ -74,7 +74,7 @@ exports.handler = function (log, body, end, fail, lock) {
         email: body.email
       }, function (error, orderID) {
         if (error) return fail('internal error')
-        end({location: '/pay/' + orderID})
+        end({ location: '/pay/' + orderID })
       })
     }
   )

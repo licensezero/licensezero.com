@@ -120,7 +120,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function fetchBundle (done) {
             var pathname = /\/purchases\/[0-9a-f-]+/
               .exec(importPurchaseCommand)[0]
-            http.request({port: port, path: pathname})
+            http.request({ port: port, path: pathname })
               .once('error', done)
               .once('response', function (response) {
                 simpleConcat(response, function (error, body) {

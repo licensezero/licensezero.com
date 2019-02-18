@@ -3,7 +3,7 @@ var sodium = require('sodium-native')
 // Wrap an implementation of Ed25519 in our own API,
 // which expects and returns hex-encoded strings.
 
-module.exports = {keys, sign, verify}
+module.exports = { keys, sign, verify }
 
 function keys () {
   var publicKey = Buffer.alloc(32)

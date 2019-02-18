@@ -33,7 +33,7 @@ tape('payload without action', function (test) {
 
 tape('payload with invalid action', function (test) {
   server(function (port, close) {
-    apiRequest(port, {action: 'invalid'}, function (error, response) {
+    apiRequest(port, { action: 'invalid' }, function (error, response) {
       test.error(error, 'no HTTP error')
       test.equal(
         response.error, 'invalid action',
@@ -60,6 +60,6 @@ tape('oversize payload', function (test) {
         test.end()
         close()
       })
-      .end(JSON.stringify({key: 'x'.repeat(500001)}))
+      .end(JSON.stringify({ key: 'x'.repeat(500001) }))
   })
 })

@@ -8,7 +8,7 @@ testCSS('styles.css')
 function testCSS (file) {
   tape('GET /' + file, function (test) {
     server(function (port, close) {
-      http.request({port: port, path: '/' + file})
+      http.request({ port: port, path: '/' + file })
         .once('response', function (response) {
           test.equal(response.statusCode, 200)
           test.equal(
