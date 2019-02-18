@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "chromedriver": "^2.46.0",
-    "depcheck": "^0.6.11",
+    "depcheck": "^0.7.1",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "licensee": "^6.0.0",
