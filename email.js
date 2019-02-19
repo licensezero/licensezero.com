@@ -21,6 +21,8 @@ if (process.env.NODE_ENV === 'test') {
     var form = new FormData()
     form.append('from', process.env.MAILGUN_FROM)
     form.append('to', message.to)
+    if (message.cc) form.append('cc', message.cc)
+    if (message.bcc) form.append('bcc', message.bcc)
     form.append('subject', message.subject)
     form.append('o:dkim', 'yes')
     form.append('text', message.text.join('\n\n'))

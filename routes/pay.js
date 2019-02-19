@@ -435,6 +435,7 @@ function post (request, response, order) {
                           licenses.push(license)
                           email(request.log, {
                             to: order.email,
+                            bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                             subject: 'License Zero Receipt and License File',
                             text: []
                               .concat([
@@ -471,6 +472,7 @@ function post (request, response, order) {
                       function emailLicensorStatement (license, done) {
                         email(request.log, {
                           to: project.licensor.email,
+                          bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                           subject: 'License Zero Statement',
                           text: [
                             [
@@ -752,6 +754,7 @@ ${head('Thank you')}
       email(request.log, {
         to: order.email,
         cc: licensor.email,
+        bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
         subject: 'License Zero Relicense Agreement',
         text: []
           .concat([
@@ -773,6 +776,7 @@ ${head('Thank you')}
     function emailLicensor (done) {
       email(request.log, {
         to: licensor.email,
+        bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
         subject: 'License Zero Relicense',
         text: [
           [
