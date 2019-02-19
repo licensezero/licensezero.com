@@ -136,7 +136,7 @@ ${head('Registration')}
           function (_, done) {
             hashToken(passphrase, done)
           },
-          function writeLicensorFile (hash, done) {
+          function (hash, done) {
             fs.writeFile(
               licensorFile,
               JSON.stringify({
