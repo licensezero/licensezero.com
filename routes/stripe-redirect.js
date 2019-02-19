@@ -159,7 +159,7 @@ ${head('Registration')}
         ], function (error) {
           if (error) return done(error)
           email(request.log, {
-            to: 'registrations@artlessdevices.com',
+            to: process.env.REGISTRATION_NOTIFICATION_EMAIL,
             subject: 'Licensor Registration',
             text: [
               [
