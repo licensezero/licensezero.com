@@ -159,7 +159,7 @@ ${head('Registration')}
         ], function (error) {
           if (error) return done(error)
           email(request.log, {
-            to: 'registrations@licensezero.com',
+            to: 'registrations@artlessdevices.com',
             subject: 'Licensor Registration',
             text: [
               [
