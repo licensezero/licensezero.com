@@ -1,4 +1,5 @@
 var checkHomepage = require('./check-homepage')
+var email = require('../../email')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
@@ -74,6 +75,22 @@ exports.handler = function (log, body, end, fail, lock) {
         return fail('internal error')
       }
       end({ projectID: projectID })
+      email(log, {
+        to: process.env.OFFER_NOTIFICATION_EMAIL,
+        subject: 'License Zero Project Offer',
+        text: [
+          [
+            'projectID: ' + projectID,
+            'licensor: ' + licensorID,
+            'pricing: ' + body.pricing,
+            'homepage: ' + body.homepage,
+            'description: ' + body.description,
+            'commission: ' + parseInt(process.env.COMMISSION)
+          ].join('\n')
+        ]
+      }, function (error) {
+        if (error) log.error(error)
+      })
     }))
   })
 }
