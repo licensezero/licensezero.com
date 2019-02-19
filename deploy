@@ -1,2 +1,3 @@
 #!/bin/sh
+git push origin master
 ssh -T node@licensezero.com "./update"
