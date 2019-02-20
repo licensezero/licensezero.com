@@ -82,7 +82,9 @@ exports.handler = function (log, body, end, fail, lock) {
           [
             'projectID: ' + projectID,
             'licensor: ' + licensorID,
-            'pricing: ' + body.pricing,
+            'pricing:',
+            '  private: ' + body.pricing.private,
+            '  relicense: ' + body.pricing.relicense,
             'homepage: ' + body.homepage,
             'description: ' + body.description,
             'commission: ' + parseInt(process.env.COMMISSION)
