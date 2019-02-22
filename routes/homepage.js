@@ -73,7 +73,7 @@ module.exports = function (request, response) {
 <html lang=EN>
 ${head(false, {
     title: 'License Zero',
-    description: 'gainful software in the open'
+    description: 'gainful open software development'
   })}
 <body>
   ${nav()}

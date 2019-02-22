@@ -5,7 +5,7 @@ module.exports = function () {
 <header>
   <a href=/><img class=logo src=/logo.svg alt="License Zero"></a>
   <h1>License Zero</h1>
-  <p>gainful software in the open</p>
+  <p>gainful open software development</p>
 </header>
   `
 }
