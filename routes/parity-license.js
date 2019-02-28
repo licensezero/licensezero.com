@@ -35,6 +35,9 @@ module.exports = function (request, response) {
     <main>
       <h1>The Parity Public License</h1>
       <p>
+        <a href=https://paritylicense.com>paritylicense.com</a>
+      </p>
+      <p>
         To review changes to, and submit feedback about,
         the Parity Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
