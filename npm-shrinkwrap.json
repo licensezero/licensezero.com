@@ -4450,9 +4450,9 @@
       }
     },
     "npm-authors-contributors": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/npm-authors-contributors/-/npm-authors-contributors-1.0.0.tgz",
-      "integrity": "sha512-CNQVnTnDh4ISo7ed+y2c8GK+A3Fm8axTESXERbmO4/aDk0NQEY6LCtvGhHrbKnQLU/r1q7HZCExS++lgS5Qlow==",
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/npm-authors-contributors/-/npm-authors-contributors-1.1.0.tgz",
+      "integrity": "sha512-ghd03ZmpGjjSIuxHSNJSANfNtBt06gGpcYZU/QOX84spVSGY5d3JN1Cs6+DnwbnZF59LsbFFEY3hjkF+3b+R3w==",
       "dev": true,
       "requires": {
         "docopt": "^0.6.2",

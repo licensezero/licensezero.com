@@ -52,7 +52,7 @@
     "istanbul": "^0.4.5",
     "licensee": "^6.2.0",
     "lint-staged": "^8.1.5",
-    "npm-authors-contributors": "^1.0.0",
+    "npm-authors-contributors": "^1.1.0",
     "rimraf": "^2.6.3",
     "standard": "^12.0.1",
     "tape": "^4.10.1",
