@@ -64,6 +64,7 @@ Benjamin Thomas
 Blaine Bublitz
 Blake Embrey
 Blake Miner
+Blue Oak Council Inc.
 Bogdan Chadkin
 Braveg1rl
 Brendan Warkentin
@@ -209,6 +210,7 @@ Jason Cheatham @jason0x43
 Javier Blanco
 jden
 Jeff Cross
+Jeff McAffer
 Jens Taylor
 Jeremiah Senkpiel
 Jeremie Miller
@@ -282,6 +284,7 @@ Matt Johnson
 Matt Patenaude
 Matteo Collina
 Matthew Chase Whittemore
+Matthew Davidson
 Matthew Eernisse
 Matthew Podwysocki
 Matthias Rolke
