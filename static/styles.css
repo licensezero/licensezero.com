@@ -271,3 +271,8 @@ p {
   text-align: center;
   width: 80%;
 }
+
+.signature {
+  margin-left: 60%;
+  max-width: 40%;
+}

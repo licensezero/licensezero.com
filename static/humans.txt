@@ -152,6 +152,7 @@ Evan Wallace
 Evgeny Poberezkin
 Fabio Crisci @piuccio
 Fabrício Matté
+Felix Boehm
 Felix Geisendörfer
 Felix Gnass
 Feross Aboukhadijeh
@@ -220,6 +221,7 @@ Jmeas Smith
 Joe @jhansche
 Joel Feenstra
 John Gozde
+John MacFarlane
 John Morrison @jrgm
 John O'Donnell
 John-David Dalton
