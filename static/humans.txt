@@ -1,0 +1,451 @@
+/* THANKS */
+See https://licensezero.com/thanks for non-code contributors
+deserving special mention.
+
+License Zero uses open software from the following npm package
+authors and contributors:
+
+Abe Fehr @abejfehr
+Adam Kirkton
+Ahmad Nassri
+AJ ONeal
+Alan Plum
+Aleksey V Zapparov
+Aleksey Verkholantsev
+Alex Dunphy @alexdunphy
+Alex Ford
+Alex Gorbatchev
+Alex Indigo
+Alex Kit
+Alex Liu
+Alex Sexton
+Alex Wilson
+Alexander Savin
+Alexander Shtuchkin
+Alexander Solovyov
+Alexandru Marasteanu
+Amila Welihinda
+André Cruz
+Andre Polykanine
+Andre Staltz
+Andrea Giammarchi
+Andres Suarez
+Andrew Kassen
+Andrew Kelley
+Andrew Kelley @andrewrk
+Andrew Rhyne
+Andrey Okonetchnikov
+Andri Möll
+Anthony McCormick
+Antoine Motet
+Ariya Hidayat
+Ariya Hidayat @ariya
+Arpad Borsos @Swatinem
+Artemy Tregubenko @arty-name
+Arye Lukashevski @aryelu
+@asa-git
+@asifrc
+Ask Bjørn Hansen
+Aurélio A. Heckert
+azu
+Ben Coe
+Ben Gourley
+Ben Lesh
+Ben Mosher
+Ben Newman
+Ben Noordhuis
+Benjamin Byholm
+Benjamin Coe
+Benjamin E. Coe
+Benjamin E. Coe @bcoe
+Benjamin Horsleben
+Benjamin Thomas
+@bixdeng
+Blaine Bublitz
+Blake Embrey
+Blake Miner
+Bogdan Chadkin
+Braveg1rl
+Brendan Warkentin
+Brett Lawson
+Brian J. Brennan
+Brian M. Carlson
+Brian Ng @existentialism
+Brian Vaughn
+Brian White
+Brian Woodward
+Brian Woodward @doowb
+C. Scott Ananian
+Camilo Tapia
+Caolan McMahon
+@ChALkeR
+Charlie Fish
+Charlike Mike Reagent
+Chase Douglas
+Chris Gladd @chrisgladd
+Chris Montgomery
+Chris Needham
+Chris Talkington
+Chris Truter
+Christian Bromann
+Christian Steininger
+Christian Tellnes
+christian-bromann
+Christoffer Hallas
+Christoph Tavan
+Christoph Walcher
+Cloud Programmability Team
+Conrad Irwin
+"Cowboy" Ben Alman
+Dan Butvinik
+Dan Flettre
+Dan MacTough
+Daniel
+Daniel Espeset
+Daniel Perez
+Daniel Perez Alvarez @unindented
+Daniel Prentis
+Daniel Sabelnikov @dragn
+darsain
+Dav Glass
+Dave Eddy
+David Björklund
+David Caccavella
+David Clark
+David Fox-Powell
+David Glasser
+David Gwynne
+David I. Lehn
+David Mark Clements
+David Siegel
+Davyd McColl
+Denis Sokolov @denis-sokolov
+Desmond Brand
+Devon Govett
+djchie
+Djordje Lukic
+Dmitry Shirokov
+Dmitry Shirokov @runk
+Domenic Denicola
+Dominic Tarr
+Dominykas Blyžė @dominykas
+Douglas Christopher Wilson
+Douglas Christopher Wilson @dougwilson
+Douglas Crockford
+Duncan Beevers
+Dustin Diaz
+DY
+Ed S
+Eddie Gurnee @pegurnee
+Eddy Bruël
+Edmond Meinfelder
+Edo Rivai
+Edward Betts
+Elan Shanker
+Emil Bay
+Enrico Marino
+Ethan Cohen
+Eugene Sharygin
+Eugene Shkuropat
+Evan Wallace
+Evgeny Poberezkin
+Fabio Crisci @piuccio
+Fabrício Matté
+Felix Geisendörfer
+Felix Gnass
+Feross Aboukhadijeh
+ForbesLindesay
+Fred Kuo
+Gabriel Lesperance
+Gajus Kuizinas
+Gary Court
+Gary Katsevman
+Gary Ye
+George Crawford
+George Stagas
+George Zahariev
+Gergely Nemeth @gergelyke
+Gilad Peleg
+Giovanni Bassi
+Gord Tanner
+@graingert
+Gustav Nikolaj @gustavnikolaj
+Guy Ellis
+Haoliang Gao @popomore
+Harri Siirak
+Hawken Rives
+Heather Arthur
+hemanth.hm
+Hugh Kennedy
+Ian Livingstone
+Ian Page Hands @iphands
+Ilya Radchenko
+Ilya Shaisultanov
+@inversion
+Irakli Gozalishvili
+Isaac Cambron
+Isaac Z. Schlueter
+isaacs @isaacs
+Isiah Meadows
+Iskren Ivov Chernev
+Ivan Nikulin
+Ivan Starkov
+J. Ryan Stinnett
+Jack Herrington
+Jacob Marble
+Jake Verbaten
+Jakob Krigovsky
+James
+James Burke
+James Halliday
+James Nylen
+James Padolsey
+James Sumners
+James Wyatt Cready
+@JamesMGreene
+Jamie Wong
+Jamund Ferguson
+Jason Cheatham @jason0x43
+Javier Blanco
+jden
+Jeff Cross
+Jens Taylor
+Jeremiah Senkpiel
+Jeremie Miller
+Jeremy Stashewsky
+Jesús Leganés Combarro
+Jmeas Smith
+Joe @jhansche
+Joel Feenstra
+John Gozde
+John Morrison @jrgm
+John O'Donnell
+John-David Dalton
+Jon Schlinkert
+Jonas Pommerening
+Jonathan Ong
+Jordan Harband
+Jordan Scales
+Josh Wolfe
+Joyent, Inc
+jsdnxx
+Juan Gabriel Jiménez @juangabreil
+Julian Gruber
+Junle Li
+Justin Johnson @booleangate
+@jxiaodev
+kael
+KARASZI István
+Kat Marchán
+Ken Sheedlo
+Kevin Beaty
+Kevin Decker @kpdecker
+Kevin Gravier
+Kevin Martensson
+Kitson Kelly @kitsonk
+Kris Kowal
+Kris Zyp
+Krishnan Anantheswaran
+Kyle E. Mitchell
+Kyle Robinson Young
+laggingreflex
+Lalit Kapoor
+Lars-Magnus Skog
+Lauri Rooden
+Lin Clark
+Linus Unnebäck
+Lucas Tadeu Teixeira
+Lufty Wiranda
+Luke Edwards
+Lupo Montero
+Magnús Dæhlen
+Manuel Stofer
+Marat Dulin
+Marcel Klehr
+Marco Brack
+Mario Casciaro
+Mark Cavage
+@markyen
+Martin Cooper
+Martin Grenfell
+Martin Kolárik
+Mathias Buus
+Mathias Buus Madsen
+Mathias Bynens
+Mathias Bynens @mathiasbynens
+Mathieu Dutour
+Mathieu Naouache @math-nao
+Matt Bierner
+Matt DesLauriers
+Matt Esch
+Matt Johnson
+Matt Patenaude
+Matteo Collina
+Matthew Chase Whittemore
+Matthew Eernisse
+Matthew Podwysocki
+Matthias Rolke
+max ogden
+Maximilian Lloyd
+Meaglin Wasabi
+Meryn Stol
+Michael Ficarra
+Michael Hart
+Michael Ira Krufky
+Michael Z Goddard
+Michelle Bu
+Microsoft Corp.
+Miguel Mota
+Mihai Bazon
+Mike Atkins
+Mike Kusold
+Mikeal Rogers
+Mikola Lysenko
+Miles Elam
+Miller Medeiros @millermedeiros
+@monasticpanic Jason Quense
+Mordy Tikotzky
+@mpderbec
+mustache.js Authors
+Mykola Piskovyi
+Nathan Brown @nbrownus
+Nathan MacInnes
+Nathan Rajlich
+Nathan Zadoks
+nexdrew
+Nicholas C. Zakas
+Nicholas Clawson
+Nicholas Young
+Nick Fisher
+Nick Fitzgerald
+Nicolas Lalevée
+Nikita Gusakov @nkt
+Nikita Skovoroda
+nowamasa
+OJ Kwon
+Ola Holmström
+Olsten Larck
+Orlin Georgiev
+Osman Nuri Okumuş
+Patrick Mooney
+Paul Irish
+Paul Jacobson
+Paul Miller
+Paul Taylor
+Paul Vorbach
+Pavel Lang
+Peter deHaan
+porneL @pornel
+Prayag Verma @pra85
+Qix
+Ramesh Nair
+Ranieri Althoff
+Raynos
+Rebecca Turner
+Reid Burke
+Renault John Lecoultre
+Richard Astbury
+Rob Gulewich
+Rob McGuire-Dale @robatron
+Robert Kieffer
+Robert Kowalski
+Róbert Oroszi
+@RoCat
+Rocky Meza
+Rod Vagg
+Roderick Hsiao @roderickhsiao
+Roly Fentanes
+Romain Beauxis
+Roman Shtylman
+Ron Korving @ronkorving
+Rouven Weßling
+Roy Riojas
+Ruben Bridgewater
+Ryan Day
+Ryan M Harrison
+Ryan Roemer @ryan-roemer
+Ryan Seddon
+Sam Roberts
+Sam Saccone @samccone
+Sam Thompson
+Sam Verschueren
+Santiago Gimeno
+Sasha Koss
+Sebastian Mayr
+Sebastian McKenzie
+Sergey Belov
+Seth Pollack @sethpollack
+Shahar Or
+Shinnosuke Watanabe
+Simen Bekkhus
+Simon Boudrias
+Simon Lydell
+Simon Ramsay @nexus-uw
+Simone Primarosa
+Sindre Sorhus
+@smikes
+@spikying
+Stefan Penner
+Stefan Thomas
+Stephen Crane
+@sterlinghw
+Steve Gray @steve-gray
+Steve King
+Steven Vachon
+Stripe
+Stuart Carnie
+suchipi
+Suhas Karanth
+T. Jameson Little
+The Linux Foundation
+Thiago de Arruda
+Thijs Busser
+Thomas Watson Steen
+Thorsten Lorenz
+Tian You
+Tim Oxley
+Tim Wood
+Timothy Gu
+Titus
+TJ Holowaychuk
+tjfontaine
+Tobias Koppers
+Tobiasz Cudnik
+Todd Wolfson
+Tom Byrer
+Tom MacWright
+Tom MacWright @tmcw
+Tom Wu
+Tomaz Muraus @kami
+Tony Lukasavage @tonylukasavage
+Toru Nagashima
+Trent Mick
+Trevor Norris
+Troy Goode
+tunnckoCore
+TweetNaCl-js contributors
+Tyler Akins
+Typicode
+usrbincc
+Vadim Demedes
+@Victorystick
+Vincent Voyer
+Vitaly Puzrin
+Vladimir Keleshev
+Vladimir Kuznetsov
+Vladimir Zapparov
+Vojta Jina @vojtajina
+Vsevolod Strukchinsky
+w1nk
+Wes Todd
+Will LaBranche @wlabranche
+Yann Mainier @ymainier
+Yannick Croissant
+Yargs Contributors
+Yasuhiroki
+Yasyf Mohamedali @yasyf
+Yehuda Katz
+Yiyu He @dead-horse
+Yunong Xiao
+Yuren Ju
+刘祺

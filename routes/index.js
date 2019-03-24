@@ -107,6 +107,7 @@ staticFile('vending-machine.svg')
 staticFile('out-of-order.svg')
 staticFile('licensee.gif')
 staticFile('doors.svg')
+staticFile('humans.txt')
 
 function staticFile (file) {
   var filePath = path.join(__dirname, '..', 'static', file)
