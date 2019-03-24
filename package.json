@@ -82,7 +82,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged ; npm run build:humans"
+      "pre-commit": "lint-staged ; npm run build:humans ; git add static/humans.txt"
     }
   }
 }
