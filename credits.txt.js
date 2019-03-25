@@ -24,7 +24,6 @@ npmAuthorsContributors({}, process.cwd(), function (error, people) {
   })
   console.log(
     [
-      '/* THANKS */',
       'See https://licensezero.com/thanks for non-code contributors',
       'deserving special mention.',
       '',

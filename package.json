@@ -60,7 +60,7 @@
     "webdriverio": "^4.13.2"
   },
   "scripts": {
-    "build:humans": "./humans.txt.js > static/humans.txt",
+    "build:credits": "./credits.txt.js > static/credits.txt",
     "coverage": "NODE_ENV=test istanbul cover -- tape test/*.test.js",
     "depcheck": "depcheck --ignores husky,chromedriver,lint-staged,standard,licensee",
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
@@ -82,7 +82,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged ; npm run build:humans; git add static/humans.txt"
+      "pre-commit": "lint-staged ; npm run build:credits; git add static/credits.txt"
     }
   }
 }

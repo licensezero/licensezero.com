@@ -9,7 +9,7 @@ module.exports = function (subtitle, twitterData) {
   <title>License Zero${subtitle && escape(' // ' + subtitle)}</title>
   <link rel=stylesheet href=/normalize.css>
   <link rel=stylesheet href=/styles.css>
-  <link rel=author href=/humans.txt>
+  <link rel=credits href=/credits.txt>
   ${twitterData && twitterCard(twitterData)}
   ${twitterData && openGraphMetadata(twitterData)}
   <meta name="epigram" content="veritas non auctoritas facit aequitatem">
