@@ -4,7 +4,6 @@ deserving special mention.
 License Zero uses open software from the following npm
 package authors and contributors:
 
-"Cowboy" Ben Alman: globule
 @ChALkeR: istanbul
 @JamesMGreene: istanbul
 @RoCat: istanbul
@@ -30,7 +29,6 @@ Aleksey V Zapparov: js-yaml
 Aleksey Verkholantsev: istanbul
 Alex Dunphy @alexdunphy: istanbul
 Alex Ford: yargs
-Alex Gorbatchev: crc
 Alex Indigo: asynckit
 Alex Kit: cron-parser
 Alex Liu: fast-safe-stringify
@@ -72,8 +70,9 @@ Benjamin Coe: yargs
 Benjamin E. Coe: clone
 Benjamin E. Coe @bcoe: istanbul
 Benjamin Horsleben: yargs
+Benjamin Tan: lodash.isobject
 Benjamin Thomas: mime
-Blaine Bublitz: lodash.get, lodash.isplainobject, normalize-path
+Blaine Bublitz: lodash.get, lodash.isobject, lodash.isplainobject, lodash.zip
 Blake Embrey: pluralize
 Blake Miner: clone
 Blue Oak Council Inc.: @blueoak/list
@@ -81,7 +80,6 @@ Bogdan Chadkin: cosmiconfig, micromatch
 Braveg1rl: performance-now
 Brendan Warkentin: cron-parser
 Brett Lawson: nan
-Brian J. Brennan: buffer-crc32
 Brian M. Carlson: deprecate
 Brian Ng @existentialism: istanbul
 Brian Vaughn: cron-parser
@@ -89,7 +87,6 @@ Brian White: busboy, dicer, streamsearch
 Brian Woodward: base, braces, class-utils, collection-visit, define-property, extglob, is-descriptor, is-glob, isobject, map-visit, micromatch, repeat-string, snapdragon, split-string, use
 Brian Woodward @doowb: istanbul
 C. Scott Ananian: spdx-expression-parse
-Camilo Tapia: webdriverio
 Caolan McMahon: async
 Charlie Fish: cron-parser
 Charlike Mike Reagent: is-number
@@ -97,15 +94,13 @@ Chase Douglas: source-map
 Chris Gladd @chrisgladd: istanbul
 Chris Montgomery: source-map
 Chris Needham: yargs
-Chris Talkington: archiver, archiver-utils, compress-commons, crc32-stream, zip-stream
 Chris Truter: source-map
-Christian Bromann: rgb2hex, wdio-dot-reporter
+Christian Bromann: @wdio/config, @wdio/logger, @wdio/repl, rgb2hex, webdriver, webdriverio
 Christian Steininger: cron-parser
 Christian Tellnes: long-timeout
 Christoffer Hallas: progress
 Christoph Tavan: uuid
 Christoph Walcher: fast-safe-stringify
-Cloud Programmability Team: rx-lite, rx-lite-aggregates
 Conrad Irwin: source-map
 DY: color-name
 Dan Butvinik: spdx-satisfies
@@ -135,7 +130,7 @@ Devon Govett: extglob, micromatch, nanomatch
 Djordje Lukic: depcheck
 Dmitry Shirokov: chardet
 Dmitry Shirokov @runk: istanbul
-Domenic Denicola: path-is-inside, q
+Domenic Denicola: path-is-inside
 Dominic Tarr: lock, sha.js, through
 Dominykas Blyžė @dominykas: istanbul
 Douglas Christopher Wilson: depd, destroy, ee-first, encodeurl, etag, fresh, http-errors, mime-db, mime-types, on-finished, range-parser, send, statuses
@@ -162,7 +157,7 @@ Fabrício Matté: micromatch
 Felix Boehm: entities
 Felix Geisendörfer: combined-stream, delayed-stream, form-data
 Felix Gnass: source-map
-Feross Aboukhadijeh: buffer, eslint-config-standard, eslint-config-standard-jsx, ieee754, is-buffer, run-parallel, run-parallel-limit, run-series, run-waterfall, safe-buffer, simple-concat, simple-get, standard
+Feross Aboukhadijeh: eslint-config-standard, eslint-config-standard-jsx, is-buffer, run-parallel, run-parallel-limit, run-series, run-waterfall, safe-buffer, simple-concat, simple-get, standard
 ForbesLindesay: is-promise, uglify-to-browserify
 Fred Kuo: assert-plus
 Gabriel Lesperance: fast-safe-stringify
@@ -170,7 +165,6 @@ Gajus Kuizinas: table
 Gary Court: uri-js
 Gary Katsevman: object-keys
 Gary Ye: source-map
-George Crawford: wdio-dot-reporter
 George Stagas: clone
 George Zahariev: levn, optionator, prelude-ls, type-check
 Gergely Nemeth @gergelyke: istanbul
@@ -188,7 +182,6 @@ Ian Livingstone: tough-cookie
 Ian Page Hands @iphands: istanbul
 Ilya Radchenko: cli-width
 Ilya Shaisultanov: clone
-Irakli Gozalishvili: q, querystring
 Isaac Cambron: moment
 Isaac Z. Schlueter: abbrev, core-util-is, dezalgo, fs.realpath, glob, http-https, inflight, ini, isexe, json-stringify-safe, minimatch, mute-stream, nopt, normalize-package-data, once, read-package-json, read-package-tree, readdir-scoped-modules, rimraf, which, wrappy
 Isiah Meadows: extglob
@@ -197,12 +190,11 @@ Ivan Nikulin: tough-cookie
 Ivan Starkov: object-keys
 J. Ryan Stinnett: source-map
 Jack Herrington: source-map
-Jacob Marble: wgxpath
 Jake Verbaten: for-each, xtend
 Jakob Krigovsky: licensee
 James: kind-of
 James Burke: amdefine
-James Halliday: buffer, concat-map, deep-equal, defined, fast-json-stable-stringify, json-stable-stringify, json-stable-stringify-without-jsonify, minimist, mkdirp, object-inspect, optimist, resolve, resumer, safe-regex, semver-compare, tape, text-table, typedarray, wordwrap
+James Halliday: concat-map, deep-equal, defined, fast-json-stable-stringify, json-stable-stringify, json-stable-stringify-without-jsonify, minimist, mkdirp, object-inspect, optimist, resolve, resumer, safe-regex, semver-compare, tape, text-table, typedarray, wordwrap
 James Nylen: yargs
 James Padolsey: stripe
 James Sumners: pino, pino-std-serializers
@@ -225,9 +217,8 @@ John Gozde: source-map
 John MacFarlane: commonmark
 John Morrison @jrgm: istanbul
 John O'Donnell: base
-John-David Dalton: lodash, lodash.get, lodash.isplainobject, punycode
-Jon Schlinkert: align-text, arr-diff, arr-flatten, arr-union, array-unique, assign-symbols, base, braces, cache-base, center-align, class-utils, collection-visit, contains-path, copy-descriptor, define-property, expand-brackets, extend-shallow, extglob, fill-range, for-in, fragment-cache, get-value, has-value, has-values, is-accessor-descriptor, is-data-descriptor, is-descriptor, is-directory, is-extendable, is-extglob, is-glob, is-number, is-plain-object, is-windows, isobject, kind-of, lazy-cache, longest, map-cache, map-visit, micromatch, mixin-deep, nanomatch, normalize-path, object-copy, object-visit, object.pick, pascalcase, posix-character-classes, regex-not, repeat-element, repeat-string, right-align, romanize, set-value, snapdragon, snapdragon-node, snapdragon-util, split-string, static-extend, to-object-path, to-regex, to-regex-range, union-value, unset-value, use, window-size, write
-Jonas Pommerening: lazystream
+John-David Dalton: lodash, lodash.get, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode
+Jon Schlinkert: align-text, arr-diff, arr-flatten, arr-union, array-unique, assign-symbols, base, braces, cache-base, center-align, class-utils, collection-visit, contains-path, copy-descriptor, define-property, expand-brackets, extend-shallow, extglob, fill-range, for-in, fragment-cache, get-value, has-value, has-values, is-accessor-descriptor, is-data-descriptor, is-descriptor, is-directory, is-extendable, is-extglob, is-glob, is-number, is-plain-object, is-windows, isobject, kind-of, lazy-cache, longest, map-cache, map-visit, micromatch, mixin-deep, nanomatch, object-copy, object-visit, object.pick, pascalcase, posix-character-classes, regex-not, repeat-element, repeat-string, right-align, romanize, set-value, snapdragon, snapdragon-node, snapdragon-util, split-string, static-extend, to-object-path, to-regex, to-regex-range, union-value, unset-value, use, window-size, write
 Jonathan Ong: destroy, ee-first, fresh, http-errors, mime-db, mime-types, on-finished, range-parser, statuses
 Jordan Harband: array-includes, define-properties, es-abstract, es-to-primitive, extend, for-each, foreach, function-bind, has, is-callable, is-date-object, is-nan, is-object, is-regex, is-symbol, object-keys, qs, string.prototype.padstart, string.prototype.trim
 Jordan Scales: progress
@@ -244,12 +235,11 @@ Kevin Beaty: any-promise
 Kevin Decker @kpdecker: istanbul
 Kevin Gravier: external-editor
 Kevin Martensson: shebang-command
+Kit Cambridge: lodash.isobject
 Kitson Kelly @kitsonk: istanbul
-Kris Kowal: q
 Kris Zyp: json-schema
 Krishnan Anantheswaran: istanbul
 Kyle E. Mitchell: alphabet-numbering, commonform-fix-strings, commonform-flatten, commonform-group-series, commonform-hash, commonform-html, commonform-markup-parse, commonform-number, commonform-predicate, commonform-resolve, commonform-serialize, commonform-terminal, correct-license-metadata, creditstxt, do-not-cache, json-parse-errback, licensee, licensezero-jurisdictions, lower-alpha, npm-authors-contributors, outline-numbering, spdx-compare, spdx-correct, spdx-exceptions, spdx-expression-parse, spdx-expression-validate, spdx-ranges, spdx-satisfies, validate-npm-package-license
-Kyle Robinson Young: gaze
 Lalit Kapoor: tough-cookie
 Lars-Magnus Skog: assert-plus
 Lauri Rooden: natural-compare
@@ -264,14 +254,13 @@ Manuel Stofer: foreach
 Marat Dulin: html-entities
 Marcel Klehr: toposort
 Marco Brack: progress
-Mario Casciaro: lazystream
 Mark Cavage: asn1, assert-plus, http-signature, sshpk
 Martin Cooper: istanbul
 Martin Grenfell: js-yaml
 Martin Kolárik: expand-brackets, micromatch
-Mathias Buus: end-of-stream, flush-write-stream, fs-constants, node-gyp-build, sodium-native, sorted-array-functions, tar-stream, to-buffer
+Mathias Buus: end-of-stream, flush-write-stream, node-gyp-build, sodium-native, sorted-array-functions
 Mathias Buus Madsen: pump
-Mathias Bynens: emoji-regex, jsesc, lodash, lodash.get, lodash.isplainobject, punycode, string.prototype.repeat
+Mathias Bynens: emoji-regex, jsesc, lodash, lodash.get, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode, string.prototype.repeat
 Mathias Bynens @mathiasbynens: istanbul
 Mathieu Dutour: deps-regex
 Mathieu Naouache @math-nao: istanbul
@@ -283,7 +272,6 @@ Matt Patenaude: node-schedule
 Matteo Collina: fast-safe-stringify, pino, pino-http, sonic-boom, split2
 Matthew Chase Whittemore: staged-git-files
 Matthew Davidson: node-sass-tilde-importer
-Matthew Eernisse: ejs
 Matthew Podwysocki: rxjs
 Matthias Rolke: docopt
 Max Ogden: concat-stream
@@ -348,7 +336,6 @@ Rocky Meza: moment
 Rod Vagg: isstream, nan
 Roderick Hsiao @roderickhsiao: istanbul
 Roly Fentanes: ret
-Romain Beauxis: buffer, ieee754
 Roman Shtylman: uuid
 Ron Korving @ronkorving: istanbul
 Rouven Weßling: is-accessor-descriptor, is-data-descriptor
@@ -366,7 +353,7 @@ Sam Verschueren: decode-uri-component, listr, listr-silent-renderer, listr-updat
 Santiago Gimeno: cron-parser
 Sasha Koss: date-fns
 Sebastian Mayr: tough-cookie
-Sebastian McKenzie: @babel/code-frame, @babel/generator, @babel/parser, @babel/runtime, @babel/template, @babel/traverse, @babel/types, babel-code-frame, babel-runtime
+Sebastian McKenzie: @babel/code-frame, @babel/generator, @babel/parser, @babel/runtime, @babel/template, @babel/traverse, @babel/types, babel-code-frame
 Sergey Belov: istanbul
 Seth Pollack @sethpollack: istanbul
 Shahar Or: get-own-enumerable-property-symbols
@@ -376,7 +363,7 @@ Simon Boudrias: inquirer, run-async
 Simon Lydell: js-tokens, resolve-url, source-map, source-map-resolve, source-map-url, urix
 Simon Ramsay @nexus-uw: istanbul
 Simone Primarosa: @phc/format
-Sindre Sorhus: ansi-escapes, ansi-regex, ansi-styles, any-observable, array-find-index, array-union, array-uniq, arrify, builtin-modules, caller-callsite, caller-path, callsites, camelcase, cli-cursor, cli-truncate, code-point-at, create-html-element, debug-log, decamelize, del, elegant-spinner, escape-goat, escape-string-regexp, execa, figures, find-up, fn-name, fs-access, get-stdin, get-stream, globals, globby, has-ansi, has-flag, html-tags, import-fresh, indent-string, invert-kv, ip-regex, is-builtin-module, is-fullwidth-code-point, is-obj, is-observable, is-path-cwd, is-path-in-cwd, is-path-inside, is-regexp, is-stream, lcid, linkify-urls, load-json-file, locate-path, log-symbols, log-update, matcher, mem, mimic-fn, mimic-response, npm-run-path, null-check, number-is-nan, object-assign, onetime, os-locale, os-tmpdir, p-defer, p-finally, p-is-promise, p-limit, p-locate, p-map, p-try, parse-json, path-exists, path-is-absolute, path-key, path-type, pify, pkg-conf, pkg-dir, read-pkg, read-pkg-up, require-uncached, resolve-from, restore-cursor, run-node, shebang-regex, slash, string-width, stringify-attributes, stringify-object, strip-ansi, strip-bom, strip-eof, strip-json-comments, supports-color, to-fast-properties, trim-right, wrap-ansi
+Sindre Sorhus: ansi-escapes, ansi-regex, ansi-styles, any-observable, array-find-index, array-union, array-uniq, arrify, builtin-modules, caller-callsite, caller-path, callsites, camelcase, cli-cursor, cli-truncate, code-point-at, create-html-element, debug-log, decamelize, del, elegant-spinner, escape-goat, escape-string-regexp, execa, figures, find-up, fn-name, fs-access, get-stdin, get-stream, globals, globby, has-ansi, has-flag, html-tags, import-fresh, indent-string, invert-kv, ip-regex, is-builtin-module, is-fullwidth-code-point, is-obj, is-observable, is-path-cwd, is-path-in-cwd, is-path-inside, is-regexp, is-stream, lcid, linkify-urls, load-json-file, locate-path, log-symbols, log-update, matcher, mem, mimic-fn, mimic-response, npm-run-path, null-check, number-is-nan, object-assign, onetime, os-locale, os-tmpdir, p-defer, p-finally, p-is-promise, p-limit, p-locate, p-map, p-try, parse-json, path-exists, path-is-absolute, path-key, path-type, pify, pkg-conf, pkg-dir, read-pkg, read-pkg-up, require-uncached, resolve-from, restore-cursor, run-node, serialize-error, shebang-regex, slash, string-width, stringify-attributes, stringify-object, strip-ansi, strip-bom, strip-eof, strip-json-comments, supports-color, to-fast-properties, trim-right, wrap-ansi
 Stefan Penner: get-caller-file
 Stefan Thomas: extend
 Stephen Crane: source-map
@@ -386,8 +373,7 @@ Steven Vachon: is-plain-object
 Stripe: stripe
 Stuart Carnie: docopt
 Suhas Karanth: cosmiconfig
-T. Jameson Little: base64-js
-TJ Holowaychuk: commander, css, css-parse, css-value, debug, fresh, progress, range-parser, send
+TJ Holowaychuk: commander, css-value, debug, fresh, progress, range-parser, send
 The Linux Foundation: spdx-exceptions, spdx-ranges
 Thiago de Arruda: has
 Thijs Busser: repeat-string
@@ -395,8 +381,8 @@ Thomas Watson Steen: ci-info, is-ci, pino
 Thorsten Lorenz: deep-is, find-parent-dir
 Tian You: clone
 Tim Oxley: npm-path, npm-which
+Tim Perry: loglevel
 Tim Wood: moment, moment-timezone
-Timothy Gu: ejs
 Titus: repeat-string
 Tobias Koppers: source-map
 Tobiasz Cudnik: clone
@@ -418,7 +404,6 @@ Vadim Demedes: set-value
 Vincent Voyer: uuid
 Vitaly Puzrin: js-yaml
 Vladimir Keleshev: docopt
-Vladimir Kuznetsov: buffer-crc32
 Vladimir Zapparov: js-yaml
 Vojta Jina @vojtajina: istanbul
 Vsevolod Strukchinsky: pinkie, pinkie-promise
@@ -434,14 +419,13 @@ Yiyu He @dead-horse: istanbul
 Yunong Xiao: asn1
 Yuren Ju: istanbul
 azu: source-map
-christian-bromann: wdio-dot-reporter
-darsain: remove-trailing-separator
 djchie: source-map
 hemanth.hm: braces
 isaacs @isaacs: istanbul
 jden: eslint-plugin-promise
 jsdnxx: find-root
 kael: ignore
+kutuluk: loglevel-plugin-prefix
 laggingreflex: kind-of
 max ogden: extract-zip
 mustache.js Authors: mustache
