@@ -28,7 +28,6 @@ Alan Plum: http-errors
 Aleksey V Zapparov: js-yaml
 Aleksey Verkholantsev: istanbul
 Alex Dunphy @alexdunphy: istanbul
-Alex Ford: yargs
 Alex Indigo: asynckit
 Alex Kit: cron-parser
 Alex Liu: fast-safe-stringify
@@ -66,10 +65,8 @@ Ben Mosher: eslint-import-resolver-node, eslint-module-utils, eslint-plugin-impo
 Ben Newman: regenerator-runtime
 Ben Noordhuis: nan
 Benjamin Byholm: nan
-Benjamin Coe: yargs
 Benjamin E. Coe: clone
 Benjamin E. Coe @bcoe: istanbul
-Benjamin Horsleben: yargs
 Benjamin Tan: lodash.isobject
 Benjamin Thomas: mime
 Blaine Bublitz: lodash.get, lodash.isobject, lodash.isplainobject, lodash.zip
@@ -93,7 +90,6 @@ Charlike Mike Reagent: is-number
 Chase Douglas: source-map
 Chris Gladd @chrisgladd: istanbul
 Chris Montgomery: source-map
-Chris Needham: yargs
 Chris Truter: source-map
 Christian Bromann: @wdio/config, @wdio/logger, @wdio/repl, rgb2hex, webdriver, webdriverio
 Christian Steininger: cron-parser
@@ -158,7 +154,7 @@ Felix Boehm: entities
 Felix Geisendörfer: combined-stream, delayed-stream, form-data
 Felix Gnass: source-map
 Feross Aboukhadijeh: eslint-config-standard, eslint-config-standard-jsx, is-buffer, run-parallel, run-parallel-limit, run-series, run-waterfall, safe-buffer, simple-concat, simple-get, standard
-ForbesLindesay: is-promise, uglify-to-browserify
+ForbesLindesay: is-promise
 Fred Kuo: assert-plus
 Gabriel Lesperance: fast-safe-stringify
 Gajus Kuizinas: table
@@ -195,7 +191,6 @@ Jakob Krigovsky: licensee
 James: kind-of
 James Burke: amdefine
 James Halliday: concat-map, deep-equal, defined, fast-json-stable-stringify, json-stable-stringify, json-stable-stringify-without-jsonify, minimist, mkdirp, object-inspect, optimist, resolve, resumer, safe-regex, semver-compare, tape, text-table, typedarray, wordwrap
-James Nylen: yargs
 James Padolsey: stripe
 James Sumners: pino, pino-std-serializers
 James Wyatt Cready: range-parser, send
@@ -218,7 +213,7 @@ John MacFarlane: commonmark
 John Morrison @jrgm: istanbul
 John O'Donnell: base
 John-David Dalton: lodash, lodash.get, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode
-Jon Schlinkert: align-text, arr-diff, arr-flatten, arr-union, array-unique, assign-symbols, base, braces, cache-base, center-align, class-utils, collection-visit, contains-path, copy-descriptor, define-property, expand-brackets, extend-shallow, extglob, fill-range, for-in, fragment-cache, get-value, has-value, has-values, is-accessor-descriptor, is-data-descriptor, is-descriptor, is-directory, is-extendable, is-extglob, is-glob, is-number, is-plain-object, is-windows, isobject, kind-of, lazy-cache, longest, map-cache, map-visit, micromatch, mixin-deep, nanomatch, object-copy, object-visit, object.pick, pascalcase, posix-character-classes, regex-not, repeat-element, repeat-string, right-align, romanize, set-value, snapdragon, snapdragon-node, snapdragon-util, split-string, static-extend, to-object-path, to-regex, to-regex-range, union-value, unset-value, use, window-size, write
+Jon Schlinkert: arr-diff, arr-flatten, arr-union, array-unique, assign-symbols, base, braces, cache-base, class-utils, collection-visit, contains-path, copy-descriptor, define-property, expand-brackets, extend-shallow, extglob, fill-range, for-in, fragment-cache, get-value, has-value, has-values, is-accessor-descriptor, is-data-descriptor, is-descriptor, is-directory, is-extendable, is-extglob, is-glob, is-number, is-plain-object, is-windows, isobject, kind-of, map-cache, map-visit, micromatch, mixin-deep, nanomatch, object-copy, object-visit, object.pick, pascalcase, posix-character-classes, regex-not, repeat-element, repeat-string, romanize, set-value, snapdragon, snapdragon-node, snapdragon-util, split-string, static-extend, to-object-path, to-regex, to-regex-range, union-value, unset-value, use, write
 Jonathan Ong: destroy, ee-first, fresh, http-errors, mime-db, mime-types, on-finished, range-parser, statuses
 Jordan Harband: array-includes, define-properties, es-abstract, es-to-primitive, extend, for-each, foreach, function-bind, has, is-callable, is-date-object, is-nan, is-object, is-regex, is-symbol, object-keys, qs, string.prototype.padstart, string.prototype.trim
 Jordan Scales: progress
@@ -243,7 +238,6 @@ Kyle E. Mitchell: alphabet-numbering, commonform-fix-strings, commonform-flatten
 Lalit Kapoor: tough-cookie
 Lars-Magnus Skog: assert-plus
 Lauri Rooden: natural-compare
-Lin Clark: yargs
 Linus Unnebäck: repeat-string
 Lucas Tadeu Teixeira: grapheme-splitter
 Lufty Wiranda: g-status
