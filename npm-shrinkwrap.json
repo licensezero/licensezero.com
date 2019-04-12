@@ -4768,9 +4768,9 @@
       }
     },
     "pino": {
-      "version": "5.11.3",
-      "resolved": "https://registry.npmjs.org/pino/-/pino-5.11.3.tgz",
-      "integrity": "sha512-17Gv9b2fLFMkTfSkh2M5hr6YPAYNL+6GHmrOXD4AmlrYXS9ept6Jtz+gCGzxwdsLNsuKL2kIOr/G5Ws2HX5P8g==",
+      "version": "5.12.2",
+      "resolved": "https://registry.npmjs.org/pino/-/pino-5.12.2.tgz",
+      "integrity": "sha512-EunVRDkw/eQzgAudJiZuqzEQ20hDezixLRLrdxUMBzavvt5ot3vep7K8swRvXSgj2bKtbOmoHnrRMtYzRjfITQ==",
       "requires": {
         "fast-redact": "^1.4.4",
         "fast-safe-stringify": "^2.0.6",
