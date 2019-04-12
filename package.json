@@ -64,7 +64,7 @@
   "scripts": {
     "build:credits": "cp credits.txt.header static/credits.txt ; creditstxt >> static/credits.txt",
     "coverage": "NODE_ENV=test istanbul cover -- tape test/*.test.js",
-    "depcheck": "depcheck --ignores husky,chromedriver,lint-staged,standard,licensee",
+    "depcheck": "depcheck --ignores husky,chromedriver,lint-staged,standard,licensee,npm-authors-contributors,reformat-json-files,creditstxt",
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
     "test": "NODE_ENV=test tape test/*.test.js",
     "testserver": "TMP=$(mktemp) ; ./make-keypair > $TMP ; . $TMP ; NODE_ENV=test PORT=8080 COMMISSION=1 DIRECTORY=example-directory node server.js ; rm $TMP",
