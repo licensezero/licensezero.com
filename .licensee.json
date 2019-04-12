@@ -1,7 +1,12 @@
 {
-  "license": "(CC-BY-3.0 OR Unlicense OR CC0-1.0 OR ISC OR MIT OR BSD-2-Clause OR BSD-3-Clause OR Apache-2.0)",
+  "licenses": {
+    "blueOak": "bronze",
+    "spdx": [
+      "CC-BY-3.0"
+    ]
+  },
   "corrections": true,
-  "whitelist": {
+  "packages": {
     "busboy": "0.2.14",
     "creditstxt": "1.0.2",
     "css-value": "0.0.1",

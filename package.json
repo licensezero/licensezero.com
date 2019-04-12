@@ -52,7 +52,7 @@
     "depcheck": "^0.7.2",
     "husky": "^1.3.1",
     "istanbul": "^0.4.5",
-    "licensee": "^6.2.0",
+    "licensee": "^7.0.1",
     "lint-staged": "^8.1.5",
     "npm-authors-contributors": "^1.1.0",
     "reformat-json-files": "^1.0.1",
