@@ -29,6 +29,7 @@
     "progress": "1.1.8",
     "querystring": "0.2.0",
     "rechoir": "0.6.2",
+    "reformat-json-files": "1.0.1",
     "rx-lite": "3.1.2 || 4.0.8",
     "sntp": "1.0.9",
     "source-map": "0.1.43 || 0.2.0",
