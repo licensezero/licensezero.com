@@ -38,7 +38,7 @@
     "send": "^0.17.1",
     "simple-concat": "^1.0.0",
     "simple-get": "^3.0.3",
-    "sodium-native": "^2.3.0",
+    "sodium-native": "^2.4.2",
     "split2": "^3.1.1",
     "string.prototype.padstart": "^3.0.0",
     "strip-ansi": "^5.2.0",
