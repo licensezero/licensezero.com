@@ -69,7 +69,7 @@ Benjamin E. Coe: clone
 Benjamin E. Coe @bcoe: istanbul
 Benjamin Tan: lodash.isobject
 Benjamin Thomas: mime
-Blaine Bublitz: lodash.get, lodash.isobject, lodash.isplainobject, lodash.zip
+Blaine Bublitz: lodash.isobject, lodash.isplainobject, lodash.zip
 Blake Embrey: pluralize
 Blake Miner: clone
 Blue Oak Council Inc.: @blueoak/list
@@ -199,6 +199,7 @@ Jamund Ferguson: eslint-plugin-standard
 Jason Cheatham @jason0x43: istanbul
 Javier Blanco: path-parse
 Jeff Cross: rxjs
+Jeff Dickey: @types/normalize-package-data
 Jeff McAffer: spdx-whitelisted
 Jens Taylor: imurmurhash
 Jeremiah Senkpiel: mime-types
@@ -212,7 +213,7 @@ John Gozde: source-map
 John MacFarlane: commonmark
 John Morrison @jrgm: istanbul
 John O'Donnell: base
-John-David Dalton: lodash, lodash.get, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode
+John-David Dalton: lodash, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode
 Jon Schlinkert: arr-diff, arr-flatten, arr-union, array-unique, assign-symbols, base, braces, cache-base, class-utils, collection-visit, contains-path, copy-descriptor, define-property, expand-brackets, extend-shallow, extglob, fill-range, for-in, fragment-cache, get-value, has-value, has-values, is-accessor-descriptor, is-data-descriptor, is-descriptor, is-directory, is-extendable, is-extglob, is-glob, is-number, is-plain-object, is-windows, isobject, kind-of, map-cache, map-visit, micromatch, mixin-deep, nanomatch, object-copy, object-visit, object.pick, pascalcase, posix-character-classes, regex-not, repeat-element, repeat-string, romanize, set-value, snapdragon, snapdragon-node, snapdragon-util, split-string, static-extend, to-object-path, to-regex, to-regex-range, union-value, unset-value, use, write
 Jonathan Ong: destroy, ee-first, fresh, http-errors, mime-db, mime-types, on-finished, range-parser, statuses
 Jordan Harband: array-includes, define-properties, es-abstract, es-to-primitive, extend, for-each, foreach, function-bind, has, is-callable, is-date-object, is-nan, is-object, is-regex, is-symbol, object-keys, qs, string.prototype.padstart, string.prototype.trim
@@ -254,7 +255,7 @@ Martin Grenfell: js-yaml
 Martin Kolárik: expand-brackets, micromatch
 Mathias Buus: end-of-stream, flush-write-stream, node-gyp-build, sodium-native, sorted-array-functions
 Mathias Buus Madsen: pump
-Mathias Bynens: emoji-regex, jsesc, lodash, lodash.get, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode, string.prototype.repeat
+Mathias Bynens: emoji-regex, jsesc, lodash, lodash.isobject, lodash.isplainobject, lodash.merge, lodash.zip, punycode, string.prototype.repeat
 Mathias Bynens @mathiasbynens: istanbul
 Mathieu Dutour: deps-regex
 Mathieu Naouache @math-nao: istanbul
@@ -357,7 +358,7 @@ Simon Boudrias: inquirer, run-async
 Simon Lydell: js-tokens, resolve-url, source-map, source-map-resolve, source-map-url, urix
 Simon Ramsay @nexus-uw: istanbul
 Simone Primarosa: @phc/format
-Sindre Sorhus: ansi-escapes, ansi-regex, ansi-styles, any-observable, array-find-index, array-union, array-uniq, arrify, builtin-modules, caller-callsite, caller-path, callsites, camelcase, cli-cursor, cli-truncate, code-point-at, create-html-element, debug-log, decamelize, del, elegant-spinner, escape-goat, escape-string-regexp, execa, figures, find-up, fn-name, fs-access, get-stdin, get-stream, globals, globby, has-ansi, has-flag, html-tags, import-fresh, indent-string, invert-kv, ip-regex, is-builtin-module, is-fullwidth-code-point, is-obj, is-observable, is-path-cwd, is-path-in-cwd, is-path-inside, is-regexp, is-stream, lcid, linkify-urls, load-json-file, locate-path, log-symbols, log-update, matcher, mem, mimic-fn, mimic-response, npm-run-path, null-check, number-is-nan, object-assign, onetime, os-locale, os-tmpdir, p-defer, p-finally, p-is-promise, p-limit, p-locate, p-map, p-try, parse-json, path-exists, path-is-absolute, path-key, path-type, pify, pkg-conf, pkg-dir, read-pkg, read-pkg-up, require-uncached, resolve-from, restore-cursor, run-node, serialize-error, shebang-regex, slash, string-width, stringify-attributes, stringify-object, strip-ansi, strip-bom, strip-eof, strip-json-comments, supports-color, to-fast-properties, trim-right, wrap-ansi
+Sindre Sorhus: ansi-escapes, ansi-regex, ansi-styles, any-observable, array-find-index, array-union, array-uniq, arrify, builtin-modules, caller-callsite, caller-path, callsites, camelcase, cli-cursor, cli-truncate, code-point-at, create-html-element, debug-log, decamelize, del, elegant-spinner, escape-goat, escape-string-regexp, execa, figures, find-up, fn-name, fs-access, get-stdin, get-stream, globals, globby, has-ansi, has-flag, html-tags, import-fresh, indent-string, invert-kv, ip-regex, is-builtin-module, is-fullwidth-code-point, is-obj, is-observable, is-path-cwd, is-path-in-cwd, is-path-inside, is-regexp, is-stream, lcid, linkify-urls, load-json-file, locate-path, log-symbols, log-update, matcher, mem, mimic-fn, mimic-response, npm-run-path, null-check, number-is-nan, object-assign, onetime, os-locale, os-tmpdir, p-defer, p-finally, p-is-promise, p-limit, p-locate, p-map, p-try, parse-json, path-exists, path-is-absolute, path-key, path-type, pify, pkg-conf, pkg-dir, read-pkg, read-pkg-up, require-uncached, resolve-from, restore-cursor, run-node, serialize-error, shebang-regex, slash, string-width, stringify-attributes, stringify-object, strip-ansi, strip-bom, strip-eof, strip-json-comments, supports-color, to-fast-properties, trim-right, type-fest, wrap-ansi
 Stefan Penner: get-caller-file
 Stefan Thomas: extend
 Stephen Crane: source-map
