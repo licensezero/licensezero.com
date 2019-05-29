@@ -58,6 +58,7 @@ Artemy Tregubenko @arty-name: istanbul
 Arye Lukashevski @aryelu: istanbul
 Ask Bjørn Hansen: stripe
 Aurélio A. Heckert: clone
+Baruch Velez: resq
 Ben Coe: cliui, require-main-filename, set-blocking, signal-exit, y18n, yargs-parser
 Ben Gourley: fast-safe-stringify
 Ben Lesh: rxjs, symbol-observable
