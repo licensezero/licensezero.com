@@ -58,7 +58,7 @@
     "reformat-json-files": "^1.0.1",
     "rimraf": "^2.6.3",
     "standard": "^12.0.1",
-    "tape": "^4.10.1",
+    "tape": "^4.10.2",
     "webdriverio": "^5.7.13"
   },
   "scripts": {
