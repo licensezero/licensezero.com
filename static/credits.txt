@@ -129,7 +129,7 @@ Dmitry Shirokov @runk: istanbul
 Domenic Denicola: path-is-inside
 Dominic Tarr: lock, sha.js, through
 Dominykas Blyžė @dominykas: istanbul
-Douglas Christopher Wilson: depd, destroy, ee-first, encodeurl, etag, fresh, http-errors, mime-db, mime-types, on-finished, range-parser, send, statuses
+Douglas Christopher Wilson: depd, destroy, ee-first, encodeurl, etag, fresh, http-errors, mime-db, mime-types, on-finished, range-parser, send, statuses, toidentifier
 Douglas Christopher Wilson @dougwilson: istanbul
 Douglas Crockford: jsonify
 Duncan Beevers: source-map
@@ -296,6 +296,7 @@ Nathan Zadoks: clone
 Nicholas C. Zakas: eslint, espree
 Nicholas Clawson: cron-parser
 Nicholas Young: fast-safe-stringify
+Nick Baugh: toidentifier
 Nick Fisher: deepmerge
 Nick Fitzgerald: source-map
 Nicolas Lalevée: source-map
