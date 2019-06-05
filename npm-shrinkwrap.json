@@ -3897,9 +3897,9 @@
       }
     },
     "loglevel": {
-      "version": "1.6.1",
-      "resolved": "https://registry.npmjs.org/loglevel/-/loglevel-1.6.1.tgz",
-      "integrity": "sha1-4PyVEztu8nbNyIh82vJKpvFW+Po=",
+      "version": "1.6.2",
+      "resolved": "https://registry.npmjs.org/loglevel/-/loglevel-1.6.2.tgz",
+      "integrity": "sha512-Jt2MHrCNdtIe1W6co3tF5KXGRkzF+TYffiQstfXa04mrss9IKXzAAXYWak8LbZseAQY03sH2GzMCMU0ZOUc9bg==",
       "dev": true
     },
     "loglevel-plugin-prefix": {
@@ -6326,9 +6326,9 @@
       "dev": true
     },
     "webdriver": {
-      "version": "5.9.4",
-      "resolved": "https://registry.npmjs.org/webdriver/-/webdriver-5.9.4.tgz",
-      "integrity": "sha512-HBSgUUGucFrvZNzPalTQ138veUaOjPKQ2bVvUAIXPbAjnuN8OrEPEZNKxGCwYVakwvY0kGmG8pBGfYYPe+qe5A==",
+      "version": "5.9.6",
+      "resolved": "https://registry.npmjs.org/webdriver/-/webdriver-5.9.6.tgz",
+      "integrity": "sha512-cEPtbOCTMRiedWyAlc2Bxnxw0lTRKqrAEDP9yB7rwUKQs3OZQzpDrmqiYZ/rBhJ0j+up6Cmx/L9rdm9Iyp4WVQ==",
       "dev": true,
       "requires": {
         "@wdio/config": "^5.9.4",
@@ -6339,9 +6339,9 @@
       }
     },
     "webdriverio": {
-      "version": "5.9.4",
-      "resolved": "https://registry.npmjs.org/webdriverio/-/webdriverio-5.9.4.tgz",
-      "integrity": "sha512-JFGDrFebkTFDXhyJBpR3boo2QfeACUoB0lpbRcDYihgSsDq38rmdedwiVv1HI/ilBAIXccBfefYJsrSyfjpv0w==",
+      "version": "5.9.6",
+      "resolved": "https://registry.npmjs.org/webdriverio/-/webdriverio-5.9.6.tgz",
+      "integrity": "sha512-xjQyz0hdDXyPViaMTUuP8lpg91CxOVNQA20bp3kqRHlolipCmALTo1EFHF9+pz2aI5KGgVyz4r2+5T11VW9MYg==",
       "dev": true,
       "requires": {
         "@wdio/config": "^5.9.4",
@@ -6356,7 +6356,7 @@
         "resq": "^1.5.0",
         "rgb2hex": "^0.1.0",
         "serialize-error": "^4.1.0",
-        "webdriver": "^5.9.4"
+        "webdriver": "^5.9.6"
       }
     },
     "which": {
