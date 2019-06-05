@@ -237,6 +237,7 @@ Kitson Kelly @kitsonk: istanbul
 Kris Zyp: json-schema
 Krishnan Anantheswaran: istanbul
 Kyle E. Mitchell: alphabet-numbering, commonform-fix-strings, commonform-flatten, commonform-group-series, commonform-hash, commonform-html, commonform-markup-parse, commonform-number, commonform-predicate, commonform-prepare-blanks, commonform-resolve, commonform-serialize, commonform-terminal, correct-license-metadata, creditstxt, do-not-cache, json-parse-errback, licensee, licensezero-jurisdictions, lower-alpha, npm-authors-contributors, outline-numbering, reformat-json-files, spdx-compare, spdx-correct, spdx-exceptions, spdx-expression-parse, spdx-expression-validate, spdx-osi, spdx-ranges, spdx-whitelisted, validate-npm-package-license
+Kyle Mitchell: romanize
 Lalit Kapoor: tough-cookie
 Lars-Magnus Skog: assert-plus
 Lauri Rooden: natural-compare
