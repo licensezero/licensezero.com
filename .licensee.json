@@ -5,6 +5,11 @@
       "CC-BY-3.0"
     ]
   },
+  "ignore": [
+    {
+      "prefix": "commonform-"
+    }
+  ],
   "corrections": true,
   "packages": {
     "busboy": "0.2.14",
@@ -31,6 +36,7 @@
     "ms": "0.7.1",
     "normalize-path": "1.0.0",
     "optimist": "0.6.1",
+    "outline-numbering": "*",
     "prelude-ls": "1.1.2",
     "progress": "1.1.8",
     "querystring": "0.2.0",
