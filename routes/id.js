@@ -195,9 +195,10 @@ licensezero buy</pre>
   <p>
     <label>
       Licensee Jurisdiction
-      <select name=jurisdiction id=jurisdiction>
+      <input name=jurisdiction id=jurisdiction list=jurisdictions autocomplete=off required>
+      <datalist id=jurisdictions>
         ${jurisdictionOptions()}
-      </select>
+      </datalist>
     </label>
   </p>
   <p>
