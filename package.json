@@ -50,7 +50,7 @@
     "chromedriver": "^74.0.0",
     "creditstxt": "^1.0.2",
     "depcheck": "^0.8.0",
-    "husky": "^2.4.0",
+    "husky": "^2.4.1",
     "istanbul": "^0.4.5",
     "licensee": "^7.0.1",
     "lint-staged": "^8.2.1",
