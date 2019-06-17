@@ -53,7 +53,7 @@
     "husky": "^2.4.0",
     "istanbul": "^0.4.5",
     "licensee": "^7.0.1",
-    "lint-staged": "^8.2.0",
+    "lint-staged": "^8.2.1",
     "npm-authors-contributors": "^1.1.0",
     "reformat-json-files": "^1.0.1",
     "rimraf": "^2.6.3",
