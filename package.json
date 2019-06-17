@@ -50,10 +50,8 @@
     "chromedriver": "^75.0.0",
     "creditstxt": "^1.0.2",
     "depcheck": "^0.8.1",
-    "husky": "^2.4.1",
     "istanbul": "^0.4.5",
     "licensee": "^7.0.1",
-    "lint-staged": "^8.2.1",
     "npm-authors-contributors": "^1.1.0",
     "reformat-json-files": "^1.0.1",
     "rimraf": "^2.6.3",
@@ -69,26 +67,7 @@
     "test": "NODE_ENV=test tape test/*.test.js",
     "testserver": "TMP=$(mktemp) ; ./make-keypair > $TMP ; . $TMP ; NODE_ENV=test PORT=8080 COMMISSION=1 DIRECTORY=example-directory node server.js ; rm $TMP",
     "lint": "standard",
+    "fix": "reformat-json-files $(git ls-files | grep '\\.json$') ; standard --fix",
     "licenses": "licensee --errors-only"
-  },
-  "lint-staged": {
-    "linters": {
-      "*.js": [
-        "standard --fix",
-        "git add"
-      ],
-      "*.json": [
-        "reformat-json-files",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "*.min.js"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged ; npm run build:credits; git add static/credits.txt"
-    }
   }
 }
