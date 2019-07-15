@@ -47,7 +47,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "chromedriver": "^75.0.0",
+    "chromedriver": "^75.1.0",
     "creditstxt": "^1.0.2",
     "depcheck": "^0.8.1",
     "istanbul": "^0.4.5",
