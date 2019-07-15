@@ -44,7 +44,7 @@
     "strip-ansi": "^5.2.0",
     "stripe": "^7.4.0",
     "uuid": "^3.3.2",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.2"
   },
   "devDependencies": {
     "chromedriver": "^75.1.0",
