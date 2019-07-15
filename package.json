@@ -49,7 +49,7 @@
   "devDependencies": {
     "chromedriver": "^75.1.0",
     "creditstxt": "^1.0.2",
-    "depcheck": "^0.8.1",
+    "depcheck": "^0.8.3",
     "istanbul": "^0.4.5",
     "licensee": "^7.0.1",
     "npm-authors-contributors": "^1.1.0",
