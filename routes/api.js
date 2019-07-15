@@ -1,6 +1,7 @@
 var AJV = require('ajv')
 var argon2 = require('argon2')
 var doNotCache = require('do-not-cache')
+var has = require('has')
 var lock = require('./lock')
 var parseJSON = require('json-parse-errback')
 var readLicensor = require('../data/read-licensor')
@@ -12,7 +13,7 @@ var actions = require('./actions')
 var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
   var action = actions[key]
-  if (action.hasOwnProperty('properties')) {
+  if (has(action, 'properties')) {
     var properties = action.properties
     properties.action = {
       type: 'string',
@@ -76,7 +77,7 @@ module.exports = function api (request, response) {
     if (typeof body !== 'object' || body === null) {
       return fail('request not an object')
     }
-    if (!body.hasOwnProperty('action')) {
+    if (!has(body, 'action')) {
       return fail('missing action property')
     }
     var action = actions[body.action]
@@ -128,7 +129,7 @@ module.exports = function api (request, response) {
 
   function end (object) {
     object = object || {}
-    if (!object.hasOwnProperty('error')) {
+    if (!has(object, 'error')) {
       object.error = false
     }
     doNotCache(response)

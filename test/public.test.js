@@ -3,6 +3,7 @@ var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var ed25519 = require('../util/ed25519')
+var has = require('has')
 var runSeries = require('run-series')
 var server = require('./server')
 var stringify = require('json-stable-stringify')
@@ -40,16 +41,16 @@ tape('public prosperity', function (test) {
             'error false'
           )
           test.assert(
-            response.hasOwnProperty('license'),
+            has(response, 'license'),
             'document'
           )
           var license = response.license
           test.assert(
-            license.hasOwnProperty('document'),
+            has(license, 'document'),
             'license.document'
           )
           test.assert(
-            license.hasOwnProperty('licensorSignature'),
+            has(license, 'licensorSignature'),
             'license.licensorSignature'
           )
           test.assert(
@@ -57,7 +58,7 @@ tape('public prosperity', function (test) {
             'licensor ed25519 signature'
           )
           test.assert(
-            license.hasOwnProperty('agentSignature'),
+            has(license, 'agentSignature'),
             'license.agentSignature'
           )
           test.assert(
@@ -65,29 +66,29 @@ tape('public prosperity', function (test) {
             'agent ed25519 signature'
           )
           test.assert(
-            response.hasOwnProperty('metadata'),
+            has(response, 'metadata'),
             'metadata'
           )
           var metadata = response.metadata
           test.assert(
-            metadata.hasOwnProperty('licensezero'),
+            has(metadata, 'licensezero'),
             'licensezero'
           )
           var licensezero = metadata.licensezero
           test.assert(
-            licensezero.hasOwnProperty('licensorSignature'),
+            has(licensezero, 'licensorSignature'),
             'licensezero.licensorSignature'
           )
           test.assert(
-            licensezero.hasOwnProperty('agentSignature'),
+            has(licensezero, 'agentSignature'),
             'licensezero.agentSignature'
           )
           test.assert(
-            licensezero.hasOwnProperty('license'),
+            has(licensezero, 'license'),
             'licensezero.license'
           )
           test.assert(
-            licensezero.license.hasOwnProperty('terms'),
+            has(licensezero.license, 'terms'),
             'licensezero.license.terms'
           )
           test.equal(
@@ -189,16 +190,16 @@ tape('public parity', function (test) {
             'error false'
           )
           test.assert(
-            response.hasOwnProperty('license'),
+            has(response, 'license'),
             'document'
           )
           var license = response.license
           test.assert(
-            license.hasOwnProperty('document'),
+            has(license, 'document'),
             'license.document'
           )
           test.assert(
-            license.hasOwnProperty('licensorSignature'),
+            has(license, 'licensorSignature'),
             'license.licensorSignature'
           )
           test.assert(
@@ -206,7 +207,7 @@ tape('public parity', function (test) {
             'licensor ed25519 signature'
           )
           test.assert(
-            license.hasOwnProperty('agentSignature'),
+            has(license, 'agentSignature'),
             'license.agentSignature'
           )
           test.assert(
@@ -214,29 +215,29 @@ tape('public parity', function (test) {
             'agent ed25519 signature'
           )
           test.assert(
-            response.hasOwnProperty('metadata'),
+            has(response, 'metadata'),
             'metadata'
           )
           var metadata = response.metadata
           test.assert(
-            metadata.hasOwnProperty('licensezero'),
+            has(metadata, 'licensezero'),
             'licensezero'
           )
           var licensezero = metadata.licensezero
           test.assert(
-            licensezero.hasOwnProperty('licensorSignature'),
+            has(licensezero, 'licensorSignature'),
             'licensezero.licensorSignature'
           )
           test.assert(
-            licensezero.hasOwnProperty('agentSignature'),
+            has(licensezero, 'agentSignature'),
             'licensezero.agentSignature'
           )
           test.assert(
-            licensezero.hasOwnProperty('license'),
+            has(licensezero, 'license'),
             'licensezero.license'
           )
           test.assert(
-            licensezero.license.hasOwnProperty('terms'),
+            has(licensezero.license, 'terms'),
             'licensezero.license.terms'
           )
           test.equal(
@@ -418,16 +419,16 @@ tape('public charity', function (test) {
             'error false'
           )
           test.assert(
-            response.hasOwnProperty('license'),
+            has(response, 'license'),
             'document'
           )
           var license = response.license
           test.assert(
-            license.hasOwnProperty('document'),
+            has(license, 'document'),
             'license.document'
           )
           test.assert(
-            license.hasOwnProperty('licensorSignature'),
+            has(license, 'licensorSignature'),
             'license.licensorSignature'
           )
           test.assert(
@@ -435,7 +436,7 @@ tape('public charity', function (test) {
             'licensor ed25519 signature'
           )
           test.assert(
-            license.hasOwnProperty('agentSignature'),
+            has(license, 'agentSignature'),
             'license.agentSignature'
           )
           test.assert(
@@ -443,12 +444,12 @@ tape('public charity', function (test) {
             'agent ed25519 signature'
           )
           test.assert(
-            response.hasOwnProperty('metadata'),
+            has(response, 'metadata'),
             'metadata'
           )
           var metadata = response.metadata
           test.assert(
-            !metadata.hasOwnProperty('licensezero'),
+            !has(metadata, 'licensezero'),
             'no licensezero'
           )
           test.equal(

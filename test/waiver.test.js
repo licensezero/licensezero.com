@@ -3,6 +3,7 @@ var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var ed25519 = require('../util/ed25519')
+var has = require('has')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
@@ -41,21 +42,21 @@ tape('waiver', function (test) {
             'error false'
           )
           test.assert(
-            response.hasOwnProperty('projectID'),
+            has(response, 'projectID'),
             'project ID'
           )
           test.assert(
-            response.hasOwnProperty('manifest'),
+            has(response, 'manifest'),
             'manifest'
           )
           var manifest = response.manifest
           test.assert(
-            response.hasOwnProperty('document'),
+            has(response, 'document'),
             'document'
           )
           var document = response.document
           test.assert(
-            response.hasOwnProperty('signature'),
+            has(response, 'signature'),
             'signature'
           )
           var signature = response.signature
@@ -64,7 +65,7 @@ tape('waiver', function (test) {
             'ed25519 signature'
           )
           test.assert(
-            response.hasOwnProperty('publicKey'),
+            has(response, 'publicKey'),
             'public key'
           )
           var publicKey = response.publicKey

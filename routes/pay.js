@@ -9,6 +9,7 @@ var escape = require('./escape')
 var footer = require('./partials/footer')
 var formatPrice = require('../util/format-price')
 var fs = require('fs')
+var has = require('has')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
@@ -663,15 +664,15 @@ ${head('Thank you')}
 
     function generateSignedAgreement (done) {
       relicenseAgreement({
-        'Date': date,
+        Date: date,
         'Developer Name': licensor.name,
         'Developer Jurisdiction': licensor.jurisdiction,
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
         'Project ID': project.projectID,
-        'Homepage': project.homepage,
-        'Descriptions': project.description,
-        'Payment': formatPrice(price)
+        Homepage: project.homepage,
+        Descriptions: project.description,
+        Payment: formatPrice(price)
       }, function (error, form) {
         if (error) return done(error)
         agreement = (
@@ -861,7 +862,7 @@ function batchTransactions (projects) {
   var returned = {}
   projects.forEach(function (project) {
     var licensorID = project.licensor.licensorID
-    if (returned.hasOwnProperty(licensorID)) {
+    if (has(returned, licensorID)) {
       returned[licensorID].push(project)
     } else {
       returned[licensorID] = [project]

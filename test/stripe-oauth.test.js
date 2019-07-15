@@ -1,5 +1,6 @@
 var apiRequest = require('./api-request')
 var email = require('../email')
+var has = require('has')
 var http = require('http')
 var parseJSON = require('json-parse-errback')
 var runSeries = require('run-series')
@@ -17,9 +18,9 @@ var SPONSOR_NAME = 'Larry Licensee'
 
 var options = {
   skip: (
-    !process.env.hasOwnProperty('STRIPE_SECRET_KEY') ||
-    !process.env.hasOwnProperty('STRIPE_SHAREABLE_KEY') ||
-    !process.env.hasOwnProperty('STRIPE_CLIENT_ID')
+    !has(process.env, 'STRIPE_SECRET_KEY') ||
+    !has(process.env, 'STRIPE_SHAREABLE_KEY') ||
+    !has(process.env, 'STRIPE_CLIENT_ID')
   )
 }
 
@@ -59,7 +60,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'offer error false')
-              test.assert(response.hasOwnProperty('projectID'), 'project id')
+              test.assert(has(response, 'projectID'), 'project id')
               projectID = response.projectID
               done()
             })
@@ -176,7 +177,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'offer error false')
-              test.assert(response.hasOwnProperty('projectID'), 'project id')
+              test.assert(has(response, 'projectID'), 'project id')
               projectID = response.projectID
               done()
             })

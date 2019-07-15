@@ -1,5 +1,5 @@
 var http = require('http-https')
-var url = require('url')
+var parseURL = require('url-parse')
 
 var ACCEPTABLE_STATUS = [200, 204, 301]
 
@@ -12,7 +12,7 @@ module.exports = function (body, callback) {
     return callback()
   }
   var homepage = body.homepage
-  var options = url.parse(homepage)
+  var options = parseURL(homepage)
   options.method = 'HEAD'
   http.request(options)
     .once('error', function (error) {

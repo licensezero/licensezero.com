@@ -2,6 +2,7 @@ var LICENSOR = require('./licensor')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
+var has = require('has')
 var http = require('http')
 var runSeries = require('run-series')
 var server = require('./server')
@@ -33,7 +34,7 @@ tape('project', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.assert(
-            !response.hasOwnProperty('stripe'),
+            !has(response, 'stripe'),
             'no Stripe data'
           )
           test.deepEqual(
