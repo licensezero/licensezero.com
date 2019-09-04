@@ -1,11 +1,11 @@
-var parse = require('commonform-markup-parse')
+var parse = require('commonform-commonmark').parse
 var path = require('path')
 var withCached = require('../data/with-cached')
 
-module.exports = function (basename) {
-  var BLANKS = require('./' + basename + '/blanks.json')
+module.exports = function (directory) {
+  var BLANKS = require('./' + directory + '/blanks.json')
   var withMarkup = withCached(
-    path.join(__dirname, basename, basename + '.cform')
+    path.join(__dirname, directory, 'terms.md')
   )
   return function (/* [overrides,] callback */) {
     var overrides = {}
