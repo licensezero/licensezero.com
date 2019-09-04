@@ -28,8 +28,8 @@ module.exports = function (basename) {
         commonform: parsed.form,
         directions: parsed.directions.map(function (direction) {
           return {
-            value: values[direction.identifier],
-            blank: direction.path
+            value: values[direction.label],
+            blank: direction.blank
           }
         }),
         blanks: BLANKS
