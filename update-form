@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+if [ -z "$1" ]; then
+  echo "Usage: <form>">/dev/stderr
+  exit 1
+fi
+
+if [ ! -d "forms/$1" ]; then
+  echo "Unknown Form: $1">/dev/stderr
+  exit 1
+fi
+
+cd "forms/$1"
+git fetch origin
+git checkout origin/master
+tag=$(git diff-index --quiet HEAD && git describe --exact-match --tags 2>/dev/null | sed 's/v//')
+cd ../..
+git add "forms/$1"
