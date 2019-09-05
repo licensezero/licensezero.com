@@ -33,6 +33,7 @@ ${head()}
       {
         title: 'License Zero ' + title,
         html5: true,
+        ids: true,
         lists: true
       }
     ),
