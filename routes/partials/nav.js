@@ -5,6 +5,7 @@ module.exports = function () {
 <nav role=navigation>
   <ul>
     <li><a href=/>Use</a></li>
+    <li><a href=/pricing>pricing</a></li>
     <li><a href=https://blog.licensezero.com/>Blog</a></li>
     <li><a href=https://guide.licensezero.com>Guide</a></li>
     <li><a href=/commitment>Commitment</a></li>
