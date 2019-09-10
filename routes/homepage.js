@@ -1,10 +1,12 @@
 var INSTALL = require('../content/one-line-install.json')
+var arrayShuffle = require('array-shuffle')
 var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var nav = require('./partials/nav')
+var showcase = require('../content/showcase').reverse().slice(1)
 
 var LICENSOR = [
   '# Set up for Anna, a developer in Texas.',
@@ -82,6 +84,9 @@ ${head(false, {
     <p class=lead>
       License Zero is a new way to support open software developers.
     </p>
+    <ul class=showcase>
+      ${arrayShuffle(showcase).slice(0, 4).map(renderShowcase).join('')}
+    </ul>
     <p>
       Contributors can choose from two new licenses,
       <a href=/licenses/parity>Parity</a> and
@@ -139,4 +144,17 @@ function formatSession (lines) {
       return escape(line)
     })
     .join('\n')
+}
+
+function renderShowcase (entry) {
+  return `
+  <li>
+    <a href="${escape(entry.url)}" target=_blank>
+      <img
+          src="${escape(entry.image)}"
+          title="${escape(entry.name)}"
+          alt="${escape(entry.name)}">
+    </a>
+  </li>
+  `.trim()
 }

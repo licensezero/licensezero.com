@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Caravaggio",
+    "url": "https://ramiel.gitlab.io/caravaggio/",
+    "image": "/caravaggio.jpg"
+  },
+  {
+    "name": "Statiq",
+    "url": "https://github.com/statiqdev/Framework",
+    "image": "/statiq.png"
+  },
+  {
+    "minimize": "diffs",
+    "note": "to add a new project, put it right above this object"
+  }
+]

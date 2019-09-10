@@ -365,6 +365,11 @@
         "es-abstract": "^1.7.0"
       }
     },
+    "array-shuffle": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/array-shuffle/-/array-shuffle-1.0.1.tgz",
+      "integrity": "sha1-fqSIKjVrS8pfVF4LblLq9tlxVXo="
+    },
     "array-union": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/array-union/-/array-union-1.0.2.tgz",
