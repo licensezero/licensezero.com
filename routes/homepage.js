@@ -6,7 +6,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var nav = require('./partials/nav')
-var showcase = require('./showcase').reverse().slice(1)
+var showcase = require('../content/showcase').reverse().slice(1)
 
 var LICENSOR = [
   '# Set up for Anna, a developer in Texas.',
