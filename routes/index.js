@@ -111,6 +111,10 @@ staticFile('licensee.gif')
 staticFile('doors.svg')
 staticFile('credits.txt')
 
+// Showcase Logos
+staticFile('caravaggio.jpg')
+staticFile('statiq.png')
+
 function staticFile (file) {
   var filePath = path.join(__dirname, '..', 'static', file)
   routes.set('/' + file, function (request, response) {
