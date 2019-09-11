@@ -14,7 +14,7 @@ testForm('private')
 function testForm (form) {
   tape('GET /licenses/' + form, function (test) {
     server(function (port, close) {
-      http.request({ port: port, path: '/licenses/' + form })
+      http.request({ port, path: '/licenses/' + form })
         .once('error', function (error) {
           test.error(error, 'no error')
           finish()
@@ -41,7 +41,7 @@ function testForm (form) {
 
 tape.test('relicense', function (test) {
   server(function (port, close) {
-    http.request({ port: port, path: '/licenses/relicense' })
+    http.request({ port, path: '/licenses/relicense' })
       .once('error', function (error) {
         test.error(error, 'no error')
         finish()

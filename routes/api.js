@@ -21,7 +21,7 @@ Object.keys(actions).forEach(function (key) {
     }
     action.schema = {
       type: 'object',
-      properties: properties,
+      properties,
       required: Object.keys(properties),
       additionalProperties: false
     }

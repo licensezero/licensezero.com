@@ -4,7 +4,7 @@ var tape = require('tape')
 
 tape('GET /install.sh', function (test) {
   server(function (port, close) {
-    http.request({ port: port, path: '/install.sh' })
+    http.request({ port, path: '/install.sh' })
       .once('error', function (error) {
         test.error(error, 'no error')
         finish()

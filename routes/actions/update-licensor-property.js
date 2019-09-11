@@ -10,7 +10,7 @@ module.exports = function (key) {
   }
   properties[key] = require('./register').properties[key]
   return {
-    properties: properties,
+    properties,
     handler: function (log, body, end, fail, lock) {
       var licensorID = body.licensorID
       var file = licensorPath(licensorID)

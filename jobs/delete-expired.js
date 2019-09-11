@@ -9,10 +9,7 @@ var LIMIT = 3
 module.exports = function (pathFunction) {
   return function (serverLog, callback) {
     var directory = pathFunction()
-    var log = serverLog.child({
-      subsystem: 'sweep',
-      directory: directory
-    })
+    var log = serverLog.child({ subsystem: 'sweep', directory })
     // List order files.
     fs.readdir(directory, function (error, entries) {
       /* istanbul ignore if */
@@ -32,7 +29,7 @@ module.exports = function (pathFunction) {
               return done()
             }
             if (!expired(order.date)) return done()
-            var dataToLog = { order: order.orderID, file: file }
+            var dataToLog = { order: order.orderID, file }
             log.info(dataToLog, 'expired')
             fs.unlink(file, function (error) {
               /* istanbul ignore if */

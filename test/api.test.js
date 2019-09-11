@@ -49,7 +49,7 @@ tape('oversize payload', function (test) {
   server(function (port, close) {
     http.request({
       method: 'POST',
-      port: port,
+      port,
       path: '/api/v0'
     })
       .once('error', function (error) {

@@ -303,7 +303,7 @@ function post (request, response, order) {
     var projects = order.projects
     var orderID = order.orderID
     var stripeMetadata = {
-      orderID: orderID,
+      orderID,
       jurisdiction: order.jurisdiction,
       licensee: order.licensee,
       email: order.email
@@ -374,7 +374,7 @@ function post (request, response, order) {
                 // Stripe Step 3:
                 function chargeSharedCustomer (token, done) {
                   var options = {
-                    amount: amount,
+                    amount,
                     currency: 'usd',
                     source: token.id,
                     statement_descriptor: 'License Zero License',
@@ -405,7 +405,7 @@ function post (request, response, order) {
                           FORM: 'private license',
                           VERSION: privateLicense.version,
                           date: new Date().toISOString(),
-                          orderID: orderID,
+                          orderID,
                           project: pick(project, [
                             'projectID', 'homepage', 'description'
                           ]),
@@ -424,8 +424,8 @@ function post (request, response, order) {
                           if (error) return done(error)
                           var license = {
                             projectID: project.projectID,
-                            manifest: manifest,
-                            document: document,
+                            manifest,
+                            document,
                             publicKey: project.licensor.publicKey,
                             signature: ed25519.sign(
                               manifest + '\n\n' + document,
@@ -454,7 +454,7 @@ function post (request, response, order) {
                                 'Description:  ' + project.description,
                                 'Homepage:   ' + project.homepage
                               ].join('\n')),
-                            license: license
+                            license
                           }, function (error) {
                             if (error) return done(error)
                             done(null, license)
@@ -550,7 +550,7 @@ function post (request, response, order) {
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(null, file, JSON.stringify({
                 date: new Date().toISOString(),
-                licenses: licenses
+                licenses
               }))
             ], done)
           }
@@ -734,7 +734,7 @@ ${head('Thank you')}
         sponsor: order.sponsor,
         jurisdiction: order.jurisdiction,
         email: order.email,
-        date: date
+        date
       }, done)
     }
 
@@ -745,7 +745,7 @@ ${head('Thank you')}
         { stripe_account: stripeID },
         function (error) {
           if (error) return done(error)
-          request.log.info({ chargeID: chargeID }, 'captured')
+          request.log.info({ chargeID }, 'captured')
           done()
         }
       )
@@ -770,7 +770,7 @@ ${head('Thank you')}
             'Description:  ' + project.description,
             'Homepage:   ' + project.homepage
           ].join('\n')),
-        agreement: agreement
+        agreement
       }, done)
     }
 

@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 requiredEnvironmentVariables.forEach(function (key) {
   if (!process.env[key]) {
-    log.error({ key: key }, 'missing environment variable')
+    log.error({ key }, 'missing environment variable')
     process.exit(1)
   }
 })

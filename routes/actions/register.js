@@ -39,7 +39,7 @@ exports.handler = function (log, body, end, fail) {
     runSeries.bind(null, [
       mkdirp.bind(null, path.dirname(file)),
       fs.writeFile.bind(fs, file, JSON.stringify({
-        timestamp: timestamp,
+        timestamp,
         name: body.name,
         email: body.email,
         jurisdiction: body.jurisdiction

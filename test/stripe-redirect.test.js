@@ -9,10 +9,7 @@ var tape = require('tape')
 
 tape('GET /stripe-redirect', function (test) {
   server(function (port, close) {
-    http.request({
-      port: port,
-      path: '/stripe-redirect'
-    })
+    http.request({ port, path: '/stripe-redirect' })
       .once('error', function (error) {
         test.error(error, 'no error')
         finish()
@@ -32,7 +29,7 @@ tape('GET /stripe-redirect', function (test) {
 tape('GET /stripe-redirect?error=&error_description=', function (test) {
   server(function (port, close) {
     http.request({
-      port: port,
+      port,
       path: '/stripe-redirect?' + querystring.stringify({
         error: 'bad',
         error_description: 'bad things'
@@ -57,7 +54,7 @@ tape('GET /stripe-redirect?error=&error_description=', function (test) {
 tape('GET /stripe-redirect w/ bad state', function (test) {
   server(function (port, close) {
     http.request({
-      port: port,
+      port,
       path: '/stripe-redirect?' + querystring.stringify({
         state: 'nonsense',
         code: 'nonsense',
@@ -109,7 +106,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
       function (query, done) {
         var parsed = querystring.parse(query)
         http.request({
-          port: port,
+          port,
           path: '/stripe-redirect?' + querystring.stringify({
             scope: 'read_write',
             code: 'TEST_STRIPE_CODE',
@@ -134,7 +131,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
         apiRequest(port, {
           action: 'email',
           licensorID: id,
-          token: token,
+          token,
           email: 'another@example.com'
         }, function (error, response) {
           if (error) return done(error)
@@ -163,11 +160,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
 
 tape('PUT /stripe-redirect', function (test) {
   server(function (port, close) {
-    http.request({
-      method: 'PUT',
-      port: port,
-      path: '/stripe-redirect'
-    })
+    http.request({ method: 'PUT', port, path: '/stripe-redirect' })
       .once('error', function (error) {
         test.error(error, 'no error')
         finish()

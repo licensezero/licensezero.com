@@ -138,10 +138,7 @@ tape('sweep reset tokens', function (test) {
           sweepResetTokens(log, done)
         },
         function visitResetPage (done) {
-          http.request({
-            port: port,
-            path: '/reset/' + resetToken
-          })
+          http.request({ port, path: '/reset/' + resetToken })
             .once('error', done)
             .once('response', function (response) {
               test.equal(response.statusCode, 404, '404')

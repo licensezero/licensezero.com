@@ -31,7 +31,7 @@ tape('waiver', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID,
+          projectID,
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
@@ -148,7 +148,7 @@ tape('waiver for retracted project', function (test) {
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -162,7 +162,7 @@ tape('waiver for retracted project', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID,
+          projectID,
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365

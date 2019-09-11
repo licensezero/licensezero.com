@@ -30,7 +30,7 @@ tape('project', function (test) {
       function requestProject (done) {
         apiRequest(port, {
           action: 'project',
-          projectID: projectID
+          projectID
         }, function (error, response) {
           if (error) return done(error)
           test.assert(
@@ -39,7 +39,7 @@ tape('project', function (test) {
           )
           test.deepEqual(
             response, {
-              projectID: projectID,
+              projectID,
               homepage: OFFER.homepage,
               pricing: OFFER.pricing,
               licensor: {
@@ -138,7 +138,7 @@ tape('/project/{id}/badge.svg', function (test) {
       },
       function browse (done) {
         http.request({
-          port: port,
+          port,
           path: 'http://localhost:' + port + '/ids/' + projectID + '/badge.svg'
         })
           .once('error', function (error) {

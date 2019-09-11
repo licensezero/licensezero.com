@@ -37,7 +37,7 @@ var properties = {
 
 module.exports = {
   type: 'object',
-  properties: properties,
+  properties,
   required: Object.keys(properties),
   additionalProperties: false
 }

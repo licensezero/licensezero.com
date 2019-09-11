@@ -41,7 +41,7 @@ exports.handler = function (log, body, end, fail, lock) {
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify({
-                projectID: projectID,
+                projectID,
                 licensor: licensorID,
                 pricing: body.pricing,
                 homepage: body.homepage,
@@ -54,7 +54,7 @@ exports.handler = function (log, body, end, fail, lock) {
             var file = projectsListPath(licensorID)
             var content = stringifyProjects([
               {
-                projectID: projectID,
+                projectID,
                 offered: new Date().toISOString(),
                 retracted: null
               }
@@ -74,7 +74,7 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error.userMessage) return fail(error.userMessage)
         return fail('internal error')
       }
-      end({ projectID: projectID })
+      end({ projectID })
       email(log, {
         to: process.env.OFFER_NOTIFICATION_EMAIL,
         subject: 'License Zero Project Offer',

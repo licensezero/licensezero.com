@@ -46,8 +46,8 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function offer (done) {
             apiRequest(port, {
               action: 'offer',
-              licensorID: licensorID,
-              token: token,
+              licensorID,
+              token,
               homepage: 'http://example.com',
               pricing: {
                 private: 500
@@ -121,7 +121,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function fetchBundle (done) {
             var pathname = /\/purchases\/[0-9a-f-]+/
               .exec(importPurchaseCommand)[0]
-            http.request({ port: port, path: pathname })
+            http.request({ port, path: pathname })
               .once('error', done)
               .once('response', function (response) {
                 simpleConcat(response, function (error, body) {
@@ -162,14 +162,14 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function offer (done) {
             apiRequest(port, {
               action: 'offer',
-              licensorID: licensorID,
-              token: token,
-              homepage: homepage,
+              licensorID,
+              token,
+              homepage,
               pricing: {
                 private: 500,
                 relicense: relicensePrice
               },
-              description: description,
+              description,
               terms: (
                 'I agree to the agency terms at ' +
                 'https://licensezero.com/terms/agency.'
@@ -185,7 +185,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function relicenseTheProject (done) {
             apiRequest(port, {
               action: 'sponsor',
-              projectID: projectID,
+              projectID,
               sponsor: SPONSOR_NAME,
               jurisdiction: SPONSOR_JURISDICTION,
               email: SPONSOR_EMAIL

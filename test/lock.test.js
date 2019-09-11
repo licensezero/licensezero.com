@@ -28,7 +28,7 @@ tape('lock', function (test) {
         unlock.setDate(unlock.getDate() + 8)
         apiRequest(port, {
           action: 'lock',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           unlock: unlock.toISOString()
@@ -41,7 +41,7 @@ tape('lock', function (test) {
       function decreasePrice (done) {
         apiRequest(port, {
           action: 'reprice',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {
@@ -56,7 +56,7 @@ tape('lock', function (test) {
       function tryToIncreasePrice (done) {
         apiRequest(port, {
           action: 'reprice',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {
@@ -74,7 +74,7 @@ tape('lock', function (test) {
       function tryToRetract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {

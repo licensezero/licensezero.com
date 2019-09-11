@@ -22,12 +22,12 @@ module.exports = function (data, callback) {
     mkdirp.bind(null, path.dirname(file)),
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'licenses',
-      orderID: orderID,
+      orderID,
       email: data.email,
       jurisdiction: data.jurisdiction,
       licensee: data.licensee,
       projects: data.projects,
-      total: total
+      total
     }))
   ], function (error) {
     if (error) return callback(error)

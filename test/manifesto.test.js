@@ -4,7 +4,7 @@ var tape = require('tape')
 
 tape('GET /manifesto', function (test) {
   server(function (port, close) {
-    http.request({ port: port, path: '/manifesto' })
+    http.request({ port, path: '/manifesto' })
       .once('error', function (error) {
         test.error(error, 'no error')
         finish()

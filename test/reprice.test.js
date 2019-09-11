@@ -26,7 +26,7 @@ tape('reprice', function (test) {
       function reprice (done) {
         apiRequest(port, {
           action: 'reprice',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {

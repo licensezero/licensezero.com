@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'test') {
             }
             var message = body.toString()
             log.error({
-              status: status,
+              status,
               body: message
             })
             return callback(message)

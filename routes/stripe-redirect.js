@@ -140,7 +140,7 @@ ${head('Registration')}
             fs.writeFile(
               licensorFile,
               JSON.stringify({
-                licensorID: licensorID,
+                licensorID,
                 name: nonceData.name,
                 email: nonceData.email,
                 jurisdiction: nonceData.jurisdiction,

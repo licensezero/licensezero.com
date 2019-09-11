@@ -126,7 +126,7 @@ tape('licensor w/ retracted project', function (test) {
           action: 'retract',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID
+          projectID
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')

@@ -18,7 +18,7 @@ module.exports = function (data, callback) {
     mkdirp.bind(null, path.dirname(file)),
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'relicense',
-      orderID: orderID,
+      orderID,
       project: data.project,
       sponsor: data.sponsor,
       jurisdiction: data.jurisdiction,

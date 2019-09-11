@@ -52,7 +52,7 @@ exports.handler = function (log, body, end, fail, lock) {
         jurisdiction: licensor.jurisdiction
       },
       project: {
-        projectID: projectID,
+        projectID,
         description: project.description,
         homepage: project.homepage
       },
@@ -78,10 +78,10 @@ exports.handler = function (log, body, end, fail, lock) {
             return fail('internal error')
           }
           end({
-            projectID: projectID,
-            manifest: manifest,
-            document: document,
-            signature: signature,
+            projectID,
+            manifest,
+            document,
+            signature,
             publicKey: licensor.publicKey
           })
         }

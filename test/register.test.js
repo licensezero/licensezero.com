@@ -88,7 +88,7 @@ tape.skip('confirmation w/ bad stripe code', function (test) {
       function (query, done) {
         var parsed = querystring.parse(query)
         http.request({
-          port: port,
+          port,
           path: '/stripe-redirect?' + querystring.stringify({
             scope: 'read_write',
             code: 'invalid code',

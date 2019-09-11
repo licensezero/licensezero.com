@@ -32,7 +32,7 @@ tape('public prosperity', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID,
+          projectID,
           terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
@@ -181,7 +181,7 @@ tape('public parity', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID,
+          projectID,
           terms: 'parity'
         }, function (error, response) {
           if (error) return done(error)
@@ -356,7 +356,7 @@ tape('public for retracted project', function (test) {
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -370,7 +370,7 @@ tape('public for retracted project', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID,
+          projectID,
           terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
@@ -410,7 +410,7 @@ tape('public charity', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: projectID,
+          projectID,
           terms: 'charity'
         }, function (error, response) {
           if (error) return done(error)

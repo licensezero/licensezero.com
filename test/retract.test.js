@@ -27,7 +27,7 @@ tape('retract', function (test) {
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID: projectID,
+          projectID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {

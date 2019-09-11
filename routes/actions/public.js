@@ -30,7 +30,7 @@ exports.handler = function (log, body, end, fail, lock) {
     var licenseData = {
       jurisdiction: project.licensor.jurisdiction,
       name: project.licensor.name,
-      projectID: projectID,
+      projectID,
       publicKey: project.licensor.publicKey,
       terms: body.terms,
       version: terms.version,
@@ -79,11 +79,11 @@ exports.handler = function (log, body, end, fail, lock) {
       end({
         version: '1.0.0',
         license: {
-          document: document,
+          document,
           licensorSignature: licensorLicenseSignature,
           agentSignature: agentLicenseSignature
         },
-        metadata: metadata
+        metadata
       })
     })
   })

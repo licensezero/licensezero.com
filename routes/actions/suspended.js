@@ -8,6 +8,6 @@ exports.handler = function (log, body, end, fail, lock) {
       log.error(error)
       return fail('internal error')
     }
-    end({ suspended: suspended })
+    end({ suspended })
   })
 }

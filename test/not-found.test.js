@@ -4,10 +4,7 @@ var tape = require('tape')
 
 tape('GET /nonexistent', function (test) {
   server(function (port, close) {
-    http.request({
-      port: port,
-      path: '/nonexistent'
-    })
+    http.request({ port, path: '/nonexistent' })
       .once('response', function (response) {
         test.equal(response.statusCode, 404, '404')
         finish()

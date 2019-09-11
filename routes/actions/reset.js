@@ -26,7 +26,7 @@ exports.handler = function (log, body, end, fail, lock) {
         function writeTokenFile (done) {
           var file = resetTokenPath(token)
           var content = {
-            licensorID: licensorID,
+            licensorID,
             date: new Date().toISOString()
           }
           runSeries([

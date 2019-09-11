@@ -14,10 +14,7 @@ module.exports = function (projectID, callback) {
       var file = licensorPath(project.licensor)
       readJSONFile(file, function (error, licensor) {
         if (error) return done(error)
-        done(null, {
-          licensor: licensor,
-          project: project
-        })
+        done(null, { licensor, project })
       })
     }
   ], function (error, results) {
