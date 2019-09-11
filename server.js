@@ -3,9 +3,7 @@ var pino = require('pino')
 // Create a Pino logger instance.
 var log = pino({ name: 'licensezero.com' })
 
-log.info('starting')
-
-log.info({ event: 'data', directory: process.env.DIRECTORY })
+log.info({ directory: process.env.DIRECTORY }, 'starting')
 
 // Check required environment variables.
 var requiredEnvironmentVariables = [
@@ -30,7 +28,6 @@ if (process.env.NODE_ENV !== 'test') {
 }
 requiredEnvironmentVariables.forEach(function (key) {
   if (!process.env[key]) {
-    console.error(key)
     log.error({ key: key }, 'missing environment variable')
     process.exit(1)
   }
@@ -53,7 +50,7 @@ process
 // Start the HTTP server.
 server.listen(process.env.PORT, function onListening () {
   var boundPort = this.address().port
-  log.info({ event: 'listening', port: boundPort })
+  log.info({ port: boundPort }, 'listening')
 })
 
 // Run a number of jobs in the background, cron-style.
@@ -73,13 +70,13 @@ jobs.forEach(function (job) {
 // Helper Functions
 
 function logSignalAndShutDown () {
-  log.info({ event: 'signal' })
+  log.info('signal')
   shutDown()
 }
 
 function shutDown () {
   server.close(function onClosed () {
-    log.info({ event: 'closed server' })
+    log.info('closed')
     process.exit()
   })
 }
