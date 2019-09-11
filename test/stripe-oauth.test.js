@@ -85,38 +85,44 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             })
           },
           function pay (done) {
-            var webdriver = require('./webdriver')
-            webdriver
-              .url('http://localhost:' + port + paymentLocation)
-              .waitForExist('iframe')
+            var browser
+            require('./webdriver')()
+              .then((loaded) => { browser = loaded })
+              .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
-              .element('iframe')
-              .then(function (response) {
-                return webdriver.frame(response.value)
-              })
-              .setValue('input[name="cardnumber"]', '4242 4242 4242 4242')
-              .setValue('input[name="exp-date"]', '10 / 31')
-              .setValue('input[name="cvc"]', '123')
-              .waitForExist('input[name="postal"]')
-              .setValue('input[name="postal"]', '12345')
-              .frameParent()
+              .then(() => browser.$('iframe'))
+              .then((frame) => browser.frame(frame))
+              .then(() => browser.$('input[name="cardnumber"]'))
+              .then((input) => input.setValue('4242 4242 4242 4242'))
+              .then(() => browser.$('input[name="exp-date"]'))
+              .then((input) => input.setValue('10 / 31'))
+              .then(() => browser.$('input[name="cvc"]'))
+              .then((input) => input.setValue('123'))
+              .then(() => browser.$('input[name="postal"]'))
+              .then((input) => input.setValue('12345'))
+              .then(() => browser.frameParent())
               // Terms
-              .scroll('input[name="terms"]')
-              .click('input[name="terms"]')
+              .then(() => browser.scroll('input[name="terms"]'))
+              .then(() => browser.$('input[name="terms"]'))
+              .then((input) => input.click())
               // Submit
-              .scroll('input[type="submit"]')
-              .click('input[type="submit"]')
-              .waitForExist('h1.thanks', 30000)
-              .getText('h1.thanks')
-              .then(function (text) {
-                test.equal(text, 'Thank You')
-              })
-              .getText('.import')
+              .then(() => browser.scroll('input[type="submit"]'))
+              .then(() => browser.$('input[type="submit"]'))
+              .then((element) => element.click())
+              .then(() => browser.$('h1.thanks'))
+              .then((input) => input.getText())
+              .then((text) => { test.equal(text, 'Thank You') })
+              .then(() => browser.$('.import'))
+              .then((element) => element.getText())
               .then(function (text) {
                 importPurchaseCommand = text
+                browser.deleteSession()
                 done()
               })
-              .catch(done)
+              .catch(function (error) {
+                browser.deleteSession()
+                done(error)
+              })
           },
           function fetchBundle (done) {
             var pathname = /\/purchases\/[0-9a-f-]+/
@@ -218,36 +224,36 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               }
             })
 
-            var webdriver = require('./webdriver')
-            webdriver
-              .url('http://localhost:' + port + paymentLocation)
-              .waitForExist('iframe')
+            var browser
+            require('./webdriver')()
+              .then((loaded) => { browser = loaded })
+              .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
-              .element('iframe')
-              .then(function (response) {
-                return webdriver.frame(response.value)
-              })
-              .catch(function (error) {
-                test.error(error)
-                done()
-              })
-              .setValue('input[name="cardnumber"]', '4242 4242 4242 4242')
-              .setValue('input[name="exp-date"]', '10 / 31')
-              .setValue('input[name="cvc"]', '123')
-              .waitForExist('input[name="postal"]')
-              .setValue('input[name="postal"]', '12345')
-              .frameParent()
-              .scroll('input[name="terms"]')
-              .click('input[name="terms"]')
-              .scroll('input[type="submit"]')
-              .click('input[type="submit"]')
-              .waitForExist('h1.thanks', 30000)
-              .getText('h1.thanks')
+              .then(() => browser.$('iframe'))
+              .then((iframe) => browser.frame(iframe))
+              .then(() => browser.$('input[name="cardnumber"]'))
+              .then((input) => input.setValue('4242 4242 4242 4242'))
+              .then(() => browser.$('input[name="exp-date"]'))
+              .then((input) => input.setValue('10 / 31'))
+              .then(() => browser.$('input[name="cvc"]'))
+              .then((input) => input.setValue('123'))
+              .then(() => browser.$('input[name="postal"]'))
+              .then((input) => input.setValue('12345'))
+              .then(() => browser.frameParent())
+              .then(() => browser.scroll('input[name="terms"]'))
+              .then(() => browser.$('input[name="terms"]'))
+              .then((element) => element.click())
+              .then(() => browser.$('input[type="submit"]'))
+              .then((input) => input.click())
+              .then(() => browser.$('h1.thanks'))
+              .then((h1) => h1.getText())
               .then(function (text) {
                 test.equal(text, 'Thank You')
+                browser.deleteSession()
                 twoPhaseDone()
               })
               .catch(function (error) {
+                browser.deleteSession()
                 test.error(error)
                 done()
               })
@@ -326,11 +332,14 @@ function withLicensor (port, test, callback) {
       })
     },
     function authorize (done) {
-      var webdriver = require('./webdriver')
-      webdriver.url(oauthLocation)
-        .waitForExist('=Skip this account form', 30000)
-        .click('=Skip this account form')
-        .getText('span.id')
+      var browser
+      require('./webdriver')()
+        .then((loaded) => { browser = loaded })
+        .then(() => browser.url(oauthLocation))
+        .then(() => browser.$('=Skip this account form'))
+        .then((element) => element.click())
+        .then(() => browser.$('span.id'))
+        .then((element) => element.getText())
         .then(function (text) {
           licensorID = text
         })
@@ -339,9 +348,13 @@ function withLicensor (port, test, callback) {
           token = text
         })
         .then(function () {
+          browser.deleteSession()
           done()
         })
-        .catch(done)
+        .catch(function (error) {
+          browser.deleteSession()
+          done(error)
+        })
     }
   ], function (error) {
     if (error) return callback(error)

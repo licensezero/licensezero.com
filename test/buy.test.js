@@ -60,32 +60,39 @@ tape.skip('buy', function (test) {
         })
       },
       function pay (done) {
-        var webdriver = require('./webdriver')
-        webdriver
-          .url('http://localhost:' + port + location)
-          .waitForExist('iframe')
+        var browser
+        require('./webdriver')()
+          .then((loaded) => { browser = loaded })
+          .then(() => browser.url('http://localhost:' + port + location))
           // Enter credit card.
-          .element('iframe')
-          .then(function (response) {
-            return webdriver.frame(response.value)
-          })
-          .setValue('input[name="cardnumber"]', '4242 4242 4242 4242')
-          .setValue('input[name="exp-date"]', '10 / 31')
-          .setValue('input[name="cvc"]', '123')
-          .waitForExist('input[name="postal"]')
-          .setValue('input[name="postal"]', '12345')
-          .frameParent()
+          .then(() => browser.$('iframe'))
+          .then((iframe) => browser.frame(iframe))
+          .then(() => browser.$('input[name="cardnumber"]'))
+          .then((input) => input.setvalue('4242 4242 4242 4242'))
+          .then(() => browser.$('input[name="exp-date"]'))
+          .then((input) => input.setvalue('10 / 31'))
+          .then(() => browser.$('input[name="cvc"]'))
+          .then((input) => input.setvalue('123'))
+          .then(() => browser.$('input[name="postal"]'))
+          .then((input) => input.setvalue('12345'))
+          .then(() => browser.frameParent())
           // Accept terms.
-          .click('input[name="terms"]')
+          .then(() => browser.$('input[name="terms"]'))
+          .then((input) => input.click())
           // Submit.
-          .click('input[type="submit"]')
-          .waitForExist('h1')
-          .getText('h1.thanks')
+          .then(() => browser.$('input[type="submit"]'))
+          .then((input) => input.click())
+          .then(() => browser.$('h1.thanks'))
+          .then((h1) => h1.getText())
           .then(function (text) {
             test.equal(text, 'Thank You')
+            browser.deleteSession()
             done()
           })
-          .catch(done)
+          .catch(function (error) {
+            browser.deleteSession()
+            done(error)
+          })
       }
     ], function (error) {
       test.error(error, 'no error')
@@ -188,21 +195,31 @@ tape('POST /buy', function (test) {
         })
       },
       function browse (done) {
-        require('./webdriver')
-          .url('http://localhost:' + port + '/ids/' + projectID)
-          .waitForExist('h2')
-          .setValue('#licensee', 'Larry Licensee')
-          .selectByIndex('#jurisdiction', 0)
-          .setValue('#email', 'licensee@test.com')
-          .click('#person')
-          .click('button[type="submit"]')
-          .waitForExist('iframe')
-          .getText('h2=Credit Card Payment')
+        var browser
+        require('./webdriver')()
+          .then((loaded) => { browser = loaded })
+          .then(() => browser.url('http://localhost:' + port + '/ids/' + projectID))
+          .then(() => browser.$('#licensee'))
+          .then((input) => input.setValue('Larry Licensee'))
+          .then(() => browser.$('#jurisdiction'))
+          .then((input) => input.setValue('US-CA'))
+          .then(() => browser.$('#email'))
+          .then((input) => input.setValue('licensee@test.com'))
+          .then(() => browser.$('#person'))
+          .then((input) => input.click())
+          .then(() => browser.$('button[type="submit"]'))
+          .then((button) => button.click())
+          .then(() => browser.$('h2=Credit Card Payment'))
+          .then((h2) => h2.getText())
           .then(function (text) {
             test.equal(text, 'Credit Card Payment', 'credit card')
+            browser.deleteSession()
             done()
           })
-          .catch(done)
+          .catch(function (error) {
+            browser.deleteSession()
+            done(error)
+          })
       }
     ], function (error) {
       test.error(error, 'no error')

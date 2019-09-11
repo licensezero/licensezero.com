@@ -99,18 +99,24 @@ tape('/project/{id}', function (test) {
         })
       },
       function browse (done) {
-        require('./webdriver')
-          .url('http://localhost:' + port + '/ids/' + projectID)
-          .waitForExist('h2')
-          .getText('.projectID')
+        var browser
+        require('./webdriver')()
+          .then((loaded) => { browser = loaded })
+          .then(() => browser.url('http://localhost:' + port + '/ids/' + projectID))
+          .then(() => browser.$('.projectID'))
+          .then((element) => element.getText())
           .then(function (text) {
             test.equal(
               text, projectID,
               'project ID'
             )
+            browser.deleteSession()
             done()
           })
-          .catch(done)
+          .catch(function (error) {
+            browser.deleteSession()
+            done(error)
+          })
       }
     ], function (error) {
       test.error(error, 'no error')

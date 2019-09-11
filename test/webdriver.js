@@ -1,45 +1,13 @@
-var spawn = require('child_process').spawn
-var path = require('path')
-var tape = require('tape')
+var webdriverio = require('webdriverio')
 
-tape.onFinish(cleanup)
+// See: https://webdriver.io/docs/runprogrammatically.html
 
-var chromedriver = spawn(
-  path.join(
-    __dirname, '..', 'node_modules', '.bin', 'chromedriver'
-  ),
-  ['--url-base=/wd/hub']
-)
-
-var webdriver = module.exports = require('webdriverio')
-  .remote({
+module.exports = function () {
+  return webdriverio.remote({
+    logLevel: 'error',
     host: 'localhost',
     port: 9515,
-    desiredCapabilities: {
-      browserName: 'chrome',
-      chromeOptions: process.env.DISABLE_HEADLESS
-        ? {}
-        : { args: ['headless', '--disable-gpu', '--window-size=850,1000'] }
-    }
+    path: '/',
+    capabilities: { browserName: 'chrome' }
   })
-  .init()
-  .timeouts('script', 1000)
-  .timeouts('implicit', 1000)
-
-process
-  .on('SIGTERM', cleanupAndExit)
-  .on('SIGQUIT', cleanupAndExit)
-  .on('SIGINT', cleanupAndExit)
-  .on('uncaughtException', cleanupAndExit)
-
-function cleanup () {
-  webdriver.end()
-  chromedriver.kill('SIGKILL')
 }
-
-function cleanupAndExit () {
-  cleanup()
-  process.exit(1)
-}
-
-webdriver.shutdown = cleanup

@@ -74,15 +74,21 @@ tape('reset link', function (test) {
         })
       },
       function visitResetPage (done) {
-        require('./webdriver')
-          .url('http://localhost:' + port + '/reset/' + resetToken)
-          .waitForExist('h1')
-          .getText('code.token')
+        var browser
+        require('./webdriver')()
+          .then((loaded) => { browser = loaded })
+          .then(() => browser.url('http://localhost:' + port + '/reset/' + resetToken))
+          .then(() => browser.$('code.token'))
+          .then((element) => element.getText())
           .then(function (text) {
             newToken = text
+            browser.deleteSession()
             done()
           })
-          .catch(done)
+          .catch(function (error) {
+            browser.deleteSession()
+            done(error)
+          })
       },
       function useNewToken (done) {
         apiRequest(port, {
