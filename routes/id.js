@@ -21,7 +21,7 @@ module.exports = function (request, response) {
     return notFound(request, response, error)
   }
   readProject(projectID, function (error, project) {
-    if (error) return notFound(response, error)
+    if (error) return notFound(request, response, error)
     sanitizeProject(project)
     var licensor = project.licensor
     var jurisdiction = iso31662.subdivision(licensor.jurisdiction)
