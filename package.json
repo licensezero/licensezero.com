@@ -45,7 +45,7 @@
     "strip-ansi": "^5.2.0",
     "stripe": "^7.9.0",
     "url-parse": "^1.4.7",
-    "uuid": "^3.3.2",
+    "uuid": "^3.3.3",
     "xtend": "^4.0.2"
   },
   "devDependencies": {
