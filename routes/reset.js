@@ -29,10 +29,10 @@ function get (request, response) {
   var resetTokenFile = resetTokenPath(token)
   readJSONFile(resetTokenFile, function (error, tokenData) {
     if (error) {
-      if (error.code === 'ENOENT') return notFound(response)
+      if (error.code === 'ENOENT') return tokenNotFound(response)
       return internalError(request, response, error)
     }
-    if (expired(tokenData.date)) return notFound(response)
+    if (expired(tokenData.date)) return tokenNotFound(response)
     fs.unlink(resetTokenFile, function (error) {
       if (error) return internalError(request, response, error)
       var token = generateToken()
@@ -74,7 +74,7 @@ function expired (created) {
   return (new Date() - new Date(created)) > ONE_DAY
 }
 
-function notFound (response) {
+function tokenNotFound (response) {
   response.statusCode = 404
   response.setHeader('Content-Type', 'text/html')
   response.end(html`

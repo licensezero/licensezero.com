@@ -51,17 +51,17 @@ module.exports = function (request, response) {
   var method = request.method
   if (method === 'GET' || method === 'POST') {
     var orderID = request.parameters.order
-    if (!UUID_RE.test(orderID)) return notFound(response)
+    if (!UUID_RE.test(orderID)) return purchaseNotFound(response)
     var file = orderPath(orderID)
     return readJSONFile(file, function (error, order) {
       if (error) {
-        if (error.code === 'ENOENT') return notFound(response)
+        if (error.code === 'ENOENT') return purchaseNotFound(response)
         return internalError(request, response, error)
       }
       request.log.info(order)
       if (expired(order.date)) {
         request.log.info('expired')
-        return notFound(response)
+        return purchaseNotFound(response)
       }
       (method === 'GET' ? get : post)(request, response, order)
     })
@@ -870,7 +870,7 @@ function batchTransactions (projects) {
   return returned
 }
 
-function notFound (response) {
+function purchaseNotFound (response) {
   response.statusCode = 404
   response.setHeader('Content-Type', 'text/html')
   response.end(html`
