@@ -9,6 +9,7 @@ var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 // Create a Pino logger instance.
 var log = pino({ name: 'licensezero.com' })
 
+log.info('starting')
 log.info({ event: 'data', directory: process.env.DIRECTORY })
 
 // Check required environment variables.
