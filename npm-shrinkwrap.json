@@ -2998,15 +2998,16 @@
       }
     },
     "licensee": {
-      "version": "7.0.2",
-      "resolved": "https://registry.npmjs.org/licensee/-/licensee-7.0.2.tgz",
-      "integrity": "sha512-U30RSe5DI7HfKGM2LNgt/5QP7QEk4leKcRTp/6PorHHDeAoFsZn7SGwR/MKgP3xdk6cTD+G3SBdYwQGcZ1zPfA==",
+      "version": "7.0.3",
+      "resolved": "https://registry.npmjs.org/licensee/-/licensee-7.0.3.tgz",
+      "integrity": "sha512-Rdwk+y+nOzkTKz68Gj0OOIy7ISkw+JJzSpn37hfHOXT6swkGfnKEt9+jRolWIFONiIhwv+W5E8K/pnXBfWLewQ==",
       "dev": true,
       "requires": {
         "@blueoak/list": "^1.0.2",
         "correct-license-metadata": "^1.0.1",
         "docopt": "^0.6.2",
         "fs-access": "^2.0.0",
+        "has": "^1.0.3",
         "json-parse-errback": "^2.0.1",
         "npm-license-corrections": "^1.0.0",
         "read-package-tree": "^5.2.1",
@@ -3020,9 +3021,9 @@
       },
       "dependencies": {
         "semver": {
-          "version": "6.2.0",
-          "resolved": "https://registry.npmjs.org/semver/-/semver-6.2.0.tgz",
-          "integrity": "sha512-jdFC1VdUGT/2Scgbimf7FSx9iJLXoqfglSF+gJeuNWVpiE37OIbc1jywR/GJyFdz3mnkz2/id0L0J/cr0izR5A==",
+          "version": "6.3.0",
+          "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz",
+          "integrity": "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==",
           "dev": true
         },
         "spdx-expression-parse": {
@@ -4715,9 +4716,9 @@
       "dev": true
     },
     "spdx-ranges": {
-      "version": "2.1.0",
-      "resolved": "https://registry.npmjs.org/spdx-ranges/-/spdx-ranges-2.1.0.tgz",
-      "integrity": "sha512-OOWghvosfmECc9edy/A9j7GabERmn8bJWHc0J1knVytQtO5Rw7VfxK6CDqmivJhfMJqWhWWUfffNNMPYvyvyQA==",
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/spdx-ranges/-/spdx-ranges-2.1.1.tgz",
+      "integrity": "sha512-mcdpQFV7UDAgLpXEE/jOMqvK4LBoO0uTQg0uvXUewmEFhpiZx5yJSZITHB8w1ZahKdhfZqP5GPEOKLyEq5p8XA==",
       "dev": true
     },
     "spdx-whitelisted": {
