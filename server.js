@@ -1,15 +1,10 @@
-var http = require('http')
-var makeHandler = require('./')
 var pino = require('pino')
-var schedule = require('node-schedule')
-var sweepOrders = require('./jobs/delete-expired-orders')
-var sweepPurchases = require('./jobs/delete-expired-purchases')
-var sweepResetTokens = require('./jobs/delete-expired-reset-tokens')
 
 // Create a Pino logger instance.
 var log = pino({ name: 'licensezero.com' })
 
 log.info('starting')
+
 log.info({ event: 'data', directory: process.env.DIRECTORY })
 
 // Check required environment variables.
@@ -42,8 +37,8 @@ requiredEnvironmentVariables.forEach(function (key) {
 })
 
 // Create the HTTP server.
-var requestHandler = makeHandler(log)
-var server = http.createServer(requestHandler)
+var requestHandler = require('./')(log)
+var server = require('http').createServer(requestHandler)
 
 // Trap signals.
 process
@@ -62,7 +57,12 @@ server.listen(process.env.PORT, function onListening () {
 })
 
 // Run a number of jobs in the background, cron-style.
-var jobs = [sweepOrders, sweepResetTokens, sweepPurchases]
+var schedule = require('node-schedule')
+var jobs = [
+  require('./jobs/delete-expired-orders'),
+  require('./jobs/delete-expired-purchases'),
+  require('./jobs/delete-expired-reset-tokens')
+]
 jobs.forEach(function (job) {
   job(log, function () { })
   schedule.scheduleJob('0 * * * *', function () {
