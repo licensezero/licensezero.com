@@ -3,7 +3,8 @@ var head = require('./partials/head')
 var html = require('./html')
 var nav = require('./partials/nav')
 
-module.exports = /* istanbul ignore next */ function (response, error) {
+module.exports = /* istanbul ignore next */ function (request, response, error) {
+  if (error) request.log.error(error)
   response.statusCode = 500
   response.setHeader('Content-Type', 'text/html')
   response.end(html`

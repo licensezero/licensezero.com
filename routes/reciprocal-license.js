@@ -17,10 +17,7 @@ module.exports = function (request, response) {
     name: '{Licensor Name}',
     homepage: '{https://example.com/project}'
   }, function (error, document) {
-    if (error) {
-      request.log.error(error)
-      return internalError(response, error)
-    }
+    if (error) return internalError(request, response, error)
     response.setHeader('Content-Type', 'text/html')
     response.end(html`
 <!doctype html>

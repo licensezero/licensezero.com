@@ -30,15 +30,11 @@ function get (request, response) {
   readJSONFile(resetTokenFile, function (error, tokenData) {
     if (error) {
       if (error.code === 'ENOENT') return notFound(response)
-      request.log.error(error)
-      return internalError(response)
+      return internalError(request, response, error)
     }
     if (expired(tokenData.date)) return notFound(response)
     fs.unlink(resetTokenFile, function (error) {
-      if (error) {
-        request.log.error(error)
-        return internalError(response)
-      }
+      if (error) return internalError(request, response, error)
       var token = generateToken()
       var licensorID = tokenData.licensorID
       lock(licensorID, function (release) {
@@ -51,10 +47,7 @@ function get (request, response) {
             }, done)
           }
         ], release(function (error) {
-          if (error) {
-            request.log.error(error)
-            return internalError(response)
-          }
+          if (error) return internalError(request, response, error)
           response.setHeader('Content-Type', 'text/html')
           response.end(html`
 <!doctype html>

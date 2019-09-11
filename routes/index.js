@@ -173,5 +173,5 @@ routes.set('/security-pgp-key.txt', function (request, response) {
 
 var internalError = require('./internal-error')
 routes.set('/500', function (request, response) {
-  internalError(response, new Error('Error for test purposes.'))
+  internalError(request, response, new Error('Error for test purposes.'))
 })

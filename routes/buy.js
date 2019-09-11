@@ -43,10 +43,7 @@ function post (request, response) {
   parser.once('finish', function () {
     request.log.info('finished parsing body')
     invokeAction(request.log, orderAction, data, function (error, result) {
-      if (error) {
-        request.log.error(error)
-        return internalError(response, error)
-      }
+      if (error) return internalError(request, response, error)
       response.statusCode = 303
       response.setHeader('Location', result.location)
       response.end()

@@ -21,7 +21,7 @@ module.exports = function makeRequestHandler (log) {
       }
       notFound(request, response)
     } catch (error) {
-      internalError(response, error)
+      internalError(request, response, error)
     }
   }
 }

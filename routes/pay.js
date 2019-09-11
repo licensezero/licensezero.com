@@ -56,8 +56,7 @@ module.exports = function (request, response) {
     return readJSONFile(file, function (error, order) {
       if (error) {
         if (error.code === 'ENOENT') return notFound(response)
-        request.log.error(error)
-        return internalError(response)
+        return internalError(request, response, error)
       }
       request.log.info(order)
       if (expired(order.date)) {

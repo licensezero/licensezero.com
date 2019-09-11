@@ -12,7 +12,7 @@ module.exports = function (request, response) {
   response.setHeader('Content-Type', 'text/html; charset=UTf-8')
   var markdownFile = path.join(__dirname, 'commitment.md')
   fs.readFile(markdownFile, 'utf8', function (error, markdown) {
-    if (error) return internalError(response, error)
+    if (error) return internalError(request, response, error)
     response.end(html`
 <!doctype html>
 <html lang=EN>
