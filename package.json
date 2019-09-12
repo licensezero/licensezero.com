@@ -63,6 +63,7 @@
   },
   "scripts": {
     "build:credits": "cp credits.txt.header static/credits.txt ; creditstxt >> static/credits.txt",
+    "precoverage": "chromedriver >/dev/null &",
     "coverage": "NODE_ENV=test istanbul cover -- tape test/*.test.js",
     "depcheck": "depcheck --ignores husky,chromedriver,lint-staged,standard,licensee,npm-authors-contributors,reformat-json-files,creditstxt",
     "postcoverage": "istanbul check --statements 100 --functions 100 --branches 100 --lines 100",
