@@ -83,7 +83,7 @@ function tokenNotFound (response) {
 <head>
   <meta charset=UTF-8>
   <title>License Zero | Token Reset</title>
-  <link rel=stylesheet href=/normalize.css>
+  <link rel=stylesheet href=https://static.licensezero.com/normalize.css>
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>

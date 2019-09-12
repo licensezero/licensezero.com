@@ -2,7 +2,7 @@ var http = require('http')
 var server = require('./server')
 var tape = require('tape')
 
-var FILES = ['logo.svg', 'vending-machine.svg']
+var FILES = ['logo.svg', 'vending-machine.svg', 'normalize.css']
 FILES.forEach(function (file) {
   tape('GET /' + file, function (test) {
     server(function (port, close) {

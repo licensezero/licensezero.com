@@ -100,7 +100,6 @@ routes.set('/clipboard.min.js', function (request, response) {
   )
 })
 
-staticFile('normalize.css')
 staticFile('styles.css')
 staticFile('licensee.gif')
 staticFile('doors.svg')
@@ -173,6 +172,7 @@ routes.set('/500', function (request, response) {
 
 var STATIC = 'https://static.licensezero.com'
 var MOVED_TO_STATIC = [
+  'normalize.css',
   'logo-100.png',
   'logo-on-white-100.png',
   'logo.svg',

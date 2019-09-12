@@ -2,7 +2,6 @@ var http = require('http')
 var server = require('./server')
 var tape = require('tape')
 
-testCSS('normalize.css')
 testCSS('styles.css')
 
 function testCSS (file) {

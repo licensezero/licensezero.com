@@ -7,7 +7,7 @@ module.exports = function (subtitle, twitterData) {
   <meta charset=UTF-8>
   <meta name=viewport content="width=725">
   <title>License Zero${subtitle && escape(' // ' + subtitle)}</title>
-  <link rel=stylesheet href=/normalize.css>
+  <link rel=stylesheet href=https://static.licensezero.com/normalize.css>
   <link rel=stylesheet href=/styles.css>
   <link rel=credits href=/credits.txt>
   ${twitterData && twitterCard(twitterData)}
