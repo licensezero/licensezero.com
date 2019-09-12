@@ -19,7 +19,7 @@ var SPONSOR_NAME = 'Larry Licensee'
 var options = {
   skip: (
     !has(process.env, 'STRIPE_SECRET_KEY') ||
-    !has(process.env, 'STRIPE_SHAREABLE_KEY') ||
+    !has(process.env, 'STRIPE_PUBLISHABLE_KEY') ||
     !has(process.env, 'STRIPE_CLIENT_ID')
   )
 }
