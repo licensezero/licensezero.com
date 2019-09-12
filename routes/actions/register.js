@@ -63,7 +63,7 @@ exports.handler = function (log, body, end, fail) {
           [
             'To prevent License Zero messages',
             'from going to your junk mail folder,',
-            'add ' + process.env.MAILGUN_FRONT,
+            'add ' + process.env.MAILGUN_FROM,
             'to your address book.'
           ]
         ]
