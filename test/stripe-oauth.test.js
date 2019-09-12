@@ -24,7 +24,7 @@ var options = {
   )
 }
 
-tape('Stripe OAuth connect, register, license', options, function (suite) {
+tape.only('Stripe OAuth connect, register, license', options, function (suite) {
   server(8080, function (port, close) {
     withLicensor(port, suite, function (error, licensorID, token) {
       if (error) {
@@ -91,26 +91,28 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
               .then(() => browser.$('iframe'))
-              .then((frame) => browser.frame(frame))
+              .then((frame) => browser.switchToFrame(frame))
               .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => input.setValue('4242 4242 4242 4242'))
+              .then((input) => input.setValue('4242424242424242'))
               .then(() => browser.$('input[name="exp-date"]'))
               .then((input) => input.setValue('10 / 31'))
               .then(() => browser.$('input[name="cvc"]'))
               .then((input) => input.setValue('123'))
               .then(() => browser.$('input[name="postal"]'))
               .then((input) => input.setValue('12345'))
-              .then(() => browser.frameParent())
+              .then(() => browser.switchToParentFrame())
               // Terms
-              .then(() => browser.scroll('input[name="terms"]'))
+              .then(() => browser.$('input[name="terms"]'))
+              .then((input) => input.scrollIntoView())
               .then(() => browser.$('input[name="terms"]'))
               .then((input) => input.click())
               // Submit
-              .then(() => browser.scroll('input[type="submit"]'))
+              .then(() => browser.$('input[type="submit"]'))
+              .then((input) => input.scrollIntoView())
               .then(() => browser.$('input[type="submit"]'))
               .then((element) => element.click())
               .then(() => browser.$('h1.thanks'))
-              .then((input) => input.getText())
+              .then((h1) => h1.getText())
               .then((text) => { test.equal(text, 'Thank You') })
               .then(() => browser.$('.import'))
               .then((element) => element.getText())
@@ -230,17 +232,18 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
               .then(() => browser.$('iframe'))
-              .then((iframe) => browser.frame(iframe))
+              .then((iframe) => browser.switchToFrame(iframe))
               .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => input.setValue('4242 4242 4242 4242'))
+              .then((input) => input.setValue('4242424242424242'))
               .then(() => browser.$('input[name="exp-date"]'))
               .then((input) => input.setValue('10 / 31'))
               .then(() => browser.$('input[name="cvc"]'))
               .then((input) => input.setValue('123'))
               .then(() => browser.$('input[name="postal"]'))
               .then((input) => input.setValue('12345'))
-              .then(() => browser.frameParent())
-              .then(() => browser.scroll('input[name="terms"]'))
+              .then(() => browser.switchToParentFrame())
+              .then(() => browser.$('input[name="terms"]'))
+              .then((input) => input.scrollIntoView())
               .then(() => browser.$('input[name="terms"]'))
               .then((element) => element.click())
               .then(() => browser.$('input[type="submit"]'))
@@ -343,7 +346,8 @@ function withLicensor (port, test, callback) {
         .then(function (text) {
           licensorID = text
         })
-        .getText('code.token')
+        .then(() => browser.$('code.token'))
+        .then((code) => code.getText())
         .then(function (text) {
           token = text
         })
