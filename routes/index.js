@@ -102,9 +102,6 @@ routes.set('/clipboard.min.js', function (request, response) {
 
 staticFile('normalize.css')
 staticFile('styles.css')
-staticFile('logo-100.png')
-staticFile('logo-on-white-100.png')
-staticFile('logo.svg')
 staticFile('vending-machine.svg')
 staticFile('out-of-order.svg')
 staticFile('licensee.gif')

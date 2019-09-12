@@ -20,7 +20,7 @@ module.exports = function (subtitle, twitterData) {
 function twitterCard (data) {
   var returned = ''
   returned += '<meta name="twitter:card" content="summary">'
-  returned += '<meta name="twitter:image" content="https://licensezero.com/logo-on-white-100.png">'
+  returned += '<meta name="twitter:image" content="https://static.licensezero.com/logo-on-white-100.png">'
   returned += '<meta name="twitter:site" content="@licensezero">'
   if (data.title) {
     returned += `<meta name ="twitter:title" content="${escape(data.title)}">`
@@ -34,7 +34,7 @@ function twitterCard (data) {
 function openGraphMetadata (data) {
   var returned = ''
   returned += '<meta name="og:type" content="website">'
-  returned += '<meta name="og:image" content="https://licensezero.com/logo-on-white-100.png">'
+  returned += '<meta name="og:image" content="https://static.licensezero.com/logo-on-white-100.png">'
   returned += '<meta name="og:site_name" content="License Zero">'
   if (data.title) {
     returned += `<meta name ="og:title" content="${escape(data.title)}">`
