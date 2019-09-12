@@ -170,3 +170,21 @@ var internalError = require('./internal-error')
 routes.set('/500', function (request, response) {
   internalError(request, response, new Error('Error for test purposes.'))
 })
+
+var STATIC = 'https://static.licensezero.com'
+var MOVED_TO_STATIC = [
+  'logo-100.png',
+  'logo-on-white-100.png',
+  'logo.svg',
+  'out-of-order.svg',
+  'vending-machine.svg'
+]
+
+MOVED_TO_STATIC.forEach(function (file) {
+  var location = STATIC + '/' + file
+  routes.set('/' + file, function (request, response) {
+    response.statusCode = 301
+    response.setHeader('Location', location)
+    response.end(`<a href="${location}">${location}</a>`)
+  })
+})
