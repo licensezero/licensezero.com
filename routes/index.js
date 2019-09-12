@@ -47,8 +47,10 @@ routes.set('/licenses/parity/:version', function (request, response) {
     response.end()
     return
   }
-  var filePath = path.join(__dirname, '..', 'static', `parity-${version}.txt`)
-  pump(send(request, filePath), response)
+  response.statusCode = 303
+  var location = 'https://paritylicense.com/versions/' + version
+  response.setHeader('Location', location)
+  response.end(`<a href="${location}">${location}</a>`)
 })
 routes.set('/licenses/charity', require('./charity-license'))
 routes.set('/licenses/prosperity', require('./prosperity-license'))
