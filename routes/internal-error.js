@@ -14,7 +14,7 @@ ${head('Error')}
 <body>
   ${nav()}
   <main>
-    <img class=machine src=/out-of-order.svg alt="Out of Order">
+    <img class=machine src=https://static.licensezero.com/out-of-order.svg alt="Out of Order">
     <h1>Server Error</h2>
     <p>The website ran into an unexpected technical error.</p>
     <p>This is definitely <em>not</em> your fault.</p>
