@@ -921,6 +921,11 @@ function technicalError (request, response, error, paragraphs) {
   request.log.error(error)
   response.statusCode = 500
   response.setHeader('Content-Type', 'text/html')
+  var message = paragraphs
+    .map(function (string) {
+      return `<p>${escape(string)}</p>`
+    })
+    .join('')
   response.end(html`
 <!doctype html>
 <html lang=en>
@@ -928,10 +933,7 @@ ${head('Technical Error')}
 <body>
   ${nav()}
   ${header('Technical Error')}
-  <main>
-    <p>
-    </p>
-  </main>
+  <main>${message}</main>
   ${footer()}
 </body>
 </html>
