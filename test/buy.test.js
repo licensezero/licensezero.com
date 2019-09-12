@@ -10,6 +10,14 @@ var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
 tape.skip('buy', function (test) {
+  if (
+    !process.env.STRIPE_PUBLISHABLE_KEY ||
+    !process.env.STRIPE_SECRET_KEY
+  ) {
+    test.fail('No Stripe environment variables.')
+    return test.end()
+  }
+
   server(function (port, close) {
     var firstProject
     var secondProject
@@ -66,22 +74,24 @@ tape.skip('buy', function (test) {
           .then(() => browser.url('http://localhost:' + port + location))
           // Enter credit card.
           .then(() => browser.$('iframe'))
-          .then((iframe) => browser.frame(iframe))
+          .then((iframe) => browser.switchToFrame(iframe))
           .then(() => browser.$('input[name="cardnumber"]'))
-          .then((input) => input.setvalue('4242 4242 4242 4242'))
+          .then((input) => input.setValue('4242 4242 4242 4242'))
           .then(() => browser.$('input[name="exp-date"]'))
-          .then((input) => input.setvalue('10 / 31'))
+          .then((input) => input.setValue('10 / 31'))
           .then(() => browser.$('input[name="cvc"]'))
-          .then((input) => input.setvalue('123'))
+          .then((input) => input.setValue('123'))
           .then(() => browser.$('input[name="postal"]'))
-          .then((input) => input.setvalue('12345'))
-          .then(() => browser.frameParent())
+          .then((input) => input.setValue('12345'))
+          .then(() => browser.switchToParentFrame())
           // Accept terms.
           .then(() => browser.$('input[name="terms"]'))
           .then((input) => input.click())
           // Submit.
           .then(() => browser.$('input[type="submit"]'))
           .then((input) => input.click())
+          .then(() => browser.$('h1.thanks'))
+          .then((h1) => h1.waitForExist())
           .then(() => browser.$('h1.thanks'))
           .then((h1) => h1.getText())
           .then(function (text) {
