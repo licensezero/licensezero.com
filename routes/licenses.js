@@ -78,11 +78,6 @@ ${head('Licenses', {
         a form contract between a License Zero and a developer
         for sponsored relicensing of a project onto permissive terms
       </dd>
-      <dt><a href=/licenses/charity>Charity Public License</a></dt>
-      <dd>
-        a short, modern, permissive open source license without
-        conditions to share back or limit commercial use
-      </dd>
     </dl>
     <h2 id=quotes>Quotes</h2>
     <p>
