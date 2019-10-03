@@ -43,7 +43,7 @@
     "split2": "^3.1.1",
     "string.prototype.padstart": "^3.0.0",
     "strip-ansi": "^5.2.0",
-    "stripe": "^7.9.0",
+    "stripe": "^7.9.1",
     "url-parse": "^1.4.7",
     "uuid": "^3.3.3",
     "xtend": "^4.0.2"
