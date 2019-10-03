@@ -65,7 +65,7 @@ exports.handler = function (log, body, end, fail) {
             'from going to your junk mail folder,',
             'add ' + process.env.MAILGUN_FROM,
             'to your address book.'
-          ]
+          ].join('\n')
         ]
       })
     ])
