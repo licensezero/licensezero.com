@@ -73,7 +73,7 @@ ${head('Registration')}
       },
       function deleteNonceFile (read, done) {
         fs.unlink(nonceFile, function (error) {
-          request.log.error(error)
+          if (error) request.log.error(error)
           done(null, read)
         })
       },
