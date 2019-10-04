@@ -33,6 +33,7 @@ var readJSONFile = require('../data/read-json-file')
 var recordAcceptance = require('../data/record-acceptance')
 var recordSignature = require('../data/record-signature')
 var relicenseAgreement = require('../forms/relicense-agreement')
+var renderJurisdiction = require('./partials/jurisdiction')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
@@ -115,8 +116,8 @@ ${head(action)}
   <h2>Licensee</h2>
   <dl>
     <dt>Legal Name</dt><dd>${escape(order.licensee)}</dd>
-    <dt>Jurisdiction</dt><dd>[${escape(order.jurisdiction)}]</dd>
-    <dt>E-Mail</dt><dd>[${escape(order.email)}]</dd>
+    <dt>Jurisdiction</dt><dd>${renderJurisdiction(order.jurisdiction)}</dd>
+    <dt>E-Mail</dt><dd>${escape(order.email)}</dd>
   </dl>
 </section>
 <section>
@@ -142,7 +143,7 @@ ${head(action)}
             </p>
             <p>
               ${escape(project.licensor.name)}
-              [${escape(project.licensor.jurisdiction)}]
+              (${renderJurisdiction(project.licensor.jurisdiction)})
             </p>
             <p>
               Terms:
@@ -177,8 +178,8 @@ ${head(action)}
   <h2>Sponsor</h2>
   <dl>
     <dt>Legal Name</dt><dd>${escape(order.sponsor)}</dd>
-    <dt>Jurisdiction</dt><dd>[${escape(order.jurisdiction)}]</dd>
-    <dt>E-Mail</dt><dd>[${escape(order.email)}]</dd>
+    <dt>Jurisdiction</dt><dd>${renderJurisdiction(order.jurisdiction)}</dd>
+    <dt>E-Mail</dt><dd>${escape(order.email)}</dd>
   </dl>
 </section>
 <section>
@@ -202,7 +203,7 @@ ${head(action)}
           </p>
           <p>
             ${escape(project.licensor.name)}
-            [${escape(project.licensor.jurisdiction)}]
+            (${renderJurisdiction(project.licensor.jurisdiction)})
           </p>
           <p>
             Terms: <a
