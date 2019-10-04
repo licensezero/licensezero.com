@@ -11,7 +11,6 @@ var requiredEnvironmentVariables = [
   'STRIPE_PUBLISHABLE_KEY',
   'STRIPE_SECRET_KEY',
   'STRIPE_WEBHOOK_SECRET',
-  'STRIPE_APPLICATION',
   'STRIPE_CLIENT_ID',
   'DIRECTORY',
   'PORT',
@@ -32,6 +31,20 @@ requiredEnvironmentVariables.forEach(function (key) {
     process.exit(1)
   }
 })
+if (process.env.NODE_ENV !== 'test') {
+  var prefixes = {
+    STRIPE_PUBLISHABLE_KEY: 'pk_live_',
+    STRIPE_SECRET_KEY: 'sk_live_',
+    STRIPE_CLIENT_ID: 'ca_'
+  }
+  Object.keys(prefixes).forEach(function (key) {
+    var prefix = prefixes[key]
+    if (!process.env[key].starsWith(prefix)) {
+      log.error('invalid ' + key)
+      process.exit(1)
+    }
+  })
+}
 
 // Create the HTTP server.
 var requestHandler = require('./')(log)
