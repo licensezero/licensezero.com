@@ -39,7 +39,7 @@ if (process.env.NODE_ENV !== 'test') {
   }
   Object.keys(prefixes).forEach(function (key) {
     var prefix = prefixes[key]
-    if (!process.env[key].starsWith(prefix)) {
+    if (!process.env[key].startsWith(prefix)) {
       log.error('invalid ' + key)
       process.exit(1)
     }
