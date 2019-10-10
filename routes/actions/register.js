@@ -48,11 +48,10 @@ exports.handler = function (log, body, end, fail) {
         to: body.email,
         subject: 'Register as a licensezero.com Licensor',
         text: [
-          [
-            'To register as a licensor through',
-            'licensezero.com, follow this link',
-            'to connect your Stripe account:'
-          ].join('\n'),
+          'To register as a licensor through',
+          'licensezero.com, follow this link',
+          'to connect your Stripe account:',
+          '',
           'https://connect.stripe.com/oauth/authorize?' +
           querystring.stringify({
             response_type: 'code',
@@ -60,13 +59,12 @@ exports.handler = function (log, body, end, fail) {
             scope: 'read_write',
             state: nonce
           }),
-          [
-            'To prevent License Zero messages',
-            'from going to your junk mail folder,',
-            'add ' + process.env.MAILGUN_FROM,
-            'to your address book.'
-          ].join('\n')
-        ]
+          '',
+          'To prevent License Zero messages',
+          'from going to your junk mail folder,',
+          'add ' + process.env.MAILGUN_FROM,
+          'to your address book.'
+        ].join('\n')
       })
     ])
   ], function (error) {

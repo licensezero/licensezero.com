@@ -162,13 +162,11 @@ ${head('Registration')}
             to: process.env.REGISTRATION_NOTIFICATION_EMAIL,
             subject: 'Licensor Registration',
             text: [
-              [
-                'id: ' + licensorID,
-                'name: ' + nonceData.name,
-                'email: ' + nonceData.email,
-                'jurisdiction: ' + nonceData.jurisdiction
-              ].join('\n')
-            ]
+              'id: ' + licensorID,
+              'name: ' + nonceData.name,
+              'email: ' + nonceData.email,
+              'jurisdiction: ' + nonceData.jurisdiction
+            ].join('\n\n')
           }, function (error) {
             if (error) request.log.error(error)
           })
@@ -188,24 +186,19 @@ ${head('Registration')}
               to: address,
               subject: 'Licensor Registration',
               text: [
-                [
-                  'Thank you for registering as a licensor',
-                  'though licensezero.com.'
-                ].join('\n'),
-                [
-                  'Your unique licensor ID is:',
-                  licensorID
-                ].join('\n'),
-                [
-                  'License Zero will use the following',
-                  'Ed25519 public key to sign licenses',
-                  'sold on your behalf:'
-                ].join('\n'),
-                [
-                  publicKey.slice(0, 32),
-                  publicKey.slice(32)
-                ].join('\n')
-              ],
+                'Thank you for registering as a licensor',
+                'though licensezero.com.',
+                '',
+                'Your unique licensor ID is:',
+                licensorID,
+                '',
+                'License Zero will use the following',
+                'Ed25519 public key to sign licenses',
+                'sold on your behalf:',
+                '',
+                publicKey.slice(0, 32),
+                publicKey.slice(32)
+              ].join('\n'),
               terms: (
                 'Terms of Service\n\n' +
                 stripANSI(

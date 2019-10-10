@@ -263,7 +263,7 @@ tape.only('Stripe OAuth connect, register, license', options, function (suite) {
           },
           function checkAgreementEmail (done) {
             var message = agreementMessage
-            var text = agreementMessage.text.join('\n\n')
+            var text = agreementMessage.text
             test.assert(text.includes(formattedPrice), 'e-mail shows price')
             test.equal(message.to, SPONSOR_EMAIL, 'e-mail to sponsor')
             test.equal(message.cc, LICENSOR_EMAIL, 'e-mail cc licensor')
@@ -285,7 +285,7 @@ tape.only('Stripe OAuth connect, register, license', options, function (suite) {
           },
           function checkLicensorNotification (done) {
             var message = notificationMessage
-            var text = notificationMessage.text.join('\n\n')
+            var text = notificationMessage.text
             test.assert(text.includes(formattedPrice), 'notification price')
             test.equal(message.to, LICENSOR_EMAIL, 'notification to licensor')
             test.assert(text.includes(projectID), 'notification project ID')
@@ -310,7 +310,7 @@ function withLicensor (port, test, callback) {
   runSeries([
     function register (done) {
       email.events.once('message', function (message) {
-        message.text.forEach(function (line) {
+        message.text.split('\n').forEach(function (line) {
           if (line.indexOf('https://connect.stripe.com') === 0) {
             oauthLocation = line
           }

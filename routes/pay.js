@@ -438,22 +438,28 @@ function post (request, response, order) {
                             to: order.email,
                             bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                             subject: 'License Zero Receipt and License File',
-                            text: []
-                              .concat([
-                                'Thank you for buying a license through ' +
-                                'licensezero.com.',
-                                'Order ID: ' + order.orderID,
-                                'Total: ' + priceColumn(project.price),
-                                'Attached is a License Zero license file for:'
-                              ])
-                              .concat([
-                                'Licensee:     ' + order.licensee,
-                                'Jurisdiction: ' + order.jurisdiction,
-                                'E-Mail:       ' + order.email,
-                                'Project:      ' + project.projectID,
-                                'Description:  ' + project.description,
-                                'Homepage:   ' + project.homepage
-                              ].join('\n')),
+                            text: [
+                              'Thank you for buying a license through ' +
+                              'licensezero.com.',
+                              '',
+                              'Order ID: ' + order.orderID,
+                              '',
+                              'Total: ' + priceColumn(project.price),
+                              '',
+                              'Attached is a License Zero license file for:',
+                              '',
+                              'Licensee:     ' + order.licensee,
+                              '',
+                              'Jurisdiction: ' + order.jurisdiction,
+                              '',
+                              'E-Mail:       ' + order.email,
+                              '',
+                              'Project:      ' + project.projectID,
+                              '',
+                              'Description:  ' + project.description,
+                              '',
+                              'Homepage:   ' + project.homepage
+                            ].join('\n'),
                             license
                           }, function (error) {
                             if (error) return done(error)
@@ -476,37 +482,37 @@ function post (request, response, order) {
                           bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                           subject: 'License Zero Statement',
                           text: [
-                            [
-                              'License Zero sold a license',
-                              'on your behalf.'
-                            ].join('\n'),
-                            [
-                              'Order:        ' + order.orderID,
-                              'Project:      ' + project.projectID,
-                              'Description:  ' + project.description,
-                              'Homepage:   ' + project.homepage
-                            ].join('\n'),
-                            [
-                              'Licensee:     ' + order.licensee,
-                              'Jurisdiction: ' + order.jurisdiction,
-                              'E-Mail:       ' + order.email
-                            ].join('\n'),
-                            [
-                              'Price:      ' + priceColumn(project.price),
-                              'Commission: ' + priceColumn(commission),
-                              'Total:      ' + priceColumn(project.price - commission)
-                            ].join('\n'),
-                            [
-                              'The Ed25519 cryptographic signature to the ',
-                              'license is:'
-                            ].join('\n'),
-                            [
-                              license.signature.slice(0, 32),
-                              license.signature.slice(32, 64),
-                              license.signature.slice(64, 96),
-                              license.signature.slice(96)
-                            ].join('\n')
-                          ]
+                            'License Zero sold a license',
+                            'on your behalf.',
+                            '',
+                            'Order:        ' + order.orderID,
+                            '',
+                            'Project:      ' + project.projectID,
+                            '',
+                            'Description:  ' + project.description,
+                            '',
+                            'Homepage:   ' + project.homepage,
+                            '',
+                            'Licensee:     ' + order.licensee,
+                            '',
+                            'Jurisdiction: ' + order.jurisdiction,
+                            '',
+                            'E-Mail:       ' + order.email,
+                            '',
+                            'Price:      ' + priceColumn(project.price),
+                            '',
+                            'Commission: ' + priceColumn(commission),
+                            '',
+                            'Total:      ' + priceColumn(project.price - commission),
+                            '',
+                            'The Ed25519 cryptographic signature to the ',
+                            'license is:',
+                            '',
+                            license.signature.slice(0, 32),
+                            license.signature.slice(32, 64),
+                            license.signature.slice(64, 96),
+                            license.signature.slice(96)
+                          ].join('\n')
                         }, done)
                       }
                     ], done)
@@ -757,19 +763,22 @@ ${head('Thank you')}
         cc: licensor.email,
         bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
         subject: 'License Zero Relicense Agreement',
-        text: []
-          .concat([
-            'Thank you for sponsoring a relicense through ' +
-            'licensezero.com.',
-            'Order ID: ' + order.orderID,
-            'Total: ' + priceColumn(price),
-            'Attached is a signed relicense agreement for:'
-          ])
-          .concat([
-            'Project:      ' + project.projectID,
-            'Description:  ' + project.description,
-            'Homepage:   ' + project.homepage
-          ].join('\n')),
+        text: [
+          'Thank you for sponsoring a relicense through ' +
+          'licensezero.com.',
+          '',
+          'Order ID: ' + order.orderID,
+          '',
+          'Total: ' + priceColumn(price),
+          '',
+          'Attached is a signed relicense agreement for:',
+          '',
+          'Project:      ' + project.projectID,
+          '',
+          'Description:  ' + project.description,
+          '',
+          'Homepage:   ' + project.homepage
+        ].join('\n'),
         agreement
       }, done)
     }
@@ -780,28 +789,28 @@ ${head('Thank you')}
         bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
         subject: 'License Zero Relicense',
         text: [
-          [
-            'License Zero sold a relicense agreement',
-            'on your behalf:'
-          ].join('\n'),
-          [
-            'Order:        ' + order.orderID,
-            'Project:      ' + project.projectID,
-            'Description:  ' + project.description,
-            'Homepage:   ' + project.homepage
-          ].join('\n'),
-          [
-            'Price:      ' + priceColumn(price),
-            'Commission: ' + priceColumn(commission),
-            'Total:      ' + priceColumn(price - commission)
-          ].join('\n'),
-          [
-            'You will be copied on a message attaching',
-            'the signed relicense agreement shortly.',
-            'Your next steps are set out in the',
-            '"Relicensing" section of the agreement.'
-          ].join('\n')
-        ]
+          'License Zero sold a relicense agreement',
+          'on your behalf:',
+          '',
+          'Order:        ' + order.orderID,
+          '',
+          'Project:      ' + project.projectID,
+          '',
+          'Description:  ' + project.description,
+          '',
+          'Homepage:   ' + project.homepage,
+          '',
+          'Price:      ' + priceColumn(price),
+          '',
+          'Commission: ' + priceColumn(commission),
+          '',
+          'Total:      ' + priceColumn(price - commission),
+          '',
+          'You will be copied on a message attaching',
+          'the signed relicense agreement shortly.',
+          'Your next steps are set out in the',
+          '"Relicensing" section of the agreement.'
+        ].join('\n')
       }, done)
     }
 

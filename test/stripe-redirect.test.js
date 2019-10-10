@@ -84,7 +84,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
       function (done) {
         var re = /https:\/\/connect.stripe.com\/oauth\/authorize\?(.+)/
         email.events.once('message', function (message) {
-          done(null, re.exec(message.text.join('\n\n'))[1])
+          done(null, re.exec(message.text)[1])
         })
         apiRequest(port, {
           action: 'register',

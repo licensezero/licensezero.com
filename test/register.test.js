@@ -53,6 +53,7 @@ tape('register w/ valid body', function (test) {
           }),
           'link to connect'
         )
+        console.error(message.text)
         test.end()
         close()
       })
@@ -66,7 +67,7 @@ tape.skip('confirmation w/ bad stripe code', function (test) {
       function (done) {
         var re = /https:\/\/connect.stripe.com\/oauth\/authorize\?(.+)/
         email.events.once('message', function (message) {
-          done(null, re.exec(message.text.join('\n\n'))[1])
+          done(null, re.exec(message.text)[1])
         })
         apiRequest(port, {
           action: 'register',

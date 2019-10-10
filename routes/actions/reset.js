@@ -39,14 +39,16 @@ exports.handler = function (log, body, end, fail, lock) {
             to: licensor.email,
             subject: 'License Zero Token Reset Link',
             text: [
-              'licensezero.com receive a request to reset',
-              'the access token for licensor number:',
+              'licensezero.com received a request to reset',
+              'the access token for this licensor ID:',
               licensor.licensorID,
-              'If you need to reset your access token',
+              '',
+              'If you need to reset your access token,',
               'use the link below.  If you did not request',
               'a token reset, delete this message.',
+              '',
               'https://licensezero.com/reset/' + token
-            ]
+            ].join('\n')
           }, done)
         }
       ], done)

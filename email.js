@@ -1,6 +1,7 @@
 var FormData = require('form-data')
 var assert = require('assert')
 var https = require('https')
+var renderMarkdown = require('./util/render-markdown')
 var simpleConcat = require('simple-concat')
 
 // When testing, export a function that emits events instead
@@ -11,6 +12,7 @@ if (process.env.NODE_ENV === 'test') {
   var events = new EventEmitter()
   module.exports = function (requestLog, message, callback) {
     assert.strict.equal(typeof message, 'object')
+    assert.strict.equal(typeof message.text, 'string')
     events.emit('message', message)
     callback()
   }
@@ -25,7 +27,8 @@ if (process.env.NODE_ENV === 'test') {
     if (message.bcc) form.append('bcc', message.bcc)
     form.append('subject', message.subject)
     form.append('o:dkim', 'yes')
-    form.append('text', message.text.join('\n\n'))
+    form.append('text', message.text)
+    form.append('html', renderMarkdown(message.text))
     var license = message.license
     if (license) {
       var licenseBuffer = Buffer.from(JSON.stringify(license))

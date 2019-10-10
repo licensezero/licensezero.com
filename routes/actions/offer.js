@@ -79,17 +79,14 @@ exports.handler = function (log, body, end, fail, lock) {
         to: process.env.OFFER_NOTIFICATION_EMAIL,
         subject: 'License Zero Project Offer',
         text: [
-          [
-            'projectID: ' + projectID,
-            'licensor: ' + licensorID,
-            'pricing:',
-            '  private: ' + body.pricing.private,
-            '  relicense: ' + body.pricing.relicense,
-            'homepage: ' + body.homepage,
-            'description: ' + body.description,
-            'commission: ' + parseInt(process.env.COMMISSION)
-          ].join('\n')
-        ]
+          'projectID: ' + projectID,
+          'licensor: ' + licensorID,
+          'pricing.private: ' + body.pricing.private,
+          'pricing.relicense: ' + body.pricing.relicense,
+          'homepage: ' + body.homepage,
+          'description: ' + body.description,
+          'commission: ' + parseInt(process.env.COMMISSION)
+        ].join('\n\n')
       }, function (error) {
         if (error) log.error(error)
       })
