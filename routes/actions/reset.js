@@ -47,7 +47,7 @@ exports.handler = function (log, body, end, fail, lock) {
               'use the link below.  If you did not request',
               'a token reset, delete this message.',
               '',
-              'https://licensezero.com/reset/' + token
+              '<https://licensezero.com/reset/' + token + '>'
             ].join('\n')
           }, done)
         }

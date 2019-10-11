@@ -52,13 +52,13 @@ exports.handler = function (log, body, end, fail) {
           'licensezero.com, follow this link',
           'to connect your Stripe account:',
           '',
-          'https://connect.stripe.com/oauth/authorize?' +
+          '<https://connect.stripe.com/oauth/authorize?' +
           querystring.stringify({
             response_type: 'code',
             client_id: process.env.STRIPE_CLIENT_ID,
             scope: 'read_write',
             state: nonce
-          }),
+          }) + '>',
           '',
           'To prevent License Zero messages',
           'from going to your junk mail folder,',

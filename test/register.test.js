@@ -48,12 +48,11 @@ tape('register w/ valid body', function (test) {
       .once('message', function (message) {
         test.equal(message.to, address, 'e-mails registrant')
         test.assert(
-          message.text.some(function (line) {
-            return line.includes('https://connect.stripe.com')
+          message.text.split('\n').some(function (line) {
+            return line.includes('<https://connect.stripe.com')
           }),
           'link to connect'
         )
-        console.error(message.text)
         test.end()
         close()
       })
