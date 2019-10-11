@@ -101,7 +101,7 @@ tape('sweep reset tokens', function (test) {
     var resetToken
     email.events.once('message', function (message) {
       test.equal(message.to, LICENSOR.email, 'email to licensor')
-      message.text.forEach(function (paragraph) {
+      message.text.split('\n').forEach(function (paragraph) {
         var match = /https:\/\/licensezero.com\/reset\/([0-9a-f]{64})/
           .exec(paragraph)
         if (match) resetToken = match[1]

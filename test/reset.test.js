@@ -10,7 +10,7 @@ tape('reset action', function (test) {
   server(function (port, close) {
     email.events.once('message', function (message) {
       test.equal(message.to, LICENSOR.email, 'email to licensor')
-      test.assert(message.text.some(function (paragraph) {
+      test.assert(message.text.split('\n').some(function (paragraph) {
         return paragraph.includes('https://licensezero.com/reset/')
       }), 'reset link')
       test.end()
@@ -54,7 +54,7 @@ tape('reset link', function (test) {
     var newToken
     email.events.once('message', function (message) {
       test.equal(message.to, LICENSOR.email, 'email to licensor')
-      message.text.forEach(function (paragraph) {
+      message.text.split('\n').forEach(function (paragraph) {
         var match = /https:\/\/licensezero.com\/reset\/([0-9a-f]{64})/
           .exec(paragraph)
         if (match) resetToken = match[1]

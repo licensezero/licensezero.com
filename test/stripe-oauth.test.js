@@ -24,7 +24,7 @@ var options = {
   )
 }
 
-tape.only('Stripe OAuth connect, register, license', options, function (suite) {
+tape('Stripe OAuth connect, register, license', options, function (suite) {
   server(8080, function (port, close) {
     withLicensor(port, suite, function (error, licensorID, token) {
       if (error) {
@@ -311,8 +311,8 @@ function withLicensor (port, test, callback) {
     function register (done) {
       email.events.once('message', function (message) {
         message.text.split('\n').forEach(function (line) {
-          if (line.indexOf('https://connect.stripe.com') === 0) {
-            oauthLocation = line
+          if (line.includes('<https://connect.stripe.com')) {
+            oauthLocation = /<(https:\/\/connect.stripe.com.+)>/.exec(line)[1]
           }
         })
         done()

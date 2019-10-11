@@ -82,7 +82,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
     var address = 'text@example.com'
     runWaterfall([
       function (done) {
-        var re = /https:\/\/connect.stripe.com\/oauth\/authorize\?(.+)/
+        var re = /<https:\/\/connect.stripe.com\/oauth\/authorize\?(.+)>/
         email.events.once('message', function (message) {
           done(null, re.exec(message.text)[1])
         })
