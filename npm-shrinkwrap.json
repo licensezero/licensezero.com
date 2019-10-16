@@ -195,9 +195,9 @@
       "dev": true
     },
     "@wdio/config": {
-      "version": "5.14.0",
-      "resolved": "https://registry.npmjs.org/@wdio/config/-/config-5.14.0.tgz",
-      "integrity": "sha512-JUvk4yNGlNmHMtqvmOGSVhr+4a/AOUwr/OFkBYss1nUApIp3871j1GoT+JsVNP6WN9vZRV3a6pNMsAuLbuRZfQ==",
+      "version": "5.15.1",
+      "resolved": "https://registry.npmjs.org/@wdio/config/-/config-5.15.1.tgz",
+      "integrity": "sha512-8XKQCgZh0Y6jI94H1Meg71FE84PVPUAcTWZe07UhOIxNnGpADKP9KZsofMu5i8UnB32xKYXmhDJ4PJohoFItSg==",
       "dev": true,
       "requires": {
         "@wdio/logger": "5.13.2",
@@ -255,24 +255,24 @@
       }
     },
     "@wdio/protocols": {
-      "version": "5.14.0",
-      "resolved": "https://registry.npmjs.org/@wdio/protocols/-/protocols-5.14.0.tgz",
-      "integrity": "sha512-7jRxGkreibkqHKQV5jlQmAyqzIIU43lg9KSNGy0ThrUz8kLsOzClaTdL2qDlFUkLcplqMvRFcnmwFPjvCptmVg==",
+      "version": "5.15.1",
+      "resolved": "https://registry.npmjs.org/@wdio/protocols/-/protocols-5.15.1.tgz",
+      "integrity": "sha512-zg3pdFfecDHmeNS/E2HzksJDfz7e8B71NETrymMxpfWapUC9Jzac5HXbRBpByirmGSrzzXu8923ZZNQwdl7E7g==",
       "dev": true
     },
     "@wdio/repl": {
-      "version": "5.14.4",
-      "resolved": "https://registry.npmjs.org/@wdio/repl/-/repl-5.14.4.tgz",
-      "integrity": "sha512-AF24ExIyd1lvqo/K1wHxzTzJi4005kLDJePMDYoQi0lyprA6SbmzKiWJ2W6sf0CO9QNzRKdsBxBgkuGC2wiCwQ==",
+      "version": "5.15.1",
+      "resolved": "https://registry.npmjs.org/@wdio/repl/-/repl-5.15.1.tgz",
+      "integrity": "sha512-lBDgKEj0TyuuhUpNaPA78e2kUfC9MkuRNEFW/n78vw4E0RSXsviKYABqAXcah+GDfTt17qR+cI8mQ89GYR+Acg==",
       "dev": true,
       "requires": {
-        "@wdio/utils": "5.14.4"
+        "@wdio/utils": "5.15.1"
       }
     },
     "@wdio/utils": {
-      "version": "5.14.4",
-      "resolved": "https://registry.npmjs.org/@wdio/utils/-/utils-5.14.4.tgz",
-      "integrity": "sha512-sRBCR20VpDxcB0bvU6Sg4dco7PehPVul7JOK+abn5Tk/Azau0C/JypAh7abRnTil5udiz+NTWQyE9A/vrcXs0Q==",
+      "version": "5.15.1",
+      "resolved": "https://registry.npmjs.org/@wdio/utils/-/utils-5.15.1.tgz",
+      "integrity": "sha512-mbLcKqjRyryUuMk4n9sHWokhop82GcrVHh6GAyMFJgCG85zBel5+qmZkHHO4hqfUrxUg/J9XyQio2r1eUw0Fzg==",
       "dev": true,
       "requires": {
         "@wdio/logger": "5.13.2",
@@ -5598,29 +5598,29 @@
       "dev": true
     },
     "webdriver": {
-      "version": "5.14.4",
-      "resolved": "https://registry.npmjs.org/webdriver/-/webdriver-5.14.4.tgz",
-      "integrity": "sha512-4O3QrInHcfvYWF+MG6cCYnxcWxE5tS70DPbNRNhhw9SJvh0sj2vpwSIYMwSEsGXuB799s3c8Rhq9Ow3QzVyiJw==",
+      "version": "5.15.1",
+      "resolved": "https://registry.npmjs.org/webdriver/-/webdriver-5.15.1.tgz",
+      "integrity": "sha512-neSmJe2QVjslOa3BS2syVttKeuFbbQZ2VACtY3cMLZlMp9Y6H/mRtAa6iMrEyzbwbsXya7tyAp2EXtlckoI3nA==",
       "dev": true,
       "requires": {
-        "@wdio/config": "5.14.0",
+        "@wdio/config": "5.15.1",
         "@wdio/logger": "5.13.2",
-        "@wdio/protocols": "5.14.0",
-        "@wdio/utils": "5.14.4",
+        "@wdio/protocols": "5.15.1",
+        "@wdio/utils": "5.15.1",
         "lodash.merge": "^4.6.1",
         "request": "^2.83.0"
       }
     },
     "webdriverio": {
-      "version": "5.14.5",
-      "resolved": "https://registry.npmjs.org/webdriverio/-/webdriverio-5.14.5.tgz",
-      "integrity": "sha512-cU8HtVuVFCUA7/0ugo2X8hcObeAi5oQhNjtgDJTQ2ZOkBCciaD3SRU/hARJyzGsYS6nSvEfPKIyVEteuMHNOyw==",
+      "version": "5.15.1",
+      "resolved": "https://registry.npmjs.org/webdriverio/-/webdriverio-5.15.1.tgz",
+      "integrity": "sha512-5JHmOgxhrdwvk8q51mw7qGKX88975QRnolr14c3FeiTnukZ7nk4CKoSopW8hjBzK6xDYVQtSdDwhHLocOdsP9w==",
       "dev": true,
       "requires": {
-        "@wdio/config": "5.14.0",
+        "@wdio/config": "5.15.1",
         "@wdio/logger": "5.13.2",
-        "@wdio/repl": "5.14.4",
-        "@wdio/utils": "5.14.4",
+        "@wdio/repl": "5.15.1",
+        "@wdio/utils": "5.15.1",
         "archiver": "^3.0.0",
         "css-value": "^0.0.1",
         "grapheme-splitter": "^1.0.2",
@@ -5631,7 +5631,7 @@
         "resq": "^1.6.0",
         "rgb2hex": "^0.1.0",
         "serialize-error": "^5.0.0",
-        "webdriver": "5.14.4"
+        "webdriver": "5.15.1"
       }
     },
     "which": {
