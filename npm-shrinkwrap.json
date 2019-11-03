@@ -189,9 +189,9 @@
       "dev": true
     },
     "@types/node": {
-      "version": "12.7.5",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-12.7.5.tgz",
-      "integrity": "sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==",
+      "version": "12.12.5",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-12.12.5.tgz",
+      "integrity": "sha512-KEjODidV4XYUlJBF3XdjSH5FWoMCtO0utnhtdLf1AgeuZLOrRbvmU/gaRCVg7ZaQDjVf3l84egiY0mRNe5xE4A==",
       "dev": true
     },
     "@wdio/config": {
@@ -666,9 +666,9 @@
       "integrity": "sha512-i70fVHhmV3DtTl6nqvZOnIjbY0Pe4kAUjwHj8z0zAdgBtYrJyYwLKCCuRBQ5ppkyL0AkN7HKRnETdmdp1zqNXw=="
     },
     "chromedriver": {
-      "version": "77.0.0",
-      "resolved": "https://registry.npmjs.org/chromedriver/-/chromedriver-77.0.0.tgz",
-      "integrity": "sha512-mZa1IVx4HD8rDaItWbnS470mmypgiWsDiu98r0NkiT4uLm3qrANl4vOU6no6vtWtLQiW5kt1POcIbjeNpsLbXA==",
+      "version": "78.0.1",
+      "resolved": "https://registry.npmjs.org/chromedriver/-/chromedriver-78.0.1.tgz",
+      "integrity": "sha512-eOsyFk4xb9EECs1VMrDbxO713qN+Bu1XUE8K9AuePc3839TPdAegg72kpXSzkeNqRNZiHbnJUItIVCLFkDqceA==",
       "dev": true,
       "requires": {
         "del": "^4.1.1",
@@ -1429,9 +1429,9 @@
       },
       "dependencies": {
         "glob": {
-          "version": "7.1.4",
-          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.4.tgz",
-          "integrity": "sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==",
+          "version": "7.1.5",
+          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha512-J9dlskqUXK1OeTOYBEn5s8aMukWMwWfs+rPTn/jn50Ux4MNXVhubL1wu/j2t+H4NVI+cXEcCaYellqaPVGXNqQ==",
           "dev": true,
           "requires": {
             "fs.realpath": "^1.0.0",
