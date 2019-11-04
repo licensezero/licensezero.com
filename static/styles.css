@@ -147,7 +147,9 @@ h2, h3 {
 }
 
 .license {
-  font-size: 95%;
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 1px solid #777
 }
 
 nav[role=navigation] {
