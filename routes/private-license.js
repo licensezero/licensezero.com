@@ -7,6 +7,7 @@ var internalError = require('./internal-error')
 var linkStandards = require('../util/link-standards')
 var nav = require('./partials/nav')
 var privateLicense = require('../forms/private-license')
+var renderMarkdown = require('../util/render-markdown')
 
 var REPOSITORY = (
   'https://github.com/licensezero/licensezero-private-license'
@@ -40,7 +41,7 @@ module.exports = function (request, response) {
     ${nav()}
     ${header()}
     <main>
-      <h1>Private Licenses</h1>
+      <h1>Private License</h1>
       <p>
         To review changes to, and submit feedback about,
         the License Zero private license, visit
@@ -48,10 +49,10 @@ module.exports = function (request, response) {
       </p>
       <p>
         For more information, see
-        <a href=https://guide.licensezero.com/#private-licenses
+        <a href=https://guide.licensezero.com/#private-license
           >the License Zero Developer’s Guide</a>.
       </p>
-      <pre class=license>${linkStandards(escape(result))}</pre>
+      <blockquote class=license>${renderMarkdown(result)}</blockquote>
     </main>
     ${footer()}
   </body>
