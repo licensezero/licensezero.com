@@ -13,7 +13,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('project', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -23,14 +23,14 @@ tape('project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function requestProject (done) {
         apiRequest(port, {
           action: 'project',
-          projectID
+          offerID
         }, function (error, response) {
           if (error) return done(error)
           test.assert(
@@ -39,7 +39,7 @@ tape('project', function (test) {
           )
           test.deepEqual(
             response, {
-              projectID,
+              offerID,
               homepage: OFFER.homepage,
               pricing: OFFER.pricing,
               licensor: {
@@ -69,7 +69,7 @@ tape('nonexistent project', function (test) {
   server(function (port, close) {
     apiRequest(port, {
       action: 'project',
-      projectID: uuid()
+      offerID: uuid()
     }, function (error, response) {
       if (error) {
         test.error(error)
@@ -84,7 +84,7 @@ tape('nonexistent project', function (test) {
 
 tape('/project/{id}', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -94,7 +94,7 @@ tape('/project/{id}', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -102,12 +102,12 @@ tape('/project/{id}', function (test) {
         var browser
         require('./webdriver')()
           .then((loaded) => { browser = loaded })
-          .then(() => browser.url('http://localhost:' + port + '/ids/' + projectID))
-          .then(() => browser.$('.projectID'))
+          .then(() => browser.url('http://localhost:' + port + '/ids/' + offerID))
+          .then(() => browser.$('.offerID'))
           .then((element) => element.getText())
           .then(function (text) {
             test.equal(
-              text, projectID,
+              text, offerID,
               'project ID'
             )
             browser.deleteSession()
@@ -128,7 +128,7 @@ tape('/project/{id}', function (test) {
 
 tape('/project/{id}/badge.svg', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -138,14 +138,14 @@ tape('/project/{id}/badge.svg', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function browse (done) {
         http.request({
           port,
-          path: 'http://localhost:' + port + '/ids/' + projectID + '/badge.svg'
+          path: 'http://localhost:' + port + '/ids/' + offerID + '/badge.svg'
         })
           .once('error', function (error) {
             done(error)

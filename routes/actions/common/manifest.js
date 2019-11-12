@@ -1,5 +1,5 @@
 var projectProperties = {
-  projectID: require('./project-id'),
+  offerID: require('./project-id'),
   homepage: require('./homepage'),
   description: require('./description')
 }

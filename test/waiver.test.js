@@ -12,7 +12,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('waiver', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -22,7 +22,7 @@ tape('waiver', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -31,7 +31,7 @@ tape('waiver', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
@@ -42,7 +42,7 @@ tape('waiver', function (test) {
             'error false'
           )
           test.assert(
-            has(response, 'projectID'),
+            has(response, 'offerID'),
             'project ID'
           )
           test.assert(
@@ -108,7 +108,7 @@ tape('waiver for nonexistent project', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: uuid(),
+          offerID: uuid(),
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
@@ -131,7 +131,7 @@ tape('waiver for nonexistent project', function (test) {
 
 tape('waiver for retracted project', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -141,14 +141,14 @@ tape('waiver for retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -162,7 +162,7 @@ tape('waiver for retracted project', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365

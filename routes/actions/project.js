@@ -2,11 +2,11 @@ var readProject = require('../../data/read-project')
 var sanitizeProject = require('../../data/sanitize-project')
 
 exports.properties = {
-  projectID: require('./common/project-id')
+  offerID: require('./common/project-id')
 }
 
 exports.handler = function (log, body, end, fail) {
-  readProject(body.projectID, function (error, data) {
+  readProject(body.offerID, function (error, data) {
     if (error) {
       log.error(error)
       /* istanbul ignore else */

@@ -9,13 +9,13 @@ var stringify = require('json-stable-stringify')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id'),
+  offerID: require('./common/project-id'),
   terms: { enum: ['parity', 'prosperity', 'charity'] }
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var projectID = body.projectID
-  readProject(projectID, function (error, project) {
+  var offerID = body.offerID
+  readProject(offerID, function (error, project) {
     if (error) {
       /* istanbul ignore else */
       if (error.userMessage) return fail(error.userMessage)
@@ -30,7 +30,7 @@ exports.handler = function (log, body, end, fail, lock) {
     var licenseData = {
       jurisdiction: project.licensor.jurisdiction,
       name: project.licensor.name,
-      projectID,
+      offerID,
       publicKey: project.licensor.publicKey,
       terms: body.terms,
       version: terms.version,

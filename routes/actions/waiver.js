@@ -7,7 +7,7 @@ var waiver = require('../../forms/waiver')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id'),
+  offerID: require('./common/project-id'),
   beneficiary: {
     description: 'beneficiary legal name',
     type: 'string',
@@ -32,8 +32,8 @@ exports.properties = {
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var projectID = body.projectID
-  readProject(projectID, function (error, project) {
+  var offerID = body.offerID
+  readProject(offerID, function (error, project) {
     if (error) {
       if (error.userMessage) return fail(error.userMessage)
       return fail(error)
@@ -52,7 +52,7 @@ exports.handler = function (log, body, end, fail, lock) {
         jurisdiction: licensor.jurisdiction
       },
       project: {
-        projectID,
+        offerID,
         description: project.description,
         homepage: project.homepage
       },
@@ -78,7 +78,7 @@ exports.handler = function (log, body, end, fail, lock) {
             return fail('internal error')
           }
           end({
-            projectID,
+            offerID,
             manifest,
             document,
             signature,

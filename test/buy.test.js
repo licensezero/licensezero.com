@@ -32,7 +32,7 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.projectID
+          firstProject = response.offerID
           done()
         })
       },
@@ -44,7 +44,7 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.projectID
+          secondProject = response.offerID
           done()
         })
       },
@@ -136,7 +136,7 @@ tape('order w/ nonexistent', function (test) {
 
 tape('order w/ retracted', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -146,14 +146,14 @@ tape('order w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -165,7 +165,7 @@ tape('order w/ retracted', function (test) {
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          projects: [projectID],
+          projects: [offerID],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@test.com',
@@ -174,7 +174,7 @@ tape('order w/ retracted', function (test) {
           if (error) return done(error)
           test.equal(
             response.error,
-            'retracted projects: ' + projectID,
+            'retracted projects: ' + offerID,
             'retracted error'
           )
           done()
@@ -190,7 +190,7 @@ tape('order w/ retracted', function (test) {
 
 tape('POST /buy', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -200,7 +200,7 @@ tape('POST /buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -208,7 +208,7 @@ tape('POST /buy', function (test) {
         var browser
         require('./webdriver')()
           .then((loaded) => { browser = loaded })
-          .then(() => browser.url('http://localhost:' + port + '/ids/' + projectID))
+          .then(() => browser.url('http://localhost:' + port + '/ids/' + offerID))
           .then(() => browser.$('#licensee'))
           .then((input) => input.setValue('Larry Licensee'))
           .then(() => browser.$('#jurisdiction'))

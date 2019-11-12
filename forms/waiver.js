@@ -24,7 +24,7 @@ module.exports = function (options, callback) {
         agent: 'Artless Devices LLC',
         agentJurisdiction: 'US-CA',
         agentWebsite: 'https://licensezero.com',
-        projectID: project.projectID,
+        offerID: project.offerID,
         description: project.description,
         homepage: project.homepage,
         date: options.date,

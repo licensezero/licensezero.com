@@ -9,7 +9,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('sponsor', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function createProject (done) {
@@ -20,14 +20,14 @@ tape('sponsor', function (test) {
           token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function sponsorProject (done) {
         apiRequest(port, {
           action: 'sponsor',
-          projectID,
+          offerID,
           sponsor: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@example.com'

@@ -15,12 +15,12 @@ exports.handler = function (log, body, end, fail, lock) {
   var projects = body.projects
   var results = new Array(projects.length)
   runParallel(
-    projects.map(function (projectID, index) {
+    projects.map(function (offerID, index) {
       return function (done) {
-        readProject(projectID, function (error, project) {
+        readProject(offerID, function (error, project) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + projectID
+              error.userMessage += ': ' + offerID
             }
             return done(error)
           }

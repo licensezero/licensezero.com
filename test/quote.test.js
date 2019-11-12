@@ -22,7 +22,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.projectID
+          firstProject = response.offerID
           done()
         })
       },
@@ -34,7 +34,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.projectID
+          secondProject = response.offerID
           done()
         })
       },
@@ -49,7 +49,7 @@ tape('quote', function (test) {
             response.projects,
             [
               {
-                projectID: firstProject,
+                offerID: firstProject,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 homepage: 'http://example.com/first',
@@ -62,7 +62,7 @@ tape('quote', function (test) {
                 commission: parseInt(process.env.COMMISSION)
               },
               {
-                projectID: secondProject,
+                offerID: secondProject,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 homepage: 'http://example.com/second',
@@ -90,14 +90,14 @@ tape('quote', function (test) {
 
 tape('quote w/ nonexistent', function (test) {
   server(function (port, close) {
-    var projectID = uuid()
+    var offerID = uuid()
     apiRequest(port, {
       action: 'quote',
-      projects: [projectID]
+      projects: [offerID]
     }, function (error, response) {
       test.error(error)
       test.equal(
-        response.error, 'no such project: ' + projectID,
+        response.error, 'no such project: ' + offerID,
         'no such project'
       )
       test.end()
@@ -108,7 +108,7 @@ tape('quote w/ nonexistent', function (test) {
 
 tape('quote w/ retracted', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -118,14 +118,14 @@ tape('quote w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -137,11 +137,11 @@ tape('quote w/ retracted', function (test) {
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          projects: [projectID]
+          projects: [offerID]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.projects[0].projectID, projectID,
+            response.projects[0].offerID, offerID,
             'project'
           )
           test.equal(

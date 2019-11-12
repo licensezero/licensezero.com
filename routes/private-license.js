@@ -22,7 +22,7 @@ module.exports = function (request, response) {
       name: '{Licensor Name}',
       jurisdiction: '{Licensor Name, e.g. "US-NY"}'
     },
-    projectID: '{Project ID}',
+    offerID: '{Project ID}',
     description: '{Project Description}',
     homepage: '{Project Homepage URL}'
   }, function (error, result) {

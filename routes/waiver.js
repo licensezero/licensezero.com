@@ -23,7 +23,7 @@ module.exports = function (request, response) {
       jurisdiction: '{Beneficiary Jurisdiction, e.g. "US-NY"}'
     },
     project: {
-      projectID: '{Project ID}',
+      offerID: '{Project ID}',
       description: '{Project Description}',
       homepage: '{Project Homepage URL}'
     },

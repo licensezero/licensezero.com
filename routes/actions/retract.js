@@ -11,14 +11,14 @@ var stringifyProjects = require('../../data/stringify-projects')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id')
+  offerID: require('./common/project-id')
 }
 
 exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
-  var projectID = body.projectID
-  lock([licensorID, projectID], function (release) {
-    var file = projectPath(body.projectID)
+  var offerID = body.offerID
+  lock([licensorID, offerID], function (release) {
+    var file = projectPath(body.offerID)
     readJSONFile(file, function (error, project) {
       if (error) return die('no such project')
       if (project.retracted) return die('retracted project')
@@ -30,7 +30,7 @@ exports.handler = function (log, body, end, fail, lock) {
       }
       runSeries([
         function markRetracted (done) {
-          var file = projectPath(projectID)
+          var file = projectPath(offerID)
           mutateJSONFile(file, function (data) {
             data.retracted = true
           }, annotateENOENT('no such project', done))
@@ -42,7 +42,7 @@ exports.handler = function (log, body, end, fail, lock) {
               parseProjects(text)
                 .map(function (element) {
                   if (
-                    element.projectID === projectID &&
+                    element.offerID === offerID &&
                     element.retracted === null
                   ) {
                     element.retracted = new Date().toISOString()

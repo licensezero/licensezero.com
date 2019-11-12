@@ -133,7 +133,7 @@ ${head(action)}
     return html`
         <tr>
           <td>
-            <p><code>${escape(project.projectID)}</code></p>
+            <p><code>${escape(project.offerID)}</code></p>
             <p>${escape(project.description)}</p>
             <p>
               <a
@@ -193,7 +193,7 @@ ${head(action)}
     <tbody>
       <tr>
         <td>
-          <p><code>${escape(project.projectID)}</code></p>
+          <p><code>${escape(project.offerID)}</code></p>
           <p>${escape(project.description)}</p>
           <p>
             <a
@@ -407,7 +407,7 @@ function post (request, response, order) {
                           date: new Date().toISOString(),
                           orderID,
                           project: pick(project, [
-                            'projectID', 'homepage', 'description'
+                            'offerID', 'homepage', 'description'
                           ]),
                           licensee: {
                             name: order.licensee,
@@ -423,7 +423,7 @@ function post (request, response, order) {
                         privateLicense(parameters, function (error, document) {
                           if (error) return done(error)
                           var license = {
-                            projectID: project.projectID,
+                            offerID: project.offerID,
                             manifest,
                             document,
                             publicKey: project.licensor.publicKey,
@@ -454,7 +454,7 @@ function post (request, response, order) {
                               '',
                               'E-Mail:       ' + order.email,
                               '',
-                              'Project:      ' + project.projectID,
+                              'Project:      ' + project.offerID,
                               '',
                               'Description:  ' + project.description,
                               '',
@@ -487,7 +487,7 @@ function post (request, response, order) {
                             '',
                             'Order:        ' + order.orderID,
                             '',
-                            'Project:      ' + project.projectID,
+                            'Project:      ' + project.offerID,
                             '',
                             'Description:  ' + project.description,
                             '',
@@ -608,7 +608,7 @@ ${head('Thank you')}
 
   function buyRelicense () {
     var project = order.project
-    var projectID = project.projectID
+    var offerID = project.offerID
     var price = project.pricing.relicense
     var commission = Math.floor(Math.min(60000, (price * 0.06)))
     var licensor = order.project.licensor
@@ -627,7 +627,7 @@ ${head('Thank you')}
     var agentSignature
     var agreement
 
-    lock([licensorID, projectID], function (release) {
+    lock([licensorID, offerID], function (release) {
       runSeries([
         task('generated agreement', generateSignedAgreement),
         task('charged customer', chargeCustomer),
@@ -675,7 +675,7 @@ ${head('Thank you')}
         'Developer Jurisdiction': licensor.jurisdiction,
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
-        'Project ID': project.projectID,
+        'Project ID': project.offerID,
         Homepage: project.homepage,
         Descriptions: project.description,
         Payment: formatPrice(price)
@@ -773,7 +773,7 @@ ${head('Thank you')}
           '',
           'Attached is a signed relicense agreement for:',
           '',
-          'Project:      ' + project.projectID,
+          'Project:      ' + project.offerID,
           '',
           'Description:  ' + project.description,
           '',
@@ -794,7 +794,7 @@ ${head('Thank you')}
           '',
           'Order:        ' + order.orderID,
           '',
-          'Project:      ' + project.projectID,
+          'Project:      ' + project.offerID,
           '',
           'Description:  ' + project.description,
           '',
@@ -838,7 +838,7 @@ ${head('Thank you')}
     }
 
     function markRelicensed (done) {
-      var file = projectPath(projectID)
+      var file = projectPath(offerID)
       mutateJSONFile(file, function (data) {
         data.relicensed = true
       }, annotateENOENT('no such project', done))
@@ -850,7 +850,7 @@ ${head('Thank you')}
         return stringifyProjects(
           parseProjects(text).map(function (element) {
             if (
-              element.projectID === projectID &&
+              element.offerID === offerID &&
               element.relicensed === null
             ) {
               element.relicensed = date

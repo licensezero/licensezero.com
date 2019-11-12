@@ -14,13 +14,13 @@ var withoutRelicense = withCached(
 )
 
 module.exports = function (request, response) {
-  var projectID = request.parameters.projectID
+  var offerID = request.parameters.offerID
   doNotCache(response)
-  if (!UUID.test(projectID)) {
+  if (!UUID.test(offerID)) {
     response.statusCode = 404
     return response.end()
   }
-  readProject(projectID, function (error, project) {
+  readProject(offerID, function (error, project) {
     if (error) {
       response.statusCode = 404
       return response.end()

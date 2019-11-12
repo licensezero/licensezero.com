@@ -14,13 +14,13 @@ var renderJurisdiction = require('./partials/jurisdiction')
 var sanitizeProject = require('../data/sanitize-project')
 
 module.exports = function (request, response) {
-  var projectID = request.parameters.projectID
-  if (!UUID.test(projectID)) {
+  var offerID = request.parameters.offerID
+  if (!UUID.test(offerID)) {
     var error = new Error()
     error.userMessage = 'invalid project identifier'
     return notFound(request, response, error)
   }
-  readProject(projectID, function (error, project) {
+  readProject(offerID, function (error, project) {
     if (error) return notFound(request, response, error)
     sanitizeProject(project)
     var licensor = project.licensor
@@ -28,7 +28,7 @@ module.exports = function (request, response) {
     response.end(html`
 <!doctype html>
 <html lang=EN>
-  ${head(projectID, {
+  ${head(offerID, {
     title: licensor.name + '’s Project',
     description: project.description
   })}
@@ -49,8 +49,8 @@ module.exports = function (request, response) {
           </dd>
           <dt>Project ID</dt>
           <dd>
-            <code class=projectID>${escape(projectID)}</code>
-            <button class=clipboard data-clipboard-text="${escape(projectID)}">Copy to Clipboard</button>
+            <code class=offerID>${escape(offerID)}</code>
+            <button class=clipboard data-clipboard-text="${escape(offerID)}">Copy to Clipboard</button>
           </dd>
         </dl>
       </section>
@@ -177,7 +177,7 @@ licensezero buy</pre>
   <input
       type=hidden
       name=projects[]
-      value="${escape(project.projectID)}">
+      value="${escape(project.offerID)}">
   <p>
     <label>
       Licensee Legal Name

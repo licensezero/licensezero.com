@@ -23,12 +23,12 @@ exports.handler = function (log, body, end, fail, lock) {
   assert.strict.equal(typeof lock, 'function')
   var projects = body.projects
   runParallel(
-    projects.map(function (projectID, index) {
+    projects.map(function (offerID, index) {
       return function (done) {
-        readProject(projectID, function (error, project) {
+        readProject(offerID, function (error, project) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + projectID
+              error.userMessage += ': ' + offerID
             }
             return done(error)
           }
@@ -50,7 +50,7 @@ exports.handler = function (log, body, end, fail, lock) {
       if (retracted.length !== 0) {
         return fail(
           'retracted projects: ' +
-          retracted.map(projectIDOf).join(', ')
+          retracted.map(offerIDOf).join(', ')
         )
       }
       var relicensed = projects.filter(function (project) {
@@ -59,7 +59,7 @@ exports.handler = function (log, body, end, fail, lock) {
       if (relicensed.length !== 0) {
         return fail(
           'relicensed projects: ' +
-          relicensed.map(projectIDOf).join(', ')
+          relicensed.map(offerIDOf).join(', ')
         )
       }
       var pricedProjects = projects.map(function (project) {
@@ -80,6 +80,6 @@ exports.handler = function (log, body, end, fail, lock) {
   )
 }
 
-function projectIDOf (argument) {
-  return argument.projectID
+function offerIDOf (argument) {
+  return argument.offerID
 }

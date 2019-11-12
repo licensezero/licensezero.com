@@ -22,11 +22,11 @@ tape('offer', function (test) {
           'error false'
         )
         test.assert(
-          has(response, 'projectID'),
-          'projectID'
+          has(response, 'offerID'),
+          'offerID'
         )
         test.assert(
-          new RegExp(UUIDV4).test(response.projectID),
+          new RegExp(UUIDV4).test(response.offerID),
           'UUIDv4'
         )
         test.end()
@@ -52,11 +52,11 @@ tape('offer w/ relicense', function (test) {
           'error false'
         )
         test.assert(
-          has(response, 'projectID'),
-          'projectID'
+          has(response, 'offerID'),
+          'offerID'
         )
         test.assert(
-          new RegExp(UUIDV4).test(response.projectID),
+          new RegExp(UUIDV4).test(response.offerID),
           'UUIDv4'
         )
         test.end()

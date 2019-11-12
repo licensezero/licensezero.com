@@ -5,13 +5,13 @@ var readJSONFile = require('../../data/read-json-file')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id'),
+  offerID: require('./common/project-id'),
   pricing: require('./common/pricing')
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  lock([body.licensorID, body.projectID], function (release) {
-    var file = projectPath(body.projectID)
+  lock([body.licensorID, body.offerID], function (release) {
+    var file = projectPath(body.offerID)
     readJSONFile(file, function (error, project) {
       if (error) return die('no such project')
       if (project.retracted) return die('retracted project')

@@ -22,7 +22,7 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
-  var projectID = uuid()
+  var offerID = uuid()
   lock([licensorID], function (release) {
     runSeries([
       function (done) {
@@ -37,11 +37,11 @@ exports.handler = function (log, body, end, fail, lock) {
       function writeFile (done) {
         runParallel([
           function writeProjectFile (done) {
-            var file = projectPath(projectID)
+            var file = projectPath(offerID)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify({
-                projectID,
+                offerID,
                 licensor: licensorID,
                 pricing: body.pricing,
                 homepage: body.homepage,
@@ -54,7 +54,7 @@ exports.handler = function (log, body, end, fail, lock) {
             var file = projectsListPath(licensorID)
             var content = stringifyProjects([
               {
-                projectID,
+                offerID,
                 offered: new Date().toISOString(),
                 retracted: null
               }
@@ -74,12 +74,12 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error.userMessage) return fail(error.userMessage)
         return fail('internal error')
       }
-      end({ projectID })
+      end({ offerID })
       email(log, {
         to: process.env.OFFER_NOTIFICATION_EMAIL,
         subject: 'License Zero Project Offer',
         text: [
-          'projectID: ' + projectID,
+          'offerID: ' + offerID,
           'licensor: ' + licensorID,
           'pricing.private: ' + body.pricing.private,
           'pricing.relicense: ' + body.pricing.relicense,

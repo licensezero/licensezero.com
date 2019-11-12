@@ -39,7 +39,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
       }
 
       suite.test('license', function (test) {
-        var projectID
+        var offerID
         var paymentLocation
         var importPurchaseCommand
         runSeries([
@@ -60,15 +60,15 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'offer error false')
-              test.assert(has(response, 'projectID'), 'project id')
-              projectID = response.projectID
+              test.assert(has(response, 'offerID'), 'project id')
+              offerID = response.offerID
               done()
             })
           },
           function order (done) {
             apiRequest(port, {
               action: 'order',
-              projects: [projectID],
+              projects: [offerID],
               licensee: 'Larry Licensee',
               jurisdiction: 'US-CA',
               email: 'licensee@example.com',
@@ -158,7 +158,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
       })
 
       suite.test('sponsor', function (test) {
-        var projectID
+        var offerID
         var paymentLocation
         var notificationMessage
         var agreementMessage
@@ -185,15 +185,15 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'offer error false')
-              test.assert(has(response, 'projectID'), 'project id')
-              projectID = response.projectID
+              test.assert(has(response, 'offerID'), 'project id')
+              offerID = response.offerID
               done()
             })
           },
           function relicenseTheProject (done) {
             apiRequest(port, {
               action: 'sponsor',
-              projectID,
+              offerID,
               sponsor: SPONSOR_NAME,
               jurisdiction: SPONSOR_JURISDICTION,
               email: SPONSOR_EMAIL
@@ -267,7 +267,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             test.assert(text.includes(formattedPrice), 'e-mail shows price')
             test.equal(message.to, SPONSOR_EMAIL, 'e-mail to sponsor')
             test.equal(message.cc, LICENSOR_EMAIL, 'e-mail cc licensor')
-            test.assert(text.includes(projectID), 'e-mail project ID')
+            test.assert(text.includes(offerID), 'e-mail project ID')
             test.assert(text.includes(homepage), 'e-mail homepage')
             test.assert(text.includes(description), 'e-mail description')
             done()
@@ -275,7 +275,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function checkAgreement (done) {
             var text = agreementMessage.agreement
             test.assert(text.includes('License Zero Relicense Agreement'), 'agreement title')
-            test.assert(text.includes(projectID), 'agreement project ID')
+            test.assert(text.includes(offerID), 'agreement project ID')
             test.assert(text.includes(formattedPrice), 'agreement price')
             test.assert(text.includes(LICENSOR_NAME), 'agreement licensor name')
             test.assert(text.includes(LICENSOR_JURISDICTION), 'agreement licensor jurisdiction')
@@ -288,7 +288,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             var text = notificationMessage.text
             test.assert(text.includes(formattedPrice), 'notification price')
             test.equal(message.to, LICENSOR_EMAIL, 'notification to licensor')
-            test.assert(text.includes(projectID), 'notification project ID')
+            test.assert(text.includes(offerID), 'notification project ID')
             test.assert(text.includes(homepage), 'notification homepage')
             test.assert(text.includes(description), 'notification description')
             done()

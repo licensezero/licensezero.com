@@ -68,7 +68,7 @@ tape('licensor w/ invalid id', function (test) {
 
 tape('licensor w/ project', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offerProject (done) {
@@ -77,7 +77,7 @@ tape('licensor w/ project', function (test) {
           token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -92,7 +92,7 @@ tape('licensor w/ project', function (test) {
             'one project'
           )
           test.equal(
-            response.projects[0].projectID, projectID,
+            response.projects[0].offerID, offerID,
             'offered project'
           )
           done()
@@ -108,7 +108,7 @@ tape('licensor w/ project', function (test) {
 
 tape('licensor w/ retracted project', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offerProject (done) {
@@ -117,7 +117,7 @@ tape('licensor w/ retracted project', function (test) {
           token: LICENSOR.token
         }), function (error, response) {
           if (error) return done(error)
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -126,7 +126,7 @@ tape('licensor w/ retracted project', function (test) {
           action: 'retract',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID
+          offerID
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
@@ -172,7 +172,7 @@ tape('licensor w/ retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          firstProject = response.projectID
+          firstProject = response.offerID
           done()
         })
       },
@@ -184,7 +184,7 @@ tape('licensor w/ retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          secondProject = response.projectID
+          secondProject = response.offerID
           done()
         })
       },
@@ -193,7 +193,7 @@ tape('licensor w/ retracted project', function (test) {
           action: 'retract',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: firstProject
+          offerID: firstProject
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
@@ -214,7 +214,7 @@ tape('licensor w/ retracted project', function (test) {
           test.notEqual(
             projects
               .find(function (element) {
-                return element.projectID === firstProject
+                return element.offerID === firstProject
               })
               .retracted,
             null,
@@ -223,7 +223,7 @@ tape('licensor w/ retracted project', function (test) {
           test.equal(
             projects
               .find(function (element) {
-                return element.projectID === secondProject
+                return element.offerID === secondProject
               })
               .retracted,
             null,

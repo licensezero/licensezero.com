@@ -4,10 +4,10 @@ var projectPath = require('../paths/project')
 var readJSONFile = require('./read-json-file')
 var runWaterfall = require('run-waterfall')
 
-module.exports = function (projectID, callback) {
+module.exports = function (offerID, callback) {
   runWaterfall([
     function readProjectData (done) {
-      var file = projectPath(projectID)
+      var file = projectPath(offerID)
       readJSONFile(file, annotateENOENT('no such project', done))
     },
     function readLicensorData (project, done) {

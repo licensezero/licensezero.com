@@ -10,24 +10,24 @@ routes.set('/thanks', require('./thanks'))
 routes.set('/pricing', require('./pricing'))
 routes.set('/commitment', require('./commitment'))
 routes.set('/manifesto', require('./manifesto'))
-routes.set('/projects/:projectID', function (request, response) {
+routes.set('/projects/:offerID', function (request, response) {
   response.statusCode = 301
   response.setHeader(
     'Location',
-    '/ids/' + request.parameters.projectID
+    '/ids/' + request.parameters.offerID
   )
   response.end()
 })
-routes.set('/projects/:projectID/badge.svg', function (request, response) {
+routes.set('/projects/:offerID/badge.svg', function (request, response) {
   response.statusCode = 301
   response.setHeader(
     'Location',
-    '/ids/' + request.parameters.projectID + '/badge.svg'
+    '/ids/' + request.parameters.offerID + '/badge.svg'
   )
   response.end()
 })
-routes.set('/ids/:projectID', require('./id'))
-routes.set('/ids/:projectID/badge.svg', require('./badge'))
+routes.set('/ids/:offerID', require('./id'))
+routes.set('/ids/:offerID/badge.svg', require('./badge'))
 routes.set('/buy', require('./buy'))
 routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))

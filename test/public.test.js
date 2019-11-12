@@ -13,7 +13,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('public prosperity', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -23,7 +23,7 @@ tape('public prosperity', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -32,7 +32,7 @@ tape('public prosperity', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
@@ -162,7 +162,7 @@ tape('public prosperity', function (test) {
 
 tape('public parity', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -172,7 +172,7 @@ tape('public parity', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -181,7 +181,7 @@ tape('public parity', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           terms: 'parity'
         }, function (error, response) {
           if (error) return done(error)
@@ -318,7 +318,7 @@ tape('public for nonexistent project', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: uuid(),
+          offerID: uuid(),
           terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
@@ -339,7 +339,7 @@ tape('public for nonexistent project', function (test) {
 
 tape('public for retracted project', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -349,14 +349,14 @@ tape('public for retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -370,7 +370,7 @@ tape('public for retracted project', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           terms: 'prosperity'
         }, function (error, response) {
           if (error) return done(error)
@@ -391,7 +391,7 @@ tape('public for retracted project', function (test) {
 
 tape('public charity', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -401,7 +401,7 @@ tape('public charity', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -410,7 +410,7 @@ tape('public charity', function (test) {
           action: 'public',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           terms: 'charity'
         }, function (error, response) {
           if (error) return done(error)
