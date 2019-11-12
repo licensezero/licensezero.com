@@ -9,9 +9,9 @@ var html = require('./html')
 var jurisdictionOptions = require('./partials/jurisdiction-options')
 var nav = require('./partials/nav')
 var notFound = require('./not-found')
-var readProject = require('../data/read-project')
+var readOffer = require('../data/read-offer')
 var renderJurisdiction = require('./partials/jurisdiction')
-var sanitizeProject = require('../data/sanitize-project')
+var sanitizeOffer = require('../data/sanitize-offer')
 
 module.exports = function (request, response) {
   var offerID = request.parameters.offerID
@@ -20,9 +20,9 @@ module.exports = function (request, response) {
     error.userMessage = 'invalid project identifier'
     return notFound(request, response, error)
   }
-  readProject(offerID, function (error, project) {
+  readOffer(offerID, function (error, project) {
     if (error) return notFound(request, response, error)
-    sanitizeProject(project)
+    sanitizeOffer(project)
     var licensor = project.licensor
     response.setHeader('Content-Type', 'text/html; charset=UTf-8')
     response.end(html`

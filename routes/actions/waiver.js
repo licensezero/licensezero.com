@@ -1,13 +1,13 @@
 var ed25519 = require('../../util/ed25519')
 var stringify = require('json-stable-stringify')
-var readProject = require('../../data/read-project')
+var readOffer = require('../../data/read-offer')
 var recordSignature = require('../../data/record-signature')
 var waiver = require('../../forms/waiver')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  offerID: require('./common/project-id'),
+  offerID: require('./common/offer-id'),
   beneficiary: {
     description: 'beneficiary legal name',
     type: 'string',
@@ -33,7 +33,7 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail, lock) {
   var offerID = body.offerID
-  readProject(offerID, function (error, project) {
+  readOffer(offerID, function (error, project) {
     if (error) {
       if (error.userMessage) return fail(error.userMessage)
       return fail(error)

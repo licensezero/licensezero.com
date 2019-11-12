@@ -1,5 +1,5 @@
 var licensorPath = require('../../paths/licensor')
-var listProjects = require('../../data/list-projects')
+var listOffers = require('../../data/list-offers')
 var readJSONFile = require('../../data/read-json-file')
 
 exports.properties = {
@@ -15,7 +15,7 @@ exports.handler = function (log, body, end, fail) {
       if (error.code === 'ENOENT') return fail('no such licensor')
       return fail('internal error')
     }
-    listProjects(licensorID, function (error, projects) {
+    listOffers(licensorID, function (error, projects) {
       /* istanbul ignore if */
       if (error) {
         log.error(error)

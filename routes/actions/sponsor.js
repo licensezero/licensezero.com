@@ -1,8 +1,8 @@
-var readProject = require('../../data/read-project')
+var readOffer = require('../../data/read-offer')
 var writeRelicenseOrder = require('../../data/write-relicense-order')
 
 exports.properties = {
-  offerID: require('./common/project-id'),
+  offerID: require('./common/offer-id'),
   sponsor: require('./common/name'),
   jurisdiction: require('./common/jurisdiction'),
   email: require('./common/email')
@@ -13,7 +13,7 @@ exports.handler = function (log, body, end, fail, lock) {
   var sponsor = body.sponsor
   var jurisdiction = body.jurisdiction
   var email = body.email
-  readProject(offerID, function (error, project) {
+  readOffer(offerID, function (error, project) {
     if (error) return fail('no such project')
     if (project.retracted) return fail('project retracted')
     if (project.relicensed) return fail('project already relicensed')

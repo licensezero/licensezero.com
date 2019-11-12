@@ -11,7 +11,7 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('project', function (test) {
+tape('read', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
@@ -27,7 +27,7 @@ tape('project', function (test) {
           done()
         })
       },
-      function requestProject (done) {
+      function request (done) {
         apiRequest(port, {
           action: 'project',
           offerID

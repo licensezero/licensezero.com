@@ -3,12 +3,12 @@ var email = require('../../email')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
-var projectPath = require('../../paths/project')
-var projectsListPath = require('../../paths/projects-list')
+var offerPath = require('../../paths/offer')
+var offerssListPath = require('../../paths/offers-list')
 var recordAcceptance = require('../../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
-var stringifyProjects = require('../../data/stringify-projects')
+var stringifyOffers = require('../../data/stringify-offers')
 var uuid = require('uuid/v4')
 
 exports.properties = {
@@ -36,8 +36,8 @@ exports.handler = function (log, body, end, fail, lock) {
       },
       function writeFile (done) {
         runParallel([
-          function writeProjectFile (done) {
-            var file = projectPath(offerID)
+          function writeOfferFile (done) {
+            var file = offerPath(offerID)
             runSeries([
               mkdirp.bind(null, path.dirname(file)),
               fs.writeFile.bind(fs, file, JSON.stringify({
@@ -51,8 +51,8 @@ exports.handler = function (log, body, end, fail, lock) {
             ], done)
           },
           function appendToLicensorProjectsList (done) {
-            var file = projectsListPath(licensorID)
-            var content = stringifyProjects([
+            var file = offerssListPath(licensorID)
+            var content = stringifyOffers([
               {
                 offerID,
                 offered: new Date().toISOString(),

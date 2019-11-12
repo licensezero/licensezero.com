@@ -1,19 +1,19 @@
-var readProject = require('../../data/read-project')
-var sanitizeProject = require('../../data/sanitize-project')
+var readOffer = require('../../data/read-offer')
+var sanitizeOffer = require('../../data/sanitize-offer')
 
 exports.properties = {
-  offerID: require('./common/project-id')
+  offerID: require('./common/offer-id')
 }
 
 exports.handler = function (log, body, end, fail) {
-  readProject(body.offerID, function (error, data) {
+  readOffer(body.offerID, function (error, data) {
     if (error) {
       log.error(error)
       /* istanbul ignore else */
       if (error.userMessage) return fail(error.userMessage)
       return fail('internal error')
     }
-    sanitizeProject(data)
+    sanitizeOffer(data)
     end(data)
   })
 }

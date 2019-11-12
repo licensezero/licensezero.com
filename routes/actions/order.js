@@ -1,5 +1,5 @@
 var assert = require('assert')
-var readProject = require('../../data/read-project')
+var readOffer = require('../../data/read-offer')
 var runParallel = require('run-parallel')
 var writeOrder = require('../../data/write-order')
 
@@ -12,7 +12,7 @@ exports.properties = {
     type: 'array',
     minItems: 1,
     maxItems: 100,
-    items: require('./common/project-id')
+    items: require('./common/offer-id')
   }
 }
 
@@ -25,7 +25,7 @@ exports.handler = function (log, body, end, fail, lock) {
   runParallel(
     projects.map(function (offerID, index) {
       return function (done) {
-        readProject(offerID, function (error, project) {
+        readOffer(offerID, function (error, project) {
           if (error) {
             if (error.userMessage) {
               error.userMessage += ': ' + offerID

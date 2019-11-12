@@ -22,12 +22,12 @@ var nav = require('./partials/nav')
 var orderPath = require('../paths/order')
 var outline = require('outline-numbering')
 var padStart = require('string.prototype.padstart')
-var parseProjects = require('../data/parse-projects')
+var parseOffers = require('../data/parse-offers')
 var path = require('path')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
-var projectPath = require('../paths/project')
-var projectsListPath = require('../paths/projects-list')
+var offerPath = require('../paths/offer')
+var offersListPath = require('../paths/offers-list')
 var purchasePath = require('../paths/purchase')
 var readJSONFile = require('../data/read-json-file')
 var recordAcceptance = require('../data/record-acceptance')
@@ -39,7 +39,7 @@ var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 var signatureLines = require('../data/signature-lines')
 var stringify = require('json-stable-stringify')
-var stringifyProjects = require('../data/stringify-projects')
+var stringifyOffers = require('../data/stringify-offers')
 var stripANSI = require('strip-ansi')
 var stripe = require('../stripe')
 var toANSI = require('commonform-terminal')
@@ -838,17 +838,17 @@ ${head('Thank you')}
     }
 
     function markRelicensed (done) {
-      var file = projectPath(offerID)
+      var file = offerPath(offerID)
       mutateJSONFile(file, function (data) {
         data.relicensed = true
       }, annotateENOENT('no such project', done))
     }
 
     function removeFromProjectsList (done) {
-      var file = projectsListPath(licensorID)
+      var file = offersListPath(licensorID)
       mutateTextFile(file, function (text) {
-        return stringifyProjects(
-          parseProjects(text).map(function (element) {
+        return stringifyOffers(
+          parseOffers(text).map(function (element) {
             if (
               element.offerID === offerID &&
               element.relicensed === null

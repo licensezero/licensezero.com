@@ -1,11 +1,11 @@
 var mutateJSONFile = require('../../data/mutate-json-file')
-var projectPath = require('../../paths/project')
+var offerPath = require('../../paths/offer')
 var readJSONFile = require('../../data/read-json-file')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  offerID: require('./common/project-id'),
+  offerID: require('./common/offer-id'),
   unlock: {
     type: 'string',
     format: 'date-time'
@@ -14,7 +14,7 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail, lock) {
   lock([body.licensorID, body.offerID], function (release) {
-    var file = projectPath(body.offerID)
+    var file = offerPath(body.offerID)
     readJSONFile(file, function (error, project) {
       if (error) return die('no such project')
       if (project.retracted) return die('retracted project')

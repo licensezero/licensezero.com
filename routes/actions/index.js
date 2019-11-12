@@ -7,7 +7,7 @@ module.exports = {
   name: require('./name'),
   offer: require('./offer'),
   order: require('./order'),
-  project: require('./project'),
+  project: require('./read'),
   public: require('./public'),
   quote: require('./quote'),
   register: require('./register'),

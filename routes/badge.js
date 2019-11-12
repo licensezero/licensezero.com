@@ -2,7 +2,7 @@ var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var doNotCache = require('do-not-cache')
 var formatPrice = require('../util/format-price')
 var path = require('path')
-var readProject = require('../data/read-project')
+var readOffer = require('../data/read-offer')
 var withCached = require('../data/with-cached')
 
 var withRelicense = withCached(
@@ -20,7 +20,7 @@ module.exports = function (request, response) {
     response.statusCode = 404
     return response.end()
   }
-  readProject(offerID, function (error, project) {
+  readOffer(offerID, function (error, project) {
     if (error) {
       response.statusCode = 404
       return response.end()

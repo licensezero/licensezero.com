@@ -1,7 +1,7 @@
 var charityLicense = require('../../forms/charity-license')
 var ed25519 = require('../../util/ed25519')
 var prosperityLicense = require('../../forms/prosperity-license')
-var readProject = require('../../data/read-project')
+var readOffer = require('../../data/read-offer')
 var parityLicense = require('../../forms/parity-license')
 var signatureLines = require('../../data/signature-lines')
 var stringify = require('json-stable-stringify')
@@ -9,13 +9,13 @@ var stringify = require('json-stable-stringify')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  offerID: require('./common/project-id'),
+  offerID: require('./common/offer-id'),
   terms: { enum: ['parity', 'prosperity', 'charity'] }
 }
 
 exports.handler = function (log, body, end, fail, lock) {
   var offerID = body.offerID
-  readProject(offerID, function (error, project) {
+  readOffer(offerID, function (error, project) {
     if (error) {
       /* istanbul ignore else */
       if (error.userMessage) return fail(error.userMessage)
