@@ -21,7 +21,7 @@ module.exports = function testServer (/* [port,] callback */) {
     process.env.COMMISSION = 2
     process.env.PUBLIC_KEY = keys.publicKey
     process.env.PRIVATE_KEY = keys.privateKey
-    var log = pino({}, fs.createWriteStream('test-server.log'))
+    var log = pino({}, fs.createWriteStream('test-server.log', { flags: 'a' }))
     var server = http.createServer(makeHandler(log))
     server.listen(port, function onListening () {
       callback(this.address().port, function done () {
