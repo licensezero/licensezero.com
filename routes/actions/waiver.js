@@ -54,7 +54,7 @@ exports.handler = function (log, body, end, fail, lock) {
       offer: {
         offerID,
         description: offer.description,
-        homepage: offer.homepage
+        url: offer.url
       },
       date: new Date().toISOString(),
       term: body.term.toString()

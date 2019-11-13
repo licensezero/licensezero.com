@@ -14,7 +14,7 @@ module.exports = function (options, callback) {
     var result = template
       .toString()
       .replace('$name', options.name)
-      .replace('$address', options.homepage)
+      .replace('$address', options.url)
     callback(null, result)
   })
 }

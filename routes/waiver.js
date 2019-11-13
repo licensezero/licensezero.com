@@ -25,7 +25,7 @@ module.exports = function (request, response) {
     offer: {
       offerID: '{Offer ID}',
       description: '{Offer Description}',
-      homepage: '{Offer Homepage URL}'
+      url: '{Offer URL}'
     },
     date: '{Date}',
     term: 'Forever'

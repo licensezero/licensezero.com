@@ -24,7 +24,7 @@ module.exports = function (request, response) {
     },
     offerID: '{Project ID}',
     description: '{Project Description}',
-    homepage: '{Project Homepage URL}'
+    url: '{Project URL}'
   }, function (error, result) {
     if (error) return internalError(request, response, error)
     response.setHeader('Content-Type', 'text/html')

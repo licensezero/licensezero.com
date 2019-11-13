@@ -48,7 +48,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               action: 'offer',
               licensorID,
               token,
-              homepage: 'http://example.com',
+              url: 'http://example.com',
               pricing: {
                 private: 500
               },
@@ -177,7 +177,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
         var agreementMessage
         var relicensePrice = 100000
         var formattedPrice = '$1000.00'
-        var homepage = 'http://example.com/repo'
+        var url = 'http://example.com/repo'
         var description = 'some offer to relicense'
         runSeries([
           function offer (done) {
@@ -185,7 +185,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               action: 'offer',
               licensorID,
               token,
-              homepage,
+              url,
               pricing: {
                 private: 500,
                 relicense: relicensePrice
@@ -294,7 +294,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             test.equal(message.to, SPONSOR_EMAIL, 'e-mail to sponsor')
             test.equal(message.cc, LICENSOR_EMAIL, 'e-mail cc licensor')
             test.assert(text.includes(offerID), 'e-mail offer ID')
-            test.assert(text.includes(homepage), 'e-mail homepage')
+            test.assert(text.includes(url), 'e-mail url')
             test.assert(text.includes(description), 'e-mail description')
             done()
           },
@@ -315,7 +315,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             test.assert(text.includes(formattedPrice), 'notification price')
             test.equal(message.to, LICENSOR_EMAIL, 'notification to licensor')
             test.assert(text.includes(offerID), 'notification offer ID')
-            test.assert(text.includes(homepage), 'notification homepage')
+            test.assert(text.includes(url), 'notification url')
             test.assert(text.includes(description), 'notification description')
             done()
           }

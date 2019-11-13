@@ -21,7 +21,7 @@ var LICENSOR = [
   '',
   '# Offer private licenses through licensezero.com at $5 US.',
   'licensezero offer --price 500 --relicense 500000 \\',
-  '  --repository http://github.com/example/example \\',
+  '  --url http://github.com/example/example \\',
   '  --description "an example project"',
   '',
   '# Write Prosperity to LICENSE and metadata to `licensezero.json`.',

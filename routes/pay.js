@@ -137,9 +137,9 @@ ${head(action)}
             <p>${escape(offer.description)}</p>
             <p>
               <a
-                href="${escape(offer.homepage)}"
+                href="${escape(offer.url)}"
                 target=_blank
-                >${escape(offer.homepage)}</a>
+                >${escape(offer.url)}</a>
             </p>
             <p>
               ${escape(offer.licensor.name)}
@@ -197,9 +197,9 @@ ${head(action)}
           <p>${escape(offer.description)}</p>
           <p>
             <a
-              href="${escape(offer.homepage)}"
+              href="${escape(offer.url)}"
               target=_blank
-              >${escape(offer.homepage)}</a>
+              >${escape(offer.url)}</a>
           </p>
           <p>
             ${escape(offer.licensor.name)}
@@ -407,7 +407,7 @@ function post (request, response, order) {
                           date: new Date().toISOString(),
                           orderID,
                           offer: pick(offer, [
-                            'offerID', 'homepage', 'description'
+                            'offerID', 'url', 'description'
                           ]),
                           licensee: {
                             name: order.licensee,
@@ -458,7 +458,7 @@ function post (request, response, order) {
                               '',
                               'Description:  ' + offer.description,
                               '',
-                              'Homepage:   ' + offer.homepage
+                              'URL:   ' + offer.url
                             ].join('\n'),
                             license
                           }, function (error) {
@@ -491,7 +491,7 @@ function post (request, response, order) {
                             '',
                             'Description:  ' + offer.description,
                             '',
-                            'Homepage:   ' + offer.homepage,
+                            'URL:   ' + offer.url,
                             '',
                             'Licensee:     ' + order.licensee,
                             '',
@@ -677,7 +677,7 @@ ${head('Thank you')}
         'Sponsor Jurisdiction': order.jurisdiction,
         // TODO: Update relicense form "Project ID" blank.
         'Project ID': offer.offerID,
-        Homepage: offer.homepage,
+        URL: offer.url,
         Descriptions: offer.description,
         Payment: formatPrice(price)
       }, function (error, form) {
@@ -778,7 +778,7 @@ ${head('Thank you')}
           '',
           'Description:  ' + offer.description,
           '',
-          'Homepage:   ' + offer.homepage
+          'URL:   ' + offer.url
         ].join('\n'),
         agreement
       }, done)
@@ -799,7 +799,7 @@ ${head('Thank you')}
           '',
           'Description:  ' + offer.description,
           '',
-          'Homepage:   ' + offer.homepage,
+          'URL:   ' + offer.url,
           '',
           'Price:      ' + priceColumn(price),
           '',

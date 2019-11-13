@@ -34,7 +34,7 @@ exports.handler = function (log, body, end, fail, lock) {
       publicKey: offer.licensor.publicKey,
       terms: body.terms,
       version: terms.version,
-      homepage: offer.homepage
+      url: offer.url
     }
     terms(licenseData, function (error, document) {
       if (error) {

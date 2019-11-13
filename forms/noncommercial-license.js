@@ -17,7 +17,7 @@ module.exports = function (options, callback) {
       {
         version: VERSION,
         name: options.name,
-        source: options.homepage,
+        source: options.url,
         gracePeriod: '32'
       }
     ))

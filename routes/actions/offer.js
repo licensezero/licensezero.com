@@ -1,4 +1,4 @@
-var checkHomepage = require('./check-homepage')
+var checkURL = require('./check-url')
 var email = require('../../email')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
@@ -14,7 +14,7 @@ var uuid = require('uuid/v4')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  homepage: require('./common/homepage'),
+  url: require('./common/url'),
   pricing: require('./common/pricing'),
   description: require('./common/description'),
   terms: require('./common/agency-terms')
@@ -27,7 +27,7 @@ exports.handler = function (log, body, end, fail, lock) {
     runSeries([
       function (done) {
         runParallel([
-          checkHomepage.bind(null, body),
+          checkURL.bind(null, body),
           recordAcceptance.bind(null, {
             licensor: licensorID,
             date: new Date().toISOString()
@@ -44,7 +44,7 @@ exports.handler = function (log, body, end, fail, lock) {
                 offerID,
                 licensor: licensorID,
                 pricing: body.pricing,
-                homepage: body.homepage,
+                url: body.url,
                 description: body.description,
                 commission: parseInt(process.env.COMMISSION)
               }))
@@ -83,7 +83,7 @@ exports.handler = function (log, body, end, fail, lock) {
           'licensor: ' + licensorID,
           'pricing.private: ' + body.pricing.private,
           'pricing.relicense: ' + body.pricing.relicense,
-          'homepage: ' + body.homepage,
+          'url: ' + body.url,
           'description: ' + body.description,
           'commission: ' + parseInt(process.env.COMMISSION)
         ].join('\n\n')

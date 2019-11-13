@@ -14,7 +14,7 @@ var REPOSITORY = (
 module.exports = function (request, response) {
   parityLicense({
     name: '{Licensor Name}',
-    homepage: '{https://example.com/project}'
+    url: '{https://example.com/project}'
   }, function (error, form) {
     if (error) return internalError(request, response, error)
     response.setHeader('Content-Type', 'text/html')

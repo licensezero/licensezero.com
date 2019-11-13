@@ -1,6 +1,6 @@
 {
   "action": "offer",
-  "homepage": "http://example.com/",
+  "url": "http://example.com/",
   "pricing": {
     "private": 200
   },

@@ -40,7 +40,7 @@ tape('read', function (test) {
           test.deepEqual(
             response, {
               offerID,
-              homepage: OFFER.homepage,
+              url: OFFER.url,
               pricing: OFFER.pricing,
               licensor: {
                 licensorID: LICENSOR.id,

@@ -1,6 +1,6 @@
 var offerProperties = {
   offerID: require('./offer-id'),
-  homepage: require('./homepage'),
+  url: require('./url'),
   description: require('./description')
 }
 

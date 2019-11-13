@@ -7,16 +7,16 @@ module.exports = function (body, callback) {
   /* istanbul ignore else */
   if (
     process.env.NODE_ENV === 'test' &&
-    body.homepage.indexOf('http://example.com/') === 0
+    body.url.indexOf('http://example.com/') === 0
   ) {
     return callback()
   }
-  var homepage = body.homepage
-  var options = parseURL(homepage)
+  var url = body.url
+  var options = parseURL(url)
   options.method = 'HEAD'
   http.request(options)
     .once('error', function (error) {
-      error.userMessage = 'could not HEAD homepage'
+      error.userMessage = 'could not HEAD url'
       callback(error)
     })
     .once('response', function (response) {
@@ -24,7 +24,7 @@ module.exports = function (body, callback) {
       if (ACCEPTABLE_STATUS.includes(statusCode)) {
         return callback()
       }
-      var message = homepage + ' responded ' + statusCode
+      var message = url + ' responded ' + statusCode
       var error = new Error(message)
       error.userMessage = message
       callback(error)

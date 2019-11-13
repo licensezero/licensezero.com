@@ -26,7 +26,7 @@ module.exports = function (options, callback) {
         agentWebsite: 'https://licensezero.com',
         offerID: offer.offerID,
         description: offer.description,
-        homepage: offer.homepage,
+        url: offer.url,
         date: options.date,
         term: options.term.toLowerCase() === 'forever'
           ? false

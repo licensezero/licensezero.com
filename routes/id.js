@@ -41,10 +41,10 @@ module.exports = function (request, response) {
         <dl>
           <dt>Description</dt>
           <dd class=description>${escape(offer.description)}</dd>
-          <dt>Homepage</dt>
-          <dd class=homepage>
-            <a href="${escape(offer.homepage)}" target=_blank>
-              ${escape(offer.homepage)}
+          <dt>URL</dt>
+          <dd class=url>
+            <a href="${escape(offer.url)}" target=_blank>
+              ${escape(offer.url)}
             </a>
           </dd>
           <dt>Offer ID</dt>
