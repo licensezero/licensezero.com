@@ -3,7 +3,7 @@ var runParallel = require('run-parallel')
 var sanitizeOffer = require('../../data/sanitize-offer')
 
 exports.properties = {
-  projects: {
+  offers: {
     type: 'array',
     minItems: 1,
     maxItems: 100,
@@ -12,20 +12,20 @@ exports.properties = {
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var projects = body.projects
-  var results = new Array(projects.length)
+  var offers = body.offers
+  var results = new Array(offers.length)
   runParallel(
-    projects.map(function (offerID, index) {
+    offers.map(function (offerID, index) {
       return function (done) {
-        readOffer(offerID, function (error, project) {
+        readOffer(offerID, function (error, offer) {
           if (error) {
             if (error.userMessage) {
               error.userMessage += ': ' + offerID
             }
             return done(error)
           }
-          sanitizeOffer(project)
-          results[index] = project
+          sanitizeOffer(offer)
+          results[index] = offer
           done()
         })
       }
@@ -36,7 +36,7 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error.userMessage) return fail(error.userMessage)
         return fail('internal error')
       }
-      end({ projects: results })
+      end({ offers: results })
     }
   )
 }

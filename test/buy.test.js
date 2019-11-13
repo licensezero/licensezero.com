@@ -19,8 +19,8 @@ tape.skip('buy', function (test) {
   }
 
   server(function (port, close) {
-    var firstProject
-    var secondProject
+    var firstOffer
+    var secondOffer
     var location
     runSeries([
       writeTestLicensor.bind(null),
@@ -32,7 +32,7 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.offerID
+          firstOffer = response.offerID
           done()
         })
       },
@@ -44,14 +44,14 @@ tape.skip('buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.offerID
+          secondOffer = response.offerID
           done()
         })
       },
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          projects: [firstProject, secondProject],
+          offers: [firstOffer, secondOffer],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@test.com',
@@ -114,10 +114,10 @@ tape.skip('buy', function (test) {
 
 tape('order w/ nonexistent', function (test) {
   server(function (port, close) {
-    var project = uuid()
+    var offer = uuid()
     apiRequest(port, {
       action: 'order',
-      projects: [project],
+      offers: [offer],
       licensee: 'Larry Licensee',
       jurisdiction: 'US-CA',
       email: 'licensee@test.com',
@@ -125,8 +125,8 @@ tape('order w/ nonexistent', function (test) {
     }, function (error, response) {
       test.error(error)
       test.equal(
-        response.error, 'no such project: ' + project,
-        'no such project'
+        response.error, 'no such offer: ' + offer,
+        'no such offer'
       )
       test.end()
       close()
@@ -165,7 +165,7 @@ tape('order w/ retracted', function (test) {
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          projects: [offerID],
+          offers: [offerID],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@test.com',
@@ -174,7 +174,7 @@ tape('order w/ retracted', function (test) {
           if (error) return done(error)
           test.equal(
             response.error,
-            'retracted projects: ' + offerID,
+            'retracted offers: ' + offerID,
             'retracted error'
           )
           done()

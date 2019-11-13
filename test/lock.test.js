@@ -80,7 +80,7 @@ tape('lock', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'locked project',
+            response.error, 'locked offer',
             'error: locked'
           )
           done()

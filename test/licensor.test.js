@@ -35,8 +35,8 @@ tape('licensor', function (test) {
             'publicKey'
           )
           test.deepEqual(
-            response.projects, [],
-            'projects'
+            response.offers, [],
+            'offers'
           )
         }
         test.end()
@@ -66,12 +66,12 @@ tape('licensor w/ invalid id', function (test) {
   })
 })
 
-tape('licensor w/ project', function (test) {
+tape('licensor w/ offer', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
       writeTestLicensor.bind(null),
-      function offerProject (done) {
+      function offerOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token
@@ -88,12 +88,12 @@ tape('licensor w/ project', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.projects.length, 1,
-            'one project'
+            response.offers.length, 1,
+            'one offer'
           )
           test.equal(
-            response.projects[0].offerID, offerID,
-            'offered project'
+            response.offers[0].offerID, offerID,
+            'offered offer'
           )
           done()
         })
@@ -106,12 +106,12 @@ tape('licensor w/ project', function (test) {
   })
 })
 
-tape('licensor w/ retracted project', function (test) {
+tape('licensor w/ retracted offer', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
       writeTestLicensor.bind(null),
-      function offerProject (done) {
+      function offerOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token
@@ -121,7 +121,7 @@ tape('licensor w/ retracted project', function (test) {
           done()
         })
       },
-      function retractProject (done) {
+      function retractOffer (done) {
         apiRequest(port, {
           action: 'retract',
           licensorID: LICENSOR.id,
@@ -133,19 +133,19 @@ tape('licensor w/ retracted project', function (test) {
           done()
         })
       },
-      function listLicensorProjects (done) {
+      function listLicensorOffers (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.projects.length, 1,
-            'one project listed'
+            response.offers.length, 1,
+            'one offer listed'
           )
           test.notEqual(
-            response.projects[0].retracted, null,
-            'project retracted'
+            response.offers[0].retracted, null,
+            'offer retracted'
           )
           done()
         })
@@ -158,13 +158,13 @@ tape('licensor w/ retracted project', function (test) {
   })
 })
 
-tape('licensor w/ retracted project', function (test) {
+tape('licensor w/ retracted offer', function (test) {
   server(function (port, close) {
-    var firstProject
-    var secondProject
+    var firstOffer
+    var secondOffer
     runSeries([
       writeTestLicensor.bind(null),
-      function offerFirstProject (done) {
+      function offerFirstOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
@@ -172,11 +172,11 @@ tape('licensor w/ retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          firstProject = response.offerID
+          firstOffer = response.offerID
           done()
         })
       },
-      function offerSecondProject (done) {
+      function offerSecondOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
@@ -184,50 +184,50 @@ tape('licensor w/ retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          secondProject = response.offerID
+          secondOffer = response.offerID
           done()
         })
       },
-      function retractFirstProject (done) {
+      function retractFirstOffer (done) {
         apiRequest(port, {
           action: 'retract',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          offerID: firstProject
+          offerID: firstOffer
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
           done()
         })
       },
-      function listLicensorProjects (done) {
+      function listLicensorOffers (done) {
         apiRequest(port, {
           action: 'licensor',
           licensorID: LICENSOR.id
         }, function (error, response) {
           if (error) return done(error)
-          var projects = response.projects
+          var offers = response.offers
           test.equal(
-            projects.length, 2,
-            'two projects'
+            offers.length, 2,
+            'two offers'
           )
           test.notEqual(
-            projects
+            offers
               .find(function (element) {
-                return element.offerID === firstProject
+                return element.offerID === firstOffer
               })
               .retracted,
             null,
-            'first project retracted'
+            'first offer retracted'
           )
           test.equal(
-            projects
+            offers
               .find(function (element) {
-                return element.offerID === secondProject
+                return element.offerID === secondOffer
               })
               .retracted,
             null,
-            'second project not retracted'
+            'second offer not retracted'
           )
           done()
         })

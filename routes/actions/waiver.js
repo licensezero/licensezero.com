@@ -33,13 +33,13 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail, lock) {
   var offerID = body.offerID
-  readOffer(offerID, function (error, project) {
+  readOffer(offerID, function (error, offer) {
     if (error) {
       if (error.userMessage) return fail(error.userMessage)
       return fail(error)
     }
-    if (project.retracted) return fail('retracted project')
-    var licensor = project.licensor
+    if (offer.retracted) return fail('retracted offer')
+    var licensor = offer.licensor
     var parameters = {
       FORM: 'waiver',
       VERSION: waiver.version,
@@ -51,10 +51,10 @@ exports.handler = function (log, body, end, fail, lock) {
         name: licensor.name,
         jurisdiction: licensor.jurisdiction
       },
-      project: {
+      offer: {
         offerID,
-        description: project.description,
-        homepage: project.homepage
+        description: offer.description,
+        homepage: offer.homepage
       },
       date: new Date().toISOString(),
       term: body.term.toString()

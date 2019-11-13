@@ -10,8 +10,8 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('quote', function (test) {
   server(function (port, close) {
-    var firstProject
-    var secondProject
+    var firstOffer
+    var secondOffer
     runSeries([
       writeTestLicensor.bind(null),
       function offerFirst (done) {
@@ -22,7 +22,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.offerID
+          firstOffer = response.offerID
           done()
         })
       },
@@ -34,22 +34,22 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.offerID
+          secondOffer = response.offerID
           done()
         })
       },
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          projects: [firstProject, secondProject]
+          offers: [firstOffer, secondOffer]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
           test.deepEqual(
-            response.projects,
+            response.offers,
             [
               {
-                offerID: firstProject,
+                offerID: firstOffer,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 homepage: 'http://example.com/first',
@@ -62,7 +62,7 @@ tape('quote', function (test) {
                 commission: parseInt(process.env.COMMISSION)
               },
               {
-                offerID: secondProject,
+                offerID: secondOffer,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 homepage: 'http://example.com/second',
@@ -93,12 +93,12 @@ tape('quote w/ nonexistent', function (test) {
     var offerID = uuid()
     apiRequest(port, {
       action: 'quote',
-      projects: [offerID]
+      offers: [offerID]
     }, function (error, response) {
       test.error(error)
       test.equal(
-        response.error, 'no such project: ' + offerID,
-        'no such project'
+        response.error, 'no such offer: ' + offerID,
+        'no such offer'
       )
       test.end()
       close()
@@ -137,15 +137,15 @@ tape('quote w/ retracted', function (test) {
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          projects: [offerID]
+          offers: [offerID]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.projects[0].offerID, offerID,
-            'project'
+            response.offers[0].offerID, offerID,
+            'offer'
           )
           test.equal(
-            response.projects[0].retracted, true,
+            response.offers[0].retracted, true,
             'retracted'
           )
           done()

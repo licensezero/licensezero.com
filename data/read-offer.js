@@ -6,20 +6,20 @@ var runWaterfall = require('run-waterfall')
 
 module.exports = function (offerID, callback) {
   runWaterfall([
-    function readProjectData (done) {
+    function readOfferData (done) {
       var file = offerPath(offerID)
-      readJSONFile(file, annotateENOENT('no such project', done))
+      readJSONFile(file, annotateENOENT('no such offer', done))
     },
-    function readLicensorData (project, done) {
-      var file = licensorPath(project.licensor)
+    function readLicensorData (offer, done) {
+      var file = licensorPath(offer.licensor)
       readJSONFile(file, function (error, licensor) {
         if (error) return done(error)
-        done(null, { licensor, project })
+        done(null, { licensor, offer })
       })
     }
   ], function (error, results) {
     if (error) return callback(error)
-    callback(null, Object.assign(results.project, {
+    callback(null, Object.assign(results.offer, {
       licensor: results.licensor
     }))
   })

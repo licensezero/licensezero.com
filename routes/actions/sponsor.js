@@ -13,13 +13,13 @@ exports.handler = function (log, body, end, fail, lock) {
   var sponsor = body.sponsor
   var jurisdiction = body.jurisdiction
   var email = body.email
-  readOffer(offerID, function (error, project) {
-    if (error) return fail('no such project')
-    if (project.retracted) return fail('project retracted')
-    if (project.relicensed) return fail('project already relicensed')
-    if (!project.pricing.relicense) return fail('not available for relicense')
+  readOffer(offerID, function (error, offer) {
+    if (error) return fail('no such offer')
+    if (offer.retracted) return fail('offer retracted')
+    if (offer.relicensed) return fail('offer already relicensed')
+    if (!offer.pricing.relicense) return fail('not available for relicense')
     writeRelicenseOrder({
-      project,
+      offer,
       sponsor,
       jurisdiction,
       email

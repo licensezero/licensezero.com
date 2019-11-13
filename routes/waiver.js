@@ -22,10 +22,10 @@ module.exports = function (request, response) {
       name: '{Beneficiary Name}',
       jurisdiction: '{Beneficiary Jurisdiction, e.g. "US-NY"}'
     },
-    project: {
-      offerID: '{Project ID}',
-      description: '{Project Description}',
-      homepage: '{Project Homepage URL}'
+    offer: {
+      offerID: '{Offer ID}',
+      description: '{Offer Description}',
+      homepage: '{Offer Homepage URL}'
     },
     date: '{Date}',
     term: 'Forever'

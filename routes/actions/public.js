@@ -15,26 +15,26 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail, lock) {
   var offerID = body.offerID
-  readOffer(offerID, function (error, project) {
+  readOffer(offerID, function (error, offer) {
     if (error) {
       /* istanbul ignore else */
       if (error.userMessage) return fail(error.userMessage)
       log.error(error)
       return fail('internal error')
     }
-    if (project.retracted) return fail('retracted project')
+    if (offer.retracted) return fail('retracted offer')
     var terms = body.terms
     if (body.terms === 'prosperity') terms = prosperityLicense
     if (body.terms === 'parity') terms = parityLicense
     if (body.terms === 'charity') terms = charityLicense
     var licenseData = {
-      jurisdiction: project.licensor.jurisdiction,
-      name: project.licensor.name,
+      jurisdiction: offer.licensor.jurisdiction,
+      name: offer.licensor.name,
       offerID,
-      publicKey: project.licensor.publicKey,
+      publicKey: offer.licensor.publicKey,
       terms: body.terms,
       version: terms.version,
-      homepage: project.homepage
+      homepage: offer.homepage
     }
     terms(licenseData, function (error, document) {
       if (error) {
@@ -42,7 +42,7 @@ exports.handler = function (log, body, end, fail, lock) {
         return fail('internal error')
       }
       var licensorLicenseSignature = ed25519.sign(
-        document, body.licensor.publicKey, project.licensor.privateKey
+        document, body.licensor.publicKey, offer.licensor.privateKey
       )
       var publicKey = Buffer.from(process.env.PUBLIC_KEY, 'hex')
       var privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex')

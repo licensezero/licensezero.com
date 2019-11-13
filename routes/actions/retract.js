@@ -19,23 +19,23 @@ exports.handler = function (log, body, end, fail, lock) {
   var offerID = body.offerID
   lock([licensorID, offerID], function (release) {
     var file = offerPath(body.offerID)
-    readJSONFile(file, function (error, project) {
-      if (error) return die('no such project')
-      if (project.retracted) return die('retracted project')
-      if (project.relicensed) return die('relicensed project')
-      if (project.lock) {
-        var unlockDate = new Date(project.lock.unlock)
+    readJSONFile(file, function (error, offer) {
+      if (error) return die('no such offer')
+      if (offer.retracted) return die('retracted offer')
+      if (offer.relicensed) return die('relicensed offer')
+      if (offer.lock) {
+        var unlockDate = new Date(offer.lock.unlock)
         var now = new Date()
-        if (unlockDate > now) return die('locked project')
+        if (unlockDate > now) return die('locked offer')
       }
       runSeries([
         function markRetracted (done) {
           var file = offerPath(offerID)
           mutateJSONFile(file, function (data) {
             data.retracted = true
-          }, annotateENOENT('no such project', done))
+          }, annotateENOENT('no such offer', done))
         },
-        function removeFromProjectsList (done) {
+        function removeFromOffersList (done) {
           var file = offersListPath(licensorID)
           mutateTextFile(file, function (text) {
             return stringifyOffers(

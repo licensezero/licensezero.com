@@ -8,7 +8,7 @@ exports.properties = {
   jurisdiction: require('./common/jurisdiction'),
   email: require('./common/email'),
   person: require('./common/person'),
-  projects: {
+  offers: {
     type: 'array',
     minItems: 1,
     maxItems: 100,
@@ -21,18 +21,18 @@ exports.handler = function (log, body, end, fail, lock) {
   assert.strict.equal(typeof end, 'function')
   assert.strict.equal(typeof fail, 'function')
   assert.strict.equal(typeof lock, 'function')
-  var projects = body.projects
+  var offers = body.offers
   runParallel(
-    projects.map(function (offerID, index) {
+    offers.map(function (offerID, index) {
       return function (done) {
-        readOffer(offerID, function (error, project) {
+        readOffer(offerID, function (error, offer) {
           if (error) {
             if (error.userMessage) {
               error.userMessage += ': ' + offerID
             }
             return done(error)
           }
-          projects[index] = project
+          offers[index] = offer
           done()
         })
       }
@@ -44,31 +44,31 @@ exports.handler = function (log, body, end, fail, lock) {
         log.error(error)
         return fail('internal error')
       }
-      var retracted = projects.filter(function (project) {
-        return project.retracted
+      var retracted = offers.filter(function (offer) {
+        return offer.retracted
       })
       if (retracted.length !== 0) {
         return fail(
-          'retracted projects: ' +
+          'retracted offers: ' +
           retracted.map(offerIDOf).join(', ')
         )
       }
-      var relicensed = projects.filter(function (project) {
-        return project.relicensed
+      var relicensed = offers.filter(function (offer) {
+        return offer.relicensed
       })
       if (relicensed.length !== 0) {
         return fail(
-          'relicensed projects: ' +
+          'relicensed offers: ' +
           relicensed.map(offerIDOf).join(', ')
         )
       }
-      var pricedProjects = projects.map(function (project) {
-        project.price = project.pricing.private
-        delete project.pricing
-        return project
+      var pricedOffers = offers.map(function (offer) {
+        offer.price = offer.pricing.private
+        delete offer.pricing
+        return offer
       })
       writeOrder({
-        projects: pricedProjects,
+        offers: pricedOffers,
         licensee: body.licensee,
         jurisdiction: body.jurisdiction,
         email: body.email

@@ -75,7 +75,7 @@ function get (request, response, order, postData) {
   response.statusCode = postData ? 400 : 200
   response.setHeader('Content-Type', 'text/html')
   var relicensing = order.type === 'relicense'
-  var action = relicensing ? 'Relicense Project' : 'Buy Licenses'
+  var action = relicensing ? 'Relicense Offer' : 'Buy Licenses'
   response.end(html`
 <!doctype html>
 <html lang=en>
@@ -129,21 +129,21 @@ ${head(action)}
       </tr>
     </thead>
     <tbody>
-    ${order.projects.map(function (project) {
+    ${order.offers.map(function (offer) {
     return html`
         <tr>
           <td>
-            <p><code>${escape(project.offerID)}</code></p>
-            <p>${escape(project.description)}</p>
+            <p><code>${escape(offer.offerID)}</code></p>
+            <p>${escape(offer.description)}</p>
             <p>
               <a
-                href="${escape(project.homepage)}"
+                href="${escape(offer.homepage)}"
                 target=_blank
-                >${escape(project.homepage)}</a>
+                >${escape(offer.homepage)}</a>
             </p>
             <p>
-              ${escape(project.licensor.name)}
-              (${renderJurisdiction(project.licensor.jurisdiction)})
+              ${escape(offer.licensor.name)}
+              (${renderJurisdiction(offer.licensor.jurisdiction)})
             </p>
             <p>
               Terms:
@@ -154,7 +154,7 @@ ${head(action)}
             </p>
           </td>
           <td class=price>
-            ${escape(formatPrice(project.price))}
+            ${escape(formatPrice(offer.price))}
           </td>
         </tr>
       `
@@ -172,7 +172,7 @@ ${head(action)}
   }
 
   function relicenseUI () {
-    var project = order.project
+    var offer = order.offer
     return html`
 <section>
   <h2>Sponsor</h2>
@@ -193,17 +193,17 @@ ${head(action)}
     <tbody>
       <tr>
         <td>
-          <p><code>${escape(project.offerID)}</code></p>
-          <p>${escape(project.description)}</p>
+          <p><code>${escape(offer.offerID)}</code></p>
+          <p>${escape(offer.description)}</p>
           <p>
             <a
-              href="${escape(project.homepage)}"
+              href="${escape(offer.homepage)}"
               target=_blank
-              >${escape(project.homepage)}</a>
+              >${escape(offer.homepage)}</a>
           </p>
           <p>
-            ${escape(project.licensor.name)}
-            (${renderJurisdiction(project.licensor.jurisdiction)})
+            ${escape(offer.licensor.name)}
+            (${renderJurisdiction(offer.licensor.jurisdiction)})
           </p>
           <p>
             Terms: <a
@@ -213,14 +213,14 @@ ${head(action)}
           </p>
         </td>
         <td class=price>
-          ${escape(formatPrice(project.pricing.relicense))}
+          ${escape(formatPrice(offer.pricing.relicense))}
         </td>
       </tr>
     </tbody>
     <tfoot class=total>
       <tr>
         <td>Total:</td>
-        <td class=price>${escape(formatPrice(project.pricing.relicense))}</td>
+        <td class=price>${escape(formatPrice(offer.pricing.relicense))}</td>
       </tr>
     </tfoot>
   </table>
@@ -300,7 +300,7 @@ function post (request, response, order) {
   )
 
   function buyLicenses () {
-    var projects = order.projects
+    var offers = order.offers
     var orderID = order.orderID
     var stripeMetadata = {
       orderID,
@@ -311,7 +311,7 @@ function post (request, response, order) {
     var stripeCustomerID
     var licenses = []
     var purchaseID = uuid()
-    var transactions = batchTransactions(projects)
+    var transactions = batchTransactions(offers)
     runSeries([
       // See https://stripe.com/docs/connect/shared-customers.
       //
@@ -351,13 +351,13 @@ function post (request, response, order) {
             date: new Date().toISOString()
           })
         ].concat(Object.keys(transactions).map(function (licensorID) {
-          var projects = transactions[licensorID]
-          var stripeID = projects[0].licensor.stripe.id
-          var commission = projects.reduce(function (total, project) {
-            return total + applicationFee(project)
+          var offers = transactions[licensorID]
+          var stripeID = offers[0].licensor.stripe.id
+          var commission = offers.reduce(function (total, offer) {
+            return total + applicationFee(offer)
           }, 0)
-          var amount = projects.reduce(function (total, project) {
-            return total + project.price
+          var amount = offers.reduce(function (total, offer) {
+            return total + offer.price
           }, 0)
           var chargeID
           return function (done) {
@@ -397,7 +397,7 @@ function post (request, response, order) {
                 }
               ]),
               function (done) {
-                runParallel(projects.map(function (project) {
+                runParallel(offers.map(function (offer) {
                   return function (done) {
                     runWaterfall([
                       function emaiLicense (done) {
@@ -406,7 +406,7 @@ function post (request, response, order) {
                           VERSION: privateLicense.version,
                           date: new Date().toISOString(),
                           orderID,
-                          project: pick(project, [
+                          offer: pick(offer, [
                             'offerID', 'homepage', 'description'
                           ]),
                           licensee: {
@@ -414,23 +414,23 @@ function post (request, response, order) {
                             jurisdiction: order.jurisdiction,
                             email: order.email
                           },
-                          licensor: pick(project.licensor, [
+                          licensor: pick(offer.licensor, [
                             'name', 'jurisdiction'
                           ]),
-                          price: project.price
+                          price: offer.price
                         }
                         var manifest = stringify(parameters)
                         privateLicense(parameters, function (error, document) {
                           if (error) return done(error)
                           var license = {
-                            offerID: project.offerID,
+                            offerID: offer.offerID,
                             manifest,
                             document,
-                            publicKey: project.licensor.publicKey,
+                            publicKey: offer.licensor.publicKey,
                             signature: ed25519.sign(
                               manifest + '\n\n' + document,
-                              project.licensor.publicKey,
-                              project.licensor.privateKey
+                              offer.licensor.publicKey,
+                              offer.licensor.privateKey
                             )
                           }
                           licenses.push(license)
@@ -444,7 +444,7 @@ function post (request, response, order) {
                               '',
                               'Order ID: ' + order.orderID,
                               '',
-                              'Total: ' + priceColumn(project.price),
+                              'Total: ' + priceColumn(offer.price),
                               '',
                               'Attached is a License Zero license file for:',
                               '',
@@ -454,11 +454,11 @@ function post (request, response, order) {
                               '',
                               'E-Mail:       ' + order.email,
                               '',
-                              'Project:      ' + project.offerID,
+                              'Offer:      ' + offer.offerID,
                               '',
-                              'Description:  ' + project.description,
+                              'Description:  ' + offer.description,
                               '',
-                              'Homepage:   ' + project.homepage
+                              'Homepage:   ' + offer.homepage
                             ].join('\n'),
                             license
                           }, function (error) {
@@ -478,7 +478,7 @@ function post (request, response, order) {
                       },
                       function emailLicensorStatement (license, done) {
                         email(request.log, {
-                          to: project.licensor.email,
+                          to: offer.licensor.email,
                           bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                           subject: 'License Zero Statement',
                           text: [
@@ -487,11 +487,11 @@ function post (request, response, order) {
                             '',
                             'Order:        ' + order.orderID,
                             '',
-                            'Project:      ' + project.offerID,
+                            'Offer:      ' + offer.offerID,
                             '',
-                            'Description:  ' + project.description,
+                            'Description:  ' + offer.description,
                             '',
-                            'Homepage:   ' + project.homepage,
+                            'Homepage:   ' + offer.homepage,
                             '',
                             'Licensee:     ' + order.licensee,
                             '',
@@ -499,11 +499,11 @@ function post (request, response, order) {
                             '',
                             'E-Mail:       ' + order.email,
                             '',
-                            'Price:      ' + priceColumn(project.price),
+                            'Price:      ' + priceColumn(offer.price),
                             '',
                             'Commission: ' + priceColumn(commission),
                             '',
-                            'Total:      ' + priceColumn(project.price - commission),
+                            'Total:      ' + priceColumn(offer.price - commission),
                             '',
                             'The Ed25519 cryptographic signature to the ',
                             'license is:',
@@ -607,11 +607,11 @@ ${head('Thank you')}
   }
 
   function buyRelicense () {
-    var project = order.project
-    var offerID = project.offerID
-    var price = project.pricing.relicense
+    var offer = order.offer
+    var offerID = offer.offerID
+    var price = offer.pricing.relicense
     var commission = Math.floor(Math.min(60000, (price * 0.06)))
-    var licensor = order.project.licensor
+    var licensor = order.offer.licensor
     var licensorID = licensor.licensorID
     var stripeID = licensor.stripe.id
     var stripeMetadata = {
@@ -640,7 +640,7 @@ ${head('Thank you')}
           task('recorded licensor signature', recordLicensorSignature)
         ]),
         task('deleted order file', deleteOrderFile),
-        task('updated project', updateProject)
+        task('updated offer', updateOffer)
       ], release(function (error) {
         if (error) {
           return technicalError(request, response, error, [
@@ -653,7 +653,7 @@ ${head('Thank you')}
           'Your relicense transaction processed successfully. ' +
           'You will receive a receipt and a signed agreement ' +
           'by e-mail shortly.',
-          'The project licensor will receive an e-mail notification.'
+          'The offer licensor will receive an e-mail notification.'
         ])
       }))
     })
@@ -675,9 +675,10 @@ ${head('Thank you')}
         'Developer Jurisdiction': licensor.jurisdiction,
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
-        'Project ID': project.offerID,
-        Homepage: project.homepage,
-        Descriptions: project.description,
+        // TODO: Update relicense form "Project ID" blank.
+        'Project ID': offer.offerID,
+        Homepage: offer.homepage,
+        Descriptions: offer.description,
         Payment: formatPrice(price)
       }, function (error, form) {
         if (error) return done(error)
@@ -773,11 +774,11 @@ ${head('Thank you')}
           '',
           'Attached is a signed relicense agreement for:',
           '',
-          'Project:      ' + project.offerID,
+          'Offer:      ' + offer.offerID,
           '',
-          'Description:  ' + project.description,
+          'Description:  ' + offer.description,
           '',
-          'Homepage:   ' + project.homepage
+          'Homepage:   ' + offer.homepage
         ].join('\n'),
         agreement
       }, done)
@@ -794,11 +795,11 @@ ${head('Thank you')}
           '',
           'Order:        ' + order.orderID,
           '',
-          'Project:      ' + project.offerID,
+          'Offer:      ' + offer.offerID,
           '',
-          'Description:  ' + project.description,
+          'Description:  ' + offer.description,
           '',
-          'Homepage:   ' + project.homepage,
+          'Homepage:   ' + offer.homepage,
           '',
           'Price:      ' + priceColumn(price),
           '',
@@ -820,7 +821,7 @@ ${head('Thank you')}
 
     function recordLicensorSignature (done) {
       recordSignature(
-        project.licensor.publicKey, licensorSignature,
+        offer.licensor.publicKey, licensorSignature,
         done
       )
     }
@@ -830,10 +831,10 @@ ${head('Thank you')}
       fs.unlink(file, done)
     }
 
-    function updateProject (done) {
+    function updateOffer (done) {
       runSeries([
         markRelicensed,
-        removeFromProjectsList
+        removeFromOffersList
       ], done)
     }
 
@@ -841,10 +842,10 @@ ${head('Thank you')}
       var file = offerPath(offerID)
       mutateJSONFile(file, function (data) {
         data.relicensed = true
-      }, annotateENOENT('no such project', done))
+      }, annotateENOENT('no such offer', done))
     }
 
-    function removeFromProjectsList (done) {
+    function removeFromOffersList (done) {
       var file = offersListPath(licensorID)
       mutateTextFile(file, function (text) {
         return stringifyOffers(
@@ -867,14 +868,14 @@ function expired (created) {
   return (new Date() - new Date(created)) > ONE_DAY
 }
 
-function batchTransactions (projects) {
+function batchTransactions (offers) {
   var returned = {}
-  projects.forEach(function (project) {
-    var licensorID = project.licensor.licensorID
+  offers.forEach(function (offer) {
+    var licensorID = offer.licensor.licensorID
     if (has(returned, licensorID)) {
-      returned[licensorID].push(project)
+      returned[licensorID].push(offer)
     } else {
-      returned[licensorID] = [project]
+      returned[licensorID] = [offer]
     }
   })
   return returned

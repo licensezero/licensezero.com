@@ -43,7 +43,7 @@ module.exports = function (request, response) {
       request.log.error(error)
       return
     }
-    // If we're running in project, we may still receive testing-mode
+    // If we're running in offer, we may still receive testing-mode
     // events.  Ignore them.
     if (!TESTING && event.livemode === false) {
       return

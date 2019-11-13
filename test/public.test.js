@@ -309,7 +309,7 @@ tape('public parity', function (test) {
   })
 })
 
-tape('public for nonexistent project', function (test) {
+tape('public for nonexistent offer', function (test) {
   server(function (port, close) {
     runSeries([
       writeTestLicensor.bind(null),
@@ -323,8 +323,8 @@ tape('public for nonexistent project', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'no such project',
-            'no such project'
+            response.error, 'no such offer',
+            'no such offer'
           )
           done()
         })
@@ -337,7 +337,7 @@ tape('public for nonexistent project', function (test) {
   })
 })
 
-tape('public for retracted project', function (test) {
+tape('public for retracted offer', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
@@ -375,8 +375,8 @@ tape('public for retracted project', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'retracted project',
-            'retracted project'
+            response.error, 'retracted offer',
+            'retracted offer'
           )
           done()
         })

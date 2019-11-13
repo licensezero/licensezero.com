@@ -10,7 +10,7 @@ routes.set('/thanks', require('./thanks'))
 routes.set('/pricing', require('./pricing'))
 routes.set('/commitment', require('./commitment'))
 routes.set('/manifesto', require('./manifesto'))
-routes.set('/projects/:offerID', function (request, response) {
+routes.set('/offers/:offerID', function (request, response) {
   response.statusCode = 301
   response.setHeader(
     'Location',
@@ -18,7 +18,7 @@ routes.set('/projects/:offerID', function (request, response) {
   )
   response.end()
 })
-routes.set('/projects/:offerID/badge.svg', function (request, response) {
+routes.set('/offers/:offerID/badge.svg', function (request, response) {
   response.statusCode = 301
   response.setHeader(
     'Location',

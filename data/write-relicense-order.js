@@ -10,8 +10,8 @@ module.exports = function (data, callback) {
   assert.strict.equal(typeof data.sponsor, 'string')
   assert.strict.equal(typeof data.jurisdiction, 'string')
   assert.strict.equal(typeof data.email, 'string')
-  assert.strict.equal(typeof data.project, 'object')
-  assert.strict.notEqual(data.project, null)
+  assert.strict.equal(typeof data.offer, 'object')
+  assert.strict.notEqual(data.offer, null)
   var orderID = uuid()
   var file = orderPath(orderID)
   runSeries([
@@ -19,7 +19,7 @@ module.exports = function (data, callback) {
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'relicense',
       orderID,
-      project: data.project,
+      offer: data.offer,
       sponsor: data.sponsor,
       jurisdiction: data.jurisdiction,
       email: data.email

@@ -1,4 +1,4 @@
-var projectProperties = {
+var offerProperties = {
   offerID: require('./offer-id'),
   homepage: require('./homepage'),
   description: require('./description')
@@ -18,10 +18,10 @@ var properties = {
     type: 'string',
     format: 'date-time'
   },
-  project: {
+  offer: {
     type: 'object',
-    properties: projectProperties,
-    required: Object.keys(projectProperties),
+    properties: offerProperties,
+    required: Object.keys(offerProperties),
     additionalProperties: false
   },
   licensee: {

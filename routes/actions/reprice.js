@@ -12,15 +12,15 @@ exports.properties = {
 exports.handler = function (log, body, end, fail, lock) {
   lock([body.licensorID, body.offerID], function (release) {
     var file = offerPath(body.offerID)
-    readJSONFile(file, function (error, project) {
-      if (error) return die('no such project')
-      if (project.retracted) return die('retracted project')
-      if (project.relicensed) return die('relicensed project')
-      if (project.lock) {
-        var unlockDate = new Date(project.lock.unlock)
+    readJSONFile(file, function (error, offer) {
+      if (error) return die('no such offer')
+      if (offer.retracted) return die('retracted offer')
+      if (offer.relicensed) return die('relicensed offer')
+      if (offer.lock) {
+        var unlockDate = new Date(offer.lock.unlock)
         var now = new Date()
         if (unlockDate > now) {
-          var lockedPrivateLicensePrice = project.lock.price
+          var lockedPrivateLicensePrice = offer.lock.price
           var newPrivateLicensePrice = body.pricing.private
           if (newPrivateLicensePrice > lockedPrivateLicensePrice) {
             return die('above locked price')

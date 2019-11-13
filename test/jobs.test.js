@@ -38,7 +38,7 @@ tape('sweep orders', function (test) {
       function order (done) {
         apiRequest(port, {
           action: 'order',
-          projects: [offerID],
+          offers: [offerID],
           licensee: 'Larry Licensee',
           jurisdiction: 'US-CA',
           email: 'licensee@test.com',

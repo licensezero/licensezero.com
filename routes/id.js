@@ -17,37 +17,37 @@ module.exports = function (request, response) {
   var offerID = request.parameters.offerID
   if (!UUID.test(offerID)) {
     var error = new Error()
-    error.userMessage = 'invalid project identifier'
+    error.userMessage = 'invalid offer identifier'
     return notFound(request, response, error)
   }
-  readOffer(offerID, function (error, project) {
+  readOffer(offerID, function (error, offer) {
     if (error) return notFound(request, response, error)
-    sanitizeOffer(project)
-    var licensor = project.licensor
+    sanitizeOffer(offer)
+    var licensor = offer.licensor
     response.setHeader('Content-Type', 'text/html; charset=UTf-8')
     response.end(html`
 <!doctype html>
 <html lang=EN>
   ${head(offerID, {
-    title: licensor.name + '’s Project',
-    description: project.description
+    title: licensor.name + '’s Offer',
+    description: offer.description
   })}
   <body>
     ${nav()}
     ${header()}
     <main>
-      <h2>Project</h2>
+      <h2>Offer</h2>
       <section>
         <dl>
           <dt>Description</dt>
-          <dd class=description>${escape(project.description)}</dd>
+          <dd class=description>${escape(offer.description)}</dd>
           <dt>Homepage</dt>
           <dd class=homepage>
-            <a href="${escape(project.homepage)}" target=_blank>
-              ${escape(project.homepage)}
+            <a href="${escape(offer.homepage)}" target=_blank>
+              ${escape(offer.homepage)}
             </a>
           </dd>
-          <dt>Project ID</dt>
+          <dt>Offer ID</dt>
           <dd>
             <code class=offerID>${escape(offerID)}</code>
             <button class=clipboard data-clipboard-text="${escape(offerID)}">Copy to Clipboard</button>
@@ -73,11 +73,11 @@ module.exports = function (request, response) {
       </section>
       <h3>Pricing</h3>
       ${
-  project.retracted
+  offer.retracted
     ? retracted()
-    : priceList(project)
+    : priceList(offer)
 }
-      ${orderForm(project)}
+      ${orderForm(offer)}
     </main>
     ${footer()}
     <script src=/clipboard.min.js></script>
@@ -90,13 +90,13 @@ module.exports = function (request, response) {
 
 function retracted () {
   return html`
-<p>The licensor has retracted this project from public sale.</p>
+<p>The licensor has retracted this offer from public sale.</p>
   `
 }
 
-function priceList (project) {
-  var pricing = project.pricing
-  var lock = project.lock
+function priceList (offer) {
+  var pricing = offer.pricing
+  var lock = offer.lock
   return html`
 <dl>
   <dt>
@@ -130,7 +130,7 @@ ${
 function lockInformation (lock) {
   return html`
 <p>
-  Private license pricing for this project
+  Private license pricing for this offer
   was locked at
   ${formatPrice(lock.price)} or less
   until ${formatDate(lock.unlock)}
@@ -153,16 +153,16 @@ function formatDate (dateString) {
     })
 }
 
-function orderForm (project) {
+function orderForm (offer) {
   return html`
 <h3 id=buy>Buy a License</h3>
 <p>
-  You can order licenses for all the projects you need at one time with the
+  You can order licenses for all the offers you need at one time with the
   <a href=https://github.com/licensezero/cli>
     License Zero command-line tool
   </a>:
 </p>
-<pre class=terminal>cd your-project
+<pre class=terminal>cd your-offer
 <span class=comment># If you haven't already:</span>
 licensezero identify \\
   --name "Sara Smart" \\
@@ -171,13 +171,13 @@ licensezero identify \\
 <span class=comment># Open a checkout page for all missing licenses:</span>
 licensezero buy</pre>
 <p>
-  You can also buy a license for just this project right here:
+  You can also buy a license for just this offer right here:
 </p>
 <form method=POST action=/buy>
   <input
       type=hidden
-      name=projects[]
-      value="${escape(project.offerID)}">
+      name=offers[]
+      value="${escape(offer.offerID)}">
   <p>
     <label>
       Licensee Legal Name

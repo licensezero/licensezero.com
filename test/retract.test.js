@@ -57,8 +57,8 @@ tape('retract nonexistent', function (test) {
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'no such project',
-            'no such project'
+            response.error, 'no such offer',
+            'no such offer'
           )
           done()
         })

@@ -15,7 +15,7 @@ exports.handler = function (log, body, end, fail) {
       if (error.code === 'ENOENT') return fail('no such licensor')
       return fail('internal error')
     }
-    listOffers(licensorID, function (error, projects) {
+    listOffers(licensorID, function (error, offers) {
       /* istanbul ignore if */
       if (error) {
         log.error(error)
@@ -25,7 +25,7 @@ exports.handler = function (log, body, end, fail) {
         name: licensor.name,
         jurisdiction: licensor.jurisdiction,
         publicKey: licensor.publicKey,
-        projects
+        offers
       })
     })
   })

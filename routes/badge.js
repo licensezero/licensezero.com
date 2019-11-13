@@ -20,12 +20,12 @@ module.exports = function (request, response) {
     response.statusCode = 404
     return response.end()
   }
-  readOffer(offerID, function (error, project) {
+  readOffer(offerID, function (error, offer) {
     if (error) {
       response.statusCode = 404
       return response.end()
     }
-    var pricing = project.pricing
+    var pricing = offer.pricing
     var hasRelicense = pricing.relicense
     var withTemplate = hasRelicense ? withRelicense : withoutRelicense
     withTemplate(function (error, template) {

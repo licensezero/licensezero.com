@@ -1,4 +1,4 @@
-module.exports = function (project) {
-  if (project.commission === 0) return 0
-  return Math.floor((project.price / 100) * project.commission)
+module.exports = function (offer) {
+  if (offer.commission === 0) return 0
+  return Math.floor((offer.price / 100) * offer.commission)
 }

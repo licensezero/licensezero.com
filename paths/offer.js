@@ -1,5 +1,5 @@
 var path = require('path')
 
-module.exports = function (project) {
-  return path.join(process.env.DIRECTORY, 'projects', project, 'project.json')
+module.exports = function (offer) {
+  return path.join(process.env.DIRECTORY, 'offers', offer, 'offer.json')
 }

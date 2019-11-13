@@ -52,7 +52,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               pricing: {
                 private: 500
               },
-              description: 'a test project',
+              description: 'a test offer',
               terms: (
                 'I agree to the agency terms at ' +
                 'https://licensezero.com/terms/agency.'
@@ -60,7 +60,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'offer error false')
-              test.assert(has(response, 'offerID'), 'project id')
+              test.assert(has(response, 'offerID'), 'offer id')
               offerID = response.offerID
               done()
             })
@@ -68,7 +68,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function order (done) {
             apiRequest(port, {
               action: 'order',
-              projects: [offerID],
+              offers: [offerID],
               licensee: 'Larry Licensee',
               jurisdiction: 'US-CA',
               email: 'licensee@example.com',
@@ -165,7 +165,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
         var relicensePrice = 100000
         var formattedPrice = '$1000.00'
         var homepage = 'http://example.com/repo'
-        var description = 'some project to relicense'
+        var description = 'some offer to relicense'
         runSeries([
           function offer (done) {
             apiRequest(port, {
@@ -185,12 +185,12 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             }, function (error, response) {
               if (error) return done(error)
               test.equal(response.error, false, 'offer error false')
-              test.assert(has(response, 'offerID'), 'project id')
+              test.assert(has(response, 'offerID'), 'offer id')
               offerID = response.offerID
               done()
             })
           },
-          function relicenseTheProject (done) {
+          function relicenseTheOffer (done) {
             apiRequest(port, {
               action: 'sponsor',
               offerID,
@@ -267,7 +267,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             test.assert(text.includes(formattedPrice), 'e-mail shows price')
             test.equal(message.to, SPONSOR_EMAIL, 'e-mail to sponsor')
             test.equal(message.cc, LICENSOR_EMAIL, 'e-mail cc licensor')
-            test.assert(text.includes(offerID), 'e-mail project ID')
+            test.assert(text.includes(offerID), 'e-mail offer ID')
             test.assert(text.includes(homepage), 'e-mail homepage')
             test.assert(text.includes(description), 'e-mail description')
             done()
@@ -275,7 +275,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           function checkAgreement (done) {
             var text = agreementMessage.agreement
             test.assert(text.includes('License Zero Relicense Agreement'), 'agreement title')
-            test.assert(text.includes(offerID), 'agreement project ID')
+            test.assert(text.includes(offerID), 'agreement offer ID')
             test.assert(text.includes(formattedPrice), 'agreement price')
             test.assert(text.includes(LICENSOR_NAME), 'agreement licensor name')
             test.assert(text.includes(LICENSOR_JURISDICTION), 'agreement licensor jurisdiction')
@@ -288,7 +288,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             var text = notificationMessage.text
             test.assert(text.includes(formattedPrice), 'notification price')
             test.equal(message.to, LICENSOR_EMAIL, 'notification to licensor')
-            test.assert(text.includes(offerID), 'notification project ID')
+            test.assert(text.includes(offerID), 'notification offer ID')
             test.assert(text.includes(homepage), 'notification homepage')
             test.assert(text.includes(description), 'notification description')
             done()

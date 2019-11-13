@@ -29,7 +29,7 @@ tape('read', function (test) {
       },
       function request (done) {
         apiRequest(port, {
-          action: 'project',
+          action: 'read',
           offerID
         }, function (error, response) {
           if (error) return done(error)
@@ -65,16 +65,16 @@ tape('read', function (test) {
   })
 })
 
-tape('nonexistent project', function (test) {
+tape('nonexistent offer', function (test) {
   server(function (port, close) {
     apiRequest(port, {
-      action: 'project',
+      action: 'read',
       offerID: uuid()
     }, function (error, response) {
       if (error) {
         test.error(error)
       } else {
-        test.equal(response.error, 'no such project')
+        test.equal(response.error, 'no such offer')
       }
       test.end()
       close()
@@ -82,7 +82,7 @@ tape('nonexistent project', function (test) {
   })
 })
 
-tape('/project/{id}', function (test) {
+tape('/offer/{id}', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
@@ -108,7 +108,7 @@ tape('/project/{id}', function (test) {
           .then(function (text) {
             test.equal(
               text, offerID,
-              'project ID'
+              'offer ID'
             )
             browser.deleteSession()
             done()
@@ -126,7 +126,7 @@ tape('/project/{id}', function (test) {
   })
 })
 
-tape('/project/{id}/badge.svg', function (test) {
+tape('/offer/{id}/badge.svg', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
