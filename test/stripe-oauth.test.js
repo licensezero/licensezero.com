@@ -86,14 +86,27 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
           },
           function pay (done) {
             var browser
+            var cardNumber
             require('./webdriver')()
-              .then((loaded) => { browser = loaded })
+              .then((loaded) => {
+                browser = loaded
+                browser.setTimeout({ implicit: 5000 })
+              })
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
               .then(() => browser.$('iframe'))
               .then((frame) => browser.switchToFrame(frame))
               .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => input.setValue('4242424242424242'))
+              // Split one input.setValue('4242424242424242') into many
+              // input.addValue('4242') to keep ChromeDriver from
+              // transposing input characters.
+              .then((input) => {
+                cardNumber = input
+                cardNumber.addValue('4242')
+              })
+              .then((input) => cardNumber.addValue('4242'))
+              .then((input) => cardNumber.addValue('4242'))
+              .then((input) => cardNumber.addValue('4242'))
               .then(() => browser.$('input[name="exp-date"]'))
               .then((input) => input.setValue('10 / 31'))
               .then(() => browser.$('input[name="cvc"]'))
@@ -227,14 +240,27 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             })
 
             var browser
+            var cardNumber
             require('./webdriver')()
-              .then((loaded) => { browser = loaded })
+              .then((loaded) => {
+                browser = loaded
+                browser.setTimeout({ implicit: 5000 })
+              })
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
               .then(() => browser.$('iframe'))
               .then((iframe) => browser.switchToFrame(iframe))
               .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => input.setValue('4242424242424242'))
+              // Split one input.setValue('4242424242424242') into many
+              // input.addValue('4242') to keep ChromeDriver from
+              // transposing input characters.
+              .then((input) => {
+                cardNumber = input
+                cardNumber.addValue('4242')
+              })
+              .then((input) => cardNumber.addValue('4242'))
+              .then((input) => cardNumber.addValue('4242'))
+              .then((input) => cardNumber.addValue('4242'))
               .then(() => browser.$('input[name="exp-date"]'))
               .then((input) => input.setValue('10 / 31'))
               .then(() => browser.$('input[name="cvc"]'))
