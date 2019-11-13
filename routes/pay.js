@@ -929,7 +929,7 @@ ${head('Thank you')}
 }
 
 function technicalError (request, response, error, paragraphs) {
-  request.log.error(error)
+  request.log.error(error, 'payment error')
   response.statusCode = 500
   response.setHeader('Content-Type', 'text/html')
   var message = paragraphs
