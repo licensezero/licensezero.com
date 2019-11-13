@@ -5,8 +5,8 @@ var offerProperties = {
 }
 
 var properties = {
-  FORM: { const: 'private license' },
-  VERSION: {
+  terms: { const: 'private license' },
+  version: {
     enum: [
       '1.0.0',
       '1.1.0',

@@ -402,8 +402,8 @@ function post (request, response, order) {
                     runWaterfall([
                       function emaiLicense (done) {
                         var parameters = {
-                          FORM: 'private license',
-                          VERSION: privateLicense.version,
+                          terms: 'private license',
+                          version: privateLicense.version,
                           date: new Date().toISOString(),
                           orderID,
                           offer: pick(offer, [

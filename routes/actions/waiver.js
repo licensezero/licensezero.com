@@ -41,8 +41,8 @@ exports.handler = function (log, body, end, fail, lock) {
     if (offer.retracted) return fail('retracted offer')
     var licensor = offer.licensor
     var parameters = {
-      FORM: 'waiver',
-      VERSION: waiver.version,
+      terms: 'waiver',
+      version: waiver.version,
       beneficiary: {
         name: body.beneficiary,
         jurisdiction: body.jurisdiction
