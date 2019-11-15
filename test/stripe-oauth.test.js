@@ -85,7 +85,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             })
           },
           function pay (done) {
-            var browser
+            var browser, cardNumber
             require('./webdriver')()
               .then((loaded) => { browser = loaded })
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
@@ -93,7 +93,13 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               .then(() => browser.$('iframe'))
               .then((frame) => browser.switchToFrame(frame))
               .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => input.setValue('4242424242424242'))
+              .then((input) => {
+                cardNumber = input
+                input.addValue('4242')
+              })
+              .then(() => cardNumber.addValue('4242'))
+              .then(() => cardNumber.addValue('4242'))
+              .then(() => cardNumber.addValue('4242'))
               .then(() => browser.$('input[name="exp-date"]'))
               .then((input) => input.setValue('10 / 31'))
               .then(() => browser.$('input[name="cvc"]'))
@@ -226,7 +232,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               }
             })
 
-            var browser
+            var browser, cardNumber
             require('./webdriver')()
               .then((loaded) => { browser = loaded })
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
@@ -234,7 +240,13 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               .then(() => browser.$('iframe'))
               .then((iframe) => browser.switchToFrame(iframe))
               .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => input.setValue('4242424242424242'))
+              .then((input) => {
+                cardNumber = input
+                input.addValue('4242')
+              })
+              .then(() => cardNumber.addValue('4242'))
+              .then(() => cardNumber.addValue('4242'))
+              .then(() => cardNumber.addValue('4242'))
               .then(() => browser.$('input[name="exp-date"]'))
               .then((input) => input.setValue('10 / 31'))
               .then(() => browser.$('input[name="cvc"]'))
