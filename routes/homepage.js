@@ -117,7 +117,7 @@ ${head(false, {
     <pre class=terminal>${formatSession(LICENSEE)}</pre>
     <p>
       Users can also buy specific licenses
-      <a href=https://licensezero.com/ids/6d3f67d4-af32-4959-abe3-dacd765484f3#buy>on licensezero.com</a>.
+      <a href=https://licensezero.com/offers/6d3f67d4-af32-4959-abe3-dacd765484f3#buy>on licensezero.com</a>.
     </p>
     <h2>Developers</h2>
     <p>

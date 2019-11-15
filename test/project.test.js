@@ -11,7 +11,7 @@ var tape = require('tape')
 var uuid = require('uuid/v4')
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('project', function (test) {
+tape('offer', function (test) {
   server(function (port, close) {
     var projectID
     runSeries([
@@ -65,7 +65,7 @@ tape('project', function (test) {
   })
 })
 
-tape('nonexistent project', function (test) {
+tape('nonexistent offer', function (test) {
   server(function (port, close) {
     apiRequest(port, {
       action: 'project',
@@ -82,7 +82,7 @@ tape('nonexistent project', function (test) {
   })
 })
 
-tape('/project/{id}', function (test) {
+tape('/offers/{id}', function (test) {
   server(function (port, close) {
     var projectID
     runSeries([
@@ -102,7 +102,7 @@ tape('/project/{id}', function (test) {
         var browser
         require('./webdriver')()
           .then((loaded) => { browser = loaded })
-          .then(() => browser.url('http://localhost:' + port + '/ids/' + projectID))
+          .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
           .then(() => browser.$('.projectID'))
           .then((element) => element.getText())
           .then(function (text) {
@@ -126,7 +126,7 @@ tape('/project/{id}', function (test) {
   })
 })
 
-tape('/project/{id}/badge.svg', function (test) {
+tape('/offers/{id}/badge.svg', function (test) {
   server(function (port, close) {
     var projectID
     runSeries([
@@ -145,7 +145,7 @@ tape('/project/{id}/badge.svg', function (test) {
       function browse (done) {
         http.request({
           port,
-          path: 'http://localhost:' + port + '/ids/' + projectID + '/badge.svg'
+          path: 'http://localhost:' + port + '/offers/' + projectID + '/badge.svg'
         })
           .once('error', function (error) {
             done(error)
@@ -169,5 +169,81 @@ tape('/project/{id}/badge.svg', function (test) {
       test.end()
       close()
     })
+  })
+})
+
+tape('/ids/{projectID}', function (test) {
+  server(function (port, close) {
+    var id = uuid()
+    http.request({
+      port,
+      path: 'http://localhost:' + port + '/ids/' + id
+    })
+      .once('response', function (response) {
+        test.equal(response.statusCode, 301, '301')
+        test.equal(response.headers.location, '/offers/' + id, 'Location')
+        close()
+        test.end()
+      })
+      .end()
+  })
+})
+
+tape('/ids/{projectID}/badge.svg', function (test) {
+  server(function (port, close) {
+    var id = uuid()
+    http.request({
+      port,
+      path: 'http://localhost:' + port + '/ids/' + id + '/badge.svg'
+    })
+      .once('response', function (response) {
+        test.equal(response.statusCode, 301, '301')
+        test.equal(
+          response.headers.location,
+          '/offers/' + id + '/badge.svg',
+          'Location'
+        )
+        close()
+        test.end()
+      })
+      .end()
+  })
+})
+
+tape('/projects/{projectID}', function (test) {
+  server(function (port, close) {
+    var id = uuid()
+    http.request({
+      port,
+      path: 'http://localhost:' + port + '/projects/' + id
+    })
+      .once('response', function (response) {
+        test.equal(response.statusCode, 301, '301')
+        test.equal(response.headers.location, '/offers/' + id, 'Location')
+        close()
+        test.end()
+      })
+      .end()
+  })
+})
+
+tape('/projects/{projectID}/badge.svg', function (test) {
+  server(function (port, close) {
+    var id = uuid()
+    http.request({
+      port,
+      path: 'http://localhost:' + port + '/projects/' + id + '/badge.svg'
+    })
+      .once('response', function (response) {
+        test.equal(response.statusCode, 301, '301')
+        test.equal(
+          response.headers.location,
+          '/offers/' + id + '/badge.svg',
+          'Location'
+        )
+        close()
+        test.end()
+      })
+      .end()
   })
 })

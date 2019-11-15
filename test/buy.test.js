@@ -208,7 +208,7 @@ tape('POST /buy', function (test) {
         var browser
         require('./webdriver')()
           .then((loaded) => { browser = loaded })
-          .then(() => browser.url('http://localhost:' + port + '/ids/' + projectID))
+          .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
           .then(() => browser.$('#licensee'))
           .then((input) => input.setValue('Larry Licensee'))
           .then(() => browser.$('#jurisdiction'))

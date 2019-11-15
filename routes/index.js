@@ -10,24 +10,22 @@ routes.set('/thanks', require('./thanks'))
 routes.set('/pricing', require('./pricing'))
 routes.set('/commitment', require('./commitment'))
 routes.set('/manifesto', require('./manifesto'))
-routes.set('/projects/:projectID', function (request, response) {
-  response.statusCode = 301
-  response.setHeader(
-    'Location',
-    '/ids/' + request.parameters.projectID
-  )
-  response.end()
-})
-routes.set('/projects/:projectID/badge.svg', function (request, response) {
-  response.statusCode = 301
-  response.setHeader(
-    'Location',
-    '/ids/' + request.parameters.projectID + '/badge.svg'
-  )
-  response.end()
-})
-routes.set('/ids/:projectID', require('./id'))
-routes.set('/ids/:projectID/badge.svg', require('./badge'))
+
+routes.set('/offers/:projectID', require('./offer'))
+routes.set('/offers/:projectID/badge.svg', require('./badge'))
+routes.set('/projects/:projectID', redirectToOffer)
+routes.set('/projects/:projectID/badge.svg', redirectToBadge)
+routes.set('/ids/:projectID', redirectToOffer)
+routes.set('/ids/:projectID/badge.svg', redirectToBadge)
+
+function redirectToOffer (request, response) {
+  redirect301(response, '/offers/' + request.parameters.projectID)
+}
+
+function redirectToBadge (request, response) {
+  redirect301(response, '/offers/' + request.parameters.projectID + '/badge.svg')
+}
+
 routes.set('/buy', require('./buy'))
 routes.set('/purchases/:purchaseID', require('./purchases'))
 routes.set('/api/v0', require('./api'))
@@ -64,6 +62,12 @@ routes.set('/cli-version', require('./cli-version'))
 
 function redirect303 (response, location) {
   response.statusCode = 303
+  response.setHeader('Location', location)
+  response.end()
+}
+
+function redirect301 (response, location) {
+  response.statusCode = 301
   response.setHeader('Location', location)
   response.end()
 }
