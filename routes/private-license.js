@@ -16,7 +16,8 @@ module.exports = function (request, response) {
     date: '{Date}',
     licensee: {
       name: '{Licensee Name}',
-      jurisdiction: '{Licensee Jurisdiction, e.g "US-CA"}'
+      jurisdiction: '{Licensee Jurisdiction, e.g "US-CA"}',
+      email: '{Licensee E-Mail}'
     },
     licensor: {
       name: '{Licensor Name}',
