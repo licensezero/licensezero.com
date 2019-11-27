@@ -1,7 +1,7 @@
 var annotateENOENT = require('./annotate-enoent')
-var licensorPath = require('../paths/licensor')
 var projectPath = require('../paths/project')
 var readJSONFile = require('./read-json-file')
+var readLicensor = require('./read-licensor')
 var runWaterfall = require('run-waterfall')
 
 module.exports = function (projectID, callback) {
@@ -11,8 +11,7 @@ module.exports = function (projectID, callback) {
       readJSONFile(file, annotateENOENT('no such project', done))
     },
     function readLicensorData (project, done) {
-      var file = licensorPath(project.licensor)
-      readJSONFile(file, function (error, licensor) {
+      readLicensor(project.licensor, function (error, licensor) {
         if (error) return done(error)
         done(null, { licensor, project })
       })
