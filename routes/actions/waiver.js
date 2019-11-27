@@ -1,7 +1,8 @@
 var ed25519 = require('../../util/ed25519')
-var stringify = require('json-stable-stringify')
+var last = require('../../util/last')
 var readProject = require('../../data/read-project')
 var recordSignature = require('../../data/record-signature')
+var stringify = require('json-stable-stringify')
 var waiver = require('../../forms/waiver')
 
 exports.properties = {
@@ -48,8 +49,8 @@ exports.handler = function (log, body, end, fail, lock) {
         jurisdiction: body.jurisdiction
       },
       licensor: {
-        name: licensor.name,
-        jurisdiction: licensor.jurisdiction
+        name: last(licensor.name),
+        jurisdiction: last(licensor.jurisdiction)
       },
       project: {
         projectID,

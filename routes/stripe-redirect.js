@@ -141,9 +141,9 @@ ${head('Registration')}
               licensorFile,
               JSON.stringify({
                 licensorID,
-                name: nonceData.name,
-                email: nonceData.email,
-                jurisdiction: nonceData.jurisdiction,
+                name: [nonceData.name],
+                email: [nonceData.email],
+                jurisdiction: [nonceData.jurisdiction],
                 registered: new Date().toISOString(),
                 token: hash,
                 publicKey: keypair.publicKey,

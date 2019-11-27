@@ -1,8 +1,9 @@
 var charityLicense = require('../../forms/charity-license')
 var ed25519 = require('../../util/ed25519')
+var last = require('../../util/last')
+var parityLicense = require('../../forms/parity-license')
 var prosperityLicense = require('../../forms/prosperity-license')
 var readProject = require('../../data/read-project')
-var parityLicense = require('../../forms/parity-license')
 var signatureLines = require('../../data/signature-lines')
 var stringify = require('json-stable-stringify')
 
@@ -28,8 +29,8 @@ exports.handler = function (log, body, end, fail, lock) {
     if (body.terms === 'parity') terms = parityLicense
     if (body.terms === 'charity') terms = charityLicense
     var licenseData = {
-      jurisdiction: project.licensor.jurisdiction,
-      name: project.licensor.name,
+      jurisdiction: last(project.licensor.jurisdiction),
+      name: last(project.licensor.name),
       projectID,
       publicKey: project.licensor.publicKey,
       terms: body.terms,

@@ -16,9 +16,9 @@ module.exports = function (callback) {
         .then(function (hashed) {
           fs.writeFile(file, JSON.stringify({
             licensorID: LICENSOR.id,
-            name: LICENSOR.name,
-            email: LICENSOR.email,
-            jurisdiction: LICENSOR.jurisdiction,
+            name: [LICENSOR.name],
+            email: [LICENSOR.email],
+            jurisdiction: [LICENSOR.jurisdiction],
             registered: new Date().toISOString(),
             token: hashed,
             publicKey: LICENSOR.publicKey,

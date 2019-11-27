@@ -1,3 +1,4 @@
+var last = require('../../util/last')
 var listProjects = require('../../data/list-projects')
 var readLicensor = require('../../data/read-licensor')
 
@@ -20,8 +21,8 @@ exports.handler = function (log, body, end, fail) {
         return fail('internal error')
       }
       end({
-        name: licensor.name,
-        jurisdiction: licensor.jurisdiction,
+        name: last(licensor.name),
+        jurisdiction: last(licensor.jurisdiction),
         publicKey: licensor.publicKey,
         projects
       })

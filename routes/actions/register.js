@@ -40,9 +40,9 @@ exports.handler = function (log, body, end, fail) {
       mkdirp.bind(null, path.dirname(file)),
       fs.writeFile.bind(fs, file, JSON.stringify({
         timestamp,
-        name: [body.name],
-        email: [body.email],
-        jurisdiction: [body.jurisdiction]
+        name: body.name,
+        email: body.email,
+        jurisdiction: body.jurisdiction
       })),
       email.bind(null, log, {
         to: body.email,

@@ -30,7 +30,6 @@ module.exports = function (request, response) {
     if (error) return notFound(request, response, error)
     sanitizeProject(project)
     var licensor = project.licensor
-    licensor.jurisdiction = renderJurisdiction(licensor.jurisdiction)
     var data = { project, licensor }
     var customizationPath = path.join(
       __dirname, '..', 'customizations', projectID + '.html'
@@ -65,6 +64,7 @@ module.exports = function (request, response) {
               retracted: project.retracted,
               name: licensor.name,
               jurisdiction: licensor.jurisdiction,
+              email: licensor.email,
               publicKey: licensor.publicKey,
               private: pricing.private,
               relicense: pricing.relicense,

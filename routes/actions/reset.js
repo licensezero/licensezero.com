@@ -1,5 +1,6 @@
 var email = require('../../email')
 var fs = require('fs')
+var last = require('../../util/last')
 var mkdirp = require('mkdirp')
 var path = require('path')
 var randomNonce = require('../../data/random-nonce')
@@ -18,7 +19,7 @@ exports.handler = function (log, body, end, fail, lock) {
   runWaterfall([
     readLicensor.bind(null, licensorID),
     function (licensor, done) {
-      if (licensor.email !== body.email) {
+      if (last(licensor.email) !== body.email) {
         return done('invalid body')
       }
       var token = randomNonce()
@@ -36,7 +37,7 @@ exports.handler = function (log, body, end, fail, lock) {
         },
         function emailLink (done) {
           email(log, {
-            to: licensor.email,
+            to: last(licensor.email),
             subject: 'License Zero Token Reset Link',
             text: [
               'licensezero.com received a request to reset',

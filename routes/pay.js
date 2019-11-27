@@ -14,6 +14,7 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
+var last = require('../util/last')
 var lock = require('./lock')
 var mkdirp = require('mkdirp')
 var mutateJSONFile = require('../data/mutate-json-file')
@@ -142,8 +143,8 @@ ${head(action)}
                 >${escape(project.homepage)}</a>
             </p>
             <p>
-              ${escape(project.licensor.name)}
-              (${renderJurisdiction(project.licensor.jurisdiction)})
+              ${escape(last(project.licensor.name))}
+              (${renderJurisdiction(last(project.licensor.jurisdiction))})
             </p>
             <p>
               Terms:
@@ -478,7 +479,7 @@ function post (request, response, order) {
                       },
                       function emailLicensorStatement (license, done) {
                         email(request.log, {
-                          to: project.licensor.email,
+                          to: last(project.licensor.email),
                           bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                           subject: 'License Zero Statement',
                           text: [
@@ -671,8 +672,8 @@ ${head('Thank you')}
     function generateSignedAgreement (done) {
       relicenseAgreement({
         Date: date,
-        'Developer Name': licensor.name,
-        'Developer Jurisdiction': licensor.jurisdiction,
+        'Developer Name': last(licensor.name),
+        'Developer Jurisdiction': last(licensor.jurisdiction),
         'Sponsor Name': order.sponsor,
         'Sponsor Jurisdiction': order.jurisdiction,
         'Project ID': project.projectID,
