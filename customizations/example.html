@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang=EN>
+  <head>
+    <meta charset=UTF-8>
+    <title>My Offer</title>
+  </head>
+  <body>
+    <h1>My Offer</h1>
+
+    <h2>Offer</h2>
+    <dl>
+      <dt>ID</dt>
+      <dd>{{id}}</dd>
+      <dt>Description</dt>
+      <dd>{{description}}</dd>
+      <dt>URL</dt>
+      <dd>{{url}}</dd>
+    </dl>
+
+    <h2>Licensor</h2>
+    <dl>
+      <dt>Name</dt>
+      <dd>{{name}}</dd>
+      <dt>Jurisdiction</dt>
+      <dd>{{renderJurisdiction jurisdiction}}</dd>
+      <dt>Public Key</dt>
+      <dd>{{publicKey}}</dd>
+    </dl>
+
+    <h2>Pricing</h2>
+    <dl>
+      <dt>Private License</dt>
+      <dd>{{formatPrice private}}</dd>
+      {{#relicense}}
+      <dt>Relicense</dt>
+      <dd>{{formatPrice relicense}}</dd>
+      {{/relicense}}
+      {{#lock}}
+      <dt>Locked Price</dt>
+      <dd>{{formatPrice price}}</dd>
+      <dt>Until</dt>
+      <dd>{{formatDate unlock}}</dd>
+      <dt>Locked</dt>
+      <dd>{{formatDate locked}}</dd>
+      {{/lock}}
+    </dl>
+
+    {{^retracted}}
+      <form method=POST action=/buy>
+        <input
+            type=hidden
+            name=projects[]
+            value="{{id}}">
+        <p>
+          <label>
+            Licensee Legal Name
+            <input
+              type=text
+              name=licensee
+              id=licensee
+              required>
+          </label>
+        </p>
+        <p>
+          <label>
+            Licensee Jurisdiction
+            <input
+              id=jurisdiction
+              name=jurisdiction
+              type=text
+              list=jurisdictions
+              autocomplete=off
+              required>
+            <datalist id=jurisdictions>
+              {{#jurisdictions}}
+              <option value="{{code}}">
+                {{country}}: {{subdivision}}
+              </option>
+              {{/jurisdictions}}
+            </datalist>
+          </label>
+        </p>
+        <p>
+          <label>
+            Licensee E-Mail
+            <input
+              type=email
+              name=email
+              id=email
+              required>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input
+              type=checkbox
+              name=person
+              id=person
+              value="I am a person, not a legal entity."
+              required>
+            I am a person, not a legal entity.
+          </label>
+        </p>
+        <button type=submit>Buy</button>
+      </form>
+    {{/retracted}}
+  </body>
+</html>
