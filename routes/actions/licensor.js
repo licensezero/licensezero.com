@@ -1,6 +1,5 @@
-var licensorPath = require('../../paths/licensor')
 var listProjects = require('../../data/list-projects')
-var readJSONFile = require('../../data/read-json-file')
+var readLicensor = require('../../data/read-licensor')
 
 exports.properties = {
   licensorID: require('./common/licensor-id')
@@ -8,8 +7,7 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail) {
   var licensorID = body.licensorID
-  var file = licensorPath(licensorID)
-  readJSONFile(file, function (error, licensor) {
+  readLicensor(licensorID, function (error, licensor) {
     if (error) {
       /* istanbul ignore else */
       if (error.code === 'ENOENT') return fail('no such licensor')

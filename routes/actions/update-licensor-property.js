@@ -19,7 +19,15 @@ module.exports = function (key) {
           fs.readFile.bind(fs, file),
           parseJSON,
           function (data, done) {
-            data[key] = body[key]
+            var values = data[key]
+            if (typeof values === 'string') values = [values]
+            var lastValue = values[values.length - 1]
+            var newValue = body[key]
+            if (lastValue !== newValue) {
+              if (values.length > 5) return fail('too many changes')
+              values.push(newValue)
+            }
+            data[key] = values
             fs.writeFile(file, JSON.stringify(data), done)
           }
         ], release(function (error) {
