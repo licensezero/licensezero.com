@@ -1,4 +1,3 @@
-var last = require('../util/last')
 var mustache = require('mustache')
 var path = require('path')
 

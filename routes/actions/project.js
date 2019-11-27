@@ -1,4 +1,3 @@
-var last = require('../../util/last')
 var readProject = require('../../data/read-project')
 var sanitizeProject = require('../../data/sanitize-project')
 
