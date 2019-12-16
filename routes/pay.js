@@ -203,8 +203,8 @@ ${head(action)}
               >${escape(project.homepage)}</a>
           </p>
           <p>
-            ${escape(project.licensor.name)}
-            (${renderJurisdiction(project.licensor.jurisdiction)})
+            ${escape(last(project.licensor.name))}
+            (${renderJurisdiction(last(project.licensor.jurisdiction))})
           </p>
           <p>
             Terms: <a
@@ -761,7 +761,7 @@ ${head('Thank you')}
     function emailAgreement (done) {
       email(request.log, {
         to: order.email,
-        cc: licensor.email,
+        cc: last(licensor.email),
         bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
         subject: 'License Zero Relicense Agreement',
         text: [
@@ -786,7 +786,7 @@ ${head('Thank you')}
 
     function emailLicensor (done) {
       email(request.log, {
-        to: licensor.email,
+        to: last(licensor.email),
         bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
         subject: 'License Zero Relicense',
         text: [

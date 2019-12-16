@@ -12,6 +12,7 @@ var html = require('./html')
 var internalError = require('./internal-error')
 var iso31662 = require('iso-3166-2')
 var jurisdictionOptions = require('./partials/jurisdiction-options')
+var last = require('../util/last')
 var nav = require('./partials/nav')
 var notFound = require('./not-found')
 var path = require('path')
@@ -62,9 +63,9 @@ module.exports = function (request, response) {
               description: project.description,
               url: project.homepage,
               retracted: project.retracted,
-              name: licensor.name,
-              jurisdiction: licensor.jurisdiction,
-              email: licensor.email,
+              name: last(licensor.name),
+              jurisdiction: last(licensor.jurisdiction),
+              email: last(licensor.email),
               publicKey: licensor.publicKey,
               private: pricing.private,
               relicense: pricing.relicense,
