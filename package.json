@@ -42,7 +42,7 @@
     "simple-get": "^3.1.0",
     "sodium-native": "^2.4.6",
     "split2": "^3.1.1",
-    "string.prototype.padstart": "^3.0.0",
+    "string.prototype.padstart": "^3.1.0",
     "strip-ansi": "^5.2.0",
     "stripe": "^7.11.0",
     "url-parse": "^1.4.7",
