@@ -14,7 +14,7 @@
     "commonmark": "^0.29.0",
     "do-not-cache": "^1.0.1",
     "flush-write-stream": "^2.0.0",
-    "form-data": "^2.5.1",
+    "form-data": "^3.0.0",
     "handlebars": "^4.5.3",
     "has": "^1.0.3",
     "html-entities": "^1.2.1",
