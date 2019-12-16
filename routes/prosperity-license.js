@@ -1,13 +1,12 @@
-
 var escape = require('./escape')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
-var linkStandards = require('../util/link-standards')
 var nav = require('./partials/nav')
 var prosperityLicense = require('../forms/prosperity-license')
+var renderMarkdown = require('../util/render-markdown')
 
 var REPOSITORY = (
   'https://github.com/licensezero/prosperity-public-license'
@@ -17,7 +16,7 @@ module.exports = function (request, response) {
   prosperityLicense({
     name: '{Licensor Name}',
     homepage: '{https://example.com/project}'
-  }, function (error, document) {
+  }, function (error, form) {
     if (error) return internalError(request, response, error)
     response.setHeader('Content-Type', 'text/html')
     response.end(html`
@@ -42,7 +41,7 @@ module.exports = function (request, response) {
         <a href=https://guide.licensezero.com/#prosperity
           >the License Zero Developer’s Guide</a>.
       </p>
-      <pre class=license>${linkStandards(escape(document))}</pre>
+      <blockquote class=license>${renderMarkdown(form)}</blockquote>
     </main>
     ${footer()}
   </body>
