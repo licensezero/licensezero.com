@@ -89,6 +89,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             var browser, cardNumber
             require('./webdriver')()
               .then((loaded) => { browser = loaded })
+              .then(() => browser.setTimeouts(1000))
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
               .then(() => browser.$('iframe'))
@@ -245,6 +246,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             var browser, cardNumber
             require('./webdriver')()
               .then((loaded) => { browser = loaded })
+              .then(() => browser.setTimeouts(1000))
               .then(() => browser.url('http://localhost:' + port + paymentLocation))
               // Enter credit card.
               .then(() => browser.$('iframe'))
@@ -369,6 +371,7 @@ function withLicensor (port, test, callback) {
       var browser
       require('./webdriver')()
         .then((loaded) => { browser = loaded })
+        .then(() => browser.setTimeouts(1000))
         .then(() => browser.url(oauthLocation))
         .then(() => browser.$('=Skip this account form'))
         .then((element) => element.click())
