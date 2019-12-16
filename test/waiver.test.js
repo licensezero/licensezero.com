@@ -27,14 +27,19 @@ tape('waiver', function (test) {
         })
       },
       function issueWaiver (done) {
+        var beneficiary = {
+          name: 'Larry Licensee',
+          jurisdiction: 'US-CA'
+        }
+        var term = 365
         apiRequest(port, {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           projectID,
-          beneficiary: 'Larry Licensee',
-          jurisdiction: 'US-CA',
-          term: 365
+          beneficiary: beneficiary.name,
+          jurisdiction: beneficiary.jurisdiction,
+          term
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -55,6 +60,19 @@ tape('waiver', function (test) {
             'document'
           )
           var document = response.document
+          var documentStrings = {
+            'licensor name': LICENSOR.name,
+            'licensor jurisdiction': LICENSOR.jurisdiction,
+            'beneficiary name': beneficiary.name,
+            'beneficiary jurisdiction': beneficiary.jurisdiction,
+            term
+          }
+          Object.keys(documentStrings).forEach(function (key) {
+            test.assert(
+              document.includes(documentStrings[key]),
+              key
+            )
+          })
           test.assert(
             has(response, 'signature'),
             'signature'

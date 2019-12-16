@@ -42,7 +42,7 @@ tape('public prosperity', function (test) {
           )
           test.assert(
             has(response, 'license'),
-            'document'
+            'license'
           )
           var license = response.license
           test.assert(
@@ -98,6 +98,10 @@ tape('public prosperity', function (test) {
           test.equal(
             metadata.license, 'SEE LICENSE IN LICENSE',
             'metadata.license'
+          )
+          test.assert(
+            license.document.includes(LICENSOR.name),
+            'licensor name in license document'
           )
           apiRequest(port, {
             action: 'key'
@@ -247,6 +251,10 @@ tape('public parity', function (test) {
           test.equal(
             metadata.license, 'SEE LICENSE IN LICENSE',
             'metadata.license'
+          )
+          test.assert(
+            license.document.includes(LICENSOR.name),
+            'licensor name in license document'
           )
           apiRequest(port, {
             action: 'key'
