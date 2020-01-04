@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Ed25519 Public Key',
+  description: 'Ed25519 Signature',
   type: 'string',
-  pattern: '^[0-9a-f]{128}$'
+  pattern: '^[0-9a-f]{64}$'
 }
