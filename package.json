@@ -11,7 +11,7 @@
     "commonform-commonmark": "^5.2.0",
     "commonform-html": "^3.2.0",
     "commonform-terminal": "^1.0.1",
-    "commonmark": "^0.29.0",
+    "commonmark": "^0.29.1",
     "do-not-cache": "^1.0.1",
     "flush-write-stream": "^2.0.0",
     "form-data": "^3.0.0",
