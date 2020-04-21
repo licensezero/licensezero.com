@@ -54,7 +54,7 @@
     "creditstxt": "^1.0.2",
     "depcheck": "^0.9.1",
     "istanbul": "^0.4.5",
-    "licensee": "^8.0.1",
+    "licensee": "^8.0.2",
     "npm-authors-contributors": "^1.1.0",
     "reformat-json-files": "^1.0.1",
     "rimraf": "^3.0.0",
