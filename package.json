@@ -58,7 +58,7 @@
     "npm-authors-contributors": "^1.1.0",
     "reformat-json-files": "^1.0.1",
     "rimraf": "^3.0.2",
-    "standard": "^14.3.1",
+    "standard": "^14.3.3",
     "tape": "^4.11.0",
     "webdriverio": "^5.16.15"
   },
