@@ -33,6 +33,11 @@ module.exports = function (request, response) {
       <p>
         <a href=https://paritylicense.com>paritylicense.com</a>
       </p>
+      <p class=download>
+        <a href=https://paritylicense.com/7.0.0.md download=LICENSE.md>
+          Download <code>LICENSE.md</code> for Your Project
+        </a>
+      </p>
       <p>
         To review changes to, and submit feedback about,
         the Parity Public License, visit
