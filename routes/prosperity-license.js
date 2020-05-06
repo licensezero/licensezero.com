@@ -31,7 +31,7 @@ module.exports = function (request, response) {
     <main>
       <h1>The Prosperity Public License</h1>
       <p class=download>
-        <a href=https://prosperitylicense.com/3.0.0.md download=LICENSE.md>
+        <a href=/Prosperity-3.0.0.md download=LICENSE.md>
           Download <code>LICENSE.md</code> for Your Project
         </a>
       </p>

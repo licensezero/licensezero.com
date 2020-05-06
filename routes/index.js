@@ -110,6 +110,8 @@ staticFile('styles.css')
 staticFile('licensee.gif')
 staticFile('doors.svg')
 staticFile('credits.txt')
+staticFile('Parity-7.0.0.md')
+staticFile('Prosperity-3.0.0.md')
 
 function staticFile (file) {
   var filePath = path.join(__dirname, '..', 'static', file)
