@@ -31,6 +31,9 @@ module.exports = function (request, response) {
     <main>
       <h1>The Prosperity Public License</h1>
       <p>
+        <a href=https://prosperitylicense.com>prosperitylicense.com</a>
+      </p>
+      <p>
         To review changes to, and submit feedback about,
         the Prosperity Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
