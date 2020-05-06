@@ -102,5 +102,10 @@
     "to": "Rafał Michalski",
     "href": "https://github.com/royaltm",
     "for": "CLI bugs, usability pointers, interface feedback, and good questions"
+  },
+  {
+    "to": "Orlando Hill",
+    "href": "https://github.com/orlandohill",
+    "for": "polishing off the license friction"
   }
 ]
