@@ -97,25 +97,6 @@ ${head('Licenses', {
         permissive terms
       </dd>
     </dl>
-    <h2 id=legacy>Legacy Licenses</h2>
-    <p>
-      These old licenses are no longer approved for new License
-      Zero projects:
-    </p>
-    <dl>
-      <dt><a href=/licenses/reciprocal>Reciprocal License</a></dt>
-      <dd>
-        superseded by <a href=/licenses/parity>Parity</a>
-      </dd>
-      <dt><a href=/licenses/noncommercial>Noncommercial License</a></dt>
-      <dd>
-        superseded by <a href=/licenses/prosperity>Prosperity</a>
-      </dd>
-      <dt><a href=/licenses/permissive>Permissive License</a></dt>
-      <dd>
-        superseded by <a href=/licenses/charity>Charity</a>
-      </dd>
-    </dl>
   </main>
   ${footer()}
 </body>
