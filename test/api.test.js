@@ -6,7 +6,7 @@ var tape = require('tape')
 tape('non-object API payload', function (test) {
   server(function (port, close) {
     apiRequest(port, null, function (error, response) {
-      test.error(error, 'no HTTP error')
+      test.ifError(error, 'no HTTP error')
       test.equal(
         response.error, 'request not an object',
         'request not an object'
@@ -20,7 +20,7 @@ tape('non-object API payload', function (test) {
 tape('payload without action', function (test) {
   server(function (port, close) {
     apiRequest(port, {}, function (error, response) {
-      test.error(error, 'no HTTP error')
+      test.ifError(error, 'no HTTP error')
       test.equal(
         response.error, 'missing action property',
         'missing action property'
@@ -34,7 +34,7 @@ tape('payload without action', function (test) {
 tape('payload with invalid action', function (test) {
   server(function (port, close) {
     apiRequest(port, { action: 'invalid' }, function (error, response) {
-      test.error(error, 'no HTTP error')
+      test.ifError(error, 'no HTTP error')
       test.equal(
         response.error, 'invalid action',
         'invalid action'

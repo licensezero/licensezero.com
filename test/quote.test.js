@@ -81,7 +81,7 @@ tape('quote', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -95,7 +95,7 @@ tape('quote w/ nonexistent', function (test) {
       action: 'quote',
       projects: [projectID]
     }, function (error, response) {
-      test.error(error)
+      test.ifError(error)
       test.equal(
         response.error, 'no such project: ' + projectID,
         'no such project'
@@ -152,7 +152,7 @@ tape('quote w/ retracted', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

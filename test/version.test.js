@@ -9,7 +9,7 @@ tape('version', function (test) {
     apiRequest(port, {
       action: 'version'
     }, function (error, response) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.equal(response.service, NAME, 'service')
       test.equal(response.version, VERSION, 'version')
       test.end()

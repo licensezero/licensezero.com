@@ -110,7 +110,7 @@ tape('waiver', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -140,7 +140,7 @@ tape('waiver for nonexistent project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -194,7 +194,7 @@ tape('waiver for retracted project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

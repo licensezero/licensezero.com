@@ -157,7 +157,7 @@ tape('public prosperity', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -310,7 +310,7 @@ tape('public parity', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -338,7 +338,7 @@ tape('public for nonexistent project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -390,7 +390,7 @@ tape('public for retracted project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -498,7 +498,7 @@ tape('public charity', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

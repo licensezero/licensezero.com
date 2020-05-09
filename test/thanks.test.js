@@ -7,13 +7,13 @@ tape('GET /thanks', function (test) {
   server(function (port, close) {
     http.request({ port, path: '/thanks' })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {
         test.equal(response.statusCode, 200, '200')
         simpleConcat(response, function (error, body) {
-          test.error(error, 'no body error')
+          test.ifError(error, 'no body error')
           body = body.toString()
           test.assert(
             body.includes('Forrest'),

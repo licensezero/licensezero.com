@@ -10,7 +10,7 @@ tape('GET /.well-known/security.txt', function (test) {
         test.equal(response.statusCode, 200)
         test.equal(response.headers['content-type'], 'text/plain')
         simpleConcat(response, function (error, buffer) {
-          test.error(error)
+          test.ifError(error)
           test.assert(buffer.toString().includes('security@artlessdevices.com'))
           finish()
         })
@@ -34,7 +34,7 @@ tape('GET /security-pgp-key.txt', function (test) {
         test.equal(response.statusCode, 200)
         test.equal(response.headers['content-type'], 'text/plain')
         simpleConcat(response, function (error, buffer) {
-          test.error(error)
+          test.ifError(error)
           test.assert(buffer.toString().includes('BEGIN PGP PUBLIC KEY BLOCK'))
           finish()
         })

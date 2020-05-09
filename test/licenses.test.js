@@ -16,13 +16,13 @@ function testForm (form) {
     server(function (port, close) {
       http.request({ port, path: '/licenses/' + form })
         .once('error', function (error) {
-          test.error(error, 'no error')
+          test.ifError(error, 'no error')
           finish()
         })
         .once('response', function (response) {
           test.equal(response.statusCode, 200, '200')
           simpleConcat(response, function (error, body) {
-            test.error(error, 'no body error')
+            test.ifError(error, 'no body error')
             test.assert(
               body.toString().includes('<blockquote class=license>') ||
               body.toString().includes('<pre class=license>'),
@@ -44,7 +44,7 @@ tape.test('relicense', function (test) {
   server(function (port, close) {
     http.request({ port, path: '/licenses/relicense' })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {

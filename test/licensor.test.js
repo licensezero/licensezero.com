@@ -10,13 +10,13 @@ var writeTestLicensor = require('./write-test-licensor')
 tape('licensor', function (test) {
   server(function (port, close) {
     writeTestLicensor(function (error) {
-      test.error(error)
+      test.ifError(error)
       apiRequest(port, {
         action: 'licensor',
         licensorID: LICENSOR.id
       }, function (error, response) {
         if (error) {
-          test.error(error)
+          test.ifError(error)
         } else {
           test.equal(
             response.error, false,
@@ -53,7 +53,7 @@ tape('licensor w/ invalid id', function (test) {
       licensorID: LICENSOR.id
     }, function (error, response) {
       if (error) {
-        test.error(error)
+        test.ifError(error)
       } else {
         test.equal(
           response.error, 'no such licensor',
@@ -99,7 +99,7 @@ tape('licensor w/ project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -151,7 +151,7 @@ tape('licensor w/ retracted project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -233,7 +233,7 @@ tape('licensor w/ retracted project', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

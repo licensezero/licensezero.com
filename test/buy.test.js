@@ -105,7 +105,7 @@ tape.skip('buy', function (test) {
           })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -123,7 +123,7 @@ tape('order w/ nonexistent', function (test) {
       email: 'licensee@test.com',
       person: PERSON
     }, function (error, response) {
-      test.error(error)
+      test.ifError(error)
       test.equal(
         response.error, 'no such project: ' + project,
         'no such project'
@@ -181,7 +181,7 @@ tape('order w/ retracted', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -232,7 +232,7 @@ tape('POST /buy', function (test) {
           })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

@@ -168,7 +168,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               .end()
           }
         ], function (error) {
-          test.error(error, 'no error')
+          test.ifError(error, 'no error')
           test.end()
           closeServer()
         })
@@ -290,7 +290,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               })
               .catch(function (error) {
                 browser.deleteSession()
-                test.error(error)
+                test.ifError(error)
                 done()
               })
           },
@@ -327,7 +327,7 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
             done()
           }
         ], function (error) {
-          test.error(error, 'no error')
+          test.ifError(error, 'no error')
           test.end()
           closeServer()
         })
@@ -361,7 +361,7 @@ function withLicensor (port, test, callback) {
         )
       }, function (error, response) {
         if (error) {
-          test.error(error)
+          test.ifError(error)
         } else {
           test.equal(response.error, false, 'no error')
         }

@@ -7,7 +7,7 @@ tape('GET /cli-version', function (test) {
   server(function (port, close) {
     http.request({ port, path: '/cli-version' })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {
@@ -18,7 +18,7 @@ tape('GET /cli-version', function (test) {
         )
         simpleConcat(response, function (error, body) {
           body = body.toString()
-          test.error(error, 'no body error')
+          test.ifError(error, 'no body error')
           test.assert(
             /^v[0-9]+\.[0-9]+\.[0-9]+$/.test(body.toString()),
             'version string'

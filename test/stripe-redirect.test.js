@@ -11,7 +11,7 @@ tape('GET /stripe-redirect', function (test) {
   server(function (port, close) {
     http.request({ port, path: '/stripe-redirect' })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {
@@ -36,7 +36,7 @@ tape('GET /stripe-redirect?error=&error_description=', function (test) {
       })
     })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {
@@ -62,7 +62,7 @@ tape('GET /stripe-redirect w/ bad state', function (test) {
       })
     })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {
@@ -97,7 +97,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
           )
         }, function (error, response) {
           if (error) {
-            test.error(error)
+            test.ifError(error)
           } else {
             test.equal(response.error, false, 'error false')
           }
@@ -151,7 +151,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -162,7 +162,7 @@ tape('PUT /stripe-redirect', function (test) {
   server(function (port, close) {
     http.request({ method: 'PUT', port, path: '/stripe-redirect' })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {

@@ -6,7 +6,7 @@ tape('GET /manifesto', function (test) {
   server(function (port, close) {
     http.request({ port, path: '/manifesto' })
       .once('error', function (error) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         finish()
       })
       .once('response', function (response) {

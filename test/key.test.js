@@ -8,7 +8,7 @@ tape('register w/ invalid body', function (test) {
       action: 'key'
     }, function (error, response) {
       if (error) {
-        test.error(error)
+        test.ifError(error)
       } else {
         test.assert(
           /^[0-9a-f]{64}$/.test(response.key),

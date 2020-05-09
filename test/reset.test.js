@@ -13,33 +13,39 @@ tape('reset action', function (test) {
       test.assert(message.text.split('\n').some(function (paragraph) {
         return paragraph.includes('https://licensezero.com/reset/')
       }), 'reset link')
-      test.end()
-      close()
+      finish()
     })
     writeTestLicensor(function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       apiRequest(port, {
         action: 'reset',
         licensorID: LICENSOR.id,
         email: LICENSOR.email
       }, function (error, response) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         test.equal(response.error, false, 'error false')
+        finish()
       })
     })
+    var finished = 0
+    function finish () {
+      if (++finished < 2) return
+      test.end()
+      close()
+    }
   })
 })
 
 tape('reset w/ bad email', function (test) {
   server(function (port, close) {
     writeTestLicensor(function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       apiRequest(port, {
         action: 'reset',
         licensorID: LICENSOR.id,
         email: 'wrong@example.com'
       }, function (error, response) {
-        test.error(error, 'no error')
+        test.ifError(error, 'no error')
         test.equal(response.error, 'invalid body', 'invalid')
         test.end()
         close()
@@ -68,7 +74,7 @@ tape('reset link', function (test) {
           licensorID: LICENSOR.id,
           email: LICENSOR.email
         }, function (error, response) {
-          test.error(error, 'no error')
+          test.ifError(error, 'no error')
           test.equal(response.error, false, 'error false')
           done()
         })
@@ -103,7 +109,7 @@ tape('reset link', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'error')
+      test.ifError(error, 'error')
       test.end()
       close()
     })

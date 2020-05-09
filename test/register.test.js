@@ -12,7 +12,7 @@ tape('register w/ invalid body', function (test) {
       action: 'register'
     }, function (error, response) {
       if (error) {
-        test.error(error)
+        test.ifError(error)
       } else {
         test.equal(
           response.error, 'invalid body',
@@ -38,11 +38,10 @@ tape('register w/ valid body', function (test) {
         'https://licensezero.com/terms/service.'
       )
     }, function (error, response) {
-      if (error) {
-        test.error(error)
-      } else {
-        test.equal(response.error, false, 'no error')
-      }
+      test.ifError(error)
+      test.equal(response.error, false, 'no error')
+      test.end()
+      close()
     })
     email.events
       .once('message', function (message) {
@@ -53,8 +52,6 @@ tape('register w/ valid body', function (test) {
           }),
           'link to connect'
         )
-        test.end()
-        close()
       })
   })
 })
@@ -79,7 +76,7 @@ tape.skip('confirmation w/ bad stripe code', function (test) {
           )
         }, function (error, response) {
           if (error) {
-            test.error(error)
+            test.ifError(error)
           } else {
             test.equal(response.error, false, 'error false')
           }
@@ -103,7 +100,7 @@ tape.skip('confirmation w/ bad stripe code', function (test) {
           .end()
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

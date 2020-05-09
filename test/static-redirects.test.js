@@ -8,7 +8,7 @@ FILES.forEach(function (file) {
     server(function (port, close) {
       http.request({ port, path: '/' + file })
         .once('error', function (error) {
-          test.error(error, 'no error')
+          test.ifError(error, 'no error')
           finish()
         })
         .once('response', function (response) {

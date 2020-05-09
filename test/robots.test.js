@@ -10,7 +10,7 @@ tape('GET /robots.txt', function (test) {
         test.equal(response.statusCode, 200)
         test.equal(response.headers['content-type'], 'text/plain')
         simpleConcat(response, function (error, buffer) {
-          test.error(error)
+          test.ifError(error)
           test.assert(buffer.toString().includes('Disallow: /pay/'))
           finish()
         })

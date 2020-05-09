@@ -58,7 +58,7 @@ tape('offer', function (test) {
         })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -72,7 +72,7 @@ tape('nonexistent offer', function (test) {
       projectID: uuid()
     }, function (error, response) {
       if (error) {
-        test.error(error)
+        test.ifError(error)
       } else {
         test.equal(response.error, 'no such project')
       }
@@ -119,7 +119,7 @@ tape('/offers/{id}', function (test) {
           })
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -153,7 +153,7 @@ tape('/offers/{id}/badge.svg', function (test) {
           .once('response', function (response) {
             test.equal(response.statusCode, 200, '200')
             simpleConcat(response, function (error, body) {
-              test.error(error, 'no body error')
+              test.ifError(error, 'no body error')
               test.equal(
                 response.headers['content-type'],
                 'image/svg+xml',
@@ -165,7 +165,7 @@ tape('/offers/{id}/badge.svg', function (test) {
           .end()
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })

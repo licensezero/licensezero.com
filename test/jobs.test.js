@@ -89,7 +89,7 @@ tape('sweep orders', function (test) {
         )
       }
     ], function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       test.end()
       close()
     })
@@ -108,7 +108,7 @@ tape('sweep reset tokens', function (test) {
       })
     })
     writeTestLicensor(function (error) {
-      test.error(error, 'no error')
+      test.ifError(error, 'no error')
       runSeries([
         function resetAction (done) {
           apiRequest(port, {
@@ -116,7 +116,7 @@ tape('sweep reset tokens', function (test) {
             licensorID: LICENSOR.id,
             email: LICENSOR.email
           }, function (error, response) {
-            test.error(error, 'no error')
+            test.ifError(error, 'no error')
             test.equal(response.error, false, 'error false')
             done()
           })
@@ -147,7 +147,7 @@ tape('sweep reset tokens', function (test) {
             .end()
         }
       ], function (error) {
-        test.error(error, 'error')
+        test.ifError(error, 'error')
         test.end()
         close()
       })

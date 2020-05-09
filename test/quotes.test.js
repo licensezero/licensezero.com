@@ -12,7 +12,7 @@ function testQuote (type) {
     server(function (port, close) {
       http.request({ port, path })
         .once('error', function (error) {
-          test.error(error, 'no error')
+          test.ifError(error, 'no error')
           finish()
         })
         .once('response', function (response) {
