@@ -43,7 +43,7 @@ var stringifyProjects = require('../data/stringify-projects')
 var stripANSI = require('strip-ansi')
 var stripe = require('../stripe')
 var toANSI = require('commonform-terminal')
-var uuid = require('uuid/v4')
+var uuid = require('uuid').v4
 
 var ONE_DAY = 24 * 60 * 60 * 1000
 var UUID_RE = new RegExp(UUIDV4)

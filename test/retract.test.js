@@ -5,7 +5,7 @@ var clone = require('../data/clone')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var uuid = require('uuid/v4')
+var uuid = require('uuid').v4
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('retract', function (test) {

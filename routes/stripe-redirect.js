@@ -19,7 +19,7 @@ var stripANSI = require('strip-ansi')
 var stripeNoncePath = require('../paths/stripe-nonce')
 var terms = require('../forms/terms-of-service')
 var toANSI = require('commonform-terminal')
-var uuid = require('uuid/v4')
+var uuid = require('uuid').v4
 
 module.exports = function (request, response) {
   if (request.method !== 'GET') {

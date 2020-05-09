@@ -3,7 +3,7 @@ var fs = require('fs')
 var orderPath = require('../paths/order')
 var path = require('path')
 var runSeries = require('run-series')
-var uuid = require('uuid/v4')
+var uuid = require('uuid').v4
 
 module.exports = function (data, callback) {
   assert.strict.equal(typeof data, 'object')

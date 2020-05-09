@@ -8,7 +8,7 @@ var recordAcceptance = require('../../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var stringifyProjects = require('../../data/stringify-projects')
-var uuid = require('uuid/v4')
+var uuid = require('uuid').v4
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),

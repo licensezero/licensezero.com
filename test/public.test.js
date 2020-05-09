@@ -8,7 +8,7 @@ var runSeries = require('run-series')
 var server = require('./server')
 var stringify = require('json-stable-stringify')
 var tape = require('tape')
-var uuid = require('uuid/v4')
+var uuid = require('uuid').v4
 var writeTestLicensor = require('./write-test-licensor')
 
 tape('public prosperity', function (test) {
