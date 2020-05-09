@@ -576,7 +576,6 @@ function post (request, response, order) {
         var purchaseURL = (
           'https://licensezero.com/purchases/' + purchaseID
         )
-        var importCommand = `licensezero import --bundle "${purchaseURL}"`
         response.end(html`
 <!doctype html>
 <html lang=en>
@@ -590,13 +589,6 @@ ${head('Thank you')}
       Your purchase was successful.
       You will receive receipts and license files by e-mail shortly.
     </p>
-    <p>
-      To load all of your new licenses into the License
-      Zero command line interface, run the following
-      command anytime in the next twenty four hours:
-    </p>
-    <pre class="terminal import">${escape(importCommand)}</pre>
-    <button class=clipboard data-clipboard-text="${escape(importCommand)}">Copy to Clipboard</button>
   </main>
   ${footer()}
 </body>
