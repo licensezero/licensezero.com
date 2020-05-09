@@ -2,14 +2,13 @@ var LICENSOR = require('./licensor')
 var argon2 = require('argon2')
 var fs = require('fs')
 var licensorPath = require('../paths/licensor')
-var mkdirp = require('mkdirp')
 var path = require('path')
 var runSeries = require('run-series')
 
 module.exports = function (callback) {
   var file = licensorPath(LICENSOR.id)
   runSeries([
-    mkdirp.bind(null, path.dirname(file)),
+    fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
     function (done) {
       argon2.hash(LICENSOR.token)
         .catch(done)

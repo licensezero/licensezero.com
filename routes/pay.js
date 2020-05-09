@@ -16,7 +16,6 @@ var html = require('./html')
 var internalError = require('./internal-error')
 var last = require('../util/last')
 var lock = require('./lock')
-var mkdirp = require('mkdirp')
 var mutateJSONFile = require('../data/mutate-json-file')
 var mutateTextFile = require('../data/mutate-text-file')
 var nav = require('./partials/nav')
@@ -554,7 +553,7 @@ function post (request, response, order) {
           function writePurchase (done) {
             var file = purchasePath(purchaseID)
             runSeries([
-              mkdirp.bind(null, path.dirname(file)),
+              fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
               fs.writeFile.bind(null, file, JSON.stringify({
                 date: new Date().toISOString(),
                 licenses

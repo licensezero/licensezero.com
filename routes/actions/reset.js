@@ -1,7 +1,6 @@
 var email = require('../../email')
 var fs = require('fs')
 var last = require('../../util/last')
-var mkdirp = require('mkdirp')
 var path = require('path')
 var randomNonce = require('../../data/random-nonce')
 var readLicensor = require('../../data/read-licensor')
@@ -31,7 +30,7 @@ exports.handler = function (log, body, end, fail, lock) {
             date: new Date().toISOString()
           }
           runSeries([
-            mkdirp.bind(null, path.dirname(file)),
+            fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
             fs.writeFile.bind(fs, file, JSON.stringify(content))
           ], done)
         },

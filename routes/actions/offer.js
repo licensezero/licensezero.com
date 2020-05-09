@@ -1,7 +1,6 @@
 var checkHomepage = require('./check-homepage')
 var email = require('../../email')
 var fs = require('fs')
-var mkdirp = require('mkdirp')
 var path = require('path')
 var projectPath = require('../../paths/project')
 var projectsListPath = require('../../paths/projects-list')
@@ -39,7 +38,7 @@ exports.handler = function (log, body, end, fail, lock) {
           function writeProjectFile (done) {
             var file = projectPath(projectID)
             runSeries([
-              mkdirp.bind(null, path.dirname(file)),
+              fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
               fs.writeFile.bind(fs, file, JSON.stringify({
                 projectID,
                 licensor: licensorID,
@@ -60,7 +59,7 @@ exports.handler = function (log, body, end, fail, lock) {
               }
             ])
             runSeries([
-              mkdirp.bind(null, path.dirname(file)),
+              fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
               fs.appendFile.bind(fs, file, content)
             ], done)
           }

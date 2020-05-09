@@ -1,7 +1,6 @@
 var JURISDICTIONS = require('licensezero-jurisdictions')
 var email = require('../../email')
 var fs = require('fs')
-var mkdirp = require('mkdirp')
 var path = require('path')
 var querystring = require('querystring')
 var randomNonce = require('../../data/random-nonce')
@@ -37,7 +36,7 @@ exports.handler = function (log, body, end, fail) {
       date: new Date().toISOString()
     }),
     runSeries.bind(null, [
-      mkdirp.bind(null, path.dirname(file)),
+      fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
       fs.writeFile.bind(fs, file, JSON.stringify({
         timestamp,
         name: body.name,

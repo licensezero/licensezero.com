@@ -9,7 +9,6 @@ var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
 var licensorPath = require('../paths/licensor')
-var mkdirp = require('mkdirp')
 var nav = require('./partials/nav')
 var outline = require('outline-numbering')
 var parseJSON = require('json-parse-errback')
@@ -132,8 +131,8 @@ ${head('Registration')}
         var passphrase = generateToken()
         var stripeID = stripeData.stripe_user_id
         runWaterfall([
-          mkdirp.bind(null, path.dirname(licensorFile)),
-          function (_, done) {
+          fs.mkdir.bind(fs, path.dirname(licensorFile), { recursive: true }),
+          function (done) {
             hashToken(passphrase, done)
           },
           function (hash, done) {

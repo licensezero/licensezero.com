@@ -1,6 +1,5 @@
 var assert = require('assert')
 var fs = require('fs')
-var mkdirp = require('mkdirp')
 var orderPath = require('../paths/order')
 var path = require('path')
 var runSeries = require('run-series')
@@ -15,7 +14,7 @@ module.exports = function (data, callback) {
   var orderID = uuid()
   var file = orderPath(orderID)
   runSeries([
-    mkdirp.bind(null, path.dirname(file)),
+    fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
     fs.writeFile.bind(fs, file, JSON.stringify({
       type: 'relicense',
       orderID,
