@@ -213,23 +213,6 @@ function formatDate (dateString) {
 function orderForm (project) {
   return html`
 <h3 id=buy>Buy a License</h3>
-<p>
-  You can order licenses for all the projects you need at one time with the
-  <a href=https://github.com/licensezero/cli>
-    License Zero command-line tool
-  </a>:
-</p>
-<pre class=terminal>cd your-project
-<span class=comment># If you haven't already:</span>
-licensezero identify \\
-  --name "Sara Smart" \\
-  --jurisdiction "US-CA" \\
-  --email "sara@example.com"
-<span class=comment># Open a checkout page for all missing licenses:</span>
-licensezero buy</pre>
-<p>
-  You can also buy a license for just this project right here:
-</p>
 <form method=POST action=/buy>
   <input
       type=hidden
@@ -283,5 +266,19 @@ licensezero buy</pre>
   </p>
   <button type=submit>Buy</button>
 </form>
+<p>
+  You can also buy licenses for all the projects you need at one time with the
+  <a href=https://github.com/licensezero/cli>
+    License Zero command-line tool
+  </a>:
+</p>
+<pre class=terminal>cd your-project
+<span class=comment># If you haven't already:</span>
+licensezero identify \\
+  --name "Sara Smart" \\
+  --jurisdiction "US-CA" \\
+  --email "sara@example.com"
+<span class=comment># Open a checkout page for all missing licenses:</span>
+licensezero buy</pre>
   `
 }
