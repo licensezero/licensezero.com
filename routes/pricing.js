@@ -47,7 +47,7 @@ ${head('Pricing', {
 
     <p>
       Developers also pay <a href=https://stripe.com>Stripe</a>
-      for payment processing.  As of September 2019, Stripe offers
+      for payment processing.  As of May 2020, Stripe offers
       2.9% plus 30&cent; for new accounts.
     </p>
 
