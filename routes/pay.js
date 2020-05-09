@@ -368,7 +368,7 @@ function post (request, response, order) {
                   stripe.tokens.create({
                     customer: stripeCustomerID
                   }, {
-                    stripe_account: stripeID
+                    stripeAccount: stripeID
                   }, done)
                 },
                 // Stripe Step 3:
@@ -387,7 +387,7 @@ function post (request, response, order) {
                     options.application_fee = commission
                   }
                   stripe.charges.create(options, {
-                    stripe_account: stripeID
+                    stripeAccount: stripeID
                   }, function (error, charge) {
                     if (error) return done(error)
                     request.log.info(charge, 'charge')
@@ -523,7 +523,7 @@ function post (request, response, order) {
                   stripe.charges.capture(
                     chargeID,
                     {},
-                    { stripe_account: stripeID },
+                    { stripeAccount: stripeID },
                     done
                   )
                 })
@@ -725,7 +725,7 @@ ${head('Thank you')}
         options.application_fee = commission
       }
       stripe.charges.create(options, {
-        stripe_account: stripeID
+        stripeAccount: stripeID
       }, function (error, charge) {
         if (error) return done(error)
         chargeID = charge.id
@@ -748,7 +748,7 @@ ${head('Thank you')}
       stripe.charges.capture(
         chargeID,
         {},
-        { stripe_account: stripeID },
+        { stripeAccount: stripeID },
         function (error) {
           if (error) return done(error)
           request.log.info({ chargeID }, 'captured')
