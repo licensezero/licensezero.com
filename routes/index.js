@@ -57,7 +57,6 @@ routes.set('/licenses/waiver', require('./waiver'))
 routes.set('/licenses/relicense', require('./relicense'))
 
 routes.set('/install.sh', require('./install'))
-routes.set('/one-line-install.sh', require('./one-line-install'))
 routes.set('/cli-version', require('./cli-version'))
 
 function redirect303 (response, location) {
