@@ -30,7 +30,7 @@
     "node-schedule": "^1.3.2",
     "outline-numbering": "^2.0.0",
     "pino": "^6.2.1",
-    "pino-http": "^5.0.0",
+    "pino-http": "^5.1.0",
     "pump": "^3.0.0",
     "run-parallel": "^1.1.9",
     "run-parallel-limit": "^1.0.5",
