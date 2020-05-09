@@ -59,7 +59,7 @@
     "rimraf": "^3.0.2",
     "standard": "^14.3.3",
     "tape": "^5.0.0",
-    "webdriverio": "^6.1.0"
+    "webdriverio": "^6.1.9"
   },
   "scripts": {
     "credits": "cp credits.txt.header static/credits.txt ; creditstxt >> static/credits.txt",
