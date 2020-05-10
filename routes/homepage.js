@@ -40,35 +40,36 @@ ${head(false, {
           <td><code>LICENSE</code> file</td>
           <td><code>LICENSE</code> file</td>
           <td>licensezero.com</td>
-          <td></td>
         </tr>
         <tr>
           <th>Open Projects</th>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
-          <th>Open Projects</th>
         </tr>
         <tr>
           <th>Closed Projects</th>
           <td></td>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
-          <th>Closed Projects</th>
         </tr>
         <tr>
           <th>Commercial</th>
           <td>&#x2714;</td>
           <td></td>
           <td>&#x2714;</td>
-          <th>Commercial</th>
         </tr>
         <tr>
           <th>Noncommercial</th>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
-          <th>Noncommercial</th>
+        </tr>
+        <tr>
+          <th>Cost</th>
+          <td>Free</td>
+          <td>Free</td>
+          <td>Paid</td>
         </tr>
       </tbody>
     </table>

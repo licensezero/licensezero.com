@@ -260,6 +260,7 @@ p {
 
 .features {
   margin: 0 auto;
+  padding: 0;
   width: auto;
 }
 
@@ -269,7 +270,7 @@ p {
 
 .features th,
 .features td {
-  padding: 1.5ex;
+  padding: 1ex 3ex;
 }
 
 .features thead td,
@@ -280,10 +281,6 @@ p {
 
 .features tbody th:first-child {
   text-align: right;
-}
-
-.features tbody th:last-child {
-  text-align: left;
 }
 
 .features tbody td {
