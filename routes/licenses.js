@@ -31,11 +31,11 @@ ${head('Licenses', {
       License Zero supports two public licenses:
     </p>
     <dl>
-      <dt><a href=/licenses/parity>Parity Public License</a></dt>
+      <dt><a href=https://paritylicense.com>Parity Public License</a></dt>
       <dd>
         requires others to release software they build with your work
       </dd>
-      <dt><a href=/licenses/prosperity>Prosperity Public License</a></dt>
+      <dt><a href=https://prosperitylicense.com>Prosperity Public License</a></dt>
       <dd>
         limits commercial use of your software to a trial period
       </dd>
