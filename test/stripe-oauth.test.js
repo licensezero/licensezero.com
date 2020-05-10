@@ -42,7 +42,6 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
       suite.test('license', function (test) {
         var projectID
         var paymentLocation
-        var importPurchaseCommand
         runSeries([
           function offer (done) {
             apiRequest(port, {
@@ -130,11 +129,8 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
               .then((element) => element.click())
               .then(() => browser.$('h1.thanks'))
               .then((h1) => h1.getText())
-              .then((text) => { test.equal(text, 'Thank You') })
-              .then(() => browser.$('.import'))
-              .then((element) => element.getText())
-              .then(function (text) {
-                importPurchaseCommand = text
+              .then((text) => {
+                test.equal(text, 'Thank You')
                 browser.deleteSession()
                 done()
               })
@@ -142,30 +138,6 @@ tape('Stripe OAuth connect, register, license', options, function (suite) {
                 browser.deleteSession()
                 done(error)
               })
-          },
-          function fetchBundle (done) {
-            var pathname = /\/purchases\/[0-9a-f-]+/
-              .exec(importPurchaseCommand)[0]
-            http.request({ port, path: pathname })
-              .once('error', done)
-              .once('response', function (response) {
-                simpleConcat(response, function (error, body) {
-                  if (error) return done(error)
-                  parseJSON(body, function (error, parsed) {
-                    if (error) return done(error)
-                    test.equal(
-                      typeof parsed.date, 'string',
-                      'date'
-                    )
-                    test.assert(
-                      Array.isArray(parsed.licenses),
-                      'array of licenses'
-                    )
-                    done()
-                  })
-                })
-              })
-              .end()
           }
         ], function (error) {
           test.ifError(error, 'no error')
