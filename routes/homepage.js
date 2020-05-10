@@ -74,7 +74,7 @@ ${head(false, {
       </tbody>
     </table>
     <p>
-      Contributors can choose from two new licenses,
+      Contributors can choose from two software licenses,
       <a href=/licenses/parity>Parity</a> and
       <a href=/licenses/prosperity>Prosperity</a>,
       that make their work
