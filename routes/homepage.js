@@ -64,13 +64,6 @@ ${head(false, {
           <th>Noncommercial</th>
         </tr>
         <tr>
-          <th>Cost</th>
-          <td>Free</td>
-          <td>Free</td>
-          <td>Paid</td>
-          <th>Cost</th>
-        </tr>
-        <tr>
           <th>Covers</th>
           <td>Everyone</td>
           <td>Everyone</td>
