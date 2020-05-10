@@ -85,9 +85,9 @@ ${head(false, {
     </p>
     <p>
       licensezero.com works like a vending machine. Developers stock
-      licensezero.com with licenses for for-profit and closed-source work.
-      licensezero.com sells those licenses to users on developers’
-      behalf, and sends the proceeds directly to developers’
+      it with licenses for for-profit and closed-source work, which it
+      then sells to users on developers’ behalf. licensezero.com sends
+      the proceeds directly to developers’
       <a href=https://www.stripe.com>Stripe</a> accounts.
     </p>
     <p>
