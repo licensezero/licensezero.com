@@ -63,13 +63,6 @@ ${head(false, {
           <td>&#x2714;</td>
           <th>Noncommercial</th>
         </tr>
-        <tr>
-          <th>Covers</th>
-          <td>Everyone</td>
-          <td>Everyone</td>
-          <td>Purchaser</td>
-          <th>Covers</th>
-        </tr>
       </tbody>
     </table>
     <p>
