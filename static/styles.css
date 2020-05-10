@@ -97,7 +97,6 @@ a:hover {
   color: #977;
 }
 
-
 form section {
   padding: 0.5rem 0;
 }
@@ -237,7 +236,7 @@ del {
 .lead {
   color: #666;
   font-size: 130%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   margin-top: 2rem;
   text-align: center;
 }
@@ -257,4 +256,40 @@ p {
 .signature {
   margin-left: 60%;
   max-width: 40%;
+}
+
+.features {
+  margin: 0 auto;
+  width: auto;
+}
+
+.features img {
+  max-width: 3rem;
+}
+
+.features th,
+.features td {
+  padding: 1.5ex;
+}
+
+.features thead td,
+.features thead th {
+  text-align: center;
+  vertical-align: baseline;
+}
+
+.features tbody th:first-child {
+  text-align: right;
+}
+
+.features tbody th:last-child {
+  text-align: left;
+}
+
+.features tbody td {
+  text-align: center;
+}
+
+.licenseLogo {
+  border: none;
 }

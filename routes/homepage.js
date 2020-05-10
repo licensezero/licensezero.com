@@ -18,16 +18,67 @@ ${head(false, {
   ${header()}
   <main>
     <p class=lead>
-      License Zero is a new way to support open software developers.
+      License Zero is a toolkit for supporting open software developers.
     </p>
-    <p>
-      licensezero.com works like a vending machine. Developers stock
-      licensezero.com with licenses for for-profit and closed-source work.
-      licensezero.com sells those licenses to users on developers’
-      behalf, and sends the proceeds directly to developers’
-      <a href=https://www.stripe.com>Stripe</a> accounts.
-    </p>
-    <img class=explainer alt="An explainer graphic with a row for Parity and for Prosperity, with open and locked doors for for-profit user, open source, and closed source" src=/doors.svg>
+    <table class=features>
+      <thead>
+        <tr>
+          <td rowspan=2></td>
+          <td><a class=licenseLogo target=_blank href=https://paritylicense.com><img alt="Parity License Logo" src=https://paritylicense.com/logo.svg></a></td>
+          <td><a class=licenseLogo target=_blank href=https://prosperitylicense.com><img alt="Prosperity License Logo" src=https://prosperitylicense.com/logo.svg></a></td>
+          <td><a class=licenseLogo target=_blank href=/licenses/private><img alt="Private License Logo" src=/private-license-logo.svg></a></td>
+        </tr>
+        <tr>
+          <th><a target=_blank href=https://paritylicense.com>Parity<br>License</a></th>
+          <th><a target=_blank href=https://prosperitylicense.com>Prosperity<br>License</a></th>
+          <th><a target=_blank href=/licenses/private>Private<br>License</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Open Projects</th>
+          <td>&#x2714;</td>
+          <td>&#x2714;</td>
+          <td>&#x2714;</td>
+          <th>Open Projects</th>
+        </tr>
+        <tr>
+          <th>Closed Projects</th>
+          <td></td>
+          <td>&#x2714;</td>
+          <td>&#x2714;</td>
+          <th>Closed Projects</th>
+        </tr>
+        <tr>
+          <th>Commercial</th>
+          <td>&#x2714;</td>
+          <td></td>
+          <td>&#x2714;</td>
+          <th>Commercial</th>
+        </tr>
+        <tr>
+          <th>Noncommercial</th>
+          <td>&#x2714;</td>
+          <td>&#x2714;</td>
+          <td>&#x2714;</td>
+          <th>Noncommercial</th>
+        </tr>
+        <tr>
+          <th>Cost</th>
+          <td>Free</td>
+          <td>Free</td>
+          <td>Paid</td>
+          <th>Cost</th>
+        </tr>
+        <tr>
+          <th>Covers</th>
+          <td>Everyone</td>
+          <td>Everyone</td>
+          <td>Purchaser</td>
+          <th>Covers</th>
+        </tr>
+      </tbody>
+    </table>
     <p>
       Contributors can choose from two new licenses,
       <a href=/licenses/parity>Parity</a> and
@@ -37,6 +88,13 @@ ${head(false, {
       licenses to other devs who want to use for profit or in
       closed source.  Everything happens through a simple, dev-friendly
       interface.
+    </p>
+    <p>
+      licensezero.com works like a vending machine. Developers stock
+      licensezero.com with licenses for for-profit and closed-source work.
+      licensezero.com sells those licenses to users on developers’
+      behalf, and sends the proceeds directly to developers’
+      <a href=https://www.stripe.com>Stripe</a> accounts.
     </p>
     <p>
       See <a href=https://guide.licensezero.com>the complete developer guide</a>

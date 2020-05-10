@@ -183,6 +183,7 @@ var MOVED_TO_STATIC = [
   'logo-100.png',
   'logo-on-white-100.png',
   'logo.svg',
+  'private-license-logo.svg',
   'out-of-order.svg',
   'vending-machine.svg'
 ]
