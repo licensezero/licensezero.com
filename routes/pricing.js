@@ -19,6 +19,10 @@ ${head('Pricing', {
   <main>
     <h1>Pricing</h1>
 
+    <h2>Buying Through License Zero</h2>
+    <p>Developers selling through License Zero set their own prices.</p>
+
+    <h2>Selling Through License Zero</h2>
     <math>
       <mrow>
         <mi>Customer Paid</mi>
