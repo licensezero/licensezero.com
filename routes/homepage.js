@@ -36,6 +36,13 @@ ${head(false, {
       </thead>
       <tbody>
         <tr>
+          <td></td>
+          <td><code>LICENSE</code> file</td>
+          <td><code>LICENSE</code> file</td>
+          <td>licensezero.com</td>
+          <td></td>
+        </tr>
+        <tr>
           <th>Open Projects</th>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
