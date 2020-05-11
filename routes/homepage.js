@@ -75,19 +75,11 @@ ${head(false, {
     </table>
     <p>
       Contributors can choose from two software licenses,
-      <a href=/licenses/parity>Parity</a> (Open, Share Alike) and
-      <a href=/licenses/prosperity>Prosperity</a> (Non-Commercial),
-      that make their work
-      free for open-source or not-for-profit or users, then sell private
-      licenses to other devs who want to use in
-      closed source or for profit.  Everything happens through a web
-      interface that is simple for developers and buyers.
-    </p>
-    <p>
-      licensezero.com works like a vending machine. Developers stock
-      it with licenses for for-profit and closed-source work, which it
-      then sells to users on developers’ behalf. licensezero.com sends
-      the proceeds directly to developers’
+      <a href=/licenses/parity>Parity</a>, an open, share-alike license, and
+      <a href=/licenses/prosperity>Prosperity</a>, noncommercial license,
+      then sell private licenses through licensezero.com
+      for use in closed source or for profit.
+      licensezero.com sends the proceeds directly to developers’
       <a href=https://www.stripe.com>Stripe</a> accounts.
     </p>
     <p>
