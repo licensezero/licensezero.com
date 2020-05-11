@@ -60,7 +60,7 @@ ${head(false, {
           <td>&#x2714;</td>
         </tr>
         <tr>
-          <th>Noncommercial</th>
+          <th>Non-commercial</th>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
           <td>&#x2714;</td>
@@ -75,13 +75,13 @@ ${head(false, {
     </table>
     <p>
       Contributors can choose from two software licenses,
-      <a href=/licenses/parity>Parity</a> and
-      <a href=/licenses/prosperity>Prosperity</a>,
+      <a href=/licenses/parity>Parity</a> (Open, Share Alike) and
+      <a href=/licenses/prosperity>Prosperity</a> (Non-Commercial),
       that make their work
-      free for not-for-profit or open-source users, then sell private
-      licenses to other devs who want to use for profit or in
-      closed source.  Everything happens through a simple, dev-friendly
-      interface.
+      free for open-source or not-for-profit or users, then sell private
+      licenses to other devs who want to use in
+      closed source or for profit.  Everything happens through a web
+      interface that is simple for developers and buyers.
     </p>
     <p>
       licensezero.com works like a vending machine. Developers stock
