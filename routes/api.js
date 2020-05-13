@@ -1,4 +1,4 @@
-var AJV = require('ajv')
+var ajv = require('./ajv')
 var argon2 = require('argon2')
 var doNotCache = require('do-not-cache')
 var has = require('has')
@@ -10,7 +10,6 @@ var REQUEST_BODY_LIMIT = 500000
 
 var actions = require('./actions')
 
-var ajv = new AJV()
 Object.keys(actions).forEach(function (key) {
   var action = actions[key]
   if (has(action, 'properties')) {
