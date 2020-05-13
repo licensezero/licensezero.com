@@ -1,0 +1,50 @@
+#!/bin/bash
+set -e
+for sub in orders purchases licensors projects resets stripe-nonces; do
+  mkdir -p "example-directory/$sub"
+done
+
+licensorID="125b7078-8e8c-46f1-bc86-0165417469d5"
+projectID="284f8e0f-6508-47fd-a7e1-fba4645c15a6"
+
+licensorFile="example-directory/licensors/$licensorID/licensor.json"
+mkdir -p "$(dirname "$licensorFile")"
+cat >"$licensorFile" <<EOS
+{
+  "licensorID": "$licensorID",
+  "name": [
+    "Test Licensor"
+  ],
+  "email": [
+    "test@example.com"
+  ],
+  "jurisdiction": [
+    "US-CA"
+  ],
+  "registered": "2020-01-01T01:30:00.000Z",
+  "token": "testtoken",
+  "publicKey": "260ad3580edd5d09f084f00d475bfda8f4a4f60fccc18d26ad8e4a2a18cabcf7",
+  "privateKey": "844d09c00892508651f9c99ed6e846d07fae51f0a7b18fb79ffce56ddadb18ae260ad3580edd5d09f084f00d475bfda8f4a4f60fccc18d26ad8e4a2a18cabcf7",
+  "stripe": {
+    "id": "testid",
+    "refresh": "testtoken"
+  }
+}
+EOS
+
+echo "[\"$projectID\", \"2020-01-01T02:30:00.000Z\", null]" >"example-directory/licensors/$licensorID/projedcts.ndjson"
+
+projectFile="example-directory/projects/$projectID/project.json"
+mkdir -p "$(dirname "$projectFile")"
+cat >"$projectFile"<<EOS
+{
+  "projectID": "$projectID",
+  "licensor": "$licensorID",
+  "pricing": {
+    "private": 10000
+  },
+  "homepage": "https://github.com/example/example",
+  "description": "test project",
+  "commission": 1
+}
+EOS
