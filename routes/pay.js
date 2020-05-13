@@ -573,9 +573,6 @@ function post (request, response, order) {
       } else {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/html')
-        var purchaseURL = (
-          'https://licensezero.com/purchases/' + purchaseID
-        )
         response.end(html`
 <!doctype html>
 <html lang=en>
