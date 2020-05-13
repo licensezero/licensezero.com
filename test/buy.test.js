@@ -34,8 +34,6 @@ tape('POST /buy', function (test) {
           .then((input) => input.setValue('US-CA'))
           .then(() => browser.$('#email'))
           .then((input) => input.setValue('licensee@test.com'))
-          .then(() => browser.$('#person'))
-          .then((input) => input.click())
           .then(() => browser.$('button[type="submit"]'))
           .then((button) => button.click())
           .then(() => browser.$('h2=Credit Card Payment'))

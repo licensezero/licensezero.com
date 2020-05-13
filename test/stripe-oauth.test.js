@@ -18,116 +18,107 @@ var options = {
   )
 }
 
-tape('Stripe OAuth connect, register, license', options, function (suite) {
+tape('Stripe OAuth connect, register, license', options, function (test) {
   server(8080, function (port, close) {
-    withLicensor(port, suite, function (error, licensorID, token) {
+    withLicensor(port, test, function (error, licensorID, token) {
       if (error) {
-        suite.error(error)
-        suite.end()
+        test.error(error)
+        test.end()
         return close()
       }
 
-      var count = 0
-      function closeServer () {
-        if (++count === 2) close()
-      }
-
-      suite.test('license', function (test) {
-        var projectID
-        runSeries([
-          function offer (done) {
-            apiRequest(port, {
-              action: 'offer',
-              licensorID,
-              token,
-              homepage: 'http://example.com',
-              pricing: {
-                private: 500
-              },
-              description: 'a test project',
-              terms: (
-                'I agree to the agency terms at ' +
-                'https://licensezero.com/terms/agency.'
-              )
-            }, function (error, response) {
-              if (error) return done(error)
-              test.equal(response.error, false, 'offer error false')
-              test.assert(has(response, 'projectID'), 'project id')
-              projectID = response.projectID
+      var projectID
+      runSeries([
+        function offer (done) {
+          apiRequest(port, {
+            action: 'offer',
+            licensorID,
+            token,
+            homepage: 'http://example.com',
+            pricing: {
+              private: 500
+            },
+            description: 'a test project',
+            terms: (
+              'I agree to the agency terms at ' +
+              'https://licensezero.com/terms/agency.'
+            )
+          }, function (error, response) {
+            if (error) return done(error)
+            test.equal(response.error, false, 'offer error false')
+            test.assert(has(response, 'projectID'), 'project id')
+            projectID = response.projectID
+            done()
+          })
+        },
+        function orderAndPay (done) {
+          var browser, cardNumber
+          require('./webdriver')()
+            .then((loaded) => { browser = loaded })
+            // Order
+            .then(() => browser.setTimeouts(1000))
+            .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
+            .then(() => browser.$('#licensee'))
+            .then((input) => input.setValue('Larry Licensee'))
+            .then(() => browser.$('#jurisdiction'))
+            .then((input) => input.setValue('US-CA'))
+            .then(() => browser.$('#email'))
+            .then((input) => input.setValue('licensee@test.com'))
+            .then(() => browser.$('button[type="submit"]'))
+            .then((button) => button.click())
+            // Pay
+            .then(() => browser.$('iframe'))
+            .then((frame) => browser.switchToFrame(frame))
+            .then(() => browser.$('input[name="cardnumber"]'))
+            .then((input) => { cardNumber = input })
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => timeout(200))
+            .then(() => cardNumber.addValue('42'))
+            .then(() => browser.$('input[name="exp-date"]'))
+            .then((input) => input.setValue('10 / 31'))
+            .then(() => browser.$('input[name="cvc"]'))
+            .then((input) => input.setValue('123'))
+            .then(() => browser.$('input[name="postal"]'))
+            .then((input) => input.setValue('12345'))
+            .then(() => browser.switchToParentFrame())
+            // Terms
+            .then(() => browser.$('input[name="terms"]'))
+            .then((input) => input.scrollIntoView())
+            .then(() => browser.$('input[name="terms"]'))
+            .then((input) => input.click())
+            // Submit
+            .then(() => browser.$('input[type="submit"]'))
+            .then((input) => input.scrollIntoView())
+            .then(() => browser.$('input[type="submit"]'))
+            .then((element) => element.click())
+            .then(() => browser.$('h1.thanks'))
+            .then((h1) => h1.getText())
+            .then((text) => {
+              test.equal(text, 'Thank You')
+              browser.deleteSession()
               done()
             })
-          },
-          function orderAndPay (done) {
-            var browser, cardNumber
-            require('./webdriver')()
-              .then((loaded) => { browser = loaded })
-              // Order
-              .then(() => browser.setTimeouts(1000))
-              .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
-              .then(() => browser.$('#licensee'))
-              .then((input) => input.setValue('Larry Licensee'))
-              .then(() => browser.$('#jurisdiction'))
-              .then((input) => input.setValue('US-CA'))
-              .then(() => browser.$('#email'))
-              .then((input) => input.setValue('licensee@test.com'))
-              .then(() => browser.$('#person'))
-              .then((input) => input.click())
-              .then(() => browser.$('button[type="submit"]'))
-              .then((button) => button.click())
-              // Pay
-              .then(() => browser.$('iframe'))
-              .then((frame) => browser.switchToFrame(frame))
-              .then(() => browser.$('input[name="cardnumber"]'))
-              .then((input) => { cardNumber = input })
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => timeout(200))
-              .then(() => cardNumber.addValue('42'))
-              .then(() => browser.$('input[name="exp-date"]'))
-              .then((input) => input.setValue('10 / 31'))
-              .then(() => browser.$('input[name="cvc"]'))
-              .then((input) => input.setValue('123'))
-              .then(() => browser.$('input[name="postal"]'))
-              .then((input) => input.setValue('12345'))
-              .then(() => browser.switchToParentFrame())
-              // Terms
-              .then(() => browser.$('input[name="terms"]'))
-              .then((input) => input.scrollIntoView())
-              .then(() => browser.$('input[name="terms"]'))
-              .then((input) => input.click())
-              // Submit
-              .then(() => browser.$('input[type="submit"]'))
-              .then((input) => input.scrollIntoView())
-              .then(() => browser.$('input[type="submit"]'))
-              .then((element) => element.click())
-              .then(() => browser.$('h1.thanks'))
-              .then((h1) => h1.getText())
-              .then((text) => {
-                test.equal(text, 'Thank You')
-                browser.deleteSession()
-                done()
-              })
-              .catch(function (error) {
-                browser.deleteSession()
-                done(error)
-              })
-          }
-        ], function (error) {
-          test.ifError(error, 'no error')
-          test.end()
-          closeServer()
-        })
+            .catch(function (error) {
+              browser.deleteSession()
+              done(error)
+            })
+        }
+      ], function (error) {
+        test.ifError(error, 'no error')
+        test.end()
+        close()
       })
     })
   })

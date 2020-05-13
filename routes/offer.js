@@ -1,5 +1,4 @@
 var JURISDICTIONS = require('licensezero-jurisdictions')
-var PERSON = require('./actions/common/person').const
 var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var escape = require('./escape')
 var footer = require('./partials/footer')
@@ -99,7 +98,7 @@ module.exports = function (request, response) {
       ${nav()}
       ${header()}
       <main>
-        <h2>Project</h2>
+        <h2>Software</h2>
         <section>
           <dl>
             <dt>Description</dt>
@@ -113,22 +112,16 @@ module.exports = function (request, response) {
             <dt>Project ID</dt>
             <dd>
               <code class=projectID>${escape(projectID)}</code>
-              <button class=clipboard data-clipboard-text="${escape(projectID)}">Copy to Clipboard</button>
             </dd>
           </dl>
         </section>
         <section>
-          <h3>Licensor</h3>
+          <h2>Contributor</h2>
           <dl>
             <dt>Name</dt>
             <dd>${escape(licensor.name)}</dd>
             <dt>Jurisdiction</dt>
             <dd>${renderJurisdiction(licensor.jurisdiction)}</dd>
-            <dt>Public Signing Key</dt>
-            <dd>
-              <pre><code>${licensor.publicKey.slice(0, 32) + '\n' + licensor.publicKey.slice(32)}</code></pre>
-              <button class=clipboard data-clipboard-text="${escape(licensor.publicKey)}">Copy to Clipboard</button>
-            </dd>
           </dl>
         </section>
         <h3>Pricing</h3>
@@ -136,8 +129,6 @@ module.exports = function (request, response) {
         ${orderForm(project)}
       </main>
       ${footer()}
-      <script src=/clipboard.min.js></script>
-      <script>new ClipboardJS('.clipboard')</script>
     </body>
   </html>
       `)
@@ -220,7 +211,7 @@ function orderForm (project) {
       value="${escape(project.projectID)}">
   <p>
     <label>
-      Licensee Legal Name
+      Your Legal Name
       <input
         type=text
         name=licensee
@@ -230,7 +221,7 @@ function orderForm (project) {
   </p>
   <p>
     <label>
-      Licensee Jurisdiction
+      Your Jurisdiction
       <input
         id=jurisdiction
         name=jurisdiction
@@ -245,7 +236,7 @@ function orderForm (project) {
   </p>
   <p>
     <label>
-      Licensee E-Mail
+      Your E-Mail
       <input
         type=email
         name=email
@@ -253,18 +244,7 @@ function orderForm (project) {
         required>
     </label>
   </p>
-  <p>
-    <label>
-      <input
-        type=checkbox
-        name=person
-        id=person
-        value="${PERSON}"
-        required>
-      ${escape(PERSON)}
-    </label>
-  </p>
-  <button type=submit>Buy</button>
+  <button type=submit>Check Out</button>
 </form>
   `
 }
