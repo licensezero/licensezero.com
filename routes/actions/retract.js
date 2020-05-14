@@ -1,48 +1,48 @@
 var annotateENOENT = require('../../data/annotate-enoent')
 var mutateJSONFile = require('../../data/mutate-json-file')
 var mutateTextFile = require('../../data/mutate-text-file')
-var parseProjects = require('../../data/parse-projects')
-var projectPath = require('../../paths/project')
-var projectsListPath = require('../../paths/projects-list')
+var parseOffers = require('../../data/parse-offers')
+var offerPath = require('../../paths/offer')
+var offersListPath = require('../../paths/offers-list')
 var readJSONFile = require('../../data/read-json-file')
 var runSeries = require('run-series')
-var stringifyProjects = require('../../data/stringify-projects')
+var stringifyOffers = require('../../data/stringify-offers')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id')
+  offerID: require('./common/offer-id')
 }
 
 exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
-  var projectID = body.projectID
-  lock([licensorID, projectID], function (release) {
-    var file = projectPath(body.projectID)
-    readJSONFile(file, function (error, project) {
-      if (error) return die('no such project')
-      if (project.retracted) return die('retracted project')
-      if (project.relicensed) return die('relicensed project')
-      if (project.lock) {
-        var unlockDate = new Date(project.lock.unlock)
+  var offerID = body.offerID
+  lock([licensorID, offerID], function (release) {
+    var file = offerPath(body.offerID)
+    readJSONFile(file, function (error, offer) {
+      if (error) return die('no such offer')
+      if (offer.retracted) return die('retracted offer')
+      if (offer.relicensed) return die('relicensed offer')
+      if (offer.lock) {
+        var unlockDate = new Date(offer.lock.unlock)
         var now = new Date()
-        if (unlockDate > now) return die('locked project')
+        if (unlockDate > now) return die('locked offer')
       }
       runSeries([
         function markRetracted (done) {
-          var file = projectPath(projectID)
+          var file = offerPath(offerID)
           mutateJSONFile(file, function (data) {
             data.retracted = true
-          }, annotateENOENT('no such project', done))
+          }, annotateENOENT('no such offer', done))
         },
-        function removeFromProjectsList (done) {
-          var file = projectsListPath(licensorID)
+        function removeFromOffersList (done) {
+          var file = offersListPath(licensorID)
           mutateTextFile(file, function (text) {
-            return stringifyProjects(
-              parseProjects(text)
+            return stringifyOffers(
+              parseOffers(text)
                 .map(function (element) {
                   if (
-                    element.projectID === projectID &&
+                    element.offerID === offerID &&
                     element.retracted === null
                   ) {
                     element.retracted = new Date().toISOString()

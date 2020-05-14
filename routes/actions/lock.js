@@ -1,11 +1,11 @@
 var mutateJSONFile = require('../../data/mutate-json-file')
-var projectPath = require('../../paths/project')
+var offerPath = require('../../paths/offer')
 var readJSONFile = require('../../data/read-json-file')
 
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id'),
+  offerID: require('./common/offer-id'),
   unlock: {
     type: 'string',
     format: 'date-time'
@@ -13,22 +13,22 @@ exports.properties = {
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  lock([body.licensorID, body.projectID], function (release) {
-    var file = projectPath(body.projectID)
-    readJSONFile(file, function (error, project) {
-      if (error) return die('no such project')
-      if (project.retracted) return die('retracted project')
-      if (project.relicensed) return die('relicensed project')
+  lock([body.licensorID, body.offerID], function (release) {
+    var file = offerPath(body.offerID)
+    readJSONFile(file, function (error, offer) {
+      if (error) return die('no such offer')
+      if (offer.retracted) return die('retracted offer')
+      if (offer.relicensed) return die('relicensed offer')
       // Unlock Date Validation
       var proposedUnlock = new Date(body.unlock)
       var minimumUnlock = minimumUnlockDate()
       if (proposedUnlock < minimumUnlock) return die('invalid unlock')
       var maximumUnlock = maximumUnlockDate()
       if (proposedUnlock > maximumUnlock) return die('invalid unlock')
-      // If the project is already locked, ensure the
+      // If the offer is already locked, ensure the
       // proposed lock date is after the current unlock date.
-      if (project.lock) {
-        var currentUnlock = new Date(project.lock.unlock)
+      if (offer.lock) {
+        var currentUnlock = new Date(offer.lock.unlock)
         if (currentUnlock >= proposedUnlock) {
           return die('already locked')
         }
@@ -37,7 +37,7 @@ exports.handler = function (log, body, end, fail, lock) {
         data.lock = {
           locked: new Date().toISOString(),
           unlock: proposedUnlock.toISOString(),
-          price: project.pricing.private
+          price: offer.pricing.private
         }
       }, release(function (error) {
         if (error) {

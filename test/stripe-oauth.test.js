@@ -27,7 +27,7 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
         return close()
       }
 
-      var projectID
+      var offerID
       runSeries([
         function offer (done) {
           apiRequest(port, {
@@ -38,7 +38,7 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
             pricing: {
               private: 500
             },
-            description: 'a test project',
+            description: 'a test offer',
             terms: (
               'I agree to the agency terms at ' +
               'https://licensezero.com/terms/agency.'
@@ -46,8 +46,8 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
           }, function (error, response) {
             if (error) return done(error)
             test.equal(response.error, false, 'offer error false')
-            test.assert(has(response, 'projectID'), 'project id')
-            projectID = response.projectID
+            test.assert(has(response, 'offerID'), 'offer id')
+            offerID = response.offerID
             done()
           })
         },
@@ -57,7 +57,7 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
             .then((loaded) => { browser = loaded })
             // Order
             .then(() => browser.setTimeouts(1000))
-            .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
+            .then(() => browser.url('http://localhost:' + port + '/offers/' + offerID))
             .then(() => browser.$('#licensee'))
             .then((input) => input.setValue('Larry Licensee'))
             .then(() => browser.$('#jurisdiction'))

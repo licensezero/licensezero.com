@@ -116,21 +116,21 @@ ${head(action)}
       </tr>
     </thead>
     <tbody>
-    ${order.projects.map(function (project) {
+    ${order.offers.map(function (offer) {
     return html`
         <tr>
           <td>
-            <p><code>${escape(project.projectID)}</code></p>
-            <p>${escape(project.description)}</p>
+            <p><code>${escape(offer.offerID)}</code></p>
+            <p>${escape(offer.description)}</p>
             <p>
               <a
-                href="${escape(project.homepage)}"
+                href="${escape(offer.homepage)}"
                 target=_blank
-                >${escape(project.homepage)}</a>
+                >${escape(offer.homepage)}</a>
             </p>
             <p>
-              ${escape(last(project.licensor.name))}
-              (${renderJurisdiction(last(project.licensor.jurisdiction))})
+              ${escape(last(offer.licensor.name))}
+              (${renderJurisdiction(last(offer.licensor.jurisdiction))})
             </p>
             <p>
               Terms:
@@ -141,7 +141,7 @@ ${head(action)}
             </p>
           </td>
           <td class=price>
-            ${escape(formatPrice(project.price))}
+            ${escape(formatPrice(offer.price))}
           </td>
         </tr>
       `
@@ -159,7 +159,7 @@ ${head(action)}
   }
 
   function relicenseUI () {
-    var project = order.project
+    var offer = order.offer
     return html`
 <section>
   <h2>Sponsor</h2>
@@ -180,17 +180,17 @@ ${head(action)}
     <tbody>
       <tr>
         <td>
-          <p><code>${escape(project.projectID)}</code></p>
-          <p>${escape(project.description)}</p>
+          <p><code>${escape(offer.offerID)}</code></p>
+          <p>${escape(offer.description)}</p>
           <p>
             <a
-              href="${escape(project.homepage)}"
+              href="${escape(offer.homepage)}"
               target=_blank
-              >${escape(project.homepage)}</a>
+              >${escape(offer.homepage)}</a>
           </p>
           <p>
-            ${escape(last(project.licensor.name))}
-            (${renderJurisdiction(last(project.licensor.jurisdiction))})
+            ${escape(last(offer.licensor.name))}
+            (${renderJurisdiction(last(offer.licensor.jurisdiction))})
           </p>
           <p>
             Terms: <a
@@ -200,14 +200,14 @@ ${head(action)}
           </p>
         </td>
         <td class=price>
-          ${escape(formatPrice(project.pricing.relicense))}
+          ${escape(formatPrice(offer.pricing.relicense))}
         </td>
       </tr>
     </tbody>
     <tfoot class=total>
       <tr>
         <td>Total:</td>
-        <td class=price>${escape(formatPrice(project.pricing.relicense))}</td>
+        <td class=price>${escape(formatPrice(offer.pricing.relicense))}</td>
       </tr>
     </tfoot>
   </table>
@@ -287,7 +287,7 @@ function post (request, response, order) {
   )
 
   function buyLicenses () {
-    var projects = order.projects
+    var offers = order.offers
     var orderID = order.orderID
     var stripeMetadata = {
       orderID,
@@ -298,7 +298,7 @@ function post (request, response, order) {
     var stripeCustomerID
     var licenses = []
     var purchaseID = uuid()
-    var transactions = batchTransactions(projects)
+    var transactions = batchTransactions(offers)
     runSeries([
       // See https://stripe.com/docs/connect/shared-customers.
       //
@@ -338,13 +338,13 @@ function post (request, response, order) {
             date: new Date().toISOString()
           })
         ].concat(Object.keys(transactions).map(function (licensorID) {
-          var projects = transactions[licensorID]
-          var stripeID = projects[0].licensor.stripe.id
-          var commission = projects.reduce(function (total, project) {
-            return total + applicationFee(project)
+          var offers = transactions[licensorID]
+          var stripeID = offers[0].licensor.stripe.id
+          var commission = offers.reduce(function (total, offer) {
+            return total + applicationFee(offer)
           }, 0)
-          var amount = projects.reduce(function (total, project) {
-            return total + project.price
+          var amount = offers.reduce(function (total, offer) {
+            return total + offer.price
           }, 0)
           var chargeID
           return function (done) {
@@ -384,7 +384,7 @@ function post (request, response, order) {
                 }
               ]),
               function (done) {
-                runParallel(projects.map(function (project) {
+                runParallel(offers.map(function (offer) {
                   return function (done) {
                     runWaterfall([
                       function emaiLicense (done) {
@@ -393,24 +393,24 @@ function post (request, response, order) {
                           VERSION: privateLicense.version,
                           date: new Date().toISOString(),
                           orderID,
-                          project: pick(project, [
-                            'projectID', 'homepage', 'description'
+                          offer: pick(offer, [
+                            'offerID', 'homepage', 'description'
                           ]),
                           licensee: {
                             name: order.licensee,
                             jurisdiction: order.jurisdiction,
                             email: order.email
                           },
-                          licensor: pick(project.licensor, [
+                          licensor: pick(offer.licensor, [
                             'name', 'jurisdiction'
                           ]),
-                          price: project.price
+                          price: offer.price
                         }
                         var manifest = stringify(parameters)
                         privateLicense(parameters, function (error, document) {
                           if (error) return done(error)
                           var license = {
-                            projectID: project.projectID,
+                            offerID: offer.offerID,
                             manifest,
                             document,
                             publicKey: process.env.PUBLIC_KEY,
@@ -431,7 +431,7 @@ function post (request, response, order) {
                               '',
                               'Order ID: ' + order.orderID,
                               '',
-                              'Total: ' + priceColumn(project.price),
+                              'Total: ' + priceColumn(offer.price),
                               '',
                               'Attached is a License Zero license file for:',
                               '',
@@ -441,11 +441,11 @@ function post (request, response, order) {
                               '',
                               'E-Mail:       ' + order.email,
                               '',
-                              'Project:      ' + project.projectID,
+                              'Offer:      ' + offer.offerID,
                               '',
-                              'Description:  ' + project.description,
+                              'Description:  ' + offer.description,
                               '',
-                              'Homepage:   ' + project.homepage
+                              'Homepage:   ' + offer.homepage
                             ].join('\n'),
                             license
                           }, function (error) {
@@ -465,7 +465,7 @@ function post (request, response, order) {
                       },
                       function emailLicensorStatement (license, done) {
                         email(request.log, {
-                          to: last(project.licensor.email),
+                          to: last(offer.licensor.email),
                           bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                           subject: 'License Zero Statement',
                           text: [
@@ -474,11 +474,11 @@ function post (request, response, order) {
                             '',
                             'Order:        ' + order.orderID,
                             '',
-                            'Project:      ' + project.projectID,
+                            'Offer:      ' + offer.offerID,
                             '',
-                            'Description:  ' + project.description,
+                            'Description:  ' + offer.description,
                             '',
-                            'Homepage:   ' + project.homepage,
+                            'Homepage:   ' + offer.homepage,
                             '',
                             'Licensee:     ' + order.licensee,
                             '',
@@ -486,11 +486,11 @@ function post (request, response, order) {
                             '',
                             'E-Mail:       ' + order.email,
                             '',
-                            'Price:      ' + priceColumn(project.price),
+                            'Price:      ' + priceColumn(offer.price),
                             '',
                             'Commission: ' + priceColumn(commission),
                             '',
-                            'Total:      ' + priceColumn(project.price - commission),
+                            'Total:      ' + priceColumn(offer.price - commission),
                             '',
                             'The Ed25519 cryptographic signature to the ',
                             'license is:',
@@ -587,14 +587,14 @@ function expired (created) {
   return (new Date() - new Date(created)) > ONE_DAY
 }
 
-function batchTransactions (projects) {
+function batchTransactions (offers) {
   var returned = {}
-  projects.forEach(function (project) {
-    var licensorID = project.licensor.licensorID
+  offers.forEach(function (offer) {
+    var licensorID = offer.licensor.licensorID
     if (has(returned, licensorID)) {
-      returned[licensorID].push(project)
+      returned[licensorID].push(offer)
     } else {
-      returned[licensorID] = [project]
+      returned[licensorID] = [offer]
     }
   })
   return returned

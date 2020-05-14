@@ -15,7 +15,7 @@ var REPOSITORY = (
 module.exports = function (request, response) {
   permissiveLicense({
     name: '{Licensor Name}',
-    source: '{https://example.com/project}'
+    source: '{https://example.com/offer}'
   }, function (error, document) {
     if (error) return internalError(request, response, error)
     response.setHeader('Content-Type', 'text/html')
@@ -33,10 +33,10 @@ module.exports = function (request, response) {
         academic-style open source software license
         for the twenty-first century.
         License Zero maintainers may offer to
-        relicense their projects under this license
+        relicense their offers under this license
         for a fee.
         Other developers are free to use L0-P for
-        projects that do not use License Zero, too.
+        offers that do not use License Zero, too.
       </p>
       <p>
         To review changes to, and submit feedback about,

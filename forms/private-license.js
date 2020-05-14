@@ -23,7 +23,7 @@ module.exports = function (options, callback) {
       licenseeName: options.licensee.name,
       licenseeJurisdiction: options.licensee.jurisdiction,
       licenseeEmail: options.licensee.email,
-      projectID: options.projectID,
+      offerID: options.offerID,
       description: options.description,
       repository: options.homepage
     }

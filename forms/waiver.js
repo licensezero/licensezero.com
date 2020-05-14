@@ -12,7 +12,7 @@ module.exports = function (options, callback) {
     if (error) return callback(error)
     var licensor = options.licensor
     var beneficiary = options.beneficiary
-    var project = options.project
+    var offer = options.offer
     callback(null, mustache.render(
       template,
       {
@@ -24,9 +24,9 @@ module.exports = function (options, callback) {
         agent: 'Artless Devices LLC',
         agentJurisdiction: 'US-CA',
         agentWebsite: 'https://licensezero.com',
-        projectID: project.projectID,
-        description: project.description,
-        homepage: project.homepage,
+        offerID: offer.offerID,
+        description: offer.description,
+        homepage: offer.homepage,
         date: options.date,
         term: options.term.toLowerCase() === 'forever'
           ? false

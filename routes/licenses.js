@@ -69,14 +69,14 @@ ${head('Licenses', {
     <h2 id=relicensing>Relicensing</h2>
     <p>
       License Zero developers can optionally offer to relicense
-      a project onto permissive open source terms, and stop
+      work onto permissive open source terms, and stop
       selling private licenses for it, for a one-time fee:
     </p>
     <dl>
       <dt><a href=/licenses/relicense>Relicense Agreement</a></dt>
       <dd>
         a form contract between a License Zero and a developer
-        for sponsored relicensing of a project onto permissive terms
+        for sponsored relicensing of work onto permissive terms
       </dd>
     </dl>
     <h2 id=quotes>Quotes</h2>
@@ -93,7 +93,7 @@ ${head('Licenses', {
       </dd>
       <dt><a href=/licenses/quotes/relicense.odt>Relicense Quote</a></dt>
       <dd>
-        quote a price for relicensing your project on
+        quote a price for relicensing your work on
         permissive terms
       </dd>
     </dl>

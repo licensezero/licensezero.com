@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
-for sub in orders purchases licensors projects resets stripe-nonces; do
+for sub in orders purchases licensors offers resets stripe-nonces; do
   mkdir -p "test-server-directory/$sub"
 done
 
 licensorID="125b7078-8e8c-46f1-bc86-0165417469d5"
-projectID="284f8e0f-6508-47fd-a7e1-fba4645c15a6"
+offerID="284f8e0f-6508-47fd-a7e1-fba4645c15a6"
 
 licensorFile="test-server-directory/licensors/$licensorID/licensor.json"
 mkdir -p "$(dirname "$licensorFile")"
@@ -30,19 +30,19 @@ cat >"$licensorFile" <<EOS
 }
 EOS
 
-echo "[\"$projectID\", \"2020-01-01T02:30:00.000Z\", null]" >"test-server-directory/licensors/$licensorID/projedcts.ndjson"
+echo "[\"$offerID\", \"2020-01-01T02:30:00.000Z\", null]" >"test-server-directory/licensors/$licensorID/offers.ndjson"
 
-projectFile="test-server-directory/projects/$projectID/project.json"
-mkdir -p "$(dirname "$projectFile")"
-cat >"$projectFile"<<EOS
+offerFile="test-server-directory/offers/$offerID/offer.json"
+mkdir -p "$(dirname "$offerFile")"
+cat >"$offerFile"<<EOS
 {
-  "projectID": "$projectID",
+  "offerID": "$offerID",
   "licensor": "$licensorID",
   "pricing": {
     "private": 10000
   },
   "homepage": "https://github.com/example/example",
-  "description": "test project",
+  "description": "test offer",
   "commission": 1
 }
 EOS

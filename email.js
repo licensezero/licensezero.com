@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'test') {
     if (license) {
       var licenseBuffer = Buffer.from(JSON.stringify(license))
       form.append('attachment', licenseBuffer, {
-        filename: license.projectID + '.json',
+        filename: license.offerID + '.json',
         contentType: 'application/json',
         knownLength: licenseBuffer.length
       })

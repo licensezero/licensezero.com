@@ -32,7 +32,7 @@ module.exports = function (request, response) {
         Note:
         This reciprocal license has been replaced by
         <a href=/licenses/parity>The Parity Public License</a>
-        for License Zero projects going forward.
+        for License Zero offers going forward.
       </p>
       <p>
         To review changes to, and submit feedback about,

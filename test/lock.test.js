@@ -9,7 +9,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('lock', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -19,7 +19,7 @@ tape('lock', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -28,7 +28,7 @@ tape('lock', function (test) {
         unlock.setDate(unlock.getDate() + 8)
         apiRequest(port, {
           action: 'lock',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           unlock: unlock.toISOString()
@@ -41,7 +41,7 @@ tape('lock', function (test) {
       function decreasePrice (done) {
         apiRequest(port, {
           action: 'reprice',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {
@@ -56,7 +56,7 @@ tape('lock', function (test) {
       function tryToIncreasePrice (done) {
         apiRequest(port, {
           action: 'reprice',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
           pricing: {
@@ -74,13 +74,13 @@ tape('lock', function (test) {
       function tryToRetract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'locked project',
+            response.error, 'locked offer',
             'error: locked'
           )
           done()

@@ -1,15 +1,15 @@
 var fs = require('fs')
-var parseProjects = require('./parse-projects')
-var projectsListPath = require('../paths/projects-list')
+var offersListPath = require('../paths/offers-list')
+var parseOffers = require('./parse-offers')
 
 module.exports = function (id, callback) {
-  var file = projectsListPath(id)
+  var file = offersListPath(id)
   fs.readFile(file, function (error, buffer) {
     if (error) {
       /* istanbul ignore else */
       if (error.code === 'ENOENT') return callback(null, [])
       return callback(error)
     }
-    callback(null, parseProjects(buffer))
+    callback(null, parseOffers(buffer))
   })
 }

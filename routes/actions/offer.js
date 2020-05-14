@@ -2,12 +2,12 @@ var checkHomepage = require('./check-homepage')
 var email = require('../../email')
 var fs = require('fs')
 var path = require('path')
-var projectPath = require('../../paths/project')
-var projectsListPath = require('../../paths/projects-list')
+var offerPath = require('../../paths/offer')
+var offersListPath = require('../../paths/offers-list')
 var recordAcceptance = require('../../data/record-acceptance')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
-var stringifyProjects = require('../../data/stringify-projects')
+var stringifyOffers = require('../../data/stringify-offers')
 var uuid = require('uuid').v4
 
 exports.properties = {
@@ -21,7 +21,7 @@ exports.properties = {
 
 exports.handler = function (log, body, end, fail, lock) {
   var licensorID = body.licensorID
-  var projectID = uuid()
+  var offerID = uuid()
   lock([licensorID], function (release) {
     runSeries([
       function (done) {
@@ -35,12 +35,12 @@ exports.handler = function (log, body, end, fail, lock) {
       },
       function writeFile (done) {
         runParallel([
-          function writeProjectFile (done) {
-            var file = projectPath(projectID)
+          function writeOfferFile (done) {
+            var file = offerPath(offerID)
             runSeries([
               fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
               fs.writeFile.bind(fs, file, JSON.stringify({
-                projectID,
+                offerID,
                 licensor: licensorID,
                 pricing: body.pricing,
                 homepage: body.homepage,
@@ -49,11 +49,11 @@ exports.handler = function (log, body, end, fail, lock) {
               }))
             ], done)
           },
-          function appendToLicensorProjectsList (done) {
-            var file = projectsListPath(licensorID)
-            var content = stringifyProjects([
+          function appendToLicensorOffersList (done) {
+            var file = offersListPath(licensorID)
+            var content = stringifyOffers([
               {
-                projectID,
+                offerID,
                 offered: new Date().toISOString(),
                 retracted: null
               }
@@ -73,12 +73,12 @@ exports.handler = function (log, body, end, fail, lock) {
         if (error.userMessage) return fail(error.userMessage)
         return fail('internal error')
       }
-      end({ projectID })
+      end({ offerID })
       email(log, {
         to: process.env.OFFER_NOTIFICATION_EMAIL,
-        subject: 'License Zero Project Offer',
+        subject: 'License Zero Offer Offer',
         text: [
-          'projectID: ' + projectID,
+          'offerID: ' + offerID,
           'licensor: ' + licensorID,
           'pricing.private: ' + body.pricing.private,
           'pricing.relicense: ' + body.pricing.relicense,

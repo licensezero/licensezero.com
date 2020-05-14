@@ -1,7 +1,7 @@
 var Busboy = require('busboy')
 var ajv = require('./ajv')
 var internalError = require('./internal-error')
-var readProject = require('../data/read-project')
+var readOffer = require('../data/read-offer')
 var runParallel = require('run-parallel')
 var writeOrder = require('../data/write-order')
 
@@ -10,11 +10,11 @@ var schema = {
   jurisdiction: require('./actions/common/jurisdiction'),
   email: require('./actions/common/email'),
   person: require('./actions/common/person'),
-  projects: {
+  offers: {
     type: 'array',
     minItems: 1,
     maxItems: 100,
-    items: require('./actions/common/project-id')
+    items: require('./actions/common/offer-id')
   }
 }
 
@@ -73,18 +73,18 @@ function order (log, body, callback) {
     var error = new Error('invalid body')
     return callback(error)
   }
-  var projects = body.projects
+  var offers = body.offers
   runParallel(
-    projects.map(function (projectID, index) {
+    offers.map(function (offerID, index) {
       return function (done) {
-        readProject(projectID, function (error, project) {
+        readOffer(offerID, function (error, offer) {
           if (error) {
             if (error.userMessage) {
-              error.userMessage += ': ' + projectID
+              error.userMessage += ': ' + offerID
             }
             return done(error)
           }
-          projects[index] = project
+          offers[index] = offer
           done()
         })
       }
@@ -96,31 +96,31 @@ function order (log, body, callback) {
         log.error(error)
         return callback(new Error('internal error'))
       }
-      var retracted = projects.filter(function (project) {
-        return project.retracted
+      var retracted = offers.filter(function (offer) {
+        return offer.retracted
       })
       if (retracted.length !== 0) {
         return callback(new Error(
-          'retracted projects: ' +
-          retracted.map(projectIDOf).join(', ')
+          'retracted offers: ' +
+          retracted.map(offerIDOf).join(', ')
         ))
       }
-      var relicensed = projects.filter(function (project) {
-        return project.relicensed
+      var relicensed = offers.filter(function (offer) {
+        return offer.relicensed
       })
       if (relicensed.length !== 0) {
         return callback(new Error(
-          'relicensed projects: ' +
-          relicensed.map(projectIDOf).join(', ')
+          'relicensed offers: ' +
+          relicensed.map(offerIDOf).join(', ')
         ))
       }
-      var pricedProjects = projects.map(function (project) {
-        project.price = project.pricing.private
-        delete project.pricing
-        return project
+      var pricedOffers = offers.map(function (offer) {
+        offer.price = offer.pricing.private
+        delete offer.pricing
+        return offer
       })
       writeOrder({
-        projects: pricedProjects,
+        offers: pricedOffers,
         licensee: body.licensee,
         jurisdiction: body.jurisdiction,
         email: body.email
@@ -132,6 +132,6 @@ function order (log, body, callback) {
   )
 }
 
-function projectIDOf (argument) {
-  return argument.projectID
+function offerIDOf (argument) {
+  return argument.offerID
 }

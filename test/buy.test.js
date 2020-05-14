@@ -9,7 +9,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('POST /buy', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -19,7 +19,7 @@ tape('POST /buy', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -27,7 +27,7 @@ tape('POST /buy', function (test) {
         var browser
         require('./webdriver')()
           .then((loaded) => { browser = loaded })
-          .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
+          .then(() => browser.url('http://localhost:' + port + '/offers/' + offerID))
           .then(() => browser.$('#licensee'))
           .then((input) => input.setValue('Larry Licensee'))
           .then(() => browser.$('#jurisdiction'))

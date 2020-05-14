@@ -15,24 +15,24 @@ var last = require('../util/last')
 var nav = require('./partials/nav')
 var notFound = require('./not-found')
 var path = require('path')
-var readProject = require('../data/read-project')
+var readOffer = require('../data/read-offer')
 var renderJurisdiction = require('./partials/jurisdiction')
-var sanitizeProject = require('../data/sanitize-project')
+var sanitizeOffer = require('../data/sanitize-offer')
 
 module.exports = function (request, response) {
-  var projectID = request.parameters.projectID
-  if (!UUID.test(projectID)) {
+  var offerID = request.parameters.offerID
+  if (!UUID.test(offerID)) {
     var error = new Error()
-    error.userMessage = 'invalid project identifier'
+    error.userMessage = 'invalid offer identifier'
     return notFound(request, response, error)
   }
-  readProject(projectID, function (error, project) {
+  readOffer(offerID, function (error, offer) {
     if (error) return notFound(request, response, error)
-    sanitizeProject(project)
-    var licensor = project.licensor
-    var data = { project, licensor }
+    sanitizeOffer(offer)
+    var licensor = offer.licensor
+    var data = { offer, licensor }
     var customizationPath = path.join(
-      __dirname, '..', 'customizations', projectID + '.html'
+      __dirname, '..', 'customizations', offerID + '.html'
     )
     fs.readFile(
       customizationPath, 'utf8',
@@ -55,13 +55,13 @@ module.exports = function (request, response) {
               code
             }
           })
-          var pricing = project.pricing
+          var pricing = offer.pricing
           var rendered = compiled(
             {
-              id: projectID,
-              description: project.description,
-              url: project.homepage,
-              retracted: project.retracted,
+              id: offerID,
+              description: offer.description,
+              url: offer.homepage,
+              retracted: offer.retracted,
               name: last(licensor.name),
               jurisdiction: last(licensor.jurisdiction),
               email: last(licensor.email),
@@ -85,13 +85,13 @@ module.exports = function (request, response) {
       response.end(data.customized)
     } else {
       var licensor = data.licensor
-      var project = data.project
+      var offer = data.offer
       response.end(html`
   <!doctype html>
   <html lang=EN>
-    ${head(projectID, {
-      title: licensor.name + '’s Project',
-      description: project.description
+    ${head(offerID, {
+      title: licensor.name + '’s Offer',
+      description: offer.description
     })}
     <body>
       ${nav()}
@@ -101,16 +101,16 @@ module.exports = function (request, response) {
         <section>
           <dl>
             <dt>Description</dt>
-            <dd class=description>${escape(project.description)}</dd>
+            <dd class=description>${escape(offer.description)}</dd>
             <dt>Homepage</dt>
             <dd class=homepage>
-              <a href="${escape(project.homepage)}" target=_blank>
-                ${escape(project.homepage)}
+              <a href="${escape(offer.homepage)}" target=_blank>
+                ${escape(offer.homepage)}
               </a>
             </dd>
-            <dt>Project ID</dt>
+            <dt>Offer ID</dt>
             <dd>
-              <code class=projectID>${escape(projectID)}</code>
+              <code class=offerID>${escape(offerID)}</code>
             </dd>
           </dl>
         </section>
@@ -124,8 +124,8 @@ module.exports = function (request, response) {
           </dl>
         </section>
         <h3>Pricing</h3>
-        ${project.retracted ? retracted() : priceList(project)}
-        ${orderForm(project)}
+        ${offer.retracted ? retracted() : priceList(offer)}
+        ${orderForm(offer)}
       </main>
       ${footer()}
     </body>
@@ -137,13 +137,13 @@ module.exports = function (request, response) {
 
 function retracted () {
   return html`
-<p>The licensor has retracted this project from public sale.</p>
+<p>The licensor has retracted this offer.</p>
   `
 }
 
-function priceList (project) {
-  var pricing = project.pricing
-  var lock = project.lock
+function priceList (offer) {
+  var pricing = offer.pricing
+  var lock = offer.lock
   return html`
 <dl>
   <dt>
@@ -177,7 +177,7 @@ ${
 function lockInformation (lock) {
   return html`
 <p>
-  Private license pricing for this project
+  Private license pricing for this offer
   was locked at
   ${formatPrice(lock.price)} or less
   until ${formatDate(lock.unlock)}
@@ -200,14 +200,14 @@ function formatDate (dateString) {
     })
 }
 
-function orderForm (project) {
+function orderForm (offer) {
   return html`
 <h3 id=buy>Buy a License</h3>
 <form method=POST action=/buy>
   <input
       type=hidden
-      name=projects[]
-      value="${escape(project.projectID)}">
+      name=offers[]
+      value="${escape(offer.offerID)}">
   <p>
     <label>
       Your Legal Name

@@ -10,8 +10,8 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('quote', function (test) {
   server(function (port, close) {
-    var firstProject
-    var secondProject
+    var firstOffer
+    var secondOffer
     runSeries([
       writeTestLicensor.bind(null),
       function offerFirst (done) {
@@ -22,7 +22,7 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          firstProject = response.projectID
+          firstOffer = response.offerID
           done()
         })
       },
@@ -34,22 +34,22 @@ tape('quote', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          secondProject = response.projectID
+          secondOffer = response.offerID
           done()
         })
       },
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          projects: [firstProject, secondProject]
+          offers: [firstOffer, secondOffer]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
           test.deepEqual(
-            response.projects,
+            response.offers,
             [
               {
-                projectID: firstProject,
+                offerID: firstOffer,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 homepage: 'http://example.com/first',
@@ -61,7 +61,7 @@ tape('quote', function (test) {
                 commission: parseInt(process.env.COMMISSION)
               },
               {
-                projectID: secondProject,
+                offerID: secondOffer,
                 description: OFFER.description,
                 pricing: OFFER.pricing,
                 homepage: 'http://example.com/second',
@@ -88,15 +88,15 @@ tape('quote', function (test) {
 
 tape('quote w/ nonexistent', function (test) {
   server(function (port, close) {
-    var projectID = uuid()
+    var offerID = uuid()
     apiRequest(port, {
       action: 'quote',
-      projects: [projectID]
+      offers: [offerID]
     }, function (error, response) {
       test.ifError(error)
       test.equal(
-        response.error, 'no such project: ' + projectID,
-        'no such project'
+        response.error, 'no such offer: ' + offerID,
+        'no such offer'
       )
       test.end()
       close()
@@ -106,7 +106,7 @@ tape('quote w/ nonexistent', function (test) {
 
 tape('quote w/ retracted', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -116,14 +116,14 @@ tape('quote w/ retracted', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -135,15 +135,15 @@ tape('quote w/ retracted', function (test) {
       function quote (done) {
         apiRequest(port, {
           action: 'quote',
-          projects: [projectID]
+          offers: [offerID]
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.projects[0].projectID, projectID,
-            'project'
+            response.offers[0].offerID, offerID,
+            'offer'
           )
           test.equal(
-            response.projects[0].retracted, true,
+            response.offers[0].retracted, true,
             'retracted'
           )
           done()

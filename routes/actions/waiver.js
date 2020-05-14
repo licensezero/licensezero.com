@@ -1,6 +1,6 @@
 var ed25519 = require('../../util/ed25519')
 var last = require('../../util/last')
-var readProject = require('../../data/read-project')
+var readOffer = require('../../data/read-offer')
 var recordSignature = require('../../data/record-signature')
 var stringify = require('json-stable-stringify')
 var waiver = require('../../forms/waiver')
@@ -8,7 +8,7 @@ var waiver = require('../../forms/waiver')
 exports.properties = {
   licensorID: require('./common/licensor-id'),
   token: { type: 'string' },
-  projectID: require('./common/project-id'),
+  offerID: require('./common/offer-id'),
   beneficiary: {
     description: 'beneficiary legal name',
     type: 'string',
@@ -33,14 +33,14 @@ exports.properties = {
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var projectID = body.projectID
-  readProject(projectID, function (error, project) {
+  var offerID = body.offerID
+  readOffer(offerID, function (error, offer) {
     if (error) {
       if (error.userMessage) return fail(error.userMessage)
       return fail(error)
     }
-    if (project.retracted) return fail('retracted project')
-    var licensor = project.licensor
+    if (offer.retracted) return fail('retracted offer')
+    var licensor = offer.licensor
     var parameters = {
       FORM: 'waiver',
       VERSION: waiver.version,
@@ -52,10 +52,10 @@ exports.handler = function (log, body, end, fail, lock) {
         name: last(licensor.name),
         jurisdiction: last(licensor.jurisdiction)
       },
-      project: {
-        projectID,
-        description: project.description,
-        homepage: project.homepage
+      offer: {
+        offerID,
+        description: offer.description,
+        homepage: offer.homepage
       },
       date: new Date().toISOString(),
       term: body.term.toString()
@@ -79,7 +79,7 @@ exports.handler = function (log, body, end, fail, lock) {
             return fail('internal error')
           }
           end({
-            projectID,
+            offerID,
             manifest,
             document,
             signature,

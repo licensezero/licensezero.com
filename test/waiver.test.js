@@ -12,7 +12,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('waiver', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -22,7 +22,7 @@ tape('waiver', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -36,7 +36,7 @@ tape('waiver', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           beneficiary: beneficiary.name,
           jurisdiction: beneficiary.jurisdiction,
           term
@@ -47,8 +47,8 @@ tape('waiver', function (test) {
             'error false'
           )
           test.assert(
-            has(response, 'projectID'),
-            'project ID'
+            has(response, 'offerID'),
+            'offer ID'
           )
           test.assert(
             has(response, 'manifest'),
@@ -115,7 +115,7 @@ tape('waiver', function (test) {
   })
 })
 
-tape('waiver for nonexistent project', function (test) {
+tape('waiver for nonexistent offer', function (test) {
   server(function (port, close) {
     runSeries([
       writeTestLicensor.bind(null),
@@ -124,15 +124,15 @@ tape('waiver for nonexistent project', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID: uuid(),
+          offerID: uuid(),
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'no such project',
-            'no such project'
+            response.error, 'no such offer',
+            'no such offer'
           )
           done()
         })
@@ -145,9 +145,9 @@ tape('waiver for nonexistent project', function (test) {
   })
 })
 
-tape('waiver for retracted project', function (test) {
+tape('waiver for retracted offer', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -157,14 +157,14 @@ tape('waiver for retracted project', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'offer: error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function retract (done) {
         apiRequest(port, {
           action: 'retract',
-          projectID,
+          offerID,
           licensorID: LICENSOR.id,
           token: LICENSOR.token
         }, function (error, response) {
@@ -178,15 +178,15 @@ tape('waiver for retracted project', function (test) {
           action: 'waiver',
           licensorID: LICENSOR.id,
           token: LICENSOR.token,
-          projectID,
+          offerID,
           beneficiary: 'Larry Licensee',
           jurisdiction: 'US-CA',
           term: 365
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
-            response.error, 'retracted project',
-            'retracted project'
+            response.error, 'retracted offer',
+            'retracted offer'
           )
           done()
         })

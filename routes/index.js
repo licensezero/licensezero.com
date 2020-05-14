@@ -11,19 +11,19 @@ routes.set('/pricing', require('./pricing'))
 routes.set('/commitment', require('./commitment'))
 routes.set('/manifesto', require('./manifesto'))
 
-routes.set('/offers/:projectID', require('./offer'))
-routes.set('/offers/:projectID/badge.svg', require('./badge'))
-routes.set('/projects/:projectID', redirectToOffer)
-routes.set('/projects/:projectID/badge.svg', redirectToBadge)
-routes.set('/ids/:projectID', redirectToOffer)
-routes.set('/ids/:projectID/badge.svg', redirectToBadge)
+routes.set('/offers/:offerID', require('./offer'))
+routes.set('/offers/:offerID/badge.svg', require('./badge'))
+routes.set('/projects/:offerID', redirectToOffer)
+routes.set('/projects/:offerID/badge.svg', redirectToBadge)
+routes.set('/ids/:offerID', redirectToOffer)
+routes.set('/ids/:offerID/badge.svg', redirectToBadge)
 
 function redirectToOffer (request, response) {
-  redirect301(response, '/offers/' + request.parameters.projectID)
+  redirect301(response, '/offers/' + request.parameters.offerID)
 }
 
 function redirectToBadge (request, response) {
-  redirect301(response, '/offers/' + request.parameters.projectID + '/badge.svg')
+  redirect301(response, '/offers/' + request.parameters.offerID + '/badge.svg')
 }
 
 routes.set('/buy', require('./buy'))

@@ -2,7 +2,7 @@ var UUID = new RegExp(require('../data/uuidv4-pattern'))
 var doNotCache = require('do-not-cache')
 var formatPrice = require('../util/format-price')
 var path = require('path')
-var readProject = require('../data/read-project')
+var readOffer = require('../data/read-offer')
 var withCached = require('../data/with-cached')
 
 var withRelicense = withCached(
@@ -14,18 +14,18 @@ var withoutRelicense = withCached(
 )
 
 module.exports = function (request, response) {
-  var projectID = request.parameters.projectID
+  var offerID = request.parameters.offerID
   doNotCache(response)
-  if (!UUID.test(projectID)) {
+  if (!UUID.test(offerID)) {
     response.statusCode = 404
     return response.end()
   }
-  readProject(projectID, function (error, project) {
+  readOffer(offerID, function (error, offer) {
     if (error) {
       response.statusCode = 404
       return response.end()
     }
-    var pricing = project.pricing
+    var pricing = offer.pricing
     var hasRelicense = pricing.relicense
     var withTemplate = hasRelicense ? withRelicense : withoutRelicense
     withTemplate(function (error, template) {

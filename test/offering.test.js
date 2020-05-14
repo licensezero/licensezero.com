@@ -13,7 +13,7 @@ var writeTestLicensor = require('./write-test-licensor')
 
 tape('offering', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -23,14 +23,14 @@ tape('offering', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
-      function requestProject (done) {
+      function requestOffer (done) {
         apiRequest(port, {
           action: 'offering',
-          projectID
+          offerID
         }, function (error, response) {
           if (error) return done(error)
           test.assert(
@@ -39,7 +39,7 @@ tape('offering', function (test) {
           )
           test.deepEqual(
             response, {
-              projectID,
+              offerID,
               homepage: OFFER.homepage,
               pricing: OFFER.pricing,
               licensor: {
@@ -68,12 +68,12 @@ tape('nonexistent offer', function (test) {
   server(function (port, close) {
     apiRequest(port, {
       action: 'offering',
-      projectID: uuid()
+      offerID: uuid()
     }, function (error, response) {
       if (error) {
         test.ifError(error)
       } else {
-        test.equal(response.error, 'no such project')
+        test.equal(response.error, 'no such offer')
       }
       test.end()
       close()
@@ -83,7 +83,7 @@ tape('nonexistent offer', function (test) {
 
 tape('/offers/{id}', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -93,7 +93,7 @@ tape('/offers/{id}', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
@@ -101,13 +101,13 @@ tape('/offers/{id}', function (test) {
         var browser
         require('./webdriver')()
           .then((loaded) => { browser = loaded })
-          .then(() => browser.url('http://localhost:' + port + '/offers/' + projectID))
-          .then(() => browser.$('.projectID'))
+          .then(() => browser.url('http://localhost:' + port + '/offers/' + offerID))
+          .then(() => browser.$('.offerID'))
           .then((element) => element.getText())
           .then(function (text) {
             test.equal(
-              text, projectID,
-              'project ID'
+              text, offerID,
+              'offer ID'
             )
             browser.deleteSession()
             done()
@@ -127,7 +127,7 @@ tape('/offers/{id}', function (test) {
 
 tape('/offers/{id}/badge.svg', function (test) {
   server(function (port, close) {
-    var projectID
+    var offerID
     runSeries([
       writeTestLicensor.bind(null),
       function offer (done) {
@@ -137,14 +137,14 @@ tape('/offers/{id}/badge.svg', function (test) {
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
-          projectID = response.projectID
+          offerID = response.offerID
           done()
         })
       },
       function browse (done) {
         http.request({
           port,
-          path: 'http://localhost:' + port + '/offers/' + projectID + '/badge.svg'
+          path: 'http://localhost:' + port + '/offers/' + offerID + '/badge.svg'
         })
           .once('error', function (error) {
             done(error)
@@ -171,7 +171,7 @@ tape('/offers/{id}/badge.svg', function (test) {
   })
 })
 
-tape('/ids/{projectID}', function (test) {
+tape('/ids/{offerID}', function (test) {
   server(function (port, close) {
     var id = uuid()
     http.request({
@@ -188,7 +188,7 @@ tape('/ids/{projectID}', function (test) {
   })
 })
 
-tape('/ids/{projectID}/badge.svg', function (test) {
+tape('/ids/{offerID}/badge.svg', function (test) {
   server(function (port, close) {
     var id = uuid()
     http.request({
@@ -209,7 +209,7 @@ tape('/ids/{projectID}/badge.svg', function (test) {
   })
 })
 
-tape('/projects/{projectID}', function (test) {
+tape('/projects/{offerID}', function (test) {
   server(function (port, close) {
     var id = uuid()
     http.request({
@@ -226,7 +226,7 @@ tape('/projects/{projectID}', function (test) {
   })
 })
 
-tape('/projects/{projectID}/badge.svg', function (test) {
+tape('/projects/{offerID}/badge.svg', function (test) {
   server(function (port, close) {
     var id = uuid()
     http.request({

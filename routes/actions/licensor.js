@@ -1,5 +1,5 @@
 var last = require('../../util/last')
-var listProjects = require('../../data/list-projects')
+var listOffers = require('../../data/list-offers')
 var readLicensor = require('../../data/read-licensor')
 
 exports.properties = {
@@ -14,7 +14,7 @@ exports.handler = function (log, body, end, fail) {
       if (error.code === 'ENOENT') return fail('no such licensor')
       return fail('internal error')
     }
-    listProjects(licensorID, function (error, projects) {
+    listOffers(licensorID, function (error, offers) {
       /* istanbul ignore if */
       if (error) {
         log.error(error)
@@ -23,7 +23,7 @@ exports.handler = function (log, body, end, fail) {
       end({
         name: last(licensor.name),
         jurisdiction: last(licensor.jurisdiction),
-        projects
+        offers
       })
     })
   })

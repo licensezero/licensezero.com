@@ -22,8 +22,8 @@ module.exports = function (request, response) {
       name: '{Beneficiary Name}',
       jurisdiction: '{Beneficiary Jurisdiction, e.g. "US-NY"}'
     },
-    project: {
-      projectID: '{Project ID}',
+    offer: {
+      offerID: '{Offer ID}',
       description: '{Project Description}',
       homepage: '{Project Homepage URL}'
     },
