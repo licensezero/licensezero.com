@@ -66,7 +66,6 @@ module.exports = function (request, response) {
               jurisdiction: last(licensor.jurisdiction),
               email: last(licensor.email),
               private: pricing.private,
-              relicense: pricing.relicense,
               lock: pricing.lock
             },
             { renderJurisdiction, formatDate, formatPrice }
@@ -154,16 +153,6 @@ function priceList (offer) {
     ${formatPrice(pricing.private)}
     ${currentlyLocked() && lockInformation(lock)}
   </dd>
-${
-  pricing.relicense && html`
-    <dt>
-      <a href=/licenses/relicense>Relicense</a>
-      onto
-      <a href=/licenses/permissive>permissive public terms</a>
-    </dt>
-    <dd>${formatPrice(pricing.relicense)}</dd>
-  `
-}
 </dl>
   `
   function currentlyLocked () {
