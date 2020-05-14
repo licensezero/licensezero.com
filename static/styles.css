@@ -145,10 +145,10 @@ h2, h3 {
   padding-top: 1rem;
 }
 
-.license {
+.form {
+  border: 1px dashed #777;
   margin: 0;
-  padding-left: 1rem;
-  border-left: 1px solid #777
+  padding: 1rem 2rem;
 }
 
 nav[role=navigation] {

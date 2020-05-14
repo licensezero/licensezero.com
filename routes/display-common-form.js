@@ -24,7 +24,7 @@ ${head()}
   ${nav()}
   ${header()}
   <main>
-      <article class=commonform>
+      <article class="commonform form">
         ${
   linkifyURLs(
     commonformToHTML(

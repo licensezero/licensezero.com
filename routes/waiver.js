@@ -60,9 +60,9 @@ module.exports = function (request, response) {
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
       <h2>For a Term</h2>
-      <pre class=license>${linkStandards(escape(results.term))}</pre>
+      <pre class="license form">${linkStandards(escape(results.term))}</pre>
       <h2>Forever</h2>
-      <pre class=license>${linkStandards(escape(results.forever))}</pre>
+      <pre class="license form">${linkStandards(escape(results.forever))}</pre>
     </main>
     ${footer()}
   </body>

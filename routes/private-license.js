@@ -51,7 +51,7 @@ module.exports = function (request, response) {
         <a href=https://guide.licensezero.com/#private-license
           >the License Zero Developer’s Guide</a>.
       </p>
-      <blockquote class=license>${renderMarkdown(result)}</blockquote>
+      <blockquote class=form>${renderMarkdown(result)}</blockquote>
     </main>
     ${footer()}
   </body>
