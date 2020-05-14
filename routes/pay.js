@@ -625,28 +625,6 @@ function priceColumn (amount) {
   return padStart(formatPrice(amount), 10, ' ')
 }
 
-function thanks (response, paragraphs) {
-  response.statusCode = 200
-  response.setHeader('Content-Type', 'text/html')
-  response.end(html`
-<!doctype html>
-<html lang=en>
-${head('Thank you')}
-<body>
-  ${nav()}
-  ${header()}
-  <main>
-    <h1 class=thanks>Thank You</h1>
-    ${paragraphs.map(function (paragraph) {
-    return html`<p>${escape(paragraph)}</p>`
-  })}
-  </main>
-  ${footer()}
-</body>
-</html>
-  `)
-}
-
 function technicalError (request, response, error, paragraphs) {
   request.log.error(error)
   response.statusCode = 500
