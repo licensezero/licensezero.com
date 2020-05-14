@@ -80,7 +80,7 @@ exports.handler = function (log, body, end, fail, lock) {
           }
           end({
             offerID,
-            manifest,
+            metadata: parameters,
             document,
             signature,
             publicKey: process.env.PUBLIC_KEY

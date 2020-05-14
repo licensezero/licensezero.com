@@ -6,6 +6,7 @@ var ed25519 = require('../util/ed25519')
 var has = require('has')
 var runSeries = require('run-series')
 var server = require('./server')
+var stringify = require('json-stable-stringify')
 var tape = require('tape')
 var uuid = require('uuid').v4
 var writeTestLicensor = require('./write-test-licensor')
@@ -51,10 +52,10 @@ tape('waiver', function (test) {
             'offer ID'
           )
           test.assert(
-            has(response, 'manifest'),
-            'manifest'
+            has(response, 'metadata'),
+            'metadata'
           )
-          var manifest = response.manifest
+          var manifest = stringify(response.metadata)
           test.assert(
             has(response, 'document'),
             'document'

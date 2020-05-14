@@ -411,7 +411,7 @@ function post (request, response, order) {
                           if (error) return done(error)
                           var license = {
                             offerID: offer.offerID,
-                            manifest,
+                            metadata: parameters,
                             document,
                             publicKey: process.env.PUBLIC_KEY,
                             signature: ed25519.sign(
