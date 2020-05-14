@@ -75,8 +75,8 @@ ${head(false, {
     </table>
     <p>
       Contributors can choose from two software licenses,
-      <a href=/licenses/parity>Parity</a>, an open, share-alike license, and
-      <a href=/licenses/prosperity>Prosperity</a>, noncommercial license,
+      <a href=https://paritylicense.com>Parity</a>, an open, share-alike license, and
+      <a href=https://prosperitylicense.com>Prosperity</a>, noncommercial license,
       then sell private licenses through licensezero.com
       for use in closed source or for profit.
       licensezero.com sends the proceeds directly to developers’
