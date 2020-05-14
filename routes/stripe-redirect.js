@@ -1,5 +1,4 @@
 var accountsPath = require('../paths/accounts')
-var ed25519 = require('../util/ed25519')
 var email = require('../email')
 var footer = require('./partials/footer')
 var fs = require('fs')
@@ -127,7 +126,6 @@ ${head('Registration')}
       function writeLicensorFile (stripeData, nonceData, done) {
         var licensorID = uuid()
         var licensorFile = licensorPath(licensorID)
-        var keypair = ed25519.keys()
         var passphrase = generateToken()
         var stripeID = stripeData.stripe_user_id
         runWaterfall([
@@ -145,8 +143,6 @@ ${head('Registration')}
                 jurisdiction: [nonceData.jurisdiction],
                 registered: new Date().toISOString(),
                 token: hash,
-                publicKey: keypair.publicKey,
-                privateKey: keypair.privateKey,
                 stripe: {
                   id: stripeID,
                   refresh: stripeData.refresh_token
@@ -170,13 +166,12 @@ ${head('Registration')}
             if (error) request.log.error(error)
           })
           done(
-            null, nonceData.email, licensorID, stripeID,
-            keypair.publicKey, passphrase
+            null, nonceData.email, licensorID, stripeID, passphrase
           )
         })
       },
       function emailLicensor (
-        address, licensorID, stripeID, publicKey, passphrase, done
+        address, licensorID, stripeID, passphrase, done
       ) {
         runWaterfall([
           terms,
@@ -189,14 +184,7 @@ ${head('Registration')}
                 'though licensezero.com.',
                 '',
                 'Your unique licensor ID is:',
-                licensorID,
-                '',
-                'License Zero will use the following',
-                'Ed25519 public key to sign licenses',
-                'sold on your behalf:',
-                '',
-                publicKey.slice(0, 32),
-                publicKey.slice(32)
+                licensorID
               ].join('\n'),
               terms: (
                 'Terms of Service\n\n' +

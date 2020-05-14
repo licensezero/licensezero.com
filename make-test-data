@@ -23,8 +23,6 @@ cat >"$licensorFile" <<EOS
   ],
   "registered": "2020-01-01T01:30:00.000Z",
   "token": "testtoken",
-  "publicKey": "260ad3580edd5d09f084f00d475bfda8f4a4f60fccc18d26ad8e4a2a18cabcf7",
-  "privateKey": "844d09c00892508651f9c99ed6e846d07fae51f0a7b18fb79ffce56ddadb18ae260ad3580edd5d09f084f00d475bfda8f4a4f60fccc18d26ad8e4a2a18cabcf7",
   "stripe": {
     "id": "testid",
     "refresh": "testtoken"

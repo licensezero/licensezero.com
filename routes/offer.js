@@ -65,7 +65,6 @@ module.exports = function (request, response) {
               name: last(licensor.name),
               jurisdiction: last(licensor.jurisdiction),
               email: last(licensor.email),
-              publicKey: licensor.publicKey,
               private: pricing.private,
               relicense: pricing.relicense,
               lock: pricing.lock

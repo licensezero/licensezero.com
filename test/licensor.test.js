@@ -30,10 +30,6 @@ tape('licensor', function (test) {
             response.jurisdiction, LICENSOR.jurisdiction,
             'jurisdiction'
           )
-          test.assert(
-            /^[0-9a-f]{64}$/.test(response.publicKey),
-            'publicKey'
-          )
           test.deepEqual(
             response.projects, [],
             'projects'

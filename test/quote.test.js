@@ -56,8 +56,7 @@ tape('quote', function (test) {
                 licensor: {
                   licensorID: LICENSOR.id,
                   name: 'Test User',
-                  jurisdiction: 'US-CA',
-                  publicKey: LICENSOR.publicKey
+                  jurisdiction: 'US-CA'
                 },
                 commission: parseInt(process.env.COMMISSION)
               },
@@ -69,8 +68,7 @@ tape('quote', function (test) {
                 licensor: {
                   licensorID: LICENSOR.id,
                   name: 'Test User',
-                  jurisdiction: 'US-CA',
-                  publicKey: LICENSOR.publicKey
+                  jurisdiction: 'US-CA'
                 },
                 commission: parseInt(process.env.COMMISSION)
               }

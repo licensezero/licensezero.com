@@ -1,7 +1,6 @@
 var AJV = require('ajv')
 var Busboy = require('busboy')
 var UUIDV4 = require('../data/uuidv4-pattern')
-var annotateENOENT = require('../data/annotate-enoent')
 var applicationFee = require('../stripe/application-fee')
 var ed25519 = require('../util/ed25519')
 var email = require('../email')
@@ -15,34 +14,22 @@ var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
 var last = require('../util/last')
-var lock = require('./lock')
-var mutateJSONFile = require('../data/mutate-json-file')
-var mutateTextFile = require('../data/mutate-text-file')
 var nav = require('./partials/nav')
 var orderPath = require('../paths/order')
-var outline = require('outline-numbering')
 var padStart = require('string.prototype.padstart')
-var parseProjects = require('../data/parse-projects')
 var path = require('path')
 var pick = require('../data/pick')
 var privateLicense = require('../forms/private-license')
-var projectPath = require('../paths/project')
-var projectsListPath = require('../paths/projects-list')
 var purchasePath = require('../paths/purchase')
 var readJSONFile = require('../data/read-json-file')
 var recordAcceptance = require('../data/record-acceptance')
 var recordSignature = require('../data/record-signature')
-var relicenseAgreement = require('../forms/relicense-agreement')
 var renderJurisdiction = require('./partials/jurisdiction')
 var runParallel = require('run-parallel')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
-var signatureLines = require('../data/signature-lines')
 var stringify = require('json-stable-stringify')
-var stringifyProjects = require('../data/stringify-projects')
-var stripANSI = require('strip-ansi')
 var stripe = require('../stripe')
-var toANSI = require('commonform-terminal')
 var uuid = require('uuid').v4
 
 var ONE_DAY = 24 * 60 * 60 * 1000
@@ -291,7 +278,7 @@ function post (request, response, order) {
           return get(request, response, order, data)
         }
         try {
-          (order.type === 'relicense' ? buyRelicense : buyLicenses)()
+          buyLicenses()
         } catch (error) {
           request.log.error(error, 'ERROR')
           response.end()
@@ -426,11 +413,11 @@ function post (request, response, order) {
                             projectID: project.projectID,
                             manifest,
                             document,
-                            publicKey: project.licensor.publicKey,
+                            publicKey: process.env.PUBLIC_KEY,
                             signature: ed25519.sign(
                               manifest + '\n\n' + document,
-                              project.licensor.publicKey,
-                              project.licensor.privateKey
+                              Buffer.from(process.env.PUBLIC_KEY, 'hex'),
+                              Buffer.from(process.env.PRIVATE_KEY, 'hex')
                             )
                           }
                           licenses.push(license)
@@ -593,262 +580,6 @@ ${head('Thank you')}
         `)
       }
     })
-  }
-
-  function buyRelicense () {
-    var project = order.project
-    var projectID = project.projectID
-    var price = project.pricing.relicense
-    var commission = Math.floor(Math.min(60000, (price * 0.06)))
-    var licensor = order.project.licensor
-    var licensorID = licensor.licensorID
-    var stripeID = licensor.stripe.id
-    var stripeMetadata = {
-      type: 'relicense',
-      orderID: order.orderID,
-      jurisdiction: order.jurisdiction,
-      email: order.email,
-      sponsor: order.sponsor
-    }
-    var date = new Date().toISOString()
-    var chargeID
-    var licensorSignature
-    var agentSignature
-    var agreement
-
-    lock([licensorID, projectID], function (release) {
-      runSeries([
-        task('generated agreement', generateSignedAgreement),
-        task('charged customer', chargeCustomer),
-        runParallel.bind(null, [
-          task('recorded acceptance', recordSponsorTermsAcceptance),
-          task('captured charge', captureCharge),
-          task('emailed agreement', emailAgreement),
-          task('notified licensor', emailLicensor),
-          task('recorded agent signature', recordAgentSignature),
-          task('recorded licensor signature', recordLicensorSignature)
-        ]),
-        task('deleted order file', deleteOrderFile),
-        task('updated project', updateProject)
-      ], release(function (error) {
-        if (error) {
-          return technicalError(request, response, error, [
-            'Part of the relicense process failed to go through, ' +
-            'due to a technical error.',
-            'Please check your e-mail.'
-          ])
-        }
-        return thanks(response, [
-          'Your relicense transaction processed successfully. ' +
-          'You will receive a receipt and a signed agreement ' +
-          'by e-mail shortly.',
-          'The project licensor will receive an e-mail notification.'
-        ])
-      }))
-    })
-
-    function task (message, task) {
-      return function (done) {
-        task(function (error) {
-          if (error) return done(error)
-          request.log.info(message)
-          done()
-        })
-      }
-    }
-
-    function generateSignedAgreement (done) {
-      relicenseAgreement({
-        Date: date,
-        'Developer Name': last(licensor.name),
-        'Developer Jurisdiction': last(licensor.jurisdiction),
-        'Sponsor Name': order.sponsor,
-        'Sponsor Jurisdiction': order.jurisdiction,
-        'Project ID': project.projectID,
-        Homepage: project.homepage,
-        Descriptions: project.description,
-        Payment: formatPrice(price)
-      }, function (error, form) {
-        if (error) return done(error)
-        agreement = (
-          'License Zero Relicense Agreement\n\n' +
-          stripANSI(
-            toANSI(
-              form.commonform,
-              form.directions,
-              { numbering: outline }
-            )
-          )
-            .replace(/^ {4}/, '')
-            .replace(/ +$/, '')
-        )
-        licensorSignature = ed25519.sign(
-          agreement,
-          licensor.publicKey,
-          licensor.privateKey
-        )
-        agreement += '\n\nLicensor Ed25519 Signature:\n\n'
-        agreement += signatureLines(licensorSignature)
-        agentSignature = ed25519.sign(
-          agreement,
-          Buffer.from(process.env.PUBLIC_KEY, 'hex'),
-          Buffer.from(process.env.PRIVATE_KEY, 'hex')
-        )
-        agreement += '\n\nAgent Ed25519 Signature:\n\n'
-        agreement += signatureLines(agentSignature)
-        done()
-      })
-    }
-
-    function chargeCustomer (done) {
-      var options = {
-        amount: price,
-        currency: 'usd',
-        // Important: Authorize, but don't capture/charge yet.
-        capture: false,
-        source: data.token,
-        statement_descriptor: 'License Zero Relicense',
-        metadata: stripeMetadata
-      }
-      if (commission > 0) {
-        options.application_fee = commission
-      }
-      stripe.charges.create(options, {
-        stripeAccount: stripeID
-      }, function (error, charge) {
-        if (error) return done(error)
-        chargeID = charge.id
-        request.log.info(charge, 'charge')
-        done()
-      })
-    }
-
-    function recordSponsorTermsAcceptance (done) {
-      recordAcceptance({
-        type: 'relicense',
-        sponsor: order.sponsor,
-        jurisdiction: order.jurisdiction,
-        email: order.email,
-        date
-      }, done)
-    }
-
-    function captureCharge (done) {
-      stripe.charges.capture(
-        chargeID,
-        {},
-        { stripeAccount: stripeID },
-        function (error) {
-          if (error) return done(error)
-          request.log.info({ chargeID }, 'captured')
-          done()
-        }
-      )
-    }
-
-    function emailAgreement (done) {
-      email(request.log, {
-        to: order.email,
-        cc: last(licensor.email),
-        bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
-        subject: 'License Zero Relicense Agreement',
-        text: [
-          'Thank you for sponsoring a relicense through ' +
-          'licensezero.com.',
-          '',
-          'Order ID: ' + order.orderID,
-          '',
-          'Total: ' + priceColumn(price),
-          '',
-          'Attached is a signed relicense agreement for:',
-          '',
-          'Project:      ' + project.projectID,
-          '',
-          'Description:  ' + project.description,
-          '',
-          'Homepage:   ' + project.homepage
-        ].join('\n'),
-        agreement
-      }, done)
-    }
-
-    function emailLicensor (done) {
-      email(request.log, {
-        to: last(licensor.email),
-        bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
-        subject: 'License Zero Relicense',
-        text: [
-          'License Zero sold a relicense agreement',
-          'on your behalf:',
-          '',
-          'Order:        ' + order.orderID,
-          '',
-          'Project:      ' + project.projectID,
-          '',
-          'Description:  ' + project.description,
-          '',
-          'Homepage:   ' + project.homepage,
-          '',
-          'Price:      ' + priceColumn(price),
-          '',
-          'Commission: ' + priceColumn(commission),
-          '',
-          'Total:      ' + priceColumn(price - commission),
-          '',
-          'You will be copied on a message attaching',
-          'the signed relicense agreement shortly.',
-          'Your next steps are set out in the',
-          '"Relicensing" section of the agreement.'
-        ].join('\n')
-      }, done)
-    }
-
-    function recordAgentSignature (done) {
-      recordSignature(process.env.PUBLIC_KEY, agentSignature, done)
-    }
-
-    function recordLicensorSignature (done) {
-      recordSignature(
-        project.licensor.publicKey, licensorSignature,
-        done
-      )
-    }
-
-    function deleteOrderFile (done) {
-      var file = orderPath(order.orderID)
-      fs.unlink(file, done)
-    }
-
-    function updateProject (done) {
-      runSeries([
-        markRelicensed,
-        removeFromProjectsList
-      ], done)
-    }
-
-    function markRelicensed (done) {
-      var file = projectPath(projectID)
-      mutateJSONFile(file, function (data) {
-        data.relicensed = true
-      }, annotateENOENT('no such project', done))
-    }
-
-    function removeFromProjectsList (done) {
-      var file = projectsListPath(licensorID)
-      mutateTextFile(file, function (text) {
-        return stringifyProjects(
-          parseProjects(text).map(function (element) {
-            if (
-              element.projectID === projectID &&
-              element.relicensed === null
-            ) {
-              element.relicensed = date
-            }
-            return element
-          })
-        )
-      }, done)
-    }
   }
 }
 

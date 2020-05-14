@@ -7,7 +7,5 @@
   "stripe": {
     "id": "TEST",
     "refresh": "TEST"
-  },
-  "publicKey": "9fe939578c5b74c485255074bd76b5a8836ae337c80a386b0fad91dfa489ad47",
-  "privateKey": "c416e39987d17293c03156f3ca320012c385cd34dcd69ab4e832bc582b4aa55b9fe939578c5b74c485255074bd76b5a8836ae337c80a386b0fad91dfa489ad47"
+  }
 }

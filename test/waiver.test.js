@@ -89,19 +89,17 @@ tape('waiver', function (test) {
           var publicKey = response.publicKey
           test.assert(
             /^[0-9a-f]{64}$/.test(publicKey),
-            'public key'
+            'hex public key'
           )
           apiRequest(port, {
-            action: 'licensor',
-            licensorID: LICENSOR.id
+            action: 'key'
           }, function (error, response) {
             if (error) return done(error)
-            var publicKey = response.publicKey
             test.assert(
               ed25519.verify(
                 manifest + '\n\n' + document,
                 signature,
-                publicKey
+                response.key
               ),
               'verifiable signature'
             )

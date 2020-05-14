@@ -20,8 +20,6 @@ module.exports = function (callback) {
             jurisdiction: [LICENSOR.jurisdiction],
             registered: new Date().toISOString(),
             token: hashed,
-            publicKey: LICENSOR.publicKey,
-            privateKey: LICENSOR.privateKey,
             stripe: {
               id: LICENSOR.stripe.id,
               refresh: LICENSOR.stripe.refresh

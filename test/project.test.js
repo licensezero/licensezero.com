@@ -45,8 +45,7 @@ tape('offer', function (test) {
               licensor: {
                 licensorID: LICENSOR.id,
                 name: LICENSOR.name,
-                jurisdiction: LICENSOR.jurisdiction,
-                publicKey: LICENSOR.publicKey
+                jurisdiction: LICENSOR.jurisdiction
               },
               description: OFFER.description,
               commission: parseInt(process.env.COMMISSION),

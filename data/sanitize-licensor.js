@@ -1,6 +1,6 @@
 var last = require('../util/last')
 
-var WHITELIST = ['licensorID', 'name', 'jurisdiction', 'publicKey']
+var WHITELIST = ['licensorID', 'name', 'jurisdiction']
 
 // Return data for a licensor that we can share publicly via the API.
 module.exports = function (licensor) {

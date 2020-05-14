@@ -68,11 +68,11 @@ exports.handler = function (log, body, end, fail, lock) {
       }
       var signature = ed25519.sign(
         manifest + '\n\n' + document,
-        licensor.publicKey,
-        licensor.privateKey
+        Buffer.from(process.env.PUBLIC_KEY, 'hex'),
+        Buffer.from(process.env.PRIVATE_KEY, 'hex')
       )
       recordSignature(
-        licensor.publicKey, signature,
+        process.env.PUBLIC_KEY, signature,
         function (error, done) {
           if (error) {
             log.error(error)
@@ -83,7 +83,7 @@ exports.handler = function (log, body, end, fail, lock) {
             manifest,
             document,
             signature,
-            publicKey: licensor.publicKey
+            publicKey: process.env.PUBLIC_KEY
           })
         }
       )

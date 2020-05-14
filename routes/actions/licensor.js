@@ -23,7 +23,6 @@ exports.handler = function (log, body, end, fail) {
       end({
         name: last(licensor.name),
         jurisdiction: last(licensor.jurisdiction),
-        publicKey: licensor.publicKey,
         projects
       })
     })
