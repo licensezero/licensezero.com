@@ -16,7 +16,7 @@ ${head('Licenses', {
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <h1>Licenses</h1>
     <p>
       License Zero publishes and stewards a few kinds of licenses

@@ -19,7 +19,7 @@ ${head('Thanks', {
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <h2>Thanks</h2>
     <p>Special thanks to&hellip;</p>
     <ul class=thanks>

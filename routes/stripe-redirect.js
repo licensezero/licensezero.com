@@ -39,7 +39,7 @@ ${head('Registration')}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <h1>Registration Rejected</h2>
     <p>
       You declined to connect a Stripe account to License Zero.
@@ -228,7 +228,7 @@ ${head('Registration')}
 <body>
 ${nav()}
 ${header()}
-<main>
+<main role=main>
   <h1>Registration Complete</h2>
   <p>You've connected your Stripe account to LicenseZero.</p>
   <p>

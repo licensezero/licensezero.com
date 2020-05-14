@@ -95,7 +95,7 @@ module.exports = function (request, response) {
     <body>
       ${nav()}
       ${header()}
-      <main>
+      <main role=main>
         <h2>Software</h2>
         <section>
           <dl>

@@ -26,7 +26,7 @@ module.exports = function (request, response) {
   <body>
     ${nav()}
     ${header()}
-    <main>
+    <main role=main>
       <h1>Permissive Public License</h1>
       <p>
         The permissive public license is a short,

@@ -28,7 +28,7 @@ module.exports = function (request, response) {
   <body>
     ${nav()}
     ${header()}
-    <main>
+    <main role=main>
       <h1>The Parity Public License</h1>
       <p class=download>
         <a href=/Parity-7.0.0.md download=LICENSE.md>

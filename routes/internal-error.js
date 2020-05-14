@@ -13,7 +13,7 @@ module.exports = /* istanbul ignore next */ function (request, response, error) 
 ${head('Error')}
 <body>
   ${nav()}
-  <main>
+  <main role=main>
     <img class=machine src=https://static.licensezero.com/out-of-order.svg alt="Out of Order">
     <h1>Server Error</h2>
     <p>The website ran into an unexpected technical error.</p>

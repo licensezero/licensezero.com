@@ -16,7 +16,7 @@ ${head('Pricing', {
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <h1>Pricing</h1>
 
     <h2 id=buying>Buying Through License Zero</h2>

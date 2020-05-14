@@ -23,7 +23,7 @@ ${head()}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
       <article class="commonform form">
         ${
   linkifyURLs(

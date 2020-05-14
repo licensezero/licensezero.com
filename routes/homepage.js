@@ -16,7 +16,7 @@ ${head(false, {
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <p class=lead>
       License Zero is a toolkit for supporting open software developers.
     </p>

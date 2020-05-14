@@ -2,7 +2,7 @@ var html = require('../html')
 
 module.exports = function () {
   return html`
-<footer>
+<footer role=contentinfo>
   <p>
     a service of
     <a href=https://artlessdevices.com target=_blank>

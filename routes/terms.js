@@ -16,7 +16,7 @@ module.exports = function (request, response) {
   <body>
     ${nav()}
     ${header()}
-    <main>
+    <main role=main>
       <h1>Terms</h1>
       <p>
         All users of License Zero must agree to

@@ -56,7 +56,7 @@ ${head()}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <p>Your access token has been reset.  Your new access token is:</p>
     <pre><code class=token>${token}</code><pre>
   </main>
@@ -87,7 +87,7 @@ function tokenNotFound (response) {
   <link rel=stylesheet href=/styles.css>
 </head>
 <body>
-  <main>
+  <main role=main>
     <h1>Invalid or Expired Reset Link</h2>
     <p>
       The link you followed to reset a token

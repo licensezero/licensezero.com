@@ -23,7 +23,7 @@ ${head('Founder Commitment', {
 <body>
   ${nav()}
   ${header()}
-  <main>${renderMarkdown(markdown)}</main>
+  <main role=main>${renderMarkdown(markdown)}</main>
   ${footer()}
 </body>
 </html>

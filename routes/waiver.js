@@ -46,7 +46,7 @@ module.exports = function (request, response) {
   <body>
     ${nav()}
     ${header()}
-    <main>
+    <main role=main>
       <h1>Waiver</h1>
       <p>
         License Zero permits licensors to waive the share-back

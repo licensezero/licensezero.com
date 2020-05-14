@@ -7,18 +7,21 @@ body {
   text-align: center;
 }
 
-header, main, footer, nav[role=navigation] {
+header[role=banner],
+main[role=main],
+footer[role=contentinfo],
+nav[role=navigation] {
   margin-left: auto;
   margin-right: auto;
   max-width: 40rem;
   text-align: left;
 }
 
-header {
+header[role=banner] {
   text-align: center;
 }
 
-footer {
+footer[role=contentinfo] {
   border-top: 1px solid black;
   clear: both; /* keeps vending machines from overflowing */
   font-size: 90%;
@@ -31,7 +34,7 @@ footer p {
   margin-top: 0;
 }
 
-main {
+main[role=main] {
   padding-bottom: 2rem;
 }
 
@@ -89,7 +92,7 @@ a {
   text-decoration: none;
 }
 
-header a {
+header[role=banner] a {
   border: none;
 }
 

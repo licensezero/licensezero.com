@@ -28,7 +28,7 @@ module.exports = function (request, response) {
   <body>
     ${nav()}
     ${header()}
-    <main>
+    <main role=main>
       <h1>The Prosperity Public License</h1>
       <p class=download>
         <a href=/Prosperity-3.0.0.md download=LICENSE.md>

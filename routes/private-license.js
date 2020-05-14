@@ -39,7 +39,7 @@ module.exports = function (request, response) {
   <body>
     ${nav()}
     ${header()}
-    <main>
+    <main role=main>
       <h1>Private License</h1>
       <p>
         To review changes to, and submit feedback about,

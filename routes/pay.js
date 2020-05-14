@@ -70,7 +70,7 @@ ${head(action)}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     ${relicensing ? relicenseUI() : licensesUI()}
     <form class=pay method=post action=/pay/${order.orderID}>
       <section id=payment>
@@ -567,7 +567,7 @@ ${head('Thank you')}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <h1 class=thanks>Thank You</h1>
     <p>
       Your purchase was successful.
@@ -610,7 +610,7 @@ ${head('Invalid or Expired')}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <h1>Invalid or Expired Purchase</h2>
     <p>
       There is no active purchase at the link you reached.
@@ -641,7 +641,7 @@ ${head('Technical Error')}
 <body>
   ${nav()}
   ${header('Technical Error')}
-  <main>${message}</main>
+  <main role=main>${message}</main>
   ${footer()}
 </body>
 </html>

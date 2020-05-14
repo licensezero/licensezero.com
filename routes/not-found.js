@@ -15,7 +15,7 @@ ${head('Not Found')}
 <body>
   ${nav()}
   ${header()}
-  <main>
+  <main role=main>
     <p class=centered>
       The page you&rsquo;re looking for could not be found.
     </p>
