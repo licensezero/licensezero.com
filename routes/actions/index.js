@@ -6,7 +6,7 @@ module.exports = {
   lock: require('./lock'),
   name: require('./name'),
   offer: require('./offer'),
-  project: require('./project'),
+  offering: require('./offering'),
   quote: require('./quote'),
   register: require('./register'),
   reprice: require('./reprice'),

@@ -11,7 +11,7 @@ var tape = require('tape')
 var uuid = require('uuid').v4
 var writeTestLicensor = require('./write-test-licensor')
 
-tape('offer', function (test) {
+tape('offering', function (test) {
   server(function (port, close) {
     var projectID
     runSeries([
@@ -29,7 +29,7 @@ tape('offer', function (test) {
       },
       function requestProject (done) {
         apiRequest(port, {
-          action: 'project',
+          action: 'offering',
           projectID
         }, function (error, response) {
           if (error) return done(error)
@@ -67,7 +67,7 @@ tape('offer', function (test) {
 tape('nonexistent offer', function (test) {
   server(function (port, close) {
     apiRequest(port, {
-      action: 'project',
+      action: 'offering',
       projectID: uuid()
     }, function (error, response) {
       if (error) {
