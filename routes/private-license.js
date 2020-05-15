@@ -19,9 +19,9 @@ module.exports = function (request, response) {
       jurisdiction: '{Licensee Jurisdiction, e.g "US-CA"}',
       email: '{Licensee E-Mail}'
     },
-    licensor: {
-      name: '{Licensor Name}',
-      jurisdiction: '{Licensor Name, e.g. "US-NY"}'
+    developer: {
+      name: '{Developer Name}',
+      jurisdiction: '{Developer Name, e.g. "US-NY"}'
     },
     offerID: '{Offer ID}',
     description: '{Project Description}',

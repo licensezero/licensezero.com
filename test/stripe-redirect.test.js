@@ -89,7 +89,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
         apiRequest(port, {
           action: 'register',
           email: address,
-          name: 'Test Licensor',
+          name: 'Test Developer',
           jurisdiction: 'US-CA',
           terms: (
             'I agree to the terms of service at ' +
@@ -130,7 +130,7 @@ tape('GET /stripe-redirect w/ test state', function (test) {
       function useCredentials (id, token, done) {
         apiRequest(port, {
           action: 'email',
-          licensorID: id,
+          developerID: id,
           token,
           email: 'another@example.com'
         }, function (error, response) {
@@ -139,14 +139,14 @@ tape('GET /stripe-redirect w/ test state', function (test) {
           done(null, id)
         })
       },
-      function fetchLicensor (id, done) {
+      function fetchDeveloper (id, done) {
         apiRequest(port, {
-          action: 'licensor',
-          licensorID: id
+          action: 'developer',
+          developerID: id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'false error')
-          test.equal(response.name, 'Test Licensor', 'name')
+          test.equal(response.name, 'Test Developer', 'name')
           done(null, id)
         })
       }

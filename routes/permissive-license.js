@@ -14,7 +14,7 @@ var REPOSITORY = (
 
 module.exports = function (request, response) {
   permissiveLicense({
-    name: '{Licensor Name}',
+    name: '{Developer Name}',
     source: '{https://example.com/offer}'
   }, function (error, document) {
     if (error) return internalError(request, response, error)

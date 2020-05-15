@@ -4,7 +4,7 @@ var doNotCache = require('do-not-cache')
 var has = require('has')
 var lock = require('./lock')
 var parseJSON = require('json-parse-errback')
-var readLicensor = require('../data/read-licensor')
+var readDeveloper = require('../data/read-developer')
 
 var REQUEST_BODY_LIMIT = 500000
 
@@ -106,11 +106,11 @@ module.exports = function api (request, response) {
     }
     if (action.schema.required.includes('token')) {
       return checkAuthentication(
-        request, body, function (error, licensor) {
+        request, body, function (error, developer) {
           /* istanbul ignore if */
           if (error) return fail('internal error')
-          if (!licensor) return fail('access denied')
-          body.licensor = licensor
+          if (!developer) return fail('access denied')
+          body.developer = developer
           route()
         }
       )
@@ -138,13 +138,13 @@ module.exports = function api (request, response) {
 }
 
 function checkAuthentication (request, body, callback) {
-  var licensorID = body.licensorID
+  var developerID = body.developerID
   var token = body.token
-  readLicensor(licensorID, function (error, licensor) {
+  readDeveloper(developerID, function (error, developer) {
     if (error) return callback(error)
-    argon2.verify(licensor.token, token)
+    argon2.verify(developer.token, token)
       .then(function (match) {
-        callback(null, match ? licensor : false)
+        callback(null, match ? developer : false)
       })
   })
 }

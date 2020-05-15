@@ -1,19 +1,19 @@
 #!/bin/bash
 set -e
-for sub in orders purchases licensors offers resets stripe-nonces; do
+for sub in orders purchases developers offers resets stripe-nonces; do
   mkdir -p "test-server-directory/$sub"
 done
 
-licensorID="125b7078-8e8c-46f1-bc86-0165417469d5"
+developerID="125b7078-8e8c-46f1-bc86-0165417469d5"
 offerID="284f8e0f-6508-47fd-a7e1-fba4645c15a6"
 
-licensorFile="test-server-directory/licensors/$licensorID/licensor.json"
-mkdir -p "$(dirname "$licensorFile")"
-cat >"$licensorFile" <<EOS
+developerFile="test-server-directory/developers/$developerID/developer.json"
+mkdir -p "$(dirname "$developerFile")"
+cat >"$developerFile" <<EOS
 {
-  "licensorID": "$licensorID",
+  "developerID": "$developerID",
   "name": [
-    "Test Licensor"
+    "Test Developer"
   ],
   "email": [
     "test@example.com"
@@ -30,14 +30,14 @@ cat >"$licensorFile" <<EOS
 }
 EOS
 
-echo "[\"$offerID\", \"2020-01-01T02:30:00.000Z\", null]" >"test-server-directory/licensors/$licensorID/offers.ndjson"
+echo "[\"$offerID\", \"2020-01-01T02:30:00.000Z\", null]" >"test-server-directory/developers/$developerID/offers.ndjson"
 
 offerFile="test-server-directory/offers/$offerID/offer.json"
 mkdir -p "$(dirname "$offerFile")"
 cat >"$offerFile"<<EOS
 {
   "offerID": "$offerID",
-  "licensor": "$licensorID",
+  "developer": "$developerID",
   "pricing": {
     "private": 10000
   },

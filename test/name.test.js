@@ -1,25 +1,25 @@
-var LICENSOR = require('./licensor')
+var developer = require('./developer')
 var apiRequest = require('./api-request')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
 tape('name', function (test) {
   server(function (port, close) {
     var newName = 'Someone Else'
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       apiRequest.bind(null, port, {
         action: 'name',
-        licensorID: LICENSOR.id,
-        token: LICENSOR.token,
+        developerID: developer.id,
+        token: developer.token,
         name: newName
       }),
       function (done) {
         apiRequest(port, {
-          action: 'licensor',
-          licensorID: LICENSOR.id
+          action: 'developer',
+          developerID: developer.id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.name, newName, 'name updated')

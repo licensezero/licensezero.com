@@ -1,1 +1,1 @@
-module.exports = require('./update-licensor-property')('jurisdiction')
+module.exports = require('./update-developer-property')('jurisdiction')

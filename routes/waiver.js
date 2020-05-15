@@ -14,9 +14,9 @@ var REPOSITORY = 'https://github.com/licensezero/licensezero-waiver'
 
 module.exports = function (request, response) {
   var common = {
-    licensor: {
-      name: '{Licensor Name}',
-      jurisdiction: '{Licensor Jurisdiction, e.g. "US-TX"}'
+    developer: {
+      name: '{Developer Name}',
+      jurisdiction: '{Developer Jurisdiction, e.g. "US-TX"}'
     },
     beneficiary: {
       name: '{Beneficiary Name}',
@@ -49,7 +49,7 @@ module.exports = function (request, response) {
     <main role=main>
       <h1>Waiver</h1>
       <p>
-        License Zero permits licensors to waive the share-back
+        License Zero permits developers to waive the share-back
         and limited commercial use conditions of their public
         licenses for specific beneficiaries, using a standard
         form waiver.

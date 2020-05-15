@@ -1,20 +1,20 @@
-var LICENSOR = require('./licensor')
+var developer = require('./developer')
 var apiRequest = require('./api-request')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
 tape('email', function (test) {
   server(function (port, close) {
     var newAddress = 'another@example.com'
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function (done) {
         apiRequest(port, {
           action: 'email',
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: developer.id,
+          token: developer.token,
           email: newAddress
         }, function (error, response) {
           if (error) return done(error)
@@ -34,11 +34,11 @@ tape('email w/ bad authorization', function (test) {
   server(function (port, close) {
     var newAddress = 'another@example.com'
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function (done) {
         apiRequest(port, {
           action: 'email',
-          licensorID: LICENSOR.id,
+          developerID: developer.id,
           token: 'not correct',
           email: newAddress
         }, function (error, response) {

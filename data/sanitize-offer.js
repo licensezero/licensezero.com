@@ -1,5 +1,5 @@
-var sanitizeLicensor = require('./sanitize-licensor')
+var sanitizeDeveloper = require('./sanitize-developer')
 
 module.exports = function (offer) {
-  if (offer.licensor) sanitizeLicensor(offer.licensor)
+  if (offer.developer) sanitizeDeveloper(offer.developer)
 }

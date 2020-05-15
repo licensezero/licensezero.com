@@ -28,7 +28,7 @@ var properties = {
     name: require('./name'),
     jurisdiction: require('./jurisdiction')
   },
-  licensor: {
+  developer: {
     name: require('./name'),
     jurisdiction: require('./jurisdiction')
   },

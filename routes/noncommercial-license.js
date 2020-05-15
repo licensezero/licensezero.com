@@ -14,7 +14,7 @@ var REPOSITORY = (
 
 module.exports = function (request, response) {
   noncommercialLicense({
-    name: '{Licensor Name}',
+    name: '{Developer Name}',
     source: '{https://example.com/project}'
   }, function (error, document) {
     if (error) return internalError(request, response, error)

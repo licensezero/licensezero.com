@@ -14,7 +14,7 @@ var REPOSITORY = (
 
 module.exports = function (request, response) {
   reciprocalLicense({
-    name: '{Licensor Name}',
+    name: '{Developer Name}',
     homepage: '{https://example.com/project}'
   }, function (error, document) {
     if (error) return internalError(request, response, error)

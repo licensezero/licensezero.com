@@ -1,1 +1,1 @@
-module.exports = require('./update-licensor-property')('name')
+module.exports = require('./update-developer-property')('name')

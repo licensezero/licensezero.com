@@ -6,9 +6,9 @@ var server = require('./server')
 var tape = require('tape')
 var timeout = require('./timeout')
 
-var LICENSOR_EMAIL = 'licensor@example.com'
-var LICENSOR_JURISDICTION = 'US-TX'
-var LICENSOR_NAME = 'Test Licensor'
+var developer_EMAIL = 'developer@example.com'
+var developer_JURISDICTION = 'US-TX'
+var developer_NAME = 'Test Developer'
 
 var options = {
   skip: (
@@ -20,7 +20,7 @@ var options = {
 
 tape('Stripe OAuth connect, register, license', options, function (test) {
   server(8080, function (port, close) {
-    withLicensor(port, test, function (error, licensorID, token) {
+    withDeveloper(port, test, function (error, developerID, token) {
       if (error) {
         test.error(error)
         test.end()
@@ -32,7 +32,7 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
         function offer (done) {
           apiRequest(port, {
             action: 'offer',
-            licensorID,
+            developerID,
             token,
             homepage: 'http://example.com',
             pricing: {
@@ -124,9 +124,9 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
   })
 })
 
-function withLicensor (port, test, callback) {
+function withDeveloper (port, test, callback) {
   var oauthLocation
-  var licensorID
+  var developerID
   var token
   runSeries([
     function register (done) {
@@ -140,9 +140,9 @@ function withLicensor (port, test, callback) {
       })
       apiRequest(port, {
         action: 'register',
-        email: LICENSOR_EMAIL,
-        name: LICENSOR_NAME,
-        jurisdiction: LICENSOR_JURISDICTION,
+        email: developer_EMAIL,
+        name: developer_NAME,
+        jurisdiction: developer_JURISDICTION,
         terms: (
           'I agree to the terms of service at ' +
           'https://licensezero.com/terms/service.'
@@ -166,7 +166,7 @@ function withLicensor (port, test, callback) {
         .then(() => browser.$('span.id'))
         .then((element) => element.getText())
         .then(function (text) {
-          licensorID = text
+          developerID = text
         })
         .then(() => browser.$('code.token'))
         .then((code) => code.getText())
@@ -184,6 +184,6 @@ function withLicensor (port, test, callback) {
     }
   ], function (error) {
     if (error) return callback(error)
-    callback(null, licensorID, token)
+    callback(null, developerID, token)
   })
 }

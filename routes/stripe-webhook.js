@@ -1,6 +1,6 @@
 var TESTING = process.env.NODE_ENV === 'test'
 var idForStripeAccount = require('../data/id-for-stripe-account')
-var licensorPath = require('../paths/licensor')
+var developerPath = require('../paths/developer')
 var mutateJSONFile = require('../data/mutate-json-file')
 var stripe = require('stripe')
 
@@ -51,14 +51,14 @@ module.exports = function (request, response) {
     if (event.type === 'account.application.deauthorized') {
       idForStripeAccount(
         event.account,
-        function (error, licensorID) {
+        function (error, developerID) {
           if (error) {
             request.log.error(error)
             response.statusCode = 500
             return response.end()
           }
-          if (licensorID) {
-            var file = licensorPath(licensorID)
+          if (developerID) {
+            var file = developerPath(developerID)
             mutateJSONFile(file, function (data) {
               data.deauthorized = true
             }, function (error) {
@@ -73,7 +73,7 @@ module.exports = function (request, response) {
           }
           request.log.error({
             stripe: event.account
-          }, 'could not find licensor ID')
+          }, 'could not find developer ID')
           response.statusCode = 500
           response.end()
         }

@@ -29,7 +29,7 @@ module.exports = function (request, response) {
       </p>
       <p>
         To offer private licenses through License Zero,
-        licensors must agree to
+        developers must agree to
         <a href=/terms/agency>agency terms</a>.
       </p>
     </main>

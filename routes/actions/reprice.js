@@ -3,14 +3,14 @@ var offerPath = require('../../paths/offer')
 var readJSONFile = require('../../data/read-json-file')
 
 exports.properties = {
-  licensorID: require('./common/licensor-id'),
+  developerID: require('./common/developer-id'),
   token: { type: 'string' },
   offerID: require('./common/offer-id'),
   pricing: require('./common/pricing')
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  lock([body.licensorID, body.offerID], function (release) {
+  lock([body.developerID, body.offerID], function (release) {
     var file = offerPath(body.offerID)
     readJSONFile(file, function (error, offer) {
       if (error) return die('no such offer')

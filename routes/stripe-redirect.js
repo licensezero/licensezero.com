@@ -7,7 +7,7 @@ var hashToken = require('../data/hash-token')
 var head = require('./partials/head')
 var header = require('./partials/header')
 var html = require('./html')
-var licensorPath = require('../paths/licensor')
+var developerPath = require('../paths/developer')
 var nav = require('./partials/nav')
 var outline = require('outline-numbering')
 var parseJSON = require('json-parse-errback')
@@ -123,21 +123,21 @@ ${head('Registration')}
         }
         done(null, body, nonceData)
       },
-      function writeLicensorFile (stripeData, nonceData, done) {
-        var licensorID = uuid()
-        var licensorFile = licensorPath(licensorID)
+      function writeDeveloperFile (stripeData, nonceData, done) {
+        var developerID = uuid()
+        var developerFile = developerPath(developerID)
         var passphrase = generateToken()
         var stripeID = stripeData.stripe_user_id
         runWaterfall([
-          fs.mkdir.bind(fs, path.dirname(licensorFile), { recursive: true }),
+          fs.mkdir.bind(fs, path.dirname(developerFile), { recursive: true }),
           function (done) {
             hashToken(passphrase, done)
           },
           function (hash, done) {
             fs.writeFile(
-              licensorFile,
+              developerFile,
               JSON.stringify({
-                licensorID,
+                developerID,
                 name: [nonceData.name],
                 email: [nonceData.email],
                 jurisdiction: [nonceData.jurisdiction],
@@ -155,9 +155,9 @@ ${head('Registration')}
           if (error) return done(error)
           email(request.log, {
             to: process.env.REGISTRATION_NOTIFICATION_EMAIL,
-            subject: 'Licensor Registration',
+            subject: 'Developer Registration',
             text: [
-              'id: ' + licensorID,
+              'id: ' + developerID,
               'name: ' + nonceData.name,
               'email: ' + nonceData.email,
               'jurisdiction: ' + nonceData.jurisdiction
@@ -166,25 +166,25 @@ ${head('Registration')}
             if (error) request.log.error(error)
           })
           done(
-            null, nonceData.email, licensorID, stripeID, passphrase
+            null, nonceData.email, developerID, stripeID, passphrase
           )
         })
       },
-      function emailLicensor (
-        address, licensorID, stripeID, passphrase, done
+      function emailDeveloper (
+        address, developerID, stripeID, passphrase, done
       ) {
         runWaterfall([
           terms,
           function (terms, done) {
             email(request.log, {
               to: address,
-              subject: 'Licensor Registration',
+              subject: 'Developer Registration',
               text: [
-                'Thank you for registering as a licensor',
+                'Thank you for registering as a developer',
                 'though licensezero.com.',
                 '',
-                'Your unique licensor ID is:',
-                licensorID
+                'Your unique developer ID is:',
+                developerID
               ].join('\n'),
               terms: (
                 'Terms of Service\n\n' +
@@ -198,23 +198,23 @@ ${head('Registration')}
               )
             }, function (error) {
               if (error) return done(error)
-              done(null, licensorID, stripeID, passphrase)
+              done(null, developerID, stripeID, passphrase)
             })
           }
         ], done)
       },
       function appendToAccounts (
-        licensorID, stripeID, passphrase, done
+        developerID, stripeID, passphrase, done
       ) {
         var file = accountsPath()
-        var line = stripeID + '\t' + licensorID + '\n'
+        var line = stripeID + '\t' + developerID + '\n'
         fs.appendFile(file, line, function (error) {
           if (error) return done(error)
           request.log.info('appended to accounts')
-          done(null, licensorID, passphrase)
+          done(null, developerID, passphrase)
         })
       }
-    ], function (error, licensorID, passphrase) {
+    ], function (error, developerID, passphrase) {
       if (error) {
         request.log.error(error)
         response.statusCode = error.statusCode || 500
@@ -235,9 +235,9 @@ ${header()}
     To offer licenses, install the
     <a href=https://github.com/licensezero/cli
       ><code>licensezero</code> command line interface</a>
-    and import your licensor credentials:
+    and import your developer credentials:
   </p>
-  <code class=terminal>licensezero token --licensor <span class=id>${licensorID}</span></code>
+  <code class=terminal>licensezero token --developer <span class=id>${developerID}</span></code>
   <p>Then enter your access token: <code class=token>${passphrase}</code></p>
 </main>
 ${footer()}

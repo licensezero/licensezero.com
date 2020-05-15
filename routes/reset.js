@@ -2,7 +2,7 @@ var fs = require('fs')
 var generateToken = require('../data/generate-token')
 var hashToken = require('../data/hash-token')
 var internalError = require('./internal-error')
-var licensorPath = require('../paths/licensor')
+var developerPath = require('../paths/developer')
 var lock = require('./lock')
 var mutateJSONFile = require('../data/mutate-json-file')
 var readJSONFile = require('../data/read-json-file')
@@ -36,13 +36,13 @@ function get (request, response) {
     fs.unlink(resetTokenFile, function (error) {
       if (error) return internalError(request, response, error)
       var token = generateToken()
-      var licensorID = tokenData.licensorID
-      lock(licensorID, function (release) {
+      var developerID = tokenData.developerID
+      lock(developerID, function (release) {
         runWaterfall([
           hashToken.bind(null, token),
-          function writeLicensorFile (hash, done) {
-            var licensorFile = licensorPath(licensorID)
-            mutateJSONFile(licensorFile, function (data) {
+          function writeDeveloperFile (hash, done) {
+            var developerFile = developerPath(developerID)
+            mutateJSONFile(developerFile, function (data) {
               data.token = hash
             }, done)
           }

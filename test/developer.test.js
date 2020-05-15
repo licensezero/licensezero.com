@@ -1,19 +1,19 @@
-var LICENSOR = require('./licensor')
+var DEVELOPER = require('./developer')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
-tape('licensor', function (test) {
+tape('developer', function (test) {
   server(function (port, close) {
-    writeTestLicensor(function (error) {
+    writeTestDeveloper(function (error) {
       test.ifError(error)
       apiRequest(port, {
-        action: 'licensor',
-        licensorID: LICENSOR.id
+        action: 'developer',
+        developerID: DEVELOPER.id
       }, function (error, response) {
         if (error) {
           test.ifError(error)
@@ -23,11 +23,11 @@ tape('licensor', function (test) {
             'error false'
           )
           test.equal(
-            response.name, LICENSOR.name,
+            response.name, DEVELOPER.name,
             'name'
           )
           test.equal(
-            response.jurisdiction, LICENSOR.jurisdiction,
+            response.jurisdiction, DEVELOPER.jurisdiction,
             'jurisdiction'
           )
           test.deepEqual(
@@ -42,18 +42,18 @@ tape('licensor', function (test) {
   })
 })
 
-tape('licensor w/ invalid id', function (test) {
+tape('developer w/ invalid id', function (test) {
   server(function (port, close) {
     apiRequest(port, {
-      action: 'licensor',
-      licensorID: LICENSOR.id
+      action: 'developer',
+      developerID: DEVELOPER.id
     }, function (error, response) {
       if (error) {
         test.ifError(error)
       } else {
         test.equal(
-          response.error, 'no such licensor',
-          'no such licensor'
+          response.error, 'no such developer',
+          'no such developer'
         )
       }
       test.end()
@@ -62,15 +62,15 @@ tape('licensor w/ invalid id', function (test) {
   })
 })
 
-tape('licensor w/ offer', function (test) {
+tape('developer w/ offer', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function makeOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: DEVELOPER.id,
+          token: DEVELOPER.token
         }), function (error, response) {
           if (error) return done(error)
           offerID = response.offerID
@@ -79,8 +79,8 @@ tape('licensor w/ offer', function (test) {
       },
       function (done) {
         apiRequest(port, {
-          action: 'licensor',
-          licensorID: LICENSOR.id
+          action: 'developer',
+          developerID: DEVELOPER.id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -102,15 +102,15 @@ tape('licensor w/ offer', function (test) {
   })
 })
 
-tape('licensor w/ retracted offer', function (test) {
+tape('developer w/ retracted offer', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function makeOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: DEVELOPER.id,
+          token: DEVELOPER.token
         }), function (error, response) {
           if (error) return done(error)
           offerID = response.offerID
@@ -120,8 +120,8 @@ tape('licensor w/ retracted offer', function (test) {
       function retractOffer (done) {
         apiRequest(port, {
           action: 'retract',
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: DEVELOPER.id,
+          token: DEVELOPER.token,
           offerID
         }, function (error, response) {
           if (error) return done(error)
@@ -129,10 +129,10 @@ tape('licensor w/ retracted offer', function (test) {
           done()
         })
       },
-      function listLicensorOffers (done) {
+      function listDeveloperOffers (done) {
         apiRequest(port, {
-          action: 'licensor',
-          licensorID: LICENSOR.id
+          action: 'developer',
+          developerID: DEVELOPER.id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(
@@ -154,16 +154,16 @@ tape('licensor w/ retracted offer', function (test) {
   })
 })
 
-tape('licensor w/ retracted offer', function (test) {
+tape('developer w/ retracted offer', function (test) {
   server(function (port, close) {
     var firstOffer
     var secondOffer
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function offerFirstOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: DEVELOPER.id,
+          token: DEVELOPER.token,
           homepage: 'http://example.com/first'
         }), function (error, response) {
           if (error) return done(error)
@@ -174,8 +174,8 @@ tape('licensor w/ retracted offer', function (test) {
       },
       function offerSecondOffer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: DEVELOPER.id,
+          token: DEVELOPER.token,
           homepage: 'http://example.com/second'
         }), function (error, response) {
           if (error) return done(error)
@@ -187,8 +187,8 @@ tape('licensor w/ retracted offer', function (test) {
       function retractFirstOffer (done) {
         apiRequest(port, {
           action: 'retract',
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: DEVELOPER.id,
+          token: DEVELOPER.token,
           offerID: firstOffer
         }, function (error, response) {
           if (error) return done(error)
@@ -196,10 +196,10 @@ tape('licensor w/ retracted offer', function (test) {
           done()
         })
       },
-      function listLicensorOffers (done) {
+      function listDeveloperOffers (done) {
         apiRequest(port, {
-          action: 'licensor',
-          licensorID: LICENSOR.id
+          action: 'developer',
+          developerID: DEVELOPER.id
         }, function (error, response) {
           if (error) return done(error)
           var offers = response.offers

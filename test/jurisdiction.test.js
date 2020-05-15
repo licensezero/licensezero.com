@@ -1,24 +1,24 @@
-var LICENSOR = require('./licensor')
+var developer = require('./developer')
 var apiRequest = require('./api-request')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
 tape('jurisdiction', function (test) {
   server(function (port, close) {
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       apiRequest.bind(null, port, {
         action: 'jurisdiction',
-        licensorID: LICENSOR.id,
-        token: LICENSOR.token,
+        developerID: developer.id,
+        token: developer.token,
         jurisdiction: 'US-TX'
       }),
       function (done) {
         apiRequest(port, {
-          action: 'licensor',
-          licensorID: LICENSOR.id
+          action: 'developer',
+          developerID: developer.id
         }, function (error, response) {
           if (error) return done(error)
           test.equal(response.jurisdiction, 'US-TX', 'US-TX')

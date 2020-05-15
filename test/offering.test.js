@@ -1,4 +1,4 @@
-var LICENSOR = require('./licensor')
+var developer = require('./developer')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
@@ -9,17 +9,17 @@ var server = require('./server')
 var simpleConcat = require('simple-concat')
 var tape = require('tape')
 var uuid = require('uuid').v4
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
 tape('offering', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: developer.id,
+          token: developer.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -42,10 +42,10 @@ tape('offering', function (test) {
               offerID,
               homepage: OFFER.homepage,
               pricing: OFFER.pricing,
-              licensor: {
-                licensorID: LICENSOR.id,
-                name: LICENSOR.name,
-                jurisdiction: LICENSOR.jurisdiction
+              developer: {
+                developerID: developer.id,
+                name: developer.name,
+                jurisdiction: developer.jurisdiction
               },
               description: OFFER.description,
               commission: parseInt(process.env.COMMISSION),
@@ -85,11 +85,11 @@ tape('/offers/{id}', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: developer.id,
+          token: developer.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -129,11 +129,11 @@ tape('/offers/{id}/badge.svg', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: developer.id,
+          token: developer.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')

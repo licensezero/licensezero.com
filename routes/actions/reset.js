@@ -3,22 +3,22 @@ var fs = require('fs')
 var last = require('../../util/last')
 var path = require('path')
 var randomNonce = require('../../data/random-nonce')
-var readLicensor = require('../../data/read-licensor')
+var readDeveloper = require('../../data/read-developer')
 var resetTokenPath = require('../../paths/reset-token')
 var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 
 exports.properties = {
-  licensorID: require('./common/licensor-id'),
+  developerID: require('./common/developer-id'),
   email: require('./common/email')
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var licensorID = body.licensorID
+  var developerID = body.developerID
   runWaterfall([
-    readLicensor.bind(null, licensorID),
-    function (licensor, done) {
-      if (last(licensor.email) !== body.email) {
+    readDeveloper.bind(null, developerID),
+    function (developer, done) {
+      if (last(developer.email) !== body.email) {
         return done('invalid body')
       }
       var token = randomNonce()
@@ -26,7 +26,7 @@ exports.handler = function (log, body, end, fail, lock) {
         function writeTokenFile (done) {
           var file = resetTokenPath(token)
           var content = {
-            licensorID,
+            developerID,
             date: new Date().toISOString()
           }
           runSeries([
@@ -36,12 +36,12 @@ exports.handler = function (log, body, end, fail, lock) {
         },
         function emailLink (done) {
           email(log, {
-            to: last(licensor.email),
+            to: last(developer.email),
             subject: 'License Zero Token Reset Link',
             text: [
               'licensezero.com received a request to reset',
-              'the access token for this licensor ID:',
-              licensor.licensorID,
+              'the access token for this developer ID:',
+              developer.developerID,
               '',
               'If you need to reset your access token,',
               'use the link below.  If you did not request',

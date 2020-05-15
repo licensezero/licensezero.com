@@ -6,7 +6,7 @@ var stringify = require('json-stable-stringify')
 var waiver = require('../../forms/waiver')
 
 exports.properties = {
-  licensorID: require('./common/licensor-id'),
+  developerID: require('./common/developer-id'),
   token: { type: 'string' },
   offerID: require('./common/offer-id'),
   beneficiary: {
@@ -40,7 +40,7 @@ exports.handler = function (log, body, end, fail, lock) {
       return fail(error)
     }
     if (offer.retracted) return fail('retracted offer')
-    var licensor = offer.licensor
+    var developer = offer.developer
     var parameters = {
       FORM: 'waiver',
       VERSION: waiver.version,
@@ -48,9 +48,9 @@ exports.handler = function (log, body, end, fail, lock) {
         name: body.beneficiary,
         jurisdiction: body.jurisdiction
       },
-      licensor: {
-        name: last(licensor.name),
-        jurisdiction: last(licensor.jurisdiction)
+      developer: {
+        name: last(developer.name),
+        jurisdiction: last(developer.jurisdiction)
       },
       offer: {
         offerID,

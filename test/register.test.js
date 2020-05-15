@@ -31,7 +31,7 @@ tape('register w/ valid body', function (test) {
     apiRequest(port, {
       action: 'register',
       email: address,
-      name: 'Test Licensor',
+      name: 'Test Developer',
       jurisdiction: 'US-CA',
       terms: (
         'I agree to the terms of service at ' +
@@ -68,7 +68,7 @@ tape.skip('confirmation w/ bad stripe code', function (test) {
         apiRequest(port, {
           action: 'register',
           email: address,
-          name: 'Test Licensor',
+          name: 'Test Developer',
           jurisdiction: 'US-CA',
           terms: (
             'I agree to the terms of service at ' +

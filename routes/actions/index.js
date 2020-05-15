@@ -2,7 +2,7 @@ module.exports = {
   email: require('./email'),
   jurisdiction: require('./jurisdiction'),
   key: require('./key'),
-  licensor: require('./licensor'),
+  developer: require('./developer'),
   lock: require('./lock'),
   name: require('./name'),
   offer: require('./offer'),

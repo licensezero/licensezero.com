@@ -129,8 +129,8 @@ ${head(action)}
                 >${escape(offer.homepage)}</a>
             </p>
             <p>
-              ${escape(last(offer.licensor.name))}
-              (${renderJurisdiction(last(offer.licensor.jurisdiction))})
+              ${escape(last(offer.developer.name))}
+              (${renderJurisdiction(last(offer.developer.jurisdiction))})
             </p>
             <p>
               Terms:
@@ -189,8 +189,8 @@ ${head(action)}
               >${escape(offer.homepage)}</a>
           </p>
           <p>
-            ${escape(last(offer.licensor.name))}
-            (${renderJurisdiction(last(offer.licensor.jurisdiction))})
+            ${escape(last(offer.developer.name))}
+            (${renderJurisdiction(last(offer.developer.jurisdiction))})
           </p>
           <p>
             Terms: <a
@@ -306,9 +306,9 @@ function post (request, response, order) {
       //     account, using the token from Stripe.js.
       //
       // 2.  Generate a payment token from the Customer for each
-      //     Licensor transaction.
+      //     Developer transaction.
       //
-      // 3.  Use those tokens to create Charge objects on Licensors'
+      // 3.  Use those tokens to create Charge objects on Developers'
       //     Connect-ed Stripe accounts.
       //
       // 4.  Capture the charges once the licenses go out by e-mail.
@@ -337,9 +337,9 @@ function post (request, response, order) {
             email: order.email,
             date: new Date().toISOString()
           })
-        ].concat(Object.keys(transactions).map(function (licensorID) {
-          var offers = transactions[licensorID]
-          var stripeID = offers[0].licensor.stripe.id
+        ].concat(Object.keys(transactions).map(function (developerID) {
+          var offers = transactions[developerID]
+          var stripeID = offers[0].developer.stripe.id
           var commission = offers.reduce(function (total, offer) {
             return total + applicationFee(offer)
           }, 0)
@@ -401,7 +401,7 @@ function post (request, response, order) {
                             jurisdiction: order.jurisdiction,
                             email: order.email
                           },
-                          licensor: pick(offer.licensor, [
+                          developer: pick(offer.developer, [
                             'name', 'jurisdiction'
                           ]),
                           price: offer.price
@@ -463,9 +463,9 @@ function post (request, response, order) {
                           }
                         )
                       },
-                      function emailLicensorStatement (license, done) {
+                      function emailDeveloperStatement (license, done) {
                         email(request.log, {
-                          to: last(offer.licensor.email),
+                          to: last(offer.developer.email),
                           bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
                           subject: 'License Zero Statement',
                           text: [
@@ -590,11 +590,11 @@ function expired (created) {
 function batchTransactions (offers) {
   var returned = {}
   offers.forEach(function (offer) {
-    var licensorID = offer.licensor.licensorID
-    if (has(returned, licensorID)) {
-      returned[licensorID].push(offer)
+    var developerID = offer.developer.developerID
+    if (has(returned, developerID)) {
+      returned[developerID].push(offer)
     } else {
-      returned[licensorID] = [offer]
+      returned[developerID] = [offer]
     }
   })
   return returned

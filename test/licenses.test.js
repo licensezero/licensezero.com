@@ -23,10 +23,11 @@ function testForm (form) {
           test.equal(response.statusCode, 200, '200')
           simpleConcat(response, function (error, body) {
             test.ifError(error, 'no body error')
+            var string = body.toString()
             test.assert(
-              body.toString().includes('<blockquote class="license form">') ||
-              body.toString().includes('<pre class="license form">'),
-              'has <blockquote class=license>'
+              string.includes('<blockquote class=form>') ||
+              string.includes('<pre class=form>'),
+              'has <element class=form>'
             )
             finish()
           })

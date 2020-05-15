@@ -10,7 +10,7 @@ var withCached = require('../data/with-cached')(
 module.exports = function (options, callback) {
   withCached(function (error, template) {
     if (error) return callback(error)
-    var licensor = options.licensor
+    var developer = options.developer
     var beneficiary = options.beneficiary
     var offer = options.offer
     callback(null, mustache.render(
@@ -19,8 +19,8 @@ module.exports = function (options, callback) {
         version: VERSION,
         beneficiary: beneficiary.name,
         beneficiaryJurisdiction: beneficiary.jurisdiction,
-        licensor: licensor.name,
-        licensorJurisdiction: licensor.jurisdiction,
+        licensor: developer.name,
+        licensorJurisdiction: developer.jurisdiction,
         agent: 'Artless Devices LLC',
         agentJurisdiction: 'US-CA',
         agentWebsite: 'https://licensezero.com',

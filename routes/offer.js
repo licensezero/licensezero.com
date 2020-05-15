@@ -29,8 +29,8 @@ module.exports = function (request, response) {
   readOffer(offerID, function (error, offer) {
     if (error) return notFound(request, response, error)
     sanitizeOffer(offer)
-    var licensor = offer.licensor
-    var data = { offer, licensor }
+    var developer = offer.developer
+    var data = { offer, developer }
     var customizationPath = path.join(
       __dirname, '..', 'customizations', offerID + '.html'
     )
@@ -62,9 +62,9 @@ module.exports = function (request, response) {
               description: offer.description,
               url: offer.homepage,
               retracted: offer.retracted,
-              name: last(licensor.name),
-              jurisdiction: last(licensor.jurisdiction),
-              email: last(licensor.email),
+              name: last(developer.name),
+              jurisdiction: last(developer.jurisdiction),
+              email: last(developer.email),
               private: pricing.private,
               lock: pricing.lock
             },
@@ -83,13 +83,13 @@ module.exports = function (request, response) {
     if (data.customized) {
       response.end(data.customized)
     } else {
-      var licensor = data.licensor
+      var developer = data.developer
       var offer = data.offer
       response.end(html`
   <!doctype html>
   <html lang=EN>
     ${head(offerID, {
-      title: licensor.name + '’s Offer',
+      title: developer.name + '’s Offer',
       description: offer.description
     })}
     <body>
@@ -117,9 +117,9 @@ module.exports = function (request, response) {
           <h2>Contributor</h2>
           <dl>
             <dt>Name</dt>
-            <dd>${escape(licensor.name)}</dd>
+            <dd>${escape(developer.name)}</dd>
             <dt>Jurisdiction</dt>
-            <dd>${renderJurisdiction(licensor.jurisdiction)}</dd>
+            <dd>${renderJurisdiction(developer.jurisdiction)}</dd>
           </dl>
         </section>
         <h3>Pricing</h3>
@@ -136,7 +136,7 @@ module.exports = function (request, response) {
 
 function retracted () {
   return html`
-<p>The licensor has retracted this offer.</p>
+<p>The developer has retracted this offer.</p>
   `
 }
 

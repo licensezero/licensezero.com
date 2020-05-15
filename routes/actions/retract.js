@@ -9,15 +9,15 @@ var runSeries = require('run-series')
 var stringifyOffers = require('../../data/stringify-offers')
 
 exports.properties = {
-  licensorID: require('./common/licensor-id'),
+  developerID: require('./common/developer-id'),
   token: { type: 'string' },
   offerID: require('./common/offer-id')
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var licensorID = body.licensorID
+  var developerID = body.developerID
   var offerID = body.offerID
-  lock([licensorID, offerID], function (release) {
+  lock([developerID, offerID], function (release) {
     var file = offerPath(body.offerID)
     readJSONFile(file, function (error, offer) {
       if (error) return die('no such offer')
@@ -36,7 +36,7 @@ exports.handler = function (log, body, end, fail, lock) {
           }, annotateENOENT('no such offer', done))
         },
         function removeFromOffersList (done) {
-          var file = offersListPath(licensorID)
+          var file = offersListPath(developerID)
           mutateTextFile(file, function (text) {
             return stringifyOffers(
               parseOffers(text)

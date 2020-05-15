@@ -1,4 +1,4 @@
-var LICENSOR = require('./licensor')
+var developer = require('./developer')
 var OFFER = require('./offer')
 var PERSON = 'I am a person, not a legal entity.'
 var apiRequest = require('./api-request')
@@ -16,18 +16,18 @@ var server = require('./server')
 var sweepOrders = require('../jobs/delete-expired-orders')
 var sweepResetTokens = require('../jobs/delete-expired-reset-tokens')
 var tape = require('tape')
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
 tape.skip('sweep orders', function (test) {
   server(function (port, close) {
     var offerID
     var location
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function offerFirst (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: developer.id,
+          token: developer.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -101,21 +101,21 @@ tape('sweep reset tokens', function (test) {
   server(function (port, close) {
     var resetToken
     email.events.once('message', function (message) {
-      test.equal(message.to, LICENSOR.email, 'email to licensor')
+      test.equal(message.to, developer.email, 'email to developer')
       message.text.split('\n').forEach(function (paragraph) {
         var match = /https:\/\/licensezero.com\/reset\/([0-9a-f]{64})/
           .exec(paragraph)
         if (match) resetToken = match[1]
       })
     })
-    writeTestLicensor(function (error) {
+    writeTestDeveloper(function (error) {
       test.ifError(error, 'no error')
       runSeries([
         function resetAction (done) {
           apiRequest(port, {
             action: 'reset',
-            licensorID: LICENSOR.id,
-            email: LICENSOR.email
+            developerID: developer.id,
+            email: developer.email
           }, function (error, response) {
             test.ifError(error, 'no error')
             test.equal(response.error, false, 'error false')

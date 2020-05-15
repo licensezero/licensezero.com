@@ -1,20 +1,20 @@
 var fs = require('fs')
-var licensorPath = require('../../paths/licensor')
+var developerPath = require('../../paths/developer')
 var parseJSON = require('json-parse-errback')
 var runWaterfall = require('run-waterfall')
 
 module.exports = function (key) {
   var properties = {
-    licensorID: require('./common/licensor-id'),
+    developerID: require('./common/developer-id'),
     token: { type: 'string' }
   }
   properties[key] = require('./register').properties[key]
   return {
     properties,
     handler: function (log, body, end, fail, lock) {
-      var licensorID = body.licensorID
-      var file = licensorPath(licensorID)
-      lock(licensorID, function (release) {
+      var developerID = body.developerID
+      var file = developerPath(developerID)
+      lock(developerID, function (release) {
         runWaterfall([
           fs.readFile.bind(fs, file),
           parseJSON,

@@ -1,28 +1,28 @@
 var last = require('../../util/last')
 var listOffers = require('../../data/list-offers')
-var readLicensor = require('../../data/read-licensor')
+var readDeveloper = require('../../data/read-developer')
 
 exports.properties = {
-  licensorID: require('./common/licensor-id')
+  developerID: require('./common/developer-id')
 }
 
 exports.handler = function (log, body, end, fail) {
-  var licensorID = body.licensorID
-  readLicensor(licensorID, function (error, licensor) {
+  var developerID = body.developerID
+  readDeveloper(developerID, function (error, developer) {
     if (error) {
       /* istanbul ignore else */
-      if (error.code === 'ENOENT') return fail('no such licensor')
+      if (error.code === 'ENOENT') return fail('no such developer')
       return fail('internal error')
     }
-    listOffers(licensorID, function (error, offers) {
+    listOffers(developerID, function (error, offers) {
       /* istanbul ignore if */
       if (error) {
         log.error(error)
         return fail('internal error')
       }
       end({
-        name: last(licensor.name),
-        jurisdiction: last(licensor.jurisdiction),
+        name: last(developer.name),
+        jurisdiction: last(developer.jurisdiction),
         offers
       })
     })

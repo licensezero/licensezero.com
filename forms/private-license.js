@@ -15,8 +15,8 @@ module.exports = function (options, callback) {
     var view = {
       version: VERSION,
       date: options.date,
-      licensorName: options.licensor.name,
-      licensorJurisdiction: options.licensor.jurisdiction,
+      developerName: options.developer.name,
+      developerJurisdiction: options.developer.jurisdiction,
       agentName: 'Artless Devices LLC',
       agentJurisdiction: 'US-CA',
       agentWebsite: 'https://licensezero.com',

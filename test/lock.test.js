@@ -1,21 +1,21 @@
-var LICENSOR = require('./licensor')
+var developer = require('./developer')
 var OFFER = require('./offer')
 var apiRequest = require('./api-request')
 var clone = require('../data/clone')
 var runSeries = require('run-series')
 var server = require('./server')
 var tape = require('tape')
-var writeTestLicensor = require('./write-test-licensor')
+var writeTestDeveloper = require('./write-test-developer')
 
 tape('lock', function (test) {
   server(function (port, close) {
     var offerID
     runSeries([
-      writeTestLicensor.bind(null),
+      writeTestDeveloper.bind(null),
       function offer (done) {
         apiRequest(port, Object.assign(clone(OFFER), {
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: developer.id,
+          token: developer.token
         }), function (error, response) {
           if (error) return done(error)
           test.equal(response.error, false, 'error false')
@@ -29,8 +29,8 @@ tape('lock', function (test) {
         apiRequest(port, {
           action: 'lock',
           offerID,
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: developer.id,
+          token: developer.token,
           unlock: unlock.toISOString()
         }, function (error, response) {
           if (error) return done(error)
@@ -42,8 +42,8 @@ tape('lock', function (test) {
         apiRequest(port, {
           action: 'reprice',
           offerID,
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: developer.id,
+          token: developer.token,
           pricing: {
             private: OFFER.pricing.private - 100
           }
@@ -57,8 +57,8 @@ tape('lock', function (test) {
         apiRequest(port, {
           action: 'reprice',
           offerID,
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token,
+          developerID: developer.id,
+          token: developer.token,
           pricing: {
             private: OFFER.pricing.private + 100
           }
@@ -75,8 +75,8 @@ tape('lock', function (test) {
         apiRequest(port, {
           action: 'retract',
           offerID,
-          licensorID: LICENSOR.id,
-          token: LICENSOR.token
+          developerID: developer.id,
+          token: developer.token
         }, function (error, response) {
           if (error) return done(error)
           test.equal(

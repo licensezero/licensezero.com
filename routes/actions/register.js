@@ -45,9 +45,9 @@ exports.handler = function (log, body, end, fail) {
       })),
       email.bind(null, log, {
         to: body.email,
-        subject: 'Register as a licensezero.com Licensor',
+        subject: 'Register as a licensezero.com Developer',
         text: [
-          'To register as a licensor through',
+          'To register as a developer through',
           'licensezero.com, follow this link',
           'to connect your Stripe account:',
           '',

@@ -11,7 +11,7 @@ var stringifyOffers = require('../../data/stringify-offers')
 var uuid = require('uuid').v4
 
 exports.properties = {
-  licensorID: require('./common/licensor-id'),
+  developerID: require('./common/developer-id'),
   token: { type: 'string' },
   homepage: require('./common/homepage'),
   pricing: require('./common/pricing'),
@@ -20,15 +20,15 @@ exports.properties = {
 }
 
 exports.handler = function (log, body, end, fail, lock) {
-  var licensorID = body.licensorID
+  var developerID = body.developerID
   var offerID = uuid()
-  lock([licensorID], function (release) {
+  lock([developerID], function (release) {
     runSeries([
       function (done) {
         runParallel([
           checkHomepage.bind(null, body),
           recordAcceptance.bind(null, {
-            licensor: licensorID,
+            developer: developerID,
             date: new Date().toISOString()
           })
         ], done)
@@ -41,7 +41,7 @@ exports.handler = function (log, body, end, fail, lock) {
               fs.mkdir.bind(fs, path.dirname(file), { recursive: true }),
               fs.writeFile.bind(fs, file, JSON.stringify({
                 offerID,
-                licensor: licensorID,
+                developer: developerID,
                 pricing: body.pricing,
                 homepage: body.homepage,
                 description: body.description,
@@ -49,8 +49,8 @@ exports.handler = function (log, body, end, fail, lock) {
               }))
             ], done)
           },
-          function appendToLicensorOffersList (done) {
-            var file = offersListPath(licensorID)
+          function appendToDeveloperOffersList (done) {
+            var file = offersListPath(developerID)
             var content = stringifyOffers([
               {
                 offerID,
@@ -79,7 +79,7 @@ exports.handler = function (log, body, end, fail, lock) {
         subject: 'License Zero Offer Offer',
         text: [
           'offerID: ' + offerID,
-          'licensor: ' + licensorID,
+          'developer: ' + developerID,
           'pricing.private: ' + body.pricing.private,
           'pricing.relicense: ' + body.pricing.relicense,
           'homepage: ' + body.homepage,
