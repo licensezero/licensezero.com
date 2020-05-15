@@ -41,7 +41,7 @@ module.exports = function (request, response) {
         <a href=https://guide.licensezero.com/#charity
           >the License Zero Developer’s Guide</a>.
       </p>
-      <pre class=license>${linkStandards(escape(document))}</pre>
+      <pre class=form>${linkStandards(escape(document))}</pre>
     </main>
     ${footer()}
   </body>

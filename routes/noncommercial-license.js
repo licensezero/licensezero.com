@@ -39,7 +39,7 @@ module.exports = function (request, response) {
         the License Zero Noncommercial Public License, visit
         <a href=${REPOSITORY}>${REPOSITORY}</a>.
       </p>
-      <pre class=license>${linkStandards(escape(document))}</pre>
+      <pre class=form>${linkStandards(escape(document))}</pre>
     </main>
     ${footer()}
   </body>

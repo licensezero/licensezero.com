@@ -24,8 +24,8 @@ function testForm (form) {
           simpleConcat(response, function (error, body) {
             test.ifError(error, 'no body error')
             test.assert(
-              body.toString().includes('<blockquote class=license>') ||
-              body.toString().includes('<pre class=license>'),
+              body.toString().includes('<blockquote class="license form">') ||
+              body.toString().includes('<pre class="license form">'),
               'has <blockquote class=license>'
             )
             finish()
