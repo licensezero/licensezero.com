@@ -58,7 +58,7 @@ routes.set('/licenses/relicense', require('./relicense'))
 
 routes.set('/install.sh', require('./install'))
 routes.set('/cli-version', require('./cli-version'))
-routes.set('/one-line-install', require('./one-line-install'))
+routes.set('/one-line-install.sh', require('./one-line-install'))
 
 function redirect303 (response, location) {
   response.statusCode = 303
