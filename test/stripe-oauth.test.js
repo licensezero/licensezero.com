@@ -6,9 +6,9 @@ var server = require('./server')
 var tape = require('tape')
 var timeout = require('./timeout')
 
-var developer_EMAIL = 'developer@example.com'
-var developer_JURISDICTION = 'US-TX'
-var developer_NAME = 'Test Developer'
+var DEVELOPER_EMAIL = 'developer@example.com'
+var DEVELOPER_JURISDICTION = 'US-TX'
+var DEVELOPER_NAME = 'Test Developer'
 
 var options = {
   skip: (
@@ -140,9 +140,9 @@ function withDeveloper (port, test, callback) {
       })
       apiRequest(port, {
         action: 'register',
-        email: developer_EMAIL,
-        name: developer_NAME,
-        jurisdiction: developer_JURISDICTION,
+        email: DEVELOPER_EMAIL,
+        name: DEVELOPER_NAME,
+        jurisdiction: DEVELOPER_JURISDICTION,
         terms: (
           'I agree to the terms of service at ' +
           'https://licensezero.com/terms/service.'
