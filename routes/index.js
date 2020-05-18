@@ -53,7 +53,6 @@ routes.set('/licenses/parity/:version', function (request, response) {
 routes.set('/licenses/charity', require('./charity-license'))
 routes.set('/licenses/prosperity', require('./prosperity-license'))
 routes.set('/licenses/permissive', require('./permissive-license'))
-routes.set('/licenses/waiver', require('./waiver'))
 routes.set('/licenses/relicense', require('./relicense'))
 
 routes.set('/install.sh', require('./install'))
@@ -110,7 +109,6 @@ function staticFile (file) {
   })
 }
 
-quoteTemplate('waiver')
 quoteTemplate('relicense')
 
 function quoteTemplate (type) {

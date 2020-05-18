@@ -14,6 +14,5 @@ module.exports = {
   reset: require('./reset'),
   retract: require('./retract'),
   suspended: require('./suspended'),
-  version: require('./version'),
-  waiver: require('./waiver')
+  version: require('./version')
 }

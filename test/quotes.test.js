@@ -3,7 +3,6 @@ var http = require('http')
 var server = require('./server')
 var tape = require('tape')
 
-testQuote('waiver')
 testQuote('relicense')
 
 function testQuote (type) {

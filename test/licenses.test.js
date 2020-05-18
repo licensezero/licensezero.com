@@ -3,7 +3,6 @@ var server = require('./server')
 var simpleConcat = require('simple-concat')
 var tape = require('tape')
 
-testForm('waiver')
 testForm('noncommercial')
 testForm('reciprocal')
 testForm('parity')

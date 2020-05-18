@@ -52,20 +52,6 @@ ${head('Licenses', {
         build closed source, with limited rights to sublicense others
       </dd>
     </dl>
-    <h2 id=waivers>Waivers</h2>
-    <p>
-      License Zero developers can give away quick, freebie
-      exceptions to the share-back or noncommercial conditions
-      using a standard form:
-    </p>
-    <dl>
-      <dt><a href=/licenses/waiver>Waiver</a></dt>
-      <dd>
-        gives a specific person permission to ignore the
-        conditions of your private license requiring source code
-        release or a time limit on commercial use
-      </dd>
-    </dl>
     <h2 id=relicensing>Relicensing</h2>
     <p>
       License Zero developers can offer to relicense their
@@ -86,10 +72,6 @@ ${head('Licenses', {
       payment by check or bank transfer:
     </p>
     <dl>
-      <dt><a href=/licenses/quotes/waiver.odt>Waiver Quote</a></dt>
-      <dd>
-        quote a price for a waiver
-      </dd>
       <dt><a href=/licenses/quotes/relicense.odt>Relicense Quote</a></dt>
       <dd>
         quote a price for relicensing your work on
