@@ -26,6 +26,7 @@ function testForm (form) {
             var string = body.toString()
             test.assert(
               string.includes('<blockquote class=form>') ||
+              string.includes('<article class="form">') ||
               string.includes('<pre class=form>'),
               'has <element class=form>'
             )

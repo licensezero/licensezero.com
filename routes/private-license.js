@@ -4,30 +4,48 @@ var header = require('./partials/header')
 var html = require('./html')
 var internalError = require('./internal-error')
 var nav = require('./partials/nav')
+var prepareBlanks = require('commonform-prepare-blanks')
 var privateLicense = require('../forms/private-license')
-var renderMarkdown = require('../util/render-markdown')
+var toHTML = require('commonform-html')
 
 var REPOSITORY = (
   'https://github.com/licensezero/licensezero-private-license'
 )
 
 module.exports = function (request, response) {
-  privateLicense({
-    date: '{Date}',
-    licensee: {
-      name: '{Licensee Name}',
-      jurisdiction: '{Licensee Jurisdiction, e.g "US-CA"}',
-      email: '{Licensee E-Mail}'
-    },
-    developer: {
-      name: '{Developer Name}',
-      jurisdiction: '{Developer Name, e.g. "US-NY"}'
-    },
-    offerID: '{Offer ID}',
-    description: '{Project Description}',
-    homepage: '{Project Homepage URL}'
-  }, function (error, result) {
+  privateLicense(function (error, parsed) {
     if (error) return internalError(request, response, error)
+    var rendered = toHTML(
+      parsed.form,
+      prepareBlanks(
+        {
+          date: '{Date}',
+          'developer name': '{Developer Name}',
+          'developer jurisdiction': '{Developer Jurisdiction, e.g. "US-NY"}',
+          'developer e-mail': '{Developer E-Mail}',
+          'user name': '{User Name}',
+          'user jurisdiction': '{User Jurisdiction, e.g. "US-NY"}',
+          'user e-mail': '{User E-Mail}',
+          'agent name': 'Artless Devices LLC',
+          'agent jurisdiction': 'US-CA',
+          'agent website': 'https://artlessdevices.com',
+          'offer identifier': '{Offer ID}',
+          'project description': '{Project Description}',
+          'project repository': '{Project Repository URL}',
+          term: '{Term}',
+          price: '{Price}'
+        },
+        parsed.directions
+      ),
+      {
+        title: parsed.frontMatter.title,
+        edition: parsed.frontMatter.version,
+        classNames: ['form'],
+        lists: true,
+        ids: true,
+        html5: true
+      }
+    )
     response.setHeader('Content-Type', 'text/html')
     response.end(html`
 <!doctype html>
@@ -51,7 +69,7 @@ module.exports = function (request, response) {
         <a href=https://guide.licensezero.com/#private-license
           >the License Zero Developer’s Guide</a>.
       </p>
-      <blockquote class=form>${renderMarkdown(result)}</blockquote>
+      ${rendered}
     </main>
     ${footer()}
   </body>

@@ -1,5 +1,6 @@
 var apiRequest = require('./api-request')
 var email = require('../email')
+var formatPrice = require('../util/format-price')
 var has = require('has')
 var runSeries = require('run-series')
 var server = require('./server')
@@ -9,6 +10,15 @@ var timeout = require('./timeout')
 var DEVELOPER_EMAIL = 'developer@example.com'
 var DEVELOPER_JURISDICTION = 'US-TX'
 var DEVELOPER_NAME = 'Test Developer'
+
+var USER_EMAIL = 'licensee@test.com'
+var USER_JURISDICTION = 'US-CA'
+var USER_NAME = 'Larry Licensee'
+
+var HOMEPAGE = 'https://example.com'
+var DESCRIPTION = 'test project'
+
+var PRICE = 500
 
 var options = {
   skip: (
@@ -34,11 +44,11 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
             action: 'offer',
             developerID,
             token,
-            homepage: 'http://example.com',
+            homepage: HOMEPAGE,
             pricing: {
-              private: 500
+              private: PRICE
             },
-            description: 'a test offer',
+            description: DESCRIPTION,
             terms: (
               'I agree to the agency terms at ' +
               'https://licensezero.com/terms/agency.'
@@ -59,11 +69,11 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
             .then(() => browser.setTimeouts(1000))
             .then(() => browser.url('http://localhost:' + port + '/offers/' + offerID))
             .then(() => browser.$('#licensee'))
-            .then((input) => input.setValue('Larry Licensee'))
+            .then((input) => input.setValue(USER_NAME))
             .then(() => browser.$('#jurisdiction'))
-            .then((input) => input.setValue('US-CA'))
+            .then((input) => input.setValue(USER_JURISDICTION))
             .then(() => browser.$('#email'))
-            .then((input) => input.setValue('licensee@test.com'))
+            .then((input) => input.setValue(USER_EMAIL))
             .then(() => browser.$('button[type="submit"]'))
             .then((button) => button.click())
             // Pay
@@ -108,12 +118,76 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
             .then((text) => {
               test.equal(text, 'Thank You')
               browser.deleteSession()
-              done()
+              complete()
             })
-            .catch(function (error) {
+            .catch(function () {
               browser.deleteSession()
-              done(error)
+              complete()
             })
+
+          email.events.once('message', function (message) {
+            test.assert(
+              message.subject.includes('Receipt and License'),
+              'subject: ... Receipt and License ...'
+            )
+
+            // E-Mail Text
+            var text = message.text
+            // User
+            test.assert(text.includes(USER_NAME), 'user name in text')
+            test.assert(text.includes(USER_EMAIL), 'user e-mail in text')
+            test.assert(text.includes(USER_JURISDICTION), 'user jurisdiction in text')
+            // Offer
+            test.assert(text.includes(offerID), 'offer ID in text')
+            // Project
+            test.assert(text.includes(HOMEPAGE), 'homepage in text')
+            test.assert(text.includes(DESCRIPTION), 'description in text')
+
+            // License
+            var license = message.license
+            var meta = license.metadata
+            // Transaction
+            test.equal(meta.price, formatPrice(PRICE), 'price')
+            test.equal(meta.term, 'forever', 'term')
+            test.equal(meta['offer identifier'], offerID, 'term')
+            // User
+            test.equal(meta['user name'], USER_NAME, 'user name in license')
+            test.equal(meta['user e-mail'], USER_EMAIL, 'user e-mail in license')
+            test.equal(meta['user jurisdiction'], USER_JURISDICTION, 'user jurisdiction in license')
+            // Developer
+            test.equal(meta['developer name'], DEVELOPER_NAME, 'developer name in license')
+            test.equal(meta['developer e-mail'], DEVELOPER_EMAIL, 'developer e-mail in license')
+            test.equal(meta['developer jurisdiction'], DEVELOPER_JURISDICTION, 'developer jurisdiction in license')
+            // Agent
+            test.equal(meta['agent name'], 'Artless Devices LLC', 'agent name in license')
+            test.equal(meta['agent jurisdiction'], 'US-CA', 'agent jurisdiction in license')
+            test.equal(meta['agent website'], 'https://artlessdevices.com', 'agent website in license')
+
+            // Text
+            var commonmark = license.commonmark
+            // Transaction
+            test.assert(commonmark.includes(formatPrice(PRICE)), 'price in CommonMark')
+            test.assert(commonmark.includes('forever'), 'term in CommonMark')
+            // Form
+            test.assert(commonmark.includes('Private License'), 'Private License in CommonMark')
+            test.assert(commonmark.includes('Private License'), 'Private License in CommonMark')
+            // User
+            test.assert(commonmark.includes(USER_NAME), 'user name in CommonMark')
+            test.assert(commonmark.includes(USER_EMAIL), 'user e-mail in CommonMark')
+            test.assert(commonmark.includes(USER_JURISDICTION), 'user jurisdiction in CommonMark')
+            // Offer
+            test.assert(commonmark.includes(offerID), 'offer ID in CommonMark')
+            // Project
+            test.assert(commonmark.includes(HOMEPAGE), 'homepage in CommonMark')
+            test.assert(commonmark.includes(DESCRIPTION), 'description in CommonMark')
+
+            complete()
+          })
+
+          var completed = 0
+          function complete () {
+            if (++completed == 2) done()
+          }
         }
       ], function (error) {
         test.ifError(error, 'no error')

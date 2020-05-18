@@ -10,6 +10,7 @@
     "busboy": "^0.3.1",
     "commonform-commonmark": "^6.0.0",
     "commonform-html": "^3.6.0",
+    "commonform-prepare-blanks": "^1.0.2",
     "commonform-terminal": "^1.0.1",
     "commonmark": "^0.29.1",
     "do-not-cache": "^1.0.1",

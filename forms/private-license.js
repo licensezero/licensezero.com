@@ -1,34 +1,21 @@
-var mustache = require('mustache')
+var commonmark = require('commonform-commonmark')
 var path = require('path')
-
-var VERSION = require('./private-license/version')
 
 var withCached = require('../data/with-cached')(
   path.join(
-    __dirname, 'private-license', 'LICENSE.md'
+    __dirname, 'private-license', 'terms.md'
   )
 )
 
-module.exports = function (options, callback) {
-  withCached(function (error, template) {
+module.exports = function (callback) {
+  withCached(function (error, markup) {
     if (error) return callback(error)
-    var view = {
-      version: VERSION,
-      date: options.date,
-      developerName: options.developer.name,
-      developerJurisdiction: options.developer.jurisdiction,
-      agentName: 'Artless Devices LLC',
-      agentJurisdiction: 'US-CA',
-      agentWebsite: 'https://licensezero.com',
-      licenseeName: options.licensee.name,
-      licenseeJurisdiction: options.licensee.jurisdiction,
-      licenseeEmail: options.licensee.email,
-      offerID: options.offerID,
-      description: options.description,
-      repository: options.homepage
+    var parsed
+    try {
+      parsed = commonmark.parse(markup)
+    } catch (error) {
+      return callback(error)
     }
-    callback(null, mustache.render(template, view))
+    return callback(null, parsed)
   })
 }
-
-module.exports.version = VERSION

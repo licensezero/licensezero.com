@@ -18,7 +18,7 @@ var nav = require('./partials/nav')
 var orderPath = require('../paths/order')
 var padStart = require('string.prototype.padstart')
 var path = require('path')
-var pick = require('../data/pick')
+var prepareBlanks = require('commonform-prepare-blanks')
 var privateLicense = require('../forms/private-license')
 var purchasePath = require('../paths/purchase')
 var readJSONFile = require('../data/read-json-file')
@@ -30,6 +30,7 @@ var runSeries = require('run-series')
 var runWaterfall = require('run-waterfall')
 var stringify = require('json-stable-stringify')
 var stripe = require('../stripe')
+var toCommonMark = require('commonform-commonmark').stringify
 var uuid = require('uuid').v4
 
 var ONE_DAY = 24 * 60 * 60 * 1000
@@ -388,34 +389,44 @@ function post (request, response, order) {
                   return function (done) {
                     runWaterfall([
                       function emaiLicense (done) {
-                        var parameters = {
-                          FORM: 'private license',
-                          VERSION: privateLicense.version,
-                          date: new Date().toISOString(),
-                          orderID,
-                          offer: pick(offer, [
-                            'offerID', 'homepage', 'description'
-                          ]),
-                          licensee: {
-                            name: order.licensee,
-                            jurisdiction: order.jurisdiction,
-                            email: order.email
-                          },
-                          developer: pick(offer.developer, [
-                            'name', 'jurisdiction'
-                          ]),
-                          price: offer.price
-                        }
-                        var manifest = stringify(parameters)
-                        privateLicense(parameters, function (error, document) {
+                        privateLicense(function (error, parsed) {
+                          var parameters = {
+                            form: 'private license',
+                            version: parsed.frontMatter.version,
+                            orderID,
+                            date: new Date().toISOString(),
+                            'offer identifier': offer.offerID,
+                            'project description': offer.description,
+                            'project repository': offer.homepage,
+                            'developer name': last(offer.developer.name),
+                            'developer jurisdiction': last(offer.developer.jurisdiction),
+                            'developer e-mail': last(offer.developer.email),
+                            'user name': order.licensee,
+                            'user jurisdiction': order.jurisdiction,
+                            'user e-mail': order.email,
+                            'agent name': 'Artless Devices LLC',
+                            'agent jurisdiction': 'US-CA',
+                            'agent website': 'https://artlessdevices.com',
+                            term: 'forever',
+                            price: formatPrice(offer.price)
+                          }
+                          var manifest = stringify(parameters)
+                          var commonmark = toCommonMark(
+                            parsed.form,
+                            prepareBlanks(parameters, parsed.directions),
+                            {
+                              title: parsed.frontMatter.title,
+                              edition: parsed.frontMatter.version
+                            }
+                          )
                           if (error) return done(error)
                           var license = {
                             offerID: offer.offerID,
                             metadata: parameters,
-                            document,
+                            commonmark,
                             publicKey: process.env.PUBLIC_KEY,
                             signature: ed25519.sign(
-                              manifest + '\n\n' + document,
+                              manifest + '\n\n' + commonmark,
                               Buffer.from(process.env.PUBLIC_KEY, 'hex'),
                               Buffer.from(process.env.PRIVATE_KEY, 'hex')
                             )
@@ -424,7 +435,7 @@ function post (request, response, order) {
                           email(request.log, {
                             to: order.email,
                             bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
-                            subject: 'License Zero Receipt and License File',
+                            subject: 'License Zero Receipt and License',
                             text: [
                               'Thank you for buying a license through ' +
                               'licensezero.com.',
@@ -433,9 +444,9 @@ function post (request, response, order) {
                               '',
                               'Total: ' + priceColumn(offer.price),
                               '',
-                              'Attached is a License Zero license file for:',
+                              'Attached is a License Zero license for:',
                               '',
-                              'Licensee:     ' + order.licensee,
+                              'User:         ' + order.licensee,
                               '',
                               'Jurisdiction: ' + order.jurisdiction,
                               '',
@@ -443,9 +454,7 @@ function post (request, response, order) {
                               '',
                               'Offer:      ' + offer.offerID,
                               '',
-                              'Description:  ' + offer.description,
-                              '',
-                              'Homepage:   ' + offer.homepage
+                              'Project:  ' + offer.description + ', ' + offer.homepage
                             ].join('\n'),
                             license
                           }, function (error) {
