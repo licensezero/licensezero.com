@@ -3,6 +3,7 @@ module.exports = {
   jurisdiction: require('./jurisdiction'),
   key: require('./key'),
   developer: require('./developer'),
+  freebie: require('./freebie'),
   lock: require('./lock'),
   name: require('./name'),
   offer: require('./offer'),
