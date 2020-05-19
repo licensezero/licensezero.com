@@ -185,3 +185,10 @@ MOVED_TO_STATIC.forEach(function (file) {
     response.end(`<a href="${location}">${location}</a>`)
   })
 })
+
+var jurisdictions = require('licensezero-jurisdictions')
+
+routes.set('/jurisdictions.json', function (request, response) {
+  response.setHeader('Content-Type', 'application/json')
+  response.end(JSON.stringify(jurisdictions))
+})
