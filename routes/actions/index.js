@@ -10,6 +10,7 @@ module.exports = {
   offering: require('./offering'),
   quote: require('./quote'),
   register: require('./register'),
+  raise: require('./raise'),
   reprice: require('./reprice'),
   reset: require('./reset'),
   retract: require('./retract'),
