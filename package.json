@@ -46,8 +46,7 @@
     "strip-ansi": "^6.0.0",
     "stripe": "^8.52.0",
     "url-parse": "^1.4.7",
-    "uuid": "^8.0.0",
-    "xtend": "^4.0.2"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "chromedriver": "^81.0.0",
