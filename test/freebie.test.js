@@ -70,8 +70,7 @@ tape('freebie', function (test) {
             'user jurisdiction': user.jurisdiction,
             'user email': user.email,
             term: '' + term + ' days',
-            price: '$2.00',
-            term
+            price: '$2.00'
           }
           Object.keys(commonmarkStrings).forEach(function (key) {
             test.assert(

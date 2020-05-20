@@ -186,7 +186,7 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
 
           var completed = 0
           function complete () {
-            if (++completed == 2) done()
+            if (++completed === 2) done()
           }
         }
       ], function (error) {

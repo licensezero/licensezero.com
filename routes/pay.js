@@ -483,7 +483,7 @@ function post (request, response, order) {
                               done(null, license)
                             })
                           })
-                          })
+                        })
                       },
                       function (license, done) {
                         recordSignature(
