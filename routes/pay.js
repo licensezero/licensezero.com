@@ -17,6 +17,7 @@ var last = require('../util/last')
 var nav = require('./partials/nav')
 var orderPath = require('../paths/order')
 var padStart = require('string.prototype.padstart')
+var pandocPDF = require('../util/pandoc-pdf')
 var path = require('path')
 var prepareBlanks = require('commonform-prepare-blanks')
 var privateLicense = require('../forms/private-license')
@@ -390,11 +391,12 @@ function post (request, response, order) {
                     runWaterfall([
                       function emaiLicense (done) {
                         privateLicense(function (error, parsed) {
+                          var date = new Date().toISOString()
                           var parameters = {
                             form: 'private license',
                             version: parsed.frontMatter.version,
                             orderID,
-                            date: new Date().toISOString(),
+                            date,
                             'offer identifier': offer.offerID,
                             'project description': offer.description,
                             'project repository': offer.homepage,
@@ -410,58 +412,78 @@ function post (request, response, order) {
                             term: 'forever',
                             price: formatPrice(offer.price)
                           }
-                          var manifest = stringify(parameters)
-                          var commonmark = toCommonMark(
-                            parsed.form,
-                            prepareBlanks(parameters, parsed.directions),
-                            {
-                              title: parsed.frontMatter.title,
-                              edition: parsed.frontMatter.version
-                            }
+                          var stringified = stringify(parameters)
+                          var document =
+                            `---\ntitle: ${parsed.frontMatter.title} ${parsed.frontMatter.version}\n---\n` +
+                            toCommonMark(
+                              parsed.form,
+                              prepareBlanks(parameters, parsed.directions)
+                            )
+                          var documentSignature = ed25519.sign(
+                            document,
+                            Buffer.from(process.env.PUBLIC_KEY, 'hex'),
+                            Buffer.from(process.env.PRIVATE_KEY, 'hex')
                           )
+                          document += '\n\n---\n\nAgent Signature (Ed25519):\n\n'
+                          document += [
+                            documentSignature.slice(0, 32),
+                            documentSignature.slice(32, 64),
+                            documentSignature.slice(64, 96),
+                            documentSignature.slice(96)
+                          ]
+                            .map(function (line) {
+                              return '`' + line + '`  '
+                            })
+                            .join('\n')
+                          document += '\n'
                           if (error) return done(error)
                           var license = {
                             offerID: offer.offerID,
                             metadata: parameters,
-                            commonmark,
-                            publicKey: process.env.PUBLIC_KEY,
-                            signature: ed25519.sign(
-                              manifest + '\n\n' + commonmark,
+                            metadataSignature: ed25519.sign(
+                              stringified,
                               Buffer.from(process.env.PUBLIC_KEY, 'hex'),
                               Buffer.from(process.env.PRIVATE_KEY, 'hex')
-                            )
+                            ),
+                            document,
+                            documentSignature,
+                            publicKey: process.env.PUBLIC_KEY
                           }
                           licenses.push(license)
-                          email(request.log, {
-                            to: order.email,
-                            bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
-                            subject: 'License Zero Receipt and License',
-                            text: [
-                              'Thank you for buying a license through ' +
-                              'licensezero.com.',
-                              '',
-                              'Order ID: ' + order.orderID,
-                              '',
-                              'Total: ' + priceColumn(offer.price),
-                              '',
-                              'Attached is a License Zero license for:',
-                              '',
-                              'User:         ' + order.licensee,
-                              '',
-                              'Jurisdiction: ' + order.jurisdiction,
-                              '',
-                              'E-Mail:       ' + order.email,
-                              '',
-                              'Offer:      ' + offer.offerID,
-                              '',
-                              'Project:  ' + offer.description + ', ' + offer.homepage
-                            ].join('\n'),
-                            license
-                          }, function (error) {
+                          pandocPDF(document, function (error, pdfBuffer) {
                             if (error) return done(error)
-                            done(null, license)
+                            email(request.log, {
+                              to: order.email,
+                              bcc: process.env.TRANSACTION_NOTIFICATION_EMAIL,
+                              subject: 'License Zero Receipt and License',
+                              text: [
+                                'Thank you for buying a license through ' +
+                                'licensezero.com.',
+                                '',
+                                'Order ID: ' + order.orderID,
+                                '',
+                                'Total: ' + priceColumn(offer.price),
+                                '',
+                                'Attached is a License Zero license for:',
+                                '',
+                                'User:         ' + order.licensee,
+                                '',
+                                'Jurisdiction: ' + order.jurisdiction,
+                                '',
+                                'E-Mail:       ' + order.email,
+                                '',
+                                'Offer:      ' + offer.offerID,
+                                '',
+                                'Project:  ' + offer.description + ', ' + offer.homepage
+                              ].join('\n'),
+                              license,
+                              pdfBuffer
+                            }, function (error) {
+                              if (error) return done(error)
+                              done(null, license)
+                            })
                           })
-                        })
+                          })
                       },
                       function (license, done) {
                         recordSignature(
@@ -499,15 +521,7 @@ function post (request, response, order) {
                             '',
                             'Commission: ' + priceColumn(commission),
                             '',
-                            'Total:      ' + priceColumn(offer.price - commission),
-                            '',
-                            'The Ed25519 cryptographic signature to the ',
-                            'license is:',
-                            '',
-                            license.signature.slice(0, 32),
-                            license.signature.slice(32, 64),
-                            license.signature.slice(64, 96),
-                            license.signature.slice(96)
+                            'Total:      ' + priceColumn(offer.price - commission)
                           ].join('\n')
                         }, done)
                       }

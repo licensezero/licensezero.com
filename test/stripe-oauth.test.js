@@ -164,22 +164,22 @@ tape('Stripe OAuth connect, register, license', options, function (test) {
             test.equal(meta['agent website'], 'https://artlessdevices.com', 'agent website in license')
 
             // Text
-            var commonmark = license.commonmark
+            var document = license.document
             // Transaction
-            test.assert(commonmark.includes(formatPrice(PRICE)), 'price in CommonMark')
-            test.assert(commonmark.includes('forever'), 'term in CommonMark')
+            test.assert(document.includes(formatPrice(PRICE)), 'price in document')
+            test.assert(document.includes('forever'), 'term in document')
             // Form
-            test.assert(commonmark.includes('Private License'), 'Private License in CommonMark')
-            test.assert(commonmark.includes('Private License'), 'Private License in CommonMark')
+            test.assert(document.includes('Private License'), 'Private License in document')
+            test.assert(document.includes('Private License'), 'Private License in document')
             // User
-            test.assert(commonmark.includes(USER_NAME), 'user name in CommonMark')
-            test.assert(commonmark.includes(USER_EMAIL), 'user e-mail in CommonMark')
-            test.assert(commonmark.includes(USER_JURISDICTION), 'user jurisdiction in CommonMark')
+            test.assert(document.includes(USER_NAME), 'user name in document')
+            test.assert(document.includes(USER_EMAIL), 'user e-mail in document')
+            test.assert(document.includes(USER_JURISDICTION), 'user jurisdiction in document')
             // Offer
-            test.assert(commonmark.includes(offerID), 'offer ID in CommonMark')
+            test.assert(document.includes(offerID), 'offer ID in document')
             // Project
-            test.assert(commonmark.includes(HOMEPAGE), 'homepage in CommonMark')
-            test.assert(commonmark.includes(DESCRIPTION), 'description in CommonMark')
+            test.assert(document.includes(HOMEPAGE), 'homepage in document')
+            test.assert(document.includes(DESCRIPTION), 'description in document')
 
             complete()
           })

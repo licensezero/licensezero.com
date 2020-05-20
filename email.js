@@ -38,6 +38,14 @@ if (process.env.NODE_ENV === 'test') {
         knownLength: licenseBuffer.length
       })
     }
+    var pdfBuffer = message.pdf
+    if (pdfBuffer) {
+      form.append('attachment', pdfBuffer, {
+        filename: license.offerID + '.pdf',
+        contentType: 'application/pdf',
+        knownLength: pdfBuffer.length
+      })
+    }
     if (message.agreement) {
       var agreementBuffer = Buffer.from(message.agreement)
       form.append('attachment', agreementBuffer, {
