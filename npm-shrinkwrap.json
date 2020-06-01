@@ -5069,9 +5069,9 @@
       }
     },
     "pino-http": {
-      "version": "5.1.0",
-      "resolved": "https://registry.npmjs.org/pino-http/-/pino-http-5.1.0.tgz",
-      "integrity": "sha512-75LX9GxvauF6g+XqXo/yEIltEppSdMnk0xT+oz3j28hNDIaxiQHFaZKxvnvunfUZRq/xQJdTcEHFOMhb8IxHjw==",
+      "version": "5.2.0",
+      "resolved": "https://registry.npmjs.org/pino-http/-/pino-http-5.2.0.tgz",
+      "integrity": "sha512-uGmC6UbzLaCWu+sG9l2wTp2EoXMQ53GRSY9P1sgqNsq3JSh6HdoleMijyuGj2d02OOr1z3/JHcRUy6hYDYWe9Q==",
       "requires": {
         "fast-url-parser": "^1.1.3",
         "pino": "^6.0.0",
