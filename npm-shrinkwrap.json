@@ -6484,9 +6484,9 @@
       "dev": true
     },
     "stripe": {
-      "version": "8.52.0",
-      "resolved": "https://registry.npmjs.org/stripe/-/stripe-8.52.0.tgz",
-      "integrity": "sha512-3Olq0EYmNU2aQ5j6rinWxfoRzaYW83k8wgNImmF9HgKi+SR85lplncO8sEq1jju5AnHzx2DO0/tJSic8jQ9PCQ==",
+      "version": "8.56.0",
+      "resolved": "https://registry.npmjs.org/stripe/-/stripe-8.56.0.tgz",
+      "integrity": "sha512-HwFbAC3bhBrWFm9+2nTzztTirsFOGyPCEtKJPKiB03N6ZY+lZipBh+v6eCTaxhzHKm8/qT4vfP6DhZC7YHAOiw==",
       "requires": {
         "@types/node": ">=8.1.0",
         "qs": "^6.6.0"
