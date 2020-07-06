@@ -391,6 +391,10 @@ function post (request, response, order) {
                     runWaterfall([
                       function emaiLicense (done) {
                         privateLicense(function (error, parsed) {
+                          if (error) {
+                            error.stage = 'private license'
+                            return done(error)
+                          }
                           var date = new Date().toISOString()
                           var parameters = {
                             form: 'private license',
@@ -436,7 +440,6 @@ function post (request, response, order) {
                             })
                             .join('\n')
                           document += '\n'
-                          if (error) return done(error)
                           var license = {
                             offerID: offer.offerID,
                             metadata: parameters,
