@@ -14,6 +14,7 @@
     "commonform-terminal": "^1.0.1",
     "commonmark": "^0.29.1",
     "do-not-cache": "^1.0.1",
+    "error": "^10.4.0",
     "flush-write-stream": "^2.0.0",
     "form-data": "^3.0.0",
     "handlebars": "^4.7.6",
