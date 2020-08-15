@@ -1,3 +1,4 @@
+var alert = require('./partials/alert')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
@@ -15,6 +16,7 @@ module.exports = function (request, response) {
   })}
   <body>
     ${nav()}
+    ${alert()}
     ${header()}
     <main role=main>
       <h1>Terms</h1>

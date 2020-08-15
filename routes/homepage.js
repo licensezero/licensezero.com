@@ -1,3 +1,4 @@
+var alert = require('./partials/alert')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
 var header = require('./partials/header')
@@ -15,6 +16,7 @@ ${head(false, {
   })}
 <body>
   ${nav()}
+  ${alert()}
   ${header()}
   <main role=main>
     <p class=lead>

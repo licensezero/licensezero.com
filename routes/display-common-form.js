@@ -1,3 +1,4 @@
+var alert = require('./partials/alert')
 var commonformToHTML = require('commonform-html')
 var footer = require('./partials/footer')
 var head = require('./partials/head')
@@ -22,6 +23,7 @@ module.exports = function (form, title, overrides) {
 ${head()}
 <body>
   ${nav()}
+  ${alert()}
   ${header()}
   <main role=main>
       <article class="commonform form">

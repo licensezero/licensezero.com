@@ -1,3 +1,4 @@
+var alert = require('./partials/alert')
 var footer = require('./partials/footer')
 var fs = require('fs')
 var head = require('./partials/head')
@@ -22,6 +23,7 @@ ${head('Founder Commitment', {
   })}
 <body>
   ${nav()}
+  ${alert()}
   ${header()}
   <main role=main>${renderMarkdown(markdown)}</main>
   ${footer()}

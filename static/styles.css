@@ -10,7 +10,8 @@ body {
 header[role=banner],
 main[role=main],
 footer[role=contentinfo],
-nav[role=navigation] {
+nav[role=navigation],
+.alert {
   margin-left: auto;
   margin-right: auto;
   max-width: 40rem;
@@ -292,4 +293,16 @@ p {
 
 .licenseLogo {
   border: none;
+}
+
+.alert {
+  background: #fcf8e3;
+  border-radius: 0.5rem;
+  border: 1px solid orange;
+  box-sizing: border-box;
+  color: #333;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
 }
