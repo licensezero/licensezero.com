@@ -55,7 +55,7 @@
     "depcheck": "^1.4.2",
     "istanbul": "^0.4.5",
     "licensee": "^8.2.0",
-    "npm-authors-contributors": "^1.1.0",
+    "npm-authors-contributors": "^1.1.2",
     "reformat-json-files": "^1.0.1",
     "rimraf": "^3.0.2",
     "standard": "^14.3.4",
