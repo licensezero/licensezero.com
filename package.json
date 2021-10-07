@@ -42,7 +42,7 @@
     "simple-concat": "^1.0.1",
     "simple-get": "^4.0.0",
     "sodium-native": "^3.2.1",
-    "split2": "^3.1.1",
+    "split2": "^3.2.2",
     "string.prototype.padstart": "^3.1.0",
     "strip-ansi": "^6.0.0",
     "stripe": "^8.56.0",

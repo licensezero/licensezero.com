@@ -45,7 +45,7 @@
         "simple-concat": "^1.0.1",
         "simple-get": "^4.0.0",
         "sodium-native": "^3.2.1",
-        "split2": "^3.1.1",
+        "split2": "^3.2.2",
         "string.prototype.padstart": "^3.1.0",
         "strip-ansi": "^6.0.0",
         "stripe": "^8.56.0",
@@ -9801,9 +9801,9 @@
       }
     },
     "node_modules/split2": {
-      "version": "3.1.1",
-      "resolved": "https://registry.npmjs.org/split2/-/split2-3.1.1.tgz",
-      "integrity": "sha512-emNzr1s7ruq4N+1993yht631/JH+jaj0NYBosuKmLcq+JkGQ9MmTw1RB1fGaTCzUuseRIClrlSLHRNYGwWQ58Q==",
+      "version": "3.2.2",
+      "resolved": "https://registry.npmjs.org/split2/-/split2-3.2.2.tgz",
+      "integrity": "sha512-9NThjpgZnifTkJpzTZ7Eue85S49QwpNhZTq6GRJwObb6jnLFNGB7Qm73V5HewTROPyxD0C29xqmaI68bQtV+hg==",
       "dependencies": {
         "readable-stream": "^3.0.0"
       }
@@ -19232,9 +19232,9 @@
       }
     },
     "split2": {
-      "version": "3.1.1",
-      "resolved": "https://registry.npmjs.org/split2/-/split2-3.1.1.tgz",
-      "integrity": "sha512-emNzr1s7ruq4N+1993yht631/JH+jaj0NYBosuKmLcq+JkGQ9MmTw1RB1fGaTCzUuseRIClrlSLHRNYGwWQ58Q==",
+      "version": "3.2.2",
+      "resolved": "https://registry.npmjs.org/split2/-/split2-3.2.2.tgz",
+      "integrity": "sha512-9NThjpgZnifTkJpzTZ7Eue85S49QwpNhZTq6GRJwObb6jnLFNGB7Qm73V5HewTROPyxD0C29xqmaI68bQtV+hg==",
       "requires": {
         "readable-stream": "^3.0.0"
       },
