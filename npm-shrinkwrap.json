@@ -40,7 +40,7 @@
         "run-parallel": "^1.2.0",
         "run-parallel-limit": "^1.1.0",
         "run-series": "^1.1.9",
-        "run-waterfall": "^1.1.6",
+        "run-waterfall": "^1.1.7",
         "send": "^0.17.1",
         "simple-concat": "^1.0.0",
         "simple-get": "^4.0.0",
@@ -9358,9 +9358,23 @@
       ]
     },
     "node_modules/run-waterfall": {
-      "version": "1.1.6",
-      "resolved": "https://registry.npmjs.org/run-waterfall/-/run-waterfall-1.1.6.tgz",
-      "integrity": "sha512-dApPbpIK0hbFi2zqfJxrsnfmJW2HCQHFrSsmqF3Fp9TKm5WVf++zE6BSw0hPcA7rPapO37h12Swk2E6Va3tF7Q=="
+      "version": "1.1.7",
+      "resolved": "https://registry.npmjs.org/run-waterfall/-/run-waterfall-1.1.7.tgz",
+      "integrity": "sha512-iFPgh7SatHXOG1ClcpdwHI63geV3Hc/iL6crGSyBlH2PY7Rm/za+zoKz6FfY/Qlw5K7JwSol8pseO8fN6CMhhQ==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ]
     },
     "node_modules/rxjs": {
       "version": "6.5.5",
@@ -18854,9 +18868,9 @@
       "integrity": "sha512-Arc4hUN896vjkqCYrUXquBFtRZdv1PfLbTYP71efP6butxyQ0kWpiNJyAgsxscmQg1cqvHY32/UCBzXedTpU2g=="
     },
     "run-waterfall": {
-      "version": "1.1.6",
-      "resolved": "https://registry.npmjs.org/run-waterfall/-/run-waterfall-1.1.6.tgz",
-      "integrity": "sha512-dApPbpIK0hbFi2zqfJxrsnfmJW2HCQHFrSsmqF3Fp9TKm5WVf++zE6BSw0hPcA7rPapO37h12Swk2E6Va3tF7Q=="
+      "version": "1.1.7",
+      "resolved": "https://registry.npmjs.org/run-waterfall/-/run-waterfall-1.1.7.tgz",
+      "integrity": "sha512-iFPgh7SatHXOG1ClcpdwHI63geV3Hc/iL6crGSyBlH2PY7Rm/za+zoKz6FfY/Qlw5K7JwSol8pseO8fN6CMhhQ=="
     },
     "rxjs": {
       "version": "6.5.5",
