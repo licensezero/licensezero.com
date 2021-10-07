@@ -29,7 +29,7 @@
         "json-parse-errback": "^2.0.1",
         "json-stable-stringify": "^1.0.1",
         "licensezero-jurisdictions": "^1.0.1",
-        "linkify-urls": "^3.1.0",
+        "linkify-urls": "^3.1.1",
         "lock": "^1.1.0",
         "mustache": "^4.0.1",
         "node-schedule": "^1.3.2",
@@ -5183,14 +5183,17 @@
       "dev": true
     },
     "node_modules/linkify-urls": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/linkify-urls/-/linkify-urls-3.1.0.tgz",
-      "integrity": "sha512-WLBS5zng9FCiFT30j1QkjExDBp9wNw1oBpY4oS8vbOyIZZt6+JSymPir/xrWyS+Bu1ban3pj0nukJI7ctpCLWw==",
+      "version": "3.1.1",
+      "resolved": "https://registry.npmjs.org/linkify-urls/-/linkify-urls-3.1.1.tgz",
+      "integrity": "sha512-sRxMSunCnLFtZ4iVkMqHhZKSJ3MC/nRAvej8Ou3pEEEPBL0iVN91mZvdFREKcGv3VNcakbT4qsfOnnWMEbA59w==",
       "dependencies": {
         "create-html-element": "^2.1.0"
       },
       "engines": {
         "node": ">=8"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/load-json-file": {
@@ -13307,9 +13310,9 @@
       "dev": true
     },
     "linkify-urls": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/linkify-urls/-/linkify-urls-3.1.0.tgz",
-      "integrity": "sha512-WLBS5zng9FCiFT30j1QkjExDBp9wNw1oBpY4oS8vbOyIZZt6+JSymPir/xrWyS+Bu1ban3pj0nukJI7ctpCLWw==",
+      "version": "3.1.1",
+      "resolved": "https://registry.npmjs.org/linkify-urls/-/linkify-urls-3.1.1.tgz",
+      "integrity": "sha512-sRxMSunCnLFtZ4iVkMqHhZKSJ3MC/nRAvej8Ou3pEEEPBL0iVN91mZvdFREKcGv3VNcakbT4qsfOnnWMEbA59w==",
       "requires": {
         "create-html-element": "^2.1.0"
       }
